@@ -5,6 +5,7 @@ import ReactDOM from 'react-dom';
 import {Errors} from 'nti-web-commons';
 import {Editor, EditorContextProvider, FormatButton, TextEditor} from '../../src/index';
 import CharCounter from '../../src/plugins/CharacterCounter';
+import RSTTest from '../../src/RST/test';
 
 import 'normalize.css';
 import 'nti-style-common/fonts.scss';
@@ -17,6 +18,7 @@ const {Field:{Factory:ErrorFactory}} = Errors;
 
 const errorFactory = new ErrorFactory();
 const error = errorFactory.make({NTIID: 'Fake ID', label: 'Fake Field'}, {Code: 'TooShort', message: 'Too Short'});
+
 
 
 class Test extends React.Component {
@@ -36,59 +38,59 @@ class Test extends React.Component {
 	}
 
 	render () {
-		return (
-			<div>
-				<div>
-					<div className="text-editor">
-					<Editor plugins={[counter]}
-						onFocus={this.onFocus}
-						ref={this.attachEditor1Ref}
-						allowInsertVideo
-						allowInsertImage
-						/>
-					<CharCount/>
-					</div>
+		return (<RSTTest />);
+		// return (
+		// 	<div>
+		// 		<div>
+		// 			<div className="text-editor">
+		// 			<Editor plugins={[counter]}
+		// 				onFocus={this.onFocus}
+		// 				ref={this.attachEditor1Ref}
+		// 				allowInsertVideo
+		// 				allowInsertImage
+		// 				/>
+		// 			<CharCount/>
+		// 			</div>
 
-					<TextEditor charLimit={150}
-						countDown
-						onFocus={this.onFocus}
-						onBlur={this.onBlur}
-						ref={this.attachEditor2Ref}
-						error={error}
-						singleLine
-						plainText
-						/>
-				</div>
+		// 			<TextEditor charLimit={150}
+		// 				countDown
+		// 				onFocus={this.onFocus}
+		// 				onBlur={this.onBlur}
+		// 				ref={this.attachEditor2Ref}
+		// 				error={error}
+		// 				singleLine
+		// 				/>
+		// 		</div>
 
-				<EditorContextProvider editor={this.state.editor}>
-					<div>
-						<FormatButton format={FormatButton.Formats.BOLD}/>
-						<FormatButton format={FormatButton.Formats.ITALIC}/>
-						<FormatButton format={FormatButton.Formats.UNDERLINE}/>
-					</div>
-				</EditorContextProvider>
+		// 		<EditorContextProvider editor={this.state.editor}>
+		// 			<div>
+		// 				<FormatButton format={FormatButton.Formats.BOLD}/>
+		// 				<FormatButton format={FormatButton.Formats.ITALIC}/>
+		// 				<FormatButton format={FormatButton.Formats.UNDERLINE}/>
+		// 			</div>
+		// 		</EditorContextProvider>
 
-				<div>
-					<button style={{marginTop: 10, textAlign: 'center'}} onClick={this.logState}>
-						Log State
-					</button>
+		// 		<div>
+		// 			<button style={{marginTop: 10, textAlign: 'center'}} onClick={this.logState}>
+		// 				Log State
+		// 			</button>
 
-					&nbsp;
+		// 			&nbsp;
 
-					<button style={{marginTop: 10, textAlign: 'center'}} onClick={this.logValue}>
-						Log Value
-					</button>
+		// 			<button style={{marginTop: 10, textAlign: 'center'}} onClick={this.logValue}>
+		// 				Log Value
+		// 			</button>
 
-					<button style={{marginTop: 10, textAlign: 'center'}} onClick={this.focusError}>
-						Focus Error
-					</button>
+		// 			<button style={{marginTop: 10, textAlign: 'center'}} onClick={this.focusError}>
+		// 				Focus Error
+		// 			</button>
 
-					<button style={{marginTop: 10, textAlign: 'center'}} onClick={this.focusToEnd}>
-						Focus To End
-					</button>
-				</div>
-			</div>
-		);
+		// 			<button style={{marginTop: 10, textAlign: 'center'}} onClick={this.focusToEnd}>
+		// 				Focus To End
+		// 			</button>
+		// 		</div>
+		// 	</div>
+		// );
 	}
 }
 
