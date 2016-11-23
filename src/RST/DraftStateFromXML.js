@@ -5,7 +5,7 @@ import {
 import {BLOCK_TYPE, ENTITY_TYPE, INLINE_STYLE} from 'draft-js-utils';
 
 
-export const TestXML = '<?xml version="1.0" ?><document source="test.rst"><paragraph><strong>italic</strong> <emphasis>bold</emphasis> <reference name="Test" refuri="http://www.google.com">Test</reference>. footnote test <footnote_reference ids="id1" refid="id2">5</footnote_reference>. Link to <reference name="Title Target" refid="title-target">Title Target</reference>.</paragraph><target ids="test" names="test" refuri="http://www.google.com"/><footnote backrefs="id1" ids="id2" names="5"><label>5</label><paragraph>A numerical foot not</paragraph></footnote><section ids="title-target" names="title\ target"><title>Title Target</title><image align="left" uri="test.png" width="100%"/><admonition classes="admonition-and-by-the-way"><title>And, by the way...</title><paragraph>You can make your own admonition too.</paragraph></admonition><bullet_list bullet="-"><list_item><paragraph>Bullet Item 1</paragraph></list_item><list_item><paragraph>Bullet Item 2</paragraph><block_quote><bullet_list bullet="-"><list_item><paragraph>Nested Bullet Item 2-1</paragraph></list_item><list_item><paragraph>Nested Bullet Item 2-2</paragraph></list_item></bullet_list></block_quote></list_item><list_item><paragraph>Bullet Item 3</paragraph><block_quote><bullet_list bullet="-"><list_item><paragraph>Nested Bullet Item 3-1</paragraph></list_item><list_item><paragraph>Nested Bullet Item 3-2</paragraph></list_item></bullet_list></block_quote></list_item></bullet_list><enumerated_list enumtype="arabic" prefix="" suffix="."><list_item><paragraph>Ordered Item 1</paragraph></list_item><list_item><paragraph>Ordered Item 2</paragraph><block_quote><enumerated_list enumtype="loweralpha" prefix="" suffix="."><list_item><paragraph>Nested Ordered Item 2-1</paragraph></list_item><list_item><paragraph>Nested Ordered Item 2-2</paragraph></list_item></enumerated_list></block_quote></list_item><list_item><paragraph>Ordered Item 3</paragraph><block_quote><enumerated_list enumtype="loweralpha" prefix="" suffix="."><list_item><paragraph>Nested Ordered Item 3-1</paragraph></list_item><list_item><paragraph>Nested Ordered Item 3-2</paragraph></list_item></enumerated_list></block_quote></list_item></enumerated_list></section></document>';
+export const TestXML = '<?xml version="1.0" ?><document ids="test-rst-file" names="test\ rst\ file" source="test.rst" title="Test RST File"><title>Test RST File</title><section ids="inline-styles" names="inline\ styles"><title>Inline Styles</title><section ids="emphasis" names="emphasis"><title>Emphasis</title><paragraph>This paragraph that will have <strong>bold</strong> and <emphasis>italics</emphasis> in it. We need to try nesting them like ** bold and <emphasis>italic**</emphasis>, <strong>*bold/italic*</strong>, and <emphasis>italic and **bold**</emphasis> (this format does not work).</paragraph><paragraph>Since the above format doesn\'t work and there is no support for underline, which while not necessarily that useful is expected by most users. We can use roles to also style text. Some roles like <emphasis>emphasis</emphasis>, <strong>strong</strong>, and <math>math</math>; are built in. You can also define some custom roles, which we might need to do for all permutations of bold, italic, and underlined. For example <bolditalic>bolditalic</bolditalic>, <boldunderlined>boldunderline</boldunderlined>, <italicunderlined>italicunderlined</italicunderlined>, <bolditalicunderlined>bolditalicunderlined</bolditalicunderlined>.</paragraph></section><section ids="references" names="references"><title>References</title><paragraph>This paragraph will have different styles of links that RST supports. Such as <reference name="External Hyperlink Targets" refuri="http://docutils.sourceforge.net/docs/user/rst/quickref.html#hyperlink-targets">External Hyperlink Targets</reference>. Also the embedded URI format, details found <reference name="here" refuri="http://docutils.sourceforge.net/docs/ref/rst/restructuredtext.html#embedded-uris">here</reference><target ids="here" names="here" refuri="http://docutils.sourceforge.net/docs/ref/rst/restructuredtext.html#embedded-uris"/>.</paragraph><paragraph>We will also need to test internal hyperlink targets. Like linking to the <reference name="Inline Styles" refid="inline-styles">Inline Styles</reference> section. I wonder if the embedded URI format will for for this <reference name="Test Link" refuri="Emphasis">Test Link</reference><target ids="test-link" names="test\ link" refuri="Emphasis"/> (It Treats it as a URI so I guess it doesn\'t).</paragraph><target ids="external-hyperlink-targets" names="external\ hyperlink\ targets" refuri="http:\/\/docutils.sourceforge.net\/docs\/user\/rst\/quickref.html#hyperlink-targets"\/><\/section><\/section><section ids="images-and-figures" names="images\ and\ figures"><title>Images and Figures<\/title><paragraph>Images can be treated as a block by just using its directive:<\/paragraph><image uri="images/block.png"/><paragraph>Or if you want them to show up in line like <image alt="inlineimage" uri="images/sub.png"/>, you can use a Substitution Reference and Definition.</paragraph><substitution_definition names="inlineimage"><image alt="inlineimage" uri="images/sub.png"/></substitution_definition><figure align="left"><image alt="figure alt text" uri="images/figure.png"/><caption>Figure caption</caption><legend><paragraph>This is the figure legend</paragraph></legend></figure></section><section ids="lists" names="lists"><title>Lists</title><section ids="bulleted-list" names="bulleted\ list"><title>Bulleted List</title><bullet_list bullet="-"><list_item><paragraph>Bullet List Item 1</paragraph><block_quote><bullet_list bullet="-"><list_item><paragraph>Nested Bullet List Item 1-1</paragraph></list_item><list_item><paragraph>Nested Bullet List Item 1-2</paragraph><block_quote><bullet_list bullet="-"><list_item><paragraph>Double Nested Bullet List Item 1-2-1</paragraph></list_item><list_item><paragraph>Double Nested Bullet List Item 1-2-2</paragraph></list_item></bullet_list></block_quote></list_item><list_item><paragraph>Nested Bullet List Item 1-3</paragraph></list_item><list_item><paragraph>Nested Bullet List Item 1-4</paragraph></list_item></bullet_list></block_quote></list_item><list_item><paragraph>Bullet List Item 2</paragraph><block_quote><bullet_list bullet="-"><list_item><paragraph>Nested Bullet List Item 2-1</paragraph></list_item><list_item><paragraph>Nested Bullet List Item 2-2</paragraph></list_item><list_item><paragraph>Nested Bullet List Item 2-3</paragraph></list_item></bullet_list></block_quote></list_item><list_item><paragraph>Bullet List Item 3</paragraph></list_item><list_item><paragraph>Bullet List Item 4</paragraph></list_item></bullet_list></section><section ids="enumerated-list" names="enumerated\ list"><title>Enumerated List</title><enumerated_list enumtype="arabic" prefix="" suffix="."><list_item><paragraph>Ordered List Item 1</paragraph><block_quote><enumerated_list enumtype="loweralpha" prefix="(" suffix=")"><list_item><paragraph>Nested Ordered List Item 1-1</paragraph></list_item><list_item><paragraph>Nested Ordered List Item 1-2</paragraph><block_quote><enumerated_list enumtype="lowerroman" prefix="" suffix=")"><list_item><paragraph>Double Nested Ordered List Item 1-2-1</paragraph></list_item><list_item><paragraph>Double Nested Ordered List Item 1-2-2</paragraph></list_item></enumerated_list></block_quote></list_item><list_item><paragraph>Nested Ordered List Item 1-3</paragraph></list_item><list_item><paragraph>Nested Ordered List Item 1-4</paragraph></list_item></enumerated_list></block_quote></list_item><list_item><paragraph>Ordered List Item 2</paragraph><block_quote><enumerated_list enumtype="loweralpha" prefix="(" suffix=")"><list_item><paragraph>Nested Ordered List Item 1-1</paragraph></list_item><list_item><paragraph>Nested Ordered List Item 1-2</paragraph></list_item><list_item><paragraph>Nested Ordered List Item 1-3</paragraph></list_item></enumerated_list></block_quote></list_item><list_item><paragraph>Ordered List Item 3</paragraph></list_item><list_item><paragraph>Ordered List Item 4</paragraph></list_item></enumerated_list></section></section><section ids="directives" names="directives"><title>Directives</title></section></document>';
 
 function createBlankBlock (type, depth) {
 	return {
@@ -18,23 +18,59 @@ function createBlankBlock (type, depth) {
 }
 
 
+const TITLE_MAP = {
+	0: BLOCK_TYPE.HEADER_ONE,
+	1: BLOCK_TYPE.HEADER_TWO,
+	2: BLOCK_TYPE.HEADER_THREE,
+	3: BLOCK_TYPE.HEADER_FOUR,
+	4: BLOCK_TYPE.HEADER_FIVE,
+	5: BLOCK_TYPE.HEADER_SIX
+};
+
+
 const TAG_HANDLERS = {
 	'document': {
 		NOOP: true
 	},
+	'title': {
+		isBlock: true,
+		getBlock (node, sectionDepth) {
+			if (sectionDepth > 5) {
+				sectionDepth = 5;
+			}
+
+			return createBlankBlock(TITLE_MAP[sectionDepth]);
+		}
+	},
 	'paragraph': {
 		isBlock: true,
-		getBlock (node, depth) {
-			return createBlankBlock(BLOCK_TYPE.UNSTYLED, depth);
+		getBlock () {
+			return createBlankBlock(BLOCK_TYPE.UNSTYLED);
 		}
 	},
 	'strong': {
 		isInlineStyle: true,
-		type: INLINE_STYLE.BOLD
+		type: [INLINE_STYLE.BOLD]
 	},
 	'emphasis': {
 		isInlineStyle: true,
-		type: INLINE_STYLE.ITALIC
+		type: [INLINE_STYLE.ITALIC]
+	},
+	'bolditalic': {
+		isInlineStyle: true,
+		type: [INLINE_STYLE.BOLD, INLINE_STYLE.ITALIC]
+	},
+	'boldunderlined': {
+		isInlineStyle: true,
+		type: [INLINE_STYLE.BOLD, INLINE_STYLE.UNDERLINE]
+	},
+	'italicunderlined': {
+		isInlineStyle: true,
+		type: [INLINE_STYLE.ITALIC, INLINE_STYLE.UNDERLINE]
+	},
+	'bolditalicunderlined': {
+		isInlineStyle: true,
+		type: [INLINE_STYLE.BOLD, INLINE_STYLE.ITALIC, INLINE_STYLE.UNDERLINE]
 	},
 	'reference': {
 		isEntity: true,
@@ -45,6 +81,9 @@ const TAG_HANDLERS = {
 
 			return {name, url};
 		}
+	},
+	'section': {
+		isSection: true
 	},
 	undefined: {
 		isText: true
@@ -58,6 +97,15 @@ class XMLToDraftState {
 
 		this.blocks = [];
 		this.entityMap = {};
+
+		this.currentBlocks = [];
+
+		this.sectionDepth = 0;
+	}
+
+
+	get currentBlock () {
+		return this.currentBlocks[this.currentBlocks.length - 1];
 	}
 
 
@@ -94,6 +142,8 @@ class XMLToDraftState {
 			this.parseEntity(handler, node);
 		} else if (handler.isText) {
 			this.parseText(handler, node);
+		} else if (handler.isSection) {
+			this.parseSection(handler, node);
 		}
 	}
 
@@ -102,22 +152,29 @@ class XMLToDraftState {
 		node.childNodes.forEach(x => this.parseNode(x));
 	}
 
+	parseSection (handler, node) {
+		this.sectionDepth += 1;
+
+		this.parseNodeChildren(node);
+
+		this.sectionDepth -= 1;
+	}
+
 
 	parseBlockNode (handler, node) {
 		if (this.hasOpenStyle || this.hasOpenEntity) {
 			throw new Error('Parsing Block while there is an open style');
 		}
 
-		const depth = handler.getDepth ? handler.getDepth(node) : 0;
-		const block = handler.getBlock(node, depth);
+		const block = handler.getBlock(node, this.sectionDepth, this.listDepth);
 
 		this.blocks.push(block);
 
-		this.currentBlock = block;
+		this.currentBlocks.push(block);
 
 		this.parseNodeChildren(node);
 
-		this.currentBlock = null;
+		this.currentBlocks.pop();
 	}
 
 
@@ -125,21 +182,30 @@ class XMLToDraftState {
 		const currentBlock = this.currentBlock;
 
 		if (!currentBlock) {
+			debugger;
 			throw new Error('Inline Style element outside of a block');
 		}
 
-		const style = {
-			style: handler.type,
-			offset: currentBlock.text.length
-		};
+		const offset = currentBlock.text.length;
+		const styles = handler.type.map((type) => {
+			return {
+				style: type,
+				offset: offset
+			};
+		});
+
 
 		this.hasOpenStyle = true;
 
-		currentBlock.inlineStyleRanges.push(style);
+		currentBlock.inlineStyleRanges = [...currentBlock.inlineStyleRanges, ...styles];
 
 		this.parseNodeChildren(node);
 
-		style.length = currentBlock.text.length - style.offset;
+		const length = currentBlock.text.length;
+
+		for (let style of styles) {
+			style.length = length - style.offset;
+		}
 
 		this.hasOpenStyle = false;
 	}
