@@ -32,6 +32,9 @@ const TAG_HANDLERS = {
 	'document': {
 		NOOP: true
 	},
+	'blockquote': {
+		NOOP: true//Just do this for now
+	},
 	'title': {
 		isBlock: true,
 		getBlock (node, sectionDepth) {
@@ -55,6 +58,10 @@ const TAG_HANDLERS = {
 	'emphasis': {
 		isInlineStyle: true,
 		type: [INLINE_STYLE.ITALIC]
+	},
+	'math': {
+		isInlineStyle: true,
+		type: [INLINE_STYLE.CODE]
 	},
 	'bolditalic': {
 		isInlineStyle: true,

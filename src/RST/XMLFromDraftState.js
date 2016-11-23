@@ -9,6 +9,31 @@ const BLOCK_HANDLERS = {
 	[BLOCK_TYPE.UNSTYLED]: {
 		isBlock: true,
 		tagName: 'paragraph'
+	},
+	[BLOCK_TYPE.HEADER_ONE]: {
+		isHeading: true,
+		isTitle: true,
+		depth: 0
+	},
+	[BLOCK_TYPE.HEADER_TWO]: {
+		isHeading: true,
+		depth: 1
+	},
+	[BLOCK_TYPE.HEADER_THREE]: {
+		isHeading: true,
+		depth: 2
+	},
+	[BLOCK_TYPE.HEADER_FOUR]: {
+		isHeading: true,
+		depth: 3
+	},
+	[BLOCK_TYPE.HEADER_FIVE]: {
+		isHeading: true,
+		depth: 4
+	},
+	[BLOCK_TYPE.HEADER_SIX]: {
+		isHeading: true,
+		depth: 5
 	}
 };
 
@@ -30,8 +55,12 @@ class DraftStateToXML {
 
 		this.dom.appendChild(this.doc);
 
+		this.currentNode = this.doc;
+
 		this.blocks = state.blocks;
 		this.entityMap = state.entityMap;
+
+		this.sections = [this.doc];
 	}
 
 
@@ -51,6 +80,8 @@ class DraftStateToXML {
 			//TODO handle this case somehow
 		} else if (handler.isBlock) {
 			this.parseBlock(handler, block);
+		} else if (handler.isHeading) {
+			this.parseHeading(handler, block);
 		}
 	}
 
@@ -58,8 +89,7 @@ class DraftStateToXML {
 	parseBlock (handler, block) {
 		const node = this.dom.createElement(handler.tagName);
 
-		this.doc.appendChild(node);
-		this.currentNode = node;
+		this.currentNode.appendChild(node);
 
 		this.parseBlockContent(handler, block, node);
 	}
@@ -98,6 +128,36 @@ class DraftStateToXML {
 
 			node.appendChild(this.dom.createTextNode(plainText));
 		}
+	}
+
+
+	parseHeading (handler, block) {
+		if (handler.isTitle) {
+			const title = this.dom.createElement('title');
+
+			this.currentNode.appendChild(title);
+
+			this.parseBlockContent(handler, block, title);
+			return;
+		}
+
+		if (handler.depth <= this.sectionDepth) {
+			this.sections.pop();
+			this.currentNode = this.sections[this.sections.length - 1];
+		}
+
+		const section = this.dom.createElement('section');
+		const title = this.dom.createElement('title');
+
+		section.appendChild(title);
+
+		this.currentNode.appendChild(section);
+
+		this.parseBlockContent(handler, block, title);
+
+		this.sections.push(section);
+		this.currentNode = section;
+		this.sectionDepth = handler.depth;
 	}
 }
 
