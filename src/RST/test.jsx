@@ -2,11 +2,14 @@ import React from 'react';
 import {Editor, EditorState} from 'draft-js';
 import parseXML, {TestXML} from './DraftStateFromXML';
 import parseDraftState from './XMLFromDraftState';
+import parseRST, {TestRST} from './DraftStateFromRST';
 
 
 export default class DraftToXMLText extends React.Component {
 	constructor (props) {
 		super(props);
+
+		parseRST(TestRST);
 
 		this.state = {
 			editorState: EditorState.createWithContent(parseXML(TestXML)),
@@ -24,9 +27,9 @@ export default class DraftToXMLText extends React.Component {
 	}
 
 
-	onInputChange = (inputText) => {
+	onInputChange = (e) => {
 		this.setState({
-			inputText
+			inputText: e.target.value
 		});
 	}
 
@@ -51,14 +54,19 @@ export default class DraftToXMLText extends React.Component {
 		const {inputText, editorState, outputText} = this.state;
 
 		return (
-			<div>
-				<div className="input">
-					<div><button onClick={this.onInput}>Add Input</button></div>
+			<div className="test-rst">
+				<div className="input section">
+					<span>Input:</span>
 					<textarea onChange={this.onInputChange} value={inputText} />
+					<button onClick={this.onInput}>Add Input</button>
 				</div>
-				<Editor editorState={editorState} onChange={this.onEditorState} />
-				<div className="output">
-					<div><button onClick={this.onOutput}>Show Output</button></div>
+				<div className="editor section">
+					<span>Draft:</span>
+					<Editor editorState={editorState} onChange={this.onEditorState} />
+				</div>
+				<div className="output section">
+					<button onClick={this.onOutput}>Show Output</button>
+					<span>Output:</span>
 					<textarea value={outputText} />
 				</div>
 			</div>

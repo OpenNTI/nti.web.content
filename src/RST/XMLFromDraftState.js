@@ -44,7 +44,10 @@ const STYLE_HANDLERS = {
 	},
 	[INLINE_STYLE.ITALIC]: {
 		tagName: 'emphasis'
-	}
+	},
+	[INLINE_STYLE.CODE]: {
+		tagName: 'math'
+	},
 };
 
 
@@ -95,7 +98,7 @@ class DraftStateToXML {
 	}
 
 	parseBlockContent (handler, block, node) {
-		//TODO sort and normalize styles and entities, for now assume they are sorted and just use style ranges
+		//TODO sort, collapse, and normalize styles and entities, for now assume they are sorted and just use style ranges
 		const ranges = block.inlineStyleRanges;
 		const content = block.text;
 		let position = 0;

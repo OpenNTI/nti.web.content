@@ -189,7 +189,6 @@ class XMLToDraftState {
 		const currentBlock = this.currentBlock;
 
 		if (!currentBlock) {
-			debugger;
 			throw new Error('Inline Style element outside of a block');
 		}
 
