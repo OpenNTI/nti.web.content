@@ -4,12 +4,14 @@ import parseXML, {TestXML} from './DraftStateFromXML';
 import parseDraftState from './XMLFromDraftState';
 import parseRST, {TestRST} from './DraftStateFromRST';
 
+import {convertRSTToDraftState} from './parser';
+
 
 export default class DraftToXMLText extends React.Component {
 	constructor (props) {
 		super(props);
 
-		parseRST(TestRST);
+		convertRSTToDraftState(TestRST);
 
 		this.state = {
 			editorState: EditorState.createWithContent(parseXML(TestXML)),

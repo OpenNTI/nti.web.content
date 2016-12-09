@@ -58,7 +58,7 @@ function createBlock (type, depth, text, entityMap) {
 				};
 			//If we just had * change the active range to bold
 			} else if (lastChar === '*') {
-				activeStyle.style = INLINE_STYLE.BOLD
+				activeStyle.style = INLINE_STYLE.BOLD;
 			//If we hit a * and are have an active italic range close it
 			} else if (lastChar !== '*' && activeStyle.style === INLINE_STYLE.ITALIC) {
 				activeStyle.range = block.text.length - activeStyle.offset;
