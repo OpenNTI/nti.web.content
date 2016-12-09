@@ -1,25 +1,15 @@
 import Parser from '../Parser';
 
-import {
-	Header,
-	Text,
-	Empty,
-	ExternalHyperLink
-} from './blocks';
+import blocks from './blocks';
 
 export default class RSTToDraftState extends Parser {
 
-	getBlockClasses () {
-		return [
-			Empty,
-			Header,
-			ExternalHyperLink,
-			Text
-		];
+	getBlockTypes () {
+		return blocks;
 	}
 
 
-	parseBlocksFromInput (input) {
+	formatInput (input) {
 		return input.split('\n');
 	}
 }
