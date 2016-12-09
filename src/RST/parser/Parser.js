@@ -48,7 +48,7 @@ export default class Parser {
 	 * the format of the output.
 	 *
 	 * @param {Object} parsed the result of parsing
-	 * @param {Array} parsedBlocks the blocks that were parsed from the input
+	 * @param {Array} blocks the blocks that were parsed from the input
 	 * @param {Object} context the context set while parsing the blocks
 	 * @return {Object}        the formatted version to output
 	 */
@@ -84,7 +84,7 @@ export default class Parser {
 		}
 
 		return this.formatParsed({
-			parsedBlocks,
+			blocks: parsedBlocks,
 			context
 		});
 	}

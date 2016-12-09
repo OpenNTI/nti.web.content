@@ -1,6 +1,17 @@
+import {BLOCK_TYPE} from 'draft-js-utils';
+
 //Checks if the line is the same header character repeating
 //TODO: add the other header characters
 const IS_LINE_HEADER_REGEX = /^([\=,\-,\+])\1+$/;
+
+const LEVEL_TO_TYPE = {
+	1: BLOCK_TYPE.HEADER_ONE,
+	2: BLOCK_TYPE.HEADER_TWO,
+	3: BLOCK_TYPE.HEADER_THREE,
+	4: BLOCK_TYPE.HEADER_FOUR,
+	5: BLOCK_TYPE.HEADER_FIVE,
+	6: BLOCK_TYPE.HEADER_SIX
+};
 
 export default class Header {
 	static isTypeForBlock (block) {
@@ -52,5 +63,13 @@ export default class Header {
 		this.level = level;
 		this.char = char;
 		this.textBlock = textBlock;
+	}
+
+
+	getOutput (context) {
+		const type = LEVEL_TO_TYPE[this.level];
+		const block = this.textBlock.getOutput(context, true);
+
+		return {...block, type};
 	}
 }

@@ -1,9 +1,7 @@
 import React from 'react';
-import {Editor, EditorState} from 'draft-js';
-import parseXML, {TestXML} from './DraftStateFromXML';
+import {Editor, EditorState, convertFromRaw} from 'draft-js';
 import parseDraftState from './XMLFromDraftState';
-import parseRST, {TestRST} from './DraftStateFromRST';
-
+import {TestRST} from './DraftStateFromRST';
 import {convertRSTToDraftState} from './parser';
 
 
@@ -14,8 +12,8 @@ export default class DraftToXMLText extends React.Component {
 		convertRSTToDraftState(TestRST);
 
 		this.state = {
-			editorState: EditorState.createWithContent(parseXML(TestXML)),
-			inputText: TestXML
+			editorState: EditorState.createWithContent(convertFromRaw(convertRSTToDraftState(TestRST))),
+			inputText: TestRST
 		};
 	}
 
@@ -24,7 +22,7 @@ export default class DraftToXMLText extends React.Component {
 		const {inputText} = this.state;
 
 		this.setState({
-			editorState:  EditorState.createWithContent(parseXML(inputText))
+			editorState:  EditorState.createWithContent(convertFromRaw(convertRSTToDraftState(inputText)))
 		});
 	}
 
