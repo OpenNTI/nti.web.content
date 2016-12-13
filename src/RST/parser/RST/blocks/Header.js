@@ -53,7 +53,7 @@ export default class Header extends Block {
 		if (!currentBlock) {
 			newContext.openHeader = char;
 		//If we just parsed a text block, close any open header and return a header block
-		} else if (currentBlock.isTextBlock) {
+		} else if (currentBlock.isParagraph) {
 			delete newContext.openHeader;
 
 			//The text block will be used in the new header block, so consume the text block
@@ -71,12 +71,13 @@ export default class Header extends Block {
 	}
 
 
-	toDraft (context) {
+	getOutput (context) {
+		debugger;
 		const {level, char, textBlock} = this.parts;
 		const type = LEVEL_TO_TYPE[level];
-		const block = textBlock.getOutput(context, true);
-		const data = block.data ? {...block.data, char} : {char};
+		const {output, context:newContext} = textBlock.getOutput(context, true);
+		const data = output.data ? {...output.data, char} : {char};
 
-		return {...block, type, data};
+		return {output: {...output, type, data}, newContext};
 	}
 }

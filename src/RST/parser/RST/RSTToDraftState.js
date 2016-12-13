@@ -17,16 +17,19 @@ export default class RSTToDraftState extends Parser {
 	formatParsed (parsed) {
 		const {blocks:parsedBlocks, context} = parsed;
 
-		const draftBlocks = parsedBlocks.reduce((acc, block) => {
-			const draftBlock = block.getOutput && block.getOutput(context);
+		const draftState = parsedBlocks.reduce((acc, block) => {
+			const draft = block.toDraft && block.toDraft(acc.context);
+			const {output:draftBlock, context:newContext} = draft || {};
+
+			acc.context = newContext || acc.context;
 
 			if (draftBlock) {
-				acc.push(draftBlock);
+				acc.blocks.push(draftBlock);
 			}
 
 			return acc;
-		}, []);
+		}, {blocks: [], context});
 
-		return {blocks: draftBlocks, entityMap: context.entityMap};
+		return {blocks: draftState.blocks, entityMap: draftState.context.entityMap};
 	}
 }

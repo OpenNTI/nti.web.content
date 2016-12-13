@@ -4,7 +4,7 @@ import IndentedBlock from './IndentedBlock';
 
 const PARAGRAPH_REGEX = /^\s*(.*)/;
 
-export default class Text extends IndentedBlock {
+export default class Paragraph extends IndentedBlock {
 	static isTypeForBlock (block) {
 		return PARAGRAPH_REGEX.test(block);
 	}
@@ -17,20 +17,22 @@ export default class Text extends IndentedBlock {
 	}
 
 
-	isTextBlock = true
+	isParagraph = true
 
 
-	toDraft (/*context*/) {
+	getOutput (context) {
 		const {text} = this.parts;
 
 		//TODO: if we are depth 1 turn it into a block quote
 
-		return {
+		const output = {
 			depth: 0,
 			type: BLOCK_TYPE.UNSTYLED,
 			entityRanges: [],
 			inlineStyleRanges: [],
 			text: text
 		};
+
+		return {output, context};
 	}
 }

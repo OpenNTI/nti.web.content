@@ -50,10 +50,9 @@ export default class OrderedListItem extends UnorderedListItem {
 	}
 
 
-	toDraft () {
+	getOutput (context) {
 		const {text, listStyle} = this.parts;
-
-		return {
+		const output = {
 			data: {listStyle},
 			type: BLOCK_TYPE.ORDERED_LIST_ITEM,
 			depth: this.depth,
@@ -61,5 +60,7 @@ export default class OrderedListItem extends UnorderedListItem {
 			entityRanges: [],
 			inlineStyleRanges: []
 		};
+
+		return {output, context};
 	}
 }

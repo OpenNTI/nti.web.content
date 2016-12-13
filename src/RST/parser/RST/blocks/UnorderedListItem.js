@@ -21,7 +21,7 @@ export default class UnorderedListItem extends IndentedBlock {
 	shouldAppendBlock (block) {
 		//TODO: should append the block it ts a paragraph and its offset
 		//the same amount as the text of the list item
-		return block && block.isTextBlock;
+		return block && block.isParagraph;
 	}
 
 
@@ -30,15 +30,16 @@ export default class UnorderedListItem extends IndentedBlock {
 	}
 
 
-	toDraft () {
+	getOutput (context) {
 		const {text} = this.parts;
-
-		return {
+		const output = {
 			type: BLOCK_TYPE.UNORDERED_LIST_ITEM,
 			depth: this.depth,
 			text: text,
 			entityRanges: [],
 			inlineStyleRanges: []
 		};
+
+		return {output, context};
 	}
 }

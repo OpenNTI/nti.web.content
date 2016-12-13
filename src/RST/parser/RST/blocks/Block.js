@@ -35,15 +35,15 @@ export default class Block {
 	}
 
 
-	getOutput (context, force)  {
+	toDraft (context, force)  {
 		if (this.isConsumed && !force) { return null; }
 
-		return this.toDraft(context);
+		return this.getOutput(context);
 	}
 
 
-	toDraft (/*context*/) {
-		return this.parts;
+	getOutput (context) {
+		return {output: this.parts, context};
 	}
 
 
