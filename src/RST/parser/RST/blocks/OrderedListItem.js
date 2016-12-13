@@ -1,21 +1,15 @@
 import {BLOCK_TYPE} from 'draft-js-utils';
 
-import {getIndention} from '../utils';
-
-function buildOrderedListItemRegex (itemRegex) {
-	return new RegExp(`^\\s*(\\(?${itemRegex}\\.?\\)?)\\s(.*)`);
-}
-
-const TEXT = Symbol('text');
-const INDENTION = Symbol('depth');
-const BULLET = Symbol('bullet');
-const ENTITY_RANGES = Symbol('entity ranges');
-const INLINE_STYLE_RANGES = Symbol('inline style ranges');
+import UnorderedListItem from './UnorderedListItem';
 
 const AUTO_NUMBERED = 'auto-numbered';
 const NUMERIC = 'numeric';
 const ALPHA_NUMERIC = 'alpha-numeric';
 const ROMAN_NUMERAL = 'roman-numeral';
+
+function buildOrderedListItemRegex (itemRegex) {
+	return new RegExp(`^\\s*(\\(?${itemRegex}\\.?\\)?)\\s(.*)`);
+}
 
 const REGEXS = {
 	[AUTO_NUMBERED]: buildOrderedListItemRegex('#'),
@@ -38,7 +32,7 @@ function parseBlock (block) {
 	}
 }
 
-export default class OrderedListItem {
+export default class OrderedListItem extends UnorderedListItem {
 	static isTypeForBlock (block) {
 		return REGEXS[AUTO_NUMBERED].test(block) ||
 				REGEXS[NUMERIC].test(block) ||
@@ -51,26 +45,21 @@ export default class OrderedListItem {
 		const {listStyle, matches} = parseBlock(block);
 		const bullet = matches[1];
 		const text = matches[2];
-		const indention = getIndention(block, bullet);
 
-		return {block: new this(text, listStyle, indention, bullet), context};
+		return {block: new this(block, bullet, {text, listStyle, bullet}), context};
 	}
 
-	constructor (text, listStyle, indention, bullet) {
-		this[TEXT] = text;
-		this[INDENTION] = indention;
-		this[BULLET] = bullet;
-		this[ENTITY_RANGES] = [];
-		this[INLINE_STYLE_RANGES] = [];
-	}
 
-	getOutput () {
+	toDraft () {
+		const {text, listStyle} = this.parts;
+
 		return {
+			data: {listStyle},
 			type: BLOCK_TYPE.ORDERED_LIST_ITEM,
-			depth: this[INDENTION].blockOffset,
-			text: this[TEXT],
-			entityRanges: this[ENTITY_RANGES],
-			inlineStyleRanges: this[INLINE_STYLE_RANGES]
+			depth: this.depth,
+			text: text,
+			entityRanges: [],
+			inlineStyleRanges: []
 		};
 	}
 }

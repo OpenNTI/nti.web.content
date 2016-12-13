@@ -1,15 +1,11 @@
 import {BLOCK_TYPE} from 'draft-js-utils';
 
-const TEXT = Symbol('Text');
-const DEPTH = Symbol('Depth');
-const ENTITY_RANGES = Symbol('Entity Ranges');
-const INLINE_STYLE_RANGES = Symbol('Inline Style Ranges');
+import IndentedBlock from './IndentedBlock';
 
-//Capture list items, the first capture group is the tabs
-//to indicate depth the second is the text
-const UNORDERED_LIST_ITEM = /^(\t*)-\s(.*)/;
+//Capture list items
+const UNORDERED_LIST_ITEM = /^\s*-\s(.*)/;
 
-export default class UnorderedListItem {
+export default class UnorderedListItem extends IndentedBlock {
 	static isTypeForBlock (block) {
 		return UNORDERED_LIST_ITEM.test(block);
 	}
@@ -17,24 +13,13 @@ export default class UnorderedListItem {
 
 	static parse (block, context) {
 		const matches = block.match(UNORDERED_LIST_ITEM);
-		const depth = matches[1].length;
-		const text = matches[2];
+		const text = matches[1];
 
-		return {block: new this(text, depth), context};
+		return {block: new this(block, '-', {text}), context};
 	}
-
-
-	constructor (text, depth) {
-		//TODO: parse out the text and ranges
-		this[TEXT] = text;
-		this[DEPTH] = depth;
-		this[ENTITY_RANGES] = [];
-		this[INLINE_STYLE_RANGES] = [];
-	}
-
 
 	shouldAppendBlock (block) {
-		//TODO: should append the block if its indented
+		//TODO: should append the block it ts a paragraph and its offset
 		//the same amount as the text of the list item
 		return block && block.isTextBlock;
 	}
@@ -45,13 +30,15 @@ export default class UnorderedListItem {
 	}
 
 
-	getOutput () {
+	toDraft () {
+		const {text} = this.parts;
+
 		return {
 			type: BLOCK_TYPE.UNORDERED_LIST_ITEM,
-			depth: this[DEPTH],
-			text: this[TEXT],
-			entityRanges: this[ENTITY_RANGES],
-			inlineStyleRanges: this[INLINE_STYLE_RANGES]
+			depth: this.depth,
+			text: text,
+			entityRanges: [],
+			inlineStyleRanges: []
 		};
 	}
 }

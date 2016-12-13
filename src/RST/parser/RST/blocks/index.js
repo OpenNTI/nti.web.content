@@ -1,5 +1,5 @@
 import Header from './Header';
-import Text from './Text';
+import Paragraph from './Paragraph';
 import Empty from './Empty';
 import ExternalHyperLink from './ExternalHyperLink';
 import UnorderedListItem from './UnorderedListItem';
@@ -12,5 +12,5 @@ export default [
 	UnorderedListItem,
 	OrderedListItem,
 	ExternalHyperLink,
-	Text
+	Paragraph
 ];
