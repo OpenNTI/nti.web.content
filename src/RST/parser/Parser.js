@@ -1,9 +1,11 @@
 const BLOCK_TYPES = Symbol('Block Types');
 
 export default class Parser {
+	blankContext = {}
+
 	constructor () {
 		//TODO: decide if we need to formalize the context beyond a simple object
-		this.context = {};
+		this.context = this.blankContext;
 
 		this[BLOCK_TYPES] = this.getBlockTypes();
 	}
@@ -75,12 +77,12 @@ export default class Parser {
 		for (let block of blocks) {
 			let {block:nextBlock, context:nextContext} = this.parseBlock(block, context, currentBlock);
 
-			context = nextContext || context;
-			currentBlock = nextBlock;
-
-			if (nextBlock) {
+			if (nextBlock && nextBlock !== currentBlock) {
 				parsedBlocks.push(nextBlock);
 			}
+
+			context = nextContext || context;
+			currentBlock = nextBlock;
 		}
 
 		return this.formatParsed({

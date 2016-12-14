@@ -72,7 +72,6 @@ export default class Header extends Block {
 
 
 	getOutput (context) {
-		debugger;
 		const {level, char, textBlock} = this.parts;
 		const type = LEVEL_TO_TYPE[level];
 		const {output, context:newContext} = textBlock.getOutput(context, true);

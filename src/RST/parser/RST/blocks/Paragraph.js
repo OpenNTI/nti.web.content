@@ -1,5 +1,7 @@
 import {BLOCK_TYPE} from 'draft-js-utils';
 
+import TextParser from '../text-parser';
+
 import IndentedBlock from './IndentedBlock';
 
 const PARAGRAPH_REGEX = /^\s*(.*)/;
@@ -22,17 +24,20 @@ export default class Paragraph extends IndentedBlock {
 
 	getOutput (context) {
 		const {text} = this.parts;
+		const parsedText = TextParser.parse(text);
 
 		//TODO: if we are depth 1 turn it into a block quote
 
 		const output = {
 			depth: 0,
 			type: BLOCK_TYPE.UNSTYLED,
-			entityRanges: [],
-			inlineStyleRanges: [],
-			text: text
+			entityRanges: parsedText.entityRanges,
+			inlineStyleRanges: parsedText.inlineStyleRanges,
+			text: parsedText.text
 		};
 
+		//TODO: merge the entityMap from parsing the text
+		//with the entityMap in the context
 		return {output, context};
 	}
 }
