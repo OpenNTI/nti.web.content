@@ -74,8 +74,10 @@ export default class Parser {
 		let parsedBlocks = [];
 		let currentBlock = null;
 
-		for (let block of blocks) {
-			let {block:nextBlock, context:nextContext} = this.parseBlock(block, context, currentBlock);
+		for (let i = 0; i < blocks.length; i++) {
+			let blockInput = blocks[i];
+			let nextInput = i + 1 < blocks.length ? blocks[i + 1] : null;
+			let {block:nextBlock, context:nextContext} = this.parseBlock(blockInput, context, currentBlock, nextInput);
 
 			if (nextBlock && nextBlock !== currentBlock) {
 				parsedBlocks.push(nextBlock);
@@ -97,23 +99,25 @@ export default class Parser {
 	 *
 	 * @param  {Mixed} blockInput   a block from the input
 	 * @param  {Object} context the context of the parser
+	 * @param  {Object} currentBlock the current block of the parser
+	 * @param  {Mixed} nextInput the input for the nextBlock
 	 * @return {Object}        the block to use to parse
 	 */
-	getClassForBlock (blockInput, context) {
+	getClassForBlock (blockInput, context, currentBlock, nextInput) {
 		for (let blockType of this[BLOCK_TYPES]) {
-			if (blockType.isTypeForBlock(blockInput, context)) {
+			if (blockType.isTypeForBlock(blockInput, context, currentBlock, nextInput)) {
 				return blockType;
 			}
 		}
 	}
 
 
-	parseBlock (blockInput, context, currentBlock) {
-		const blockClass = this.getClassForBlock(blockInput, context);
-		const {block:nextBlock, context:nextContext} = blockClass.parse(blockInput, context, currentBlock);
+	parseBlock (blockInput, context, currentBlock, nextInput) {
+		const blockClass = this.getClassForBlock(blockInput, context, currentBlock, nextInput);
+		const {block:nextBlock, context:nextContext} = blockClass.parse(blockInput, context, currentBlock, nextInput);
 
-		if (currentBlock && currentBlock.shouldAppendBlock && currentBlock.shouldAppendBlock(nextBlock, nextContext)) {
-			return currentBlock.appendBlock(nextBlock, nextContext);
+		if (currentBlock && currentBlock.shouldAppendBlock && currentBlock.shouldAppendBlock(nextBlock, nextContext, nextInput)) {
+			return currentBlock.appendBlock(nextBlock, nextContext, nextInput);
 		}
 
 		return {block: nextBlock, context: nextContext};
