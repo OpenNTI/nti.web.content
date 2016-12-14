@@ -30,7 +30,7 @@ export default class Emphasis {
 
 
 	get hasText () {
-		return this[PLAIN_TEXT] && this[PLAIN_TEXT].length;
+		return this[PLAIN_TEXT] && this[PLAIN_TEXT].length > 0;
 	}
 
 
@@ -88,7 +88,7 @@ export default class Emphasis {
 
 	getOutput (context) {
 		if (!this[PLAIN_TEXT]) {
-			return this.getOutputAsPlainText(context);
+			return this.getOutputAsPlaintext(context);
 		}
 
 		const range = {style: this[STYLE], offset: context.charCount, length: this.length};
@@ -104,7 +104,7 @@ export default class Emphasis {
 	}
 
 
-	getOutputAsPlainText (context) {
+	getOutputAsPlaintext (context) {
 		const text = this[OPEN_CHARS] === 2 ? '** ' : '* ';
 		const newContext = {...context, charCount: context.charCount + text.length};
 
