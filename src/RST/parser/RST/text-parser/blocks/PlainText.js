@@ -24,6 +24,10 @@ export default class PlainText {
 		return this.text.length;
 	}
 
+	get isWhitespace () {
+		return /^\s$/.test(this.text);
+	}
+
 
 	shouldAppendBlock (block) {
 		return block.isPlainText;
