@@ -30,6 +30,6 @@ export default class RSTToDraftState extends Parser {
 			return acc;
 		}, {blocks: [], context});
 
-		return {blocks: draftState.blocks, entityMap: draftState.context.entityMap};
+		return {blocks: draftState.blocks, entityMap: draftState.context.entityMap || {}};
 	}
 }

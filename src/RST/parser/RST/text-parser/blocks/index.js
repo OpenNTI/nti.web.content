@@ -1,9 +1,13 @@
-import PlainText from './PlainText';
+import Plaintext from './Plaintext';
 import Emphasis from './Emphasis';
-import Interpreted from './Interpreted';
+import StrongEmphasis from './StrongEmphasis';
+// import Interpreted from './Interpreted';
+// import Role from './Role';
 
 export default [
+	StrongEmphasis,
 	Emphasis,
-	Interpreted,
-	PlainText
+	// Interpreted,
+	// Role,
+	Plaintext
 ];

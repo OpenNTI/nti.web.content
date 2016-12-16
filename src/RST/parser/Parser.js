@@ -76,8 +76,9 @@ export default class Parser {
 
 		for (let i = 0; i < blocks.length; i++) {
 			let blockInput = blocks[i];
+			let prevInput = i - 1 >= 0 ? blocks[i - 1] : null;
 			let nextInput = i + 1 < blocks.length ? blocks[i + 1] : null;
-			let {block:nextBlock, context:nextContext} = this.parseBlock(blockInput, context, currentBlock, nextInput);
+			let {block:nextBlock, context:nextContext, skipNextInput} = this.parseBlock(blockInput, context, currentBlock, nextInput, prevInput);
 
 			if (nextBlock && nextBlock !== currentBlock) {
 				parsedBlocks.push(nextBlock);
@@ -85,6 +86,10 @@ export default class Parser {
 
 			context = nextContext || context;
 			currentBlock = nextBlock;
+
+			if (skipNextInput) {
+				i += 1;
+			}
 		}
 
 		return this.formatParsed({
@@ -101,25 +106,31 @@ export default class Parser {
 	 * @param  {Object} context the context of the parser
 	 * @param  {Object} currentBlock the current block of the parser
 	 * @param  {Mixed} nextInput the input for the nextBlock
+	 * @param  {Mixed} prevInput the input for the prevBlock
 	 * @return {Object}        the block to use to parse
 	 */
-	getClassForBlock (blockInput, context, currentBlock, nextInput) {
+	getClassForBlock (blockInput, context, currentBlock, nextInput, prevInput) {
 		for (let blockType of this[BLOCK_TYPES]) {
-			if (blockType.isTypeForBlock(blockInput, context, currentBlock, nextInput)) {
+			if (blockType.isTypeForBlock(blockInput, context, currentBlock, nextInput, prevInput)) {
 				return blockType;
 			}
 		}
 	}
 
 
-	parseBlock (blockInput, context, currentBlock, nextInput) {
-		const blockClass = this.getClassForBlock(blockInput, context, currentBlock, nextInput);
-		const {block:nextBlock, context:nextContext} = blockClass.parse(blockInput, context, currentBlock, nextInput);
+	parseBlock (blockInput, context, currentBlock, nextInput, prevInput) {
+		const blockClass = this.getClassForBlock(blockInput, context, currentBlock, nextInput, prevInput);
+		const {block:nextBlock, context:nextContext, skipNextInput} = blockClass.parse(blockInput, context, currentBlock, nextInput, prevInput);
+		let parsed;
 
-		if (currentBlock && currentBlock.shouldAppendBlock && currentBlock.shouldAppendBlock(nextBlock, nextContext, nextInput)) {
-			return currentBlock.appendBlock(nextBlock, nextContext, nextInput);
+		if (currentBlock && currentBlock.shouldAppendBlock && currentBlock.shouldAppendBlock(nextBlock, nextContext, nextInput, prevInput)) {
+			parsed = currentBlock.appendBlock(nextBlock, nextContext, nextInput);
+		} else {
+			parsed = {block:nextBlock, context:nextContext};
 		}
 
-		return {block: nextBlock, context: nextContext};
+		parsed.skipNextInput = skipNextInput;
+
+		return parsed;
 	}
 }

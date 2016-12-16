@@ -9,8 +9,8 @@ const PLAIN_TEXT = Symbol('Plaintext');
 const RANGE_NAME = 'Interpreted';
 
 export default class Interpreted {
-	static isTypeForBlock (block, context) {
-		return block === '`' && //If its a back tick
+	static isTypeForBlock (blockInput, context, nextInput) {
+		return blockInput === '`' && nextInput !== '`' && //If its a back tick, and its not followed by another back tick
 					!context.isEscaped && //and we aren't escaped
 					(!context.openRange || context.openRange === RANGE_NAME); //and we aren't parsing another range
 	}

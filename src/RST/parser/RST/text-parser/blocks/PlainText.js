@@ -1,12 +1,12 @@
 const TEXT = Symbol('Text');
 
-export default class PlainText {
+export default class Plaintext {
 	static isTypeForBlock () {
 		return true;
 	}
 
 	static parse (block, context) {
-		return {block: new this(block), context: {...context, isEscaped: false}};
+		return {block: new this(block), context: {...context, isEscaped: false, openRange: false}};
 	}
 
 	isPlainText = true
@@ -29,6 +29,11 @@ export default class PlainText {
 	}
 
 
+	get endsInWhitespace () {
+		return /\s$/.test(this.text);
+	}
+
+
 	shouldAppendBlock (block) {
 		return block.isPlainText;
 	}
@@ -41,8 +46,21 @@ export default class PlainText {
 	}
 
 
+	appendText (text) {
+		if (!text) {
+			debugger;
+		}
+
+		this[TEXT] = this[TEXT] + text;
+	}
+
+
 	getOutput (context) {
 		const newContext = {...context, charCount: context.charCount + this.text.length};
+
+		if (!this.text) {
+			debugger;
+		}
 
 		return {output: this.text, context: newContext};
 	}
