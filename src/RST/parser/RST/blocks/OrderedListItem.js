@@ -33,20 +33,23 @@ function parseBlock (block) {
 }
 
 export default class OrderedListItem extends UnorderedListItem {
-	static isTypeForBlock (block) {
-		return REGEXS[AUTO_NUMBERED].test(block) ||
-				REGEXS[NUMERIC].test(block) ||
-				REGEXS[ALPHA_NUMERIC].test(block) ||
-				REGEXS[ROMAN_NUMERAL].test(block);
+	static isNextBlock (inputInterface) {
+		const input = inputInterface.getInput();
+
+		return REGEXS[AUTO_NUMBERED].test(input) ||
+				REGEXS[NUMERIC].test(input) ||
+				REGEXS[ALPHA_NUMERIC].test(input) ||
+				REGEXS[ROMAN_NUMERAL].test(input);
 
 	}
 
-	static parse (block, context) {
-		const {listStyle, matches} = parseBlock(block);
+	static parse (inputInterface, context) {
+		const input = inputInterface.getInput();
+		const {listStyle, matches} = parseBlock(input);
 		const bullet = matches[1];
 		const text = matches[2];
 
-		return {block: new this(block, bullet, {text, listStyle, bullet}), context};
+		return {block: new this(input, bullet, {text, listStyle, bullet}), context};
 	}
 
 

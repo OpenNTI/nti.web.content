@@ -1,11 +1,13 @@
 const WHITE_SPACE_ONLY = /^\s+$/;
 
 export default  {
-	isTypeForBlock (block) {
-		return WHITE_SPACE_ONLY.test(block) || !block;
+	isNextBlock (inputInterface) {
+		const input = inputInterface.getInput();
+
+		return WHITE_SPACE_ONLY.test(input) || !input;
 	},
 
-	parse (block, context) {
+	parse (inputInterface, context) {
 		return {context};
 	}
 };

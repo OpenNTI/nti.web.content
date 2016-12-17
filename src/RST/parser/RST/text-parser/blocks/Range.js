@@ -1,4 +1,5 @@
 import Plaintext from './Plaintext';
+import Regex from '../Regex';
 
 const CLOSED = Symbol('Closed');
 const PLAIN_TEXT = Symbol('Text');
@@ -7,21 +8,29 @@ export default class Range {
 	static sequence = []
 	static rangeName = ''
 
-	static isTypeForBlock (blockInput, context, currentBlock, nextInput, prevInput) {
+
+	static isNextBlock (inputInterface, context) {
+		debugger;
 		const {sequence:seq} = this;
-		const matchesSequence = blockInput === seq[0] && (seq.length < 2 || nextInput === seq[1]);
-		const potentiallyClosingRange = context.openRange === this.rangeName && prevInput !== ' ';
+		const matchesSequence = seq[0] === inputInterface.getInput() && (seq.length < 2 || inputInterface.getInput(1) === seq[1]);
+
+		const prevInput = inputInterface.getInput(-1);
+		const nextInput = inputInterface.getInput(seq.length);
+
+		const isValidStart = Regex.isValidRangeStart(prevInput, nextInput);
+		const isValidEnd = Regex.isValidRangeEnd(prevInput, nextInput);
 
 		return matchesSequence && //the block matches the sequence for this range
 					!context.isEscaped && //and we aren't escaped
-					(!context.openRange || potentiallyClosingRange); //and we aren't in the middle of parsing another range
+					(!context.openRange || context.openRange === this.rangeName) && //and we aren't parsing a different range
+					((!context.openRange && isValidStart) || (context.openRange === this.rangeName && isValidEnd)); //and we are either a valid start or end to our range
 	}
 
 
-	static parse (block, context) {
+	static parse (inputInterface, context) {
 		const newContext = {...context, isEscaped: false, openRange: this.rangeName};
 
-		return {block: new this(), context: newContext, skipNextInput: this.sequence.length > 1};
+		return {block: new this(), context: newContext, length: this.sequence.length};
 	}
 
 
@@ -56,13 +65,11 @@ export default class Range {
 
 
 	shouldAppendBlock (block) {
-		//if we aren't closed and we aren't processing white space right after opening the range
 		return !this.closed && (!block.isPlainText || !block.isWhitespace || this.hasText);
 	}
 
 
 	appendBlock (block, context) {
-		debugger;
 		if (block.isPlainText) {
 			this.appendPlainText(block);
 		} else if (block.rangeName === this.rangeName) {
@@ -87,8 +94,6 @@ export default class Range {
 	maybeClose (block) {
 		if (this[PLAIN_TEXT] && this[PLAIN_TEXT].endsInWhitespace) {
 			this[PLAIN_TEXT].appendText(block.bookendChars);
-		} else if (!this[PLAIN_TEXT]) {
-			this[PLAIN_TEXT] = new Plaintext(block.bookendChars);
 		} else {
 			this[CLOSED] = true;
 		}

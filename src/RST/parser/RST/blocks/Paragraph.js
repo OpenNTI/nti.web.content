@@ -7,15 +7,18 @@ import IndentedBlock from './IndentedBlock';
 const PARAGRAPH_REGEX = /^\s*(.*)/;
 
 export default class Paragraph extends IndentedBlock {
-	static isTypeForBlock (block) {
-		return PARAGRAPH_REGEX.test(block);
+	static isNextBlock (inputInterface) {
+		const input = inputInterface.getInput();
+
+		return PARAGRAPH_REGEX.test(input);
 	}
 
-	static parse (block, context) {
-		const matches = block.match(PARAGRAPH_REGEX);
+	static parse (inputInterface, context) {
+		const input = inputInterface.getInput();
+		const matches = input.match(PARAGRAPH_REGEX);
 		const text = matches[1];
 
-		return {block: new this(block, '', {text}), context};
+		return {block: new this(input, '', {text}), context};
 	}
 
 

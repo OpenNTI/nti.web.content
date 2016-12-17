@@ -17,11 +17,15 @@ const LEVEL_TO_TYPE = {
 };
 
 export default class Header extends Block {
-	static isTypeForBlock (block) {
-		return IS_LINE_HEADER_REGEX.test(block);
+	static isNextBlock (inputInterface) {
+		const input = inputInterface.getInput();
+
+		return IS_LINE_HEADER_REGEX.test(input);
 	}
 
-	static parse (block, context, currentBlock) {
+	static parse (inputInterface, context, currentBlock) {
+		const input = inputInterface.getInput();
+
 		if (!context.headerLevels) {
 			context.headerLevels = {
 				charToLevel: {},
@@ -29,10 +33,10 @@ export default class Header extends Block {
 			};
 		}
 
-		const char = block.charAt(0);
+		const char = input.charAt(0);
 
 		//If we have an open header for a different character, this is
-		//an invalid header block
+		//an invalid header input
 		if (context.openHeader && context.openHeader !== char) {
 			throw new Error('Invalid Header Block');
 		}
@@ -60,7 +64,7 @@ export default class Header extends Block {
 			//to prevent it from being output.
 			currentBlock.consume();
 
-			newBlock = new this(block, {level, char, textBlock: currentBlock});
+			newBlock = new this(input, {level, char, textBlock: currentBlock});
 		//If we have a current block and its not a text block, its not a valid place for
 		//a header
 		} else {

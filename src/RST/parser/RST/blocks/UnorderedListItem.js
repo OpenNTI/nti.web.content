@@ -6,17 +6,21 @@ import IndentedBlock from './IndentedBlock';
 const UNORDERED_LIST_ITEM = /^\s*-\s(.*)/;
 
 export default class UnorderedListItem extends IndentedBlock {
-	static isTypeForBlock (block) {
-		return UNORDERED_LIST_ITEM.test(block);
+	static isNextBlock (inputInterface) {
+		const input = inputInterface.getInput();
+
+		return UNORDERED_LIST_ITEM.test(input);
 	}
 
 
-	static parse (block, context) {
-		const matches = block.match(UNORDERED_LIST_ITEM);
+	static parse (inputInterface, context) {
+		const input = inputInterface.getInput();
+		const matches = input.match(UNORDERED_LIST_ITEM);
 		const text = matches[1];
 
-		return {block: new this(block, '-', {text}), context};
+		return {block: new this(input, '-', {text}), context};
 	}
+
 
 	shouldAppendBlock (block) {
 		//TODO: should append the block it ts a paragraph and its offset
@@ -25,7 +29,7 @@ export default class UnorderedListItem extends IndentedBlock {
 	}
 
 
-	appendBlock (block) {
+	appendBlock (/*block*/) {
 		//TODO: fill this out
 	}
 

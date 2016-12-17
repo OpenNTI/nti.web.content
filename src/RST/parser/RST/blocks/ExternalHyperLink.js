@@ -3,13 +3,17 @@ import {ENTITY_TYPE} from 'draft-js-utils';
 const EXTERNAL_TARGET = /^.. _([^:|^_]+):\s?(.*)/;
 
 export default {
-	isTypeForBlock (block) {
-		return EXTERNAL_TARGET.test(block);
+	isNextBlock (inputInterface) {
+		const input = inputInterface.getInput();
+
+		return EXTERNAL_TARGET.test(input);
 	},
 
 
-	parse (block, context) {
-		const matches = block.match(EXTERNAL_TARGET);
+	parse (inputInterface, context) {
+		const input = inputInterface.getInput();
+
+		const matches = input.match(EXTERNAL_TARGET);
 		const name = matches[1];
 		const target = matches[2];
 

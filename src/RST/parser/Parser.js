@@ -1,5 +1,19 @@
 const BLOCK_TYPES = Symbol('Block Types');
 
+function getInputInterface (currentIndex, inputs) {
+	return {
+		getInput (offset = 0) {
+			const index = currentIndex + offset;
+
+			if (index < 0 || (index - 1) > inputs.length) {
+				return null;
+			}
+
+			return inputs[index];
+		}
+	};
+}
+
 export default class Parser {
 	blankContext = {}
 
@@ -68,32 +82,29 @@ export default class Parser {
 	 * @return {Object}       the result of parsing
 	 */
 	parse (input) {
-		const blocks = this.formatInput(input);
+		const parsedInputs = this.formatInput(input);
 
 		let context = {};
-		let parsedBlocks = [];
+		let blocks = [];
 		let currentBlock = null;
 
-		for (let i = 0; i < blocks.length; i++) {
-			let blockInput = blocks[i];
-			let prevInput = i - 1 >= 0 ? blocks[i - 1] : null;
-			let nextInput = i + 1 < blocks.length ? blocks[i + 1] : null;
-			let {block:nextBlock, context:nextContext, skipNextInput} = this.parseBlock(blockInput, context, currentBlock, nextInput, prevInput);
+		let i = 0;
 
-			if (nextBlock && nextBlock !== currentBlock) {
-				parsedBlocks.push(nextBlock);
+		while (i < parsedInputs.length) {
+			let {block, context:newContext, length} = this.parseNextBlock(getInputInterface(i, parsedInputs), context, currentBlock);
+
+			if (block && block !== currentBlock) {
+				blocks.push(block);
 			}
 
-			context = nextContext || context;
-			currentBlock = nextBlock;
+			context = newContext || context;
+			currentBlock = block;
 
-			if (skipNextInput) {
-				i += 1;
-			}
+			i += (length || 1);
 		}
 
 		return this.formatParsed({
-			blocks: parsedBlocks,
+			blocks,
 			context
 		});
 	}
@@ -102,34 +113,32 @@ export default class Parser {
 	 * Given a block from the input determine which type to use
 	 * to parse it.
 	 *
-	 * @param  {Mixed} blockInput   a block from the input
+	 * @param  {Object} inputInterface   the remaining inputs
 	 * @param  {Object} context the context of the parser
 	 * @param  {Object} currentBlock the current block of the parser
-	 * @param  {Mixed} nextInput the input for the nextBlock
-	 * @param  {Mixed} prevInput the input for the prevBlock
 	 * @return {Object}        the block to use to parse
 	 */
-	getClassForBlock (blockInput, context, currentBlock, nextInput, prevInput) {
+	getClassForBlock (inputInterface, context, currentBlock) {
 		for (let blockType of this[BLOCK_TYPES]) {
-			if (blockType.isTypeForBlock(blockInput, context, currentBlock, nextInput, prevInput)) {
+			if (blockType.isNextBlock(inputInterface, context, currentBlock)) {
 				return blockType;
 			}
 		}
 	}
 
 
-	parseBlock (blockInput, context, currentBlock, nextInput, prevInput) {
-		const blockClass = this.getClassForBlock(blockInput, context, currentBlock, nextInput, prevInput);
-		const {block:nextBlock, context:nextContext, skipNextInput} = blockClass.parse(blockInput, context, currentBlock, nextInput, prevInput);
+	parseNextBlock (inputInterface, context, currentBlock) {
+		const blockClass = this.getClassForBlock(inputInterface, context, currentBlock);
+		const {block:nextBlock, context:nextContext, length} = blockClass.parse(inputInterface, context, currentBlock);
 		let parsed;
 
-		if (currentBlock && currentBlock.shouldAppendBlock && currentBlock.shouldAppendBlock(nextBlock, nextContext, nextInput, prevInput)) {
-			parsed = currentBlock.appendBlock(nextBlock, nextContext, nextInput);
+		if (currentBlock && currentBlock.shouldAppendBlock && currentBlock.shouldAppendBlock(nextBlock, nextContext, inputInterface)) {
+			parsed = currentBlock.appendBlock(nextBlock, nextContext, inputInterface);
 		} else {
 			parsed = {block:nextBlock, context:nextContext};
 		}
 
-		parsed.skipNextInput = skipNextInput;
+		parsed.length = length;
 
 		return parsed;
 	}

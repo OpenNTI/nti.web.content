@@ -3,7 +3,7 @@ const PARTS = Symbol('Parts');
 const IS_CONSUMED = Symbol('Is Consumed');
 
 export default class Block {
-	static isTypeForBlock () { return true; }
+	static isNextBlock () { return true; }
 
 	static parse (block, context) {
 		return {block: new this(block), context};

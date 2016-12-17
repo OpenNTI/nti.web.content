@@ -1,12 +1,14 @@
 const TEXT = Symbol('Text');
 
 export default class Plaintext {
-	static isTypeForBlock () {
+	static isNextBlock () {
 		return true;
 	}
 
-	static parse (block, context) {
-		return {block: new this(block), context: {...context, isEscaped: false, openRange: false}};
+	static parse (inputInterface, context) {
+		const input = inputInterface.getInput();
+
+		return {block: new this(input), context: {...context, isEscaped: false, openRange: false}};
 	}
 
 	isPlainText = true
