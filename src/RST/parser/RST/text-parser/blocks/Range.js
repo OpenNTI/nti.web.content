@@ -8,19 +8,55 @@ export default class Range {
 	static sequence = []
 	static rangeName = ''
 
+	static getSequenceLength () {
+		return this.sequence.length;
+	}
+
+
+	static getSequenceAsPlainText () {
+		return this.sequence.reduce((acc, x) => {
+			if (typeof x === 'string') {
+				acc.push(x);
+			}
+
+			return acc;
+		}, []).join('');
+	}
+
+
+	static matchesSequence (inputInterface) {
+		const seq = this.sequence;
+
+		for (let i = 0; i < seq.length; i++) {
+			let seqItem = seq[i];
+			let input = inputInterface.getInput(i);
+			let matches = false;
+
+			if (seqItem instanceof RegExp) {
+				matches = seqItem.test(input);
+			} else {
+				matches = seqItem === input;
+			}
+
+			if (!matches) {
+				return {matches: false, length: i};
+			}
+		}
+
+		return {matches: true, length: this.getSequenceLength()};
+	}
+
 
 	static isNextBlock (inputInterface, context) {
-		debugger;
-		const {sequence:seq} = this;
-		const matchesSequence = seq[0] === inputInterface.getInput() && (seq.length < 2 || inputInterface.getInput(1) === seq[1]);
+		const {matches, length} = this.matchesSequence(inputInterface);
 
 		const prevInput = inputInterface.getInput(-1);
-		const nextInput = inputInterface.getInput(seq.length);
+		const nextInput = inputInterface.getInput(length);
 
 		const isValidStart = Regex.isValidRangeStart(prevInput, nextInput);
 		const isValidEnd = Regex.isValidRangeEnd(prevInput, nextInput);
 
-		return matchesSequence && //the block matches the sequence for this range
+		return matches && //the block matches the sequence for this range
 					!context.isEscaped && //and we aren't escaped
 					(!context.openRange || context.openRange === this.rangeName) && //and we aren't parsing a different range
 					((!context.openRange && isValidStart) || (context.openRange === this.rangeName && isValidEnd)); //and we are either a valid start or end to our range
@@ -28,14 +64,24 @@ export default class Range {
 
 
 	static parse (inputInterface, context) {
+		const length = this.getSequenceLength();
+		const openedRange = !context.openRange;
 		const newContext = {...context, isEscaped: false, openRange: this.rangeName};
 
-		return {block: new this(), context: newContext, length: this.sequence.length};
+		//Ranges have to have at least one character between the start and end
+		//so go ahead and consume it here.
+		const char = inputInterface.getInput(length);
+
+		return {block: new this(openedRange && char), context: newContext, length: openedRange ? length + 1 : length};
 	}
 
 
-	constructor () {
+	constructor (char) {
 		this[CLOSED] = false;
+
+		if (char) {
+			this[PLAIN_TEXT] = new Plaintext(char);
+		}
 	}
 
 	get sequence () {
@@ -60,7 +106,7 @@ export default class Range {
 
 
 	get bookendChars () {
-		return this.sequence.join('');
+		return this.constructor.getSequenceAsPlainText();
 	}
 
 
