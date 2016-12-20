@@ -15,7 +15,8 @@ export default class TextParser extends Parser {
 		const {blocks, context} = parsed;
 
 		const parts = blocks.reduce((acc, block) => {
-			const {output: text, context:newContext} = block.getOutput(acc.context);
+			const output = block.getOutput && block.getOutput(acc.context);
+			const {output: text, context:newContext} = output || {};
 
 			acc.context = newContext || acc.context;
 

@@ -63,7 +63,7 @@ export default class Range {
 	}
 
 
-	static parse (inputInterface, context) {
+	static parse (inputInterface, context, currentBlock) {
 		const length = this.getSequenceLength();
 		const openedRange = !context.openRange;
 		const newContext = {...context, isEscaped: false, openRange: this.rangeName};
@@ -71,8 +71,18 @@ export default class Range {
 		//Ranges have to have at least one character between the start and end
 		//so go ahead and consume it here.
 		const char = inputInterface.getInput(length);
+		const block = new this(openedRange && char);
 
-		return {block: new this(openedRange && char), context: newContext, length: openedRange ? length + 1 : length};
+		return {
+			block: this.afterParse(block, inputInterface, context, currentBlock),
+			context: newContext,
+			length: openedRange ? length + 1 : length
+		};
+	}
+
+
+	static afterParse (block/*, inputInterface, context, currentBlock*/) {
+		return block;
 	}
 
 
@@ -96,6 +106,10 @@ export default class Range {
 		return this[CLOSED];
 	}
 
+	get text () {
+		return this[PLAIN_TEXT] ? this[PLAIN_TEXT].text : '';
+	}
+
 	get hasText () {
 		return this[PLAIN_TEXT] && this[PLAIN_TEXT].length > 0;
 	}
@@ -109,9 +123,13 @@ export default class Range {
 		return this.constructor.getSequenceAsPlainText();
 	}
 
+	get isValidRange () {
+		return this[PLAIN_TEXT] && this.closed;
+	}
 
-	shouldAppendBlock (block) {
-		return !this.closed && (!block.isPlainText || !block.isWhitespace || this.hasText);
+
+	shouldAppendBlock () {
+		return !this.closed;
 	}
 
 
@@ -119,7 +137,7 @@ export default class Range {
 		if (block.isPlainText) {
 			this.appendPlainText(block);
 		} else if (block.rangeName === this.rangeName) {
-			this.maybeClose(block);
+			this.doClose(block);
 		}
 
 		const newContext = {...context, openRange: this.closed ? null : this.rangeName};
@@ -137,12 +155,8 @@ export default class Range {
 	}
 
 
-	maybeClose (block) {
-		if (this[PLAIN_TEXT] && this[PLAIN_TEXT].endsInWhitespace) {
-			this[PLAIN_TEXT].appendText(block.bookendChars);
-		} else {
-			this[CLOSED] = true;
-		}
+	doClose () {
+		this[CLOSED] = true;
 	}
 
 
@@ -152,7 +166,7 @@ export default class Range {
 
 
 	getOutput (context) {
-		if (!this[PLAIN_TEXT] || !this.closed) {
+		if (!this.isValidRange) {
 			return this.getPlaintextOutput(context);
 		}
 

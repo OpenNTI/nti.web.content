@@ -1,56 +1,106 @@
-const CLOSED = Symbol('Closed');
-const NAME = Symbol('Name');
-const USED = Symbol('Used');
+import {INLINE_STYLE} from 'draft-js-utils';
 
-const RANGE_NAME = 'Role';
+import Range from './Range';
 
-//If this isn't closed properly it should be treated as plain text.
-export default class Role {
-	static isTypeForBlock (block, context) {
-		return block === ':' && !context.isEscaped;
+const MARKER_FOR = Symbol('Marker For');
+
+function buildStyleRange (style, context, block) {
+	return {style, offset: context.charCount, length: block.length};
+}
+
+const ROLES = {
+	emphasis: (context, block) => {
+		return {
+			inlineStyleRanges: [buildStyleRange(INLINE_STYLE.ITALIC, context, block)]
+		};
+	},
+
+	strong: (context, block) => {
+		return {
+			inlineStyleRanges: [buildStyleRange(INLINE_STYLE.BOLD, context, block)]
+		};
+	},
+
+	math: (context, block) => {
+		return {
+			inlineStyleRanges: [buildStyleRange(INLINE_STYLE.CODE, context, block)]
+		};
+	},
+
+	bolditalic: (context, block) => {
+		return {
+			inlineStyleRanges: [
+				buildStyleRange(INLINE_STYLE.BOLD, context, block),
+				buildStyleRange(INLINE_STYLE.ITALIC, context, block)
+			]
+		};
+	},
+
+	boldunderlined: (context, block) => {
+		return {
+			inlineStyleRanges: [
+				buildStyleRange(INLINE_STYLE.BOLD, context, block),
+				buildStyleRange(INLINE_STYLE.UNDERLINE, context, block)
+			]
+		};
+	},
+
+	italicunderlined: (context, block) => {
+		return {
+			inlineStyleRanges: [
+				buildStyleRange(INLINE_STYLE.ITALIC, context, block),
+				buildStyleRange(INLINE_STYLE.UNDERLINE, context, block)
+			]
+		};
+	},
+
+	bolditalicunderlined: (context, block) => {
+		return {
+			inlineStyleRanges: [
+				buildStyleRange(INLINE_STYLE.BOLD, context, block),
+				buildStyleRange(INLINE_STYLE.ITALIC, context, block),
+				buildStyleRange(INLINE_STYLE.UNDERLINE, context, block)
+			]
+		};
 	}
+};
 
-	static parse (block, context) {
-		const newContext = {...context, isEscaped: false, openRange: RANGE_NAME};
+export default class Role extends Range {
+	static sequence = [':']
+	static rangeName = 'role'
 
-		return {block: new this(block), context: newContext};
+	static afterParse (block, inputInterface, context, currentBlock) {
+		if (currentBlock && currentBlock.isInterpreted) {
+			currentBlock.setRoleMaker(block);
+			block.setMarkerFor(currentBlock);
+		}
+
+		return block;
 	}
 
 	isRole = true
 
-	constructor () {
-		this[CLOSED] = false;
-		this[NAME] = '';
+	get name () {
+		return this.text;
+	}
+
+	setMarkerFor (block) {
+		this[MARKER_FOR] = block;
+	}
+
+	getOutput (context) {
+		return this[MARKER_FOR] && this[MARKER_FOR].isValidRange && this.closed ? null : this.getPlaintextOutput(context);
 	}
 
 
-	shouldAppendBlock (block) {
-		return !this[CLOSED] || (!this[USED] && block.isInterpreted);
-	}
+	getRanges (context, block) {
+		const fn = ROLES[this.name];
 
-
-	appendBlock (block, context) {
-		let nextBlock;
-
-		if (block.isPlainText) {
-			this[NAME] += block.text;
-			nextBlock = this;
-		} else if (block.isRole) {
-			this[CLOSED] = true;
-			nextBlock = this;
-		} else if (block.isInterpreted) {
-			this[USED] = true;
-			block.setOutputFn(c => this.getInterpretedOutput(c));
-			nextBlock = block;
+		if (!fn) {
+			//TODO: figure out what to do for this case;
+			return {};
 		}
 
-		const newContext = {...context, openRange: this[CLOSED] ? null : RANGE_NAME};
-
-		return {block: nextBlock, context: newContext};
-	}
-
-
-	getInterpretedOutput (context) {
-		debugger;
+		return fn(context, block);
 	}
 }

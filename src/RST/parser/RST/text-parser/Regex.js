@@ -34,8 +34,9 @@ export default {
 	},
 
 	isValidRangeStart (prevChar, nextChar, simple = true) {
-		let valid = notWhitespaceChar.test(nextChar) && //If the next character is not white space
-									!(open.test(prevChar) && close.test(nextChar)); //And the range isn't wrapped quotes or parenthesis etc.
+		let valid = nextChar && //If the next character is falsy, we are at the end of the block and can't start a range
+						notWhitespaceChar.test(nextChar) && //If the next character is not white space
+						!(open.test(prevChar) && close.test(nextChar)); //And the range isn't wrapped quotes or parenthesis etc.
 
 		if (!simple) {
 			valid = valid &&
