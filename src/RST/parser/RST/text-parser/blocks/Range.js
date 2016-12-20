@@ -134,8 +134,8 @@ export default class Range {
 
 
 	appendBlock (block, context) {
-		if (block.isPlainText) {
-			this.appendPlainText(block);
+		if (block.isPlaintext) {
+			this.appendPlaintext(block);
 		} else if (block.rangeName === this.rangeName) {
 			this.doClose(block);
 		}
@@ -146,7 +146,7 @@ export default class Range {
 	}
 
 
-	appendPlainText (block) {
+	appendPlaintext (block) {
 		if (this[PLAIN_TEXT]) {
 			this[PLAIN_TEXT].appendBlock(block);
 		} else {

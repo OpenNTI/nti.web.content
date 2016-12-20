@@ -11,7 +11,7 @@ export default class Plaintext {
 		return {block: new this(input), context: {...context, isEscaped: false, openRange: false}};
 	}
 
-	isPlainText = true
+	isPlaintext = true
 
 	constructor (block) {
 		this[TEXT] = block;
@@ -37,7 +37,7 @@ export default class Plaintext {
 
 
 	shouldAppendBlock (block) {
-		return block.isPlainText;
+		return block.isPlaintext;
 	}
 
 

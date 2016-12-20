@@ -5,8 +5,12 @@ import Range from './Range';
 const ROLE_MARKER = Symbol('Role Marker');
 
 export default class Interpreted extends Range {
-	static sequence = ['`']
+	static sequence = ['`', /[^`]/]
 	static rangeName = 'interpreted'
+
+	static getSequenceLength () {
+		return 1;
+	}
 
 	static afterParse (block, inputInterface, context, currentBlock) {
 		if (currentBlock && currentBlock.isRole) {
