@@ -15,8 +15,10 @@ const Pe = /[\u0029\u005D\u007D\u0F3B\u0F3D\u169C\u2046\u207E\u208E\u2309\u230B\
 
 const whitespaceChar = /\s/;
 const whitespaceOnly = /^\s*$/;
+const endsInWhitespace = /\s$/;
 
 const notWhitespaceChar = /\S/;
+const doesNotEndInWhitespace = /\S$/;
 
 const open = /['"\<\(\[\{]/;
 const close = /['"\)\]\}\>]/;
@@ -30,7 +32,15 @@ export default {
 	},
 
 	isWhitespaceOnly (s) {
-		return whitespaceOnly.text(s);
+		return whitespaceOnly.test(s);
+	},
+
+	endsInWhitespace (s) {
+		return endsInWhitespace.test(s);
+	},
+
+	doesNotEndInWhitespace (s) {
+		return doesNotEndInWhitespace.test(s);
 	},
 
 	isValidRangeStart (prevChar, nextChar, simple = true) {

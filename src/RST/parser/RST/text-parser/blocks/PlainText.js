@@ -1,4 +1,7 @@
+import Regex from '../Regex';
+
 const TEXT = Symbol('Text');
+const IS_CONSUMED = Symbol('Consumed');
 
 export default class Plaintext {
 	static isNextBlock () {
@@ -14,7 +17,7 @@ export default class Plaintext {
 	isPlaintext = true
 
 	constructor (block) {
-		this[TEXT] = block;
+		this[TEXT] = block || '';
 	}
 
 
@@ -36,8 +39,17 @@ export default class Plaintext {
 	}
 
 
+	get isConsumed () {
+		return this[IS_CONSUMED];
+	}
+
+	consume () {
+		this[IS_CONSUMED] = true;
+	}
+
+
 	shouldAppendBlock (block) {
-		return block.isPlaintext;
+		return block.isPlaintext && Regex.doesNotEndInWhitespace(this.text);
 	}
 
 
@@ -49,20 +61,16 @@ export default class Plaintext {
 
 
 	appendText (text) {
-		if (!text) {
-			debugger;
-		}
-
 		this[TEXT] = this[TEXT] + text;
 	}
 
 
 	getOutput (context) {
-		const newContext = {...context, charCount: context.charCount + this.text.length};
-
-		if (!this.text) {
-			debugger;
+		if (this.isConsumed) {
+			return null;
 		}
+
+		const newContext = {...context, charCount: context.charCount + this.text.length};
 
 		return {output: this.text, context: newContext};
 	}
