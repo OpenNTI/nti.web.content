@@ -41,10 +41,17 @@ export default class Interpreted extends Range {
 	}
 
 
-	getRanges (context) {
-		if (this[ROLE_MARKER]) {
-			return this[ROLE_MARKER].getRanges(context, this);
+	getOutput (context, force) {
+		if (this[ROLE_MARKER] && !force) {
+			return this[ROLE_MARKER].getOutputForInterpreted(this, context);
 		}
+
+		return super.getOutput(context);
+	}
+
+
+	getRanges (context) {
+		if (this[ROLE_MARKER]) { return {}; }
 
 		const range = {style: INLINE_STYLE.CODE, offset: context.charCount, length: this.length};
 

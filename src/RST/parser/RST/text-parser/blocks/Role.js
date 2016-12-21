@@ -4,64 +4,48 @@ import Range from './Range';
 
 const MARKER_FOR = Symbol('Marker For');
 
-function buildStyleRange (style, context, block) {
+function buildStyleRange (style, block, context) {
 	return {style, offset: context.charCount, length: block.length};
 }
 
+
+function buildOutput (styles, block, context) {
+	const inlineStyleRanges = styles.map(x => buildStyleRange(x, block, context));
+	const {output, context:newContext} = block.getOutput(context, true);
+
+	newContext.inlineStyleRanges = (newContext.inlineStyleRanges || []).concat(inlineStyleRanges);
+
+	return {output, context: newContext};
+}
+
+
 const ROLES = {
-	emphasis: (context, block) => {
-		return {
-			inlineStyleRanges: [buildStyleRange(INLINE_STYLE.ITALIC, context, block)]
-		};
+	emphasis: (block, context) => {
+		return buildOutput([INLINE_STYLE.ITALIC], block, context);
 	},
 
-	strong: (context, block) => {
-		return {
-			inlineStyleRanges: [buildStyleRange(INLINE_STYLE.BOLD, context, block)]
-		};
+	strong: (block, context) => {
+		return buildOutput([INLINE_STYLE.BOLD], block, context);
 	},
 
-	math: (context, block) => {
-		return {
-			inlineStyleRanges: [buildStyleRange(INLINE_STYLE.CODE, context, block)]
-		};
+	math: (block, context) => {
+		return buildOutput([INLINE_STYLE.CODE], block, context);
 	},
 
-	bolditalic: (context, block) => {
-		return {
-			inlineStyleRanges: [
-				buildStyleRange(INLINE_STYLE.BOLD, context, block),
-				buildStyleRange(INLINE_STYLE.ITALIC, context, block)
-			]
-		};
+	bolditalic: (block, context) => {
+		return buildOutput([INLINE_STYLE.BOLD, INLINE_STYLE.ITALIC], block, context);
 	},
 
-	boldunderlined: (context, block) => {
-		return {
-			inlineStyleRanges: [
-				buildStyleRange(INLINE_STYLE.BOLD, context, block),
-				buildStyleRange(INLINE_STYLE.UNDERLINE, context, block)
-			]
-		};
+	boldunderlined: (block, context) => {
+		return buildOutput([INLINE_STYLE.BOLD, INLINE_STYLE.UNDERLINE], block, context);
 	},
 
-	italicunderlined: (context, block) => {
-		return {
-			inlineStyleRanges: [
-				buildStyleRange(INLINE_STYLE.ITALIC, context, block),
-				buildStyleRange(INLINE_STYLE.UNDERLINE, context, block)
-			]
-		};
+	italicunderlined: (block, context) => {
+		return buildOutput([INLINE_STYLE.ITALIC, INLINE_STYLE.UNDERLINE], block, context);
 	},
 
-	bolditalicunderlined: (context, block) => {
-		return {
-			inlineStyleRanges: [
-				buildStyleRange(INLINE_STYLE.BOLD, context, block),
-				buildStyleRange(INLINE_STYLE.ITALIC, context, block),
-				buildStyleRange(INLINE_STYLE.UNDERLINE, context, block)
-			]
-		};
+	bolditalicunderlined: (block, context) => {
+		return buildOutput([INLINE_STYLE.BOLD, INLINE_STYLE.ITALIC, INLINE_STYLE.UNDERLINE], block, context);
 	}
 };
 
@@ -84,23 +68,26 @@ export default class Role extends Range {
 		return this.text;
 	}
 
+
 	setMarkerFor (block) {
 		this[MARKER_FOR] = block;
 	}
+
 
 	getOutput (context) {
 		return this[MARKER_FOR] && this[MARKER_FOR].isValidRange && this.closed ? null : this.getPlaintextOutput(context);
 	}
 
 
-	getRanges (context, block) {
+	getOutputForInterpreted (block, context) {
+		debugger;
 		const fn = ROLES[this.name];
 
 		if (!fn) {
-			//TODO: figure out what to do for this case;
-			return {};
+			//TODO: warn or something here
+			return block.getOutput(context, true);
 		}
 
-		return fn(context, block);
+		return fn(block, context);
 	}
 }
