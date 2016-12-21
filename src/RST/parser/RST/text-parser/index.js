@@ -1,3 +1,3 @@
 import TextParser from './TextParser';
 
-export default new TextParser();
+export default TextParser;

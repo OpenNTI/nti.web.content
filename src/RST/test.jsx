@@ -9,8 +9,6 @@ export default class DraftToXMLText extends React.Component {
 	constructor (props) {
 		super(props);
 
-		convertRSTToDraftState(TestRST);
-
 		this.state = {
 			editorState: EditorState.createWithContent(convertFromRaw(convertRSTToDraftState(TestRST))),
 			inputText: TestRST

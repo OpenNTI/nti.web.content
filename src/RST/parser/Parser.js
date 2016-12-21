@@ -1,4 +1,6 @@
 const BLOCK_TYPES = Symbol('Block Types');
+const INPUT_TRANSFORMS = Symbol('Input Transforms');
+const OUTPUT_TRANSFORMS = Symbol('Output Transforms');
 
 function getInputInterface (currentIndex, inputs) {
 	return {
@@ -17,59 +19,69 @@ function getInputInterface (currentIndex, inputs) {
 export default class Parser {
 	blankContext = {}
 
-	constructor () {
+	/**
+	 * Create a parser with the given blockTypes and transforms
+	 *
+	 * block types is a list of blocks that could be in the input, they will
+	 * be checked in the order given.
+	 * At a minimum the types need to statically have:
+	 *
+	 * isNextBlock(inputInterface, context, currentBlock) method to see if this is the next block in the input or not
+	 * parse(inputInterface, context, currentBlock) method to parse the block
+	 * 		returns an object {block: the parsed block, context: the new context for the parser}
+	 * 		both properties are optional
+	 *
+	 * The parsed block can optionally define:
+	 *
+	 * shouldAppendBlock(block, context) method to see if the next block should be appended or not
+	 * append(block, context) method to append the next block to this block.
+	 * 		same return value as parse
+	 *
+	 *
+	 * input and output transforms are a list of functions to call on the
+	 * input/output respectively, where the return of one transform is passed
+	 * as the argument to the next
+	 *
+	 * @param  {Array} blockTypes        the list of block types to look for in the input
+	 * @param  {Array}  inputTransforms  the list of transforms to apply to the input
+	 * @param  {Array}  outputTransforms the list of transforms to apply to the output
+	 * @return {Parser}                  the initialized Parse with these block types and transforms
+	 */
+	constructor (blockTypes = [], inputTransforms = [], outputTransforms = []) {
 		//TODO: decide if we need to formalize the context beyond a simple object
 		this.context = this.blankContext;
 
-		this[BLOCK_TYPES] = this.getBlockTypes();
+		this[BLOCK_TYPES] = blockTypes;
+		this[INPUT_TRANSFORMS] = inputTransforms;
+		this[OUTPUT_TRANSFORMS] = outputTransforms;
 	}
 
-	/**
-	 * Return the list of types to check the parts of the input against, the types
-	 * will be checked in order.
-	 * At a minimum the types need to have:
-	 *
-	 * isTypeForBlock(block, context) method to see if this is the block for a part or not
-	 *
-	 * parse(block, context, currentBlock) method to parse the block
-	 *     returns an object {block: the parsed block, context: the new context for the parser}
-	 *     both properties are optional
-	 *
-	 * They can define optionally:
-	 *
-	 * shouldAppendBlock(block, context) method to see if the next block should be appended or not
-	 *
-	 * appendBlock(block, context) method to append the block to this block.
-	 *     should have the same return value as parse
-	 *
-	 * @return {[Object]} the list of block types
-	 */
-	getBlockTypes () {
-		return [];
-	}
 
 	/**
-	 * Given the input into the parser, format it into an iterable object
-	 * of the blocks in the input to parse.
+	 * Run the input through the list of input transforms to get the
+	 * iterable item to run though the parser
 	 *
 	 * @param  {Mixed} input what to parse
 	 * @return {Array}       the blocks in the input
 	 */
 	formatInput (input) {
-		return input;
+		return this[INPUT_TRANSFORMS].reduce((acc, transform) => {
+			return transform(acc);
+		}, input);
 	}
 
 	/**
-	 * After running through the parse, give subclasses a chance to control
-	 * the format of the output.
+	 * Run the parsed data through the list of output transforms
 	 *
 	 * @param {Object} parsed the result of parsing
-	 * @param {Array} blocks the blocks that were parsed from the input
-	 * @param {Object} context the context set while parsing the blocks
+	 * @param {Array} parsed.blocks the blocks that were parsed from the input
+	 * @param {Object} parsed.context the context set while parsing the blocks
 	 * @return {Object}        the formatted version to output
 	 */
 	formatParsed (parsed) {
-		return parsed;
+		return this[OUTPUT_TRANSFORMS].reduce((acc, transform) => {
+			return transform(acc);
+		}, parsed);
 	}
 
 
