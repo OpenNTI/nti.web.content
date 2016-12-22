@@ -39,6 +39,10 @@ export default class Paragraph extends IndentedBlock {
 			text: parsedText.text
 		};
 
+		if (parsedText.entityMap) {
+			context.entityMap = {...(context.entityMap || {}), ...parsedText.entityMap};
+		}
+
 		//TODO: merge the entityMap from parsing the text
 		//with the entityMap in the context
 		return {output, context};

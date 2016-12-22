@@ -1,16 +1,55 @@
 import React from 'react';
-import {Editor, EditorState, convertFromRaw} from 'draft-js';
+import {ENTITY_TYPE} from 'draft-js-utils';
+import {Editor, EditorState, convertFromRaw, CompositeDecorator, Entity} from 'draft-js';
 import parseDraftState from './XMLFromDraftState';
 import {TestRST} from './DraftStateFromRST';
 import {convertRSTToDraftState} from './parser';
+
+function findLinkEntities (contentBlock, callback) {
+	contentBlock.findEntityRanges(
+		(character) => {
+			const entityKey = character.getEntity();
+			return (
+				entityKey !== null &&
+				Entity.get(entityKey).getType() === ENTITY_TYPE.LINK
+			);
+		},
+		callback
+	);
+}
+
+Link.propTypes = {
+	entityKey: React.PropTypes.string,
+	children: React.PropTypes.any
+};
+function Link (props) {
+	const {url} = Entity.get(props.entityKey).getData();
+
+	return (
+		<a href={url} style={{color: 'blue', textDecoration: 'underline'}}>
+			{props.children}
+		</a>
+	);
+}
+
+const decorator = new CompositeDecorator([
+	{
+		strategy: findLinkEntities,
+		component: Link
+	}
+]);
 
 
 export default class DraftToXMLText extends React.Component {
 	constructor (props) {
 		super(props);
 
+		const t = convertRSTToDraftState(TestRST);
+
+		debugger;
+
 		this.state = {
-			editorState: EditorState.createWithContent(convertFromRaw(convertRSTToDraftState(TestRST))),
+			editorState: EditorState.createWithContent(convertFromRaw(t), decorator),
 			inputText: TestRST
 		};
 	}
@@ -20,7 +59,7 @@ export default class DraftToXMLText extends React.Component {
 		const {inputText} = this.state;
 
 		this.setState({
-			editorState:  EditorState.createWithContent(convertFromRaw(convertRSTToDraftState(inputText)))
+			editorState:  EditorState.createWithContent(convertFromRaw(convertRSTToDraftState(inputText)), decorator)
 		});
 	}
 
