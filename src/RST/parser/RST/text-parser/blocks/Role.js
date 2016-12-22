@@ -50,8 +50,16 @@ const ROLES = {
 };
 
 export default class Role extends Range {
-	static sequence = [':']
 	static rangeName = 'role'
+	static openChars = ':'
+	static closeChars = ':'
+
+	static matchOpen (inputInterface) {
+		const input = inputInterface.getInput(0);
+
+		return {matches: input === ':'};
+	}
+
 
 	static afterParse (block, inputInterface, context, currentBlock) {
 		if (currentBlock && currentBlock.isInterpreted) {

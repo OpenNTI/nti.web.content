@@ -13,11 +13,15 @@ import Range from './Range';
  */
 
 export default class Emphasis extends Range {
-	static sequence = ['*', /[^*]/]
 	static rangeName = 'emphasis'
+	static openChars = '*'
+	static closeChars = '*'
 
-	static getSequenceLength () {
-		return 1;
+	static matchOpen (inputInterface) {
+		const input = inputInterface.getInput(0);
+		const nextInput = inputInterface.getInput(1);
+
+		return {matches: input === '*' && nextInput !== '*'};
 	}
 
 	getRanges (context) {

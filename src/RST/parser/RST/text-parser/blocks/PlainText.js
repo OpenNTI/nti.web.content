@@ -12,7 +12,7 @@ export default class Plaintext {
 		const input = inputInterface.getInput();
 		const block = new this(input);
 
-		if (currentBlock && currentBlock.isTarget) {
+		if (currentBlock && currentBlock.isTarget && !block.isWhitespace) {
 			currentBlock.setMarkerFor(block);
 			block.setRoleMarker(currentBlock);
 		}

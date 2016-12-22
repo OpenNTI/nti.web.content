@@ -31,6 +31,10 @@ export default {
 		return whitespaceChar.test(char);
 	},
 
+	isNotWhitespaceChar (char) {
+		return notWhitespaceChar.test(char);
+	},
+
 	isWhitespaceOnly (s) {
 		return whitespaceOnly.test(s);
 	},

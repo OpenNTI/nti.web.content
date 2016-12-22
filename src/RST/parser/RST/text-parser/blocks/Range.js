@@ -4,68 +4,43 @@ import Regex from '../Regex';
 const CLOSED = Symbol('Closed');
 const PLAIN_TEXT = Symbol('Text');
 
+
 export default class Range {
-	static sequence = []
 	static rangeName = ''
+	static openChars = ''
+	static closeChars = ''
 
-	static getSequenceLength () {
-		return this.sequence.length;
+	static matchOpen () {
+		return {matches: true, nextChar: '', prevChar: ''};
 	}
 
-
-	static getSequenceAsPlainText () {
-		return this.sequence.reduce((acc, x) => {
-			if (typeof x === 'string') {
-				acc.push(x);
-			}
-
-			return acc;
-		}, []).join('');
+	static matchClose (...args) {
+		return this.matchOpen(...args); //By default assume the ranges are symmetrical
 	}
 
+	static isNextBlock (inputInterface, context, currentBlock) {
+		const maybeOpening = !context.openRange;
+		const maybeClosing = context.openRange === this.rangeName;
 
-	static matchesSequence (inputInterface) {
-		const seq = this.sequence;
+		const  {matches, nextChar, prevChar} = maybeOpening ?
+										this.matchOpen(inputInterface, context, currentBlock) :
+										this.matchClose(inputInterface, context, currentBlock);
 
-		for (let i = 0; i < seq.length; i++) {
-			let seqItem = seq[i];
-			let input = inputInterface.getInput(i);
-			let matches = false;
-
-			if (seqItem instanceof RegExp) {
-				matches = seqItem.test(input);
-			} else {
-				matches = seqItem === input;
-			}
-
-			if (!matches) {
-				return {matches: false, length: i};
-			}
-		}
-
-		return {matches: true, length: this.getSequenceLength()};
-	}
-
-
-	static isNextBlock (inputInterface, context) {
-		const {matches, length} = this.matchesSequence(inputInterface);
-
-		const prevInput = inputInterface.getInput(-1);
-		const nextInput = inputInterface.getInput(length);
+		const prevInput = prevChar || inputInterface.getInput(-1);
+		const nextInput = nextChar || inputInterface.getInput(length);
 
 		const isValidStart = Regex.isValidRangeStart(prevInput, nextInput);
 		const isValidEnd = Regex.isValidRangeEnd(prevInput, nextInput);
 
-		return matches && //the block matches the sequence for this range
-					!context.isEscaped && //and we aren't escaped
-					(!context.openRange || context.openRange === this.rangeName) && //and we aren't parsing a different range
-					((!context.openRange && isValidStart) || (context.openRange === this.rangeName && isValidEnd)); //and we are either a valid start or end to our range
+		return matches && //the block is either a valid ope or close for this range
+				(maybeOpening || maybeClosing) && //and we are opening or closing this range (not parsing another one)
+				((maybeOpening && isValidStart) || (maybeClosing && isValidEnd)); //and we are a valid start or end to our range
 	}
 
 
 	static parse (inputInterface, context, currentBlock) {
-		const length = this.getSequenceLength();
 		const openedRange = !context.openRange;
+		const length = openedRange ? this.openChars.length : this.closeChars.length;
 		const newContext = {...context, isEscaped: false, openRange: this.rangeName};
 
 		//Ranges have to have at least one character between the start and end
@@ -119,8 +94,12 @@ export default class Range {
 	}
 
 
-	get bookendChars () {
-		return this.constructor.getSequenceAsPlainText();
+	get openChars () {
+		return this.constructor.openChars;
+	}
+
+	get closeChars () {
+		return this.constructor.closeChars;
 	}
 
 	get isValidRange () {
@@ -190,14 +169,14 @@ export default class Range {
 
 
 	getPlaintextOutput (context) {
-		const plainText = new Plaintext(this.bookendChars);
+		const plainText = new Plaintext(this.openChars);
 
 		if (this[PLAIN_TEXT]) {
 			plainText.appendBlock(this[PLAIN_TEXT]);
 		}
 
 		if (this.closed) {
-			plainText.appendText(this.bookendChars);
+			plainText.appendText(this.closeChars);
 		}
 
 		return plainText.getOutput(context);
