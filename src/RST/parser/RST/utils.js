@@ -81,3 +81,8 @@ export function getIndention (block, blockIndicator, baseDepth = 0) {
 
 	return {blockOffset, lineOffset};
 }
+
+
+export function getKeyForEntityText (text) {
+	return text.replace(WHITE_SPACE, ' ').toLowerCase();
+}

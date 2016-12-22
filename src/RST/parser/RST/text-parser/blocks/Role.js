@@ -80,7 +80,6 @@ export default class Role extends Range {
 
 
 	getOutputForInterpreted (block, context) {
-		debugger;
 		const fn = ROLES[this.name];
 
 		if (!fn) {

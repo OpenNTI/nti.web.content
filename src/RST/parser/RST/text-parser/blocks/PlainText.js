@@ -1,15 +1,21 @@
 import Regex from '../Regex';
 
 const TEXT = Symbol('Text');
-const IS_CONSUMED = Symbol('Consumed');
+const ROLE_MARKER = Symbol('Role Marker');
 
 export default class Plaintext {
 	static isNextBlock () {
 		return true;
 	}
 
-	static parse (inputInterface, context) {
+	static parse (inputInterface, context, currentBlock) {
 		const input = inputInterface.getInput();
+		const block = new this(input);
+
+		if (currentBlock && currentBlock.isTarget) {
+			currentBlock.setMarkerFor(block);
+			block.setRoleMarker(currentBlock);
+		}
 
 		return {block: new this(input), context: {...context, isEscaped: false, openRange: false}};
 	}
@@ -39,12 +45,8 @@ export default class Plaintext {
 	}
 
 
-	get isConsumed () {
-		return this[IS_CONSUMED];
-	}
-
-	consume () {
-		this[IS_CONSUMED] = true;
+	setRoleMarker (marker) {
+		this[ROLE_MARKER] = marker;
 	}
 
 
@@ -65,9 +67,9 @@ export default class Plaintext {
 	}
 
 
-	getOutput (context) {
-		if (this.isConsumed) {
-			return null;
+	getOutput (context, force) {
+		if (this[ROLE_MARKER] && !force) {
+			return this[ROLE_MARKER].getOutputForInterpreted(this, context);
 		}
 
 		const newContext = {...context, charCount: context.charCount + this.text.length};

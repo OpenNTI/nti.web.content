@@ -14,8 +14,6 @@ export default function (parsed) {
 		return acc;
 	}, {text: '', context: {...context, charCount: 0, inlineStyleRanges: [], entityRanges: [], entityMap: {}}});
 
-	debugger;
-
 	return {
 		text: parts.text,
 		entityRanges: parts.context.entityRanges,

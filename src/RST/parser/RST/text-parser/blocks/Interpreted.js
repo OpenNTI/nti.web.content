@@ -3,7 +3,6 @@ import {INLINE_STYLE} from 'draft-js-utils';
 import Range from './Range';
 
 const ROLE_MARKER = Symbol('Role Marker');
-const IS_CONSUMED = Symbol('Consumed');
 
 export default class Interpreted extends Range {
 	static sequence = ['`', /[^`]/]
@@ -14,7 +13,7 @@ export default class Interpreted extends Range {
 	}
 
 	static afterParse (block, inputInterface, context, currentBlock) {
-		if (currentBlock && currentBlock.isRole) {
+		if (currentBlock && (currentBlock.isRole || currentBlock.isTarget)) {
 			block.setRoleMarker(currentBlock);
 			currentBlock.setMarkerFor(block);
 		}
@@ -24,16 +23,6 @@ export default class Interpreted extends Range {
 
 
 	isInterpreted = true
-
-
-	consume () {
-		this[IS_CONSUMED] = true;
-	}
-
-
-	get isConsumed () {
-		return this[IS_CONSUMED];
-	}
 
 
 	setRoleMarker (role) {
