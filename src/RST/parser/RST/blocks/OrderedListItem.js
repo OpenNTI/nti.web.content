@@ -1,6 +1,7 @@
 import {BLOCK_TYPE} from 'draft-js-utils';
 
 import UnorderedListItem from './UnorderedListItem';
+import Text from './Text';
 
 const AUTO_NUMBERED = 'auto-numbered';
 const NUMERIC = 'numeric';
@@ -49,21 +50,31 @@ export default class OrderedListItem extends UnorderedListItem {
 		const bullet = matches[1];
 		const text = matches[2];
 
-		return {block: new this(input, bullet, {text, listStyle, bullet}), context};
+		return {block: new this(input, bullet, {text: new Text(text), listStyle, bullet}), context};
+	}
+
+
+	get text () {
+		return this.parts.text;
+	}
+
+	shouldAppendBlock (block) {
+		return block && block.isParagraph && this.isSameOffset(block);
+	}
+
+
+	appendBlock (block) {
+		this.parts.text.append(block.text);
+
+		return {block: this};
 	}
 
 
 	getOutput (context) {
-		const {text, listStyle} = this.parts;
-		const output = {
-			data: {listStyle},
-			type: BLOCK_TYPE.ORDERED_LIST_ITEM,
-			depth: this.depth,
-			text: text,
-			entityRanges: [],
-			inlineStyleRanges: []
-		};
+		const {text} = this;
+		const {listStyle} = this.parts;
+		const {output, context:newContext} = text.getOutput(context);
 
-		return {output, context};
+		return {output: {...output, depth: this.depth, type: BLOCK_TYPE.ORDERED_LIST_ITEM, data: {listStyle}}, newContext};
 	}
 }

@@ -61,7 +61,7 @@ export function getIndention (block, blockIndicator, baseDepth = 0) {
 			//and the lineOffset
 			} else if (char === ' ' && block.charAt(index + 1) === ' ') {
 				blockOffset += 1;
-				lineOffset += 1;
+				lineOffset += 2;
 				index += 2;
 			//If its just whitespace (not two spaces) stop counting the blockOffset
 			//add the remaining white space to the lineOffset

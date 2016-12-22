@@ -1,8 +1,7 @@
 import {BLOCK_TYPE} from 'draft-js-utils';
 
-import TextParser from '../text-parser';
-
 import IndentedBlock from './IndentedBlock';
+import Text from './Text';
 
 const PARAGRAPH_REGEX = /^\s*(.*)/;
 
@@ -18,33 +17,33 @@ export default class Paragraph extends IndentedBlock {
 		const matches = input.match(PARAGRAPH_REGEX);
 		const text = matches[1];
 
-		return {block: new this(input, '', {text}), context};
+		return {block: new this(input, '', {text: new Text(text)}), context};
 	}
 
 
 	isParagraph = true
 
+	get text () {
+		return this.parts.text;
+	}
+
+
+	shouldAppendBlock (block) {
+		return block && block.isParagraph && this.isSameOffset(block);
+	}
+
+
+	appendBlock (block) {
+		this.parts.text.append(block.text);
+
+		return {block: this};
+	}
+
 
 	getOutput (context) {
-		const {text} = this.parts;
-		const parsedText = TextParser.parse(text);
+		const {text} = this;
+		const {output, context:newContext} = text.getOutput(context);
 
-		//TODO: if we are depth 1 turn it into a block quote
-
-		const output = {
-			depth: 0,
-			type: BLOCK_TYPE.UNSTYLED,
-			entityRanges: parsedText.entityRanges,
-			inlineStyleRanges: parsedText.inlineStyleRanges,
-			text: parsedText.text
-		};
-
-		if (parsedText.entityMap) {
-			context.entityMap = {...(context.entityMap || {}), ...parsedText.entityMap};
-		}
-
-		//TODO: merge the entityMap from parsing the text
-		//with the entityMap in the context
-		return {output, context};
+		return {output: {...output, depth: 0, type: BLOCK_TYPE.UNSTYLED}, newContext};
 	}
 }

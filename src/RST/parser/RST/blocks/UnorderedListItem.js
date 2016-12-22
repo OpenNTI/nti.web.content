@@ -1,6 +1,7 @@
 import {BLOCK_TYPE} from 'draft-js-utils';
 
 import IndentedBlock from './IndentedBlock';
+import Text from './Text';
 
 //Capture list items
 const UNORDERED_LIST_ITEM = /^\s*-\s(.*)/;
@@ -18,32 +19,31 @@ export default class UnorderedListItem extends IndentedBlock {
 		const matches = input.match(UNORDERED_LIST_ITEM);
 		const text = matches[1];
 
-		return {block: new this(input, '-', {text}), context};
+		return {block: new this(input, '-', {text: new Text(text)}), context};
+	}
+
+
+	get text () {
+		return this.parts.text;
 	}
 
 
 	shouldAppendBlock (block) {
-		//TODO: should append the block it ts a paragraph and its offset
-		//the same amount as the text of the list item
-		return block && block.isParagraph;
+		return block && block.isParagraph && this.isSameOffset(block);
 	}
 
 
-	appendBlock (/*block*/) {
-		//TODO: fill this out
+	appendBlock (block) {
+		this.parts.text.append(block.text);
+
+		return {block: this};
 	}
 
 
 	getOutput (context) {
-		const {text} = this.parts;
-		const output = {
-			type: BLOCK_TYPE.UNORDERED_LIST_ITEM,
-			depth: this.depth,
-			text: text,
-			entityRanges: [],
-			inlineStyleRanges: []
-		};
+		const {text} = this;
+		const {output, context:newContext} = text.getOutput(context);
 
-		return {output, context};
+		return {output: {...output, depth: this.depth, type: BLOCK_TYPE.UNORDERED_LIST_ITEM}, newContext};
 	}
 }
