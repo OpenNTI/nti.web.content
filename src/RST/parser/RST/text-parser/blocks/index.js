@@ -6,6 +6,8 @@ import Role from './Role';
 import Literal from './Literal';
 import Hyperlink from './Hyperlink';
 
+//TODO: add an escape
+
 export default [
 	StrongEmphasis,
 	Emphasis,

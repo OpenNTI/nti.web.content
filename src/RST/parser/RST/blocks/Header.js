@@ -53,11 +53,12 @@ export default class Header extends Block {
 		let newBlock;
 		let newContext = {...context};
 
+		//TODO: look into stream
 		//If there is no open block, just mark the header being open
-		if (!currentBlock) {
+		if (!currentBlock || !currentBlock.isParagraph) {
 			newContext.openHeader = char;
 		//If we just parsed a text block, close any open header and return a header block
-		} else if (currentBlock.isParagraph) {
+		} else {
 			delete newContext.openHeader;
 
 			//The text block will be used in the new header block, so consume the text block
@@ -65,10 +66,6 @@ export default class Header extends Block {
 			currentBlock.consume();
 
 			newBlock = new this(input, {level, char, textBlock: currentBlock});
-		//If we have a current block and its not a text block, its not a valid place for
-		//a header
-		} else {
-			throw new Error('Invalid Header Block');
 		}
 
 		return {block: newBlock, context: newContext};

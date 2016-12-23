@@ -144,7 +144,7 @@ export default class Parser {
 		const {block:nextBlock, context:nextContext, length} = blockClass.parse(inputInterface, context, currentBlock);
 		let parsed;
 
-		if (currentBlock && currentBlock.shouldAppendBlock && currentBlock.shouldAppendBlock(nextBlock, nextContext, inputInterface)) {
+		if (currentBlock && nextBlock && currentBlock.shouldAppendBlock && currentBlock.shouldAppendBlock(nextBlock, nextContext, inputInterface)) {
 			parsed = currentBlock.appendBlock(nextBlock, nextContext, inputInterface);
 		} else {
 			parsed = {block:nextBlock, context:nextContext};
