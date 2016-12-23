@@ -23,7 +23,6 @@ export default class Text {
 
 	getOutput (context) {
 		const text = this[TEXT];
-		debugger;
 		const parsed = TextParser.parse(text);
 
 		if (parsed.entityMap) {
