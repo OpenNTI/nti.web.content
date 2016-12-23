@@ -16,7 +16,7 @@ describe('RST Parser Utils', () => {
 				const indention = getIndention(test);
 
 				expect(indention.blockOffset).toEqual(3);
-				expect(indention.lineOffset).toEqual(3);
+				expect(indention.lineOffset).toEqual(6);
 			});
 
 			it('Mixed tabs and spaces, no extra space', () => {
@@ -24,7 +24,7 @@ describe('RST Parser Utils', () => {
 				const indention = getIndention(test);
 
 				expect(indention.blockOffset).toEqual(3);
-				expect(indention.lineOffset).toEqual(3);
+				expect(indention.lineOffset).toEqual(4);
 			});
 
 			it('Tabs Only, with extra space', () => {
@@ -40,7 +40,7 @@ describe('RST Parser Utils', () => {
 				const indention = getIndention(test);
 
 				expect(indention.blockOffset).toEqual(3);
-				expect(indention.lineOffset).toEqual(4);
+				expect(indention.lineOffset).toEqual(7);
 			});
 
 			it('Mixed tabs and spaces, with extra space', () => {
@@ -48,7 +48,7 @@ describe('RST Parser Utils', () => {
 				const indention = getIndention(test);
 
 				expect(indention.blockOffset).toEqual(3);
-				expect(indention.lineOffset).toEqual(4);
+				expect(indention.lineOffset).toEqual(5);
 			});
 		});
 
@@ -66,7 +66,7 @@ describe('RST Parser Utils', () => {
 				const indention = getIndention(test, 'aa');
 
 				expect(indention.blockOffset).toEqual(3);
-				expect(indention.lineOffset).toEqual(5);
+				expect(indention.lineOffset).toEqual(8);
 			});
 
 			it('Mixed tabs and spaces, no extra space', () => {
@@ -74,7 +74,7 @@ describe('RST Parser Utils', () => {
 				const indention = getIndention(test, 'aa');
 
 				expect(indention.blockOffset).toEqual(3);
-				expect(indention.lineOffset).toEqual(5);
+				expect(indention.lineOffset).toEqual(6);
 			});
 
 			it('Tabs Only, with extra space', () => {
@@ -90,7 +90,7 @@ describe('RST Parser Utils', () => {
 				const indention = getIndention(test, 'aa');
 
 				expect(indention.blockOffset).toEqual(3);
-				expect(indention.lineOffset).toEqual(6);
+				expect(indention.lineOffset).toEqual(9);
 			});
 
 			it('Mixed tabs and spaces, with extra space', () => {
@@ -98,7 +98,7 @@ describe('RST Parser Utils', () => {
 				const indention = getIndention(test, 'aa');
 
 				expect(indention.blockOffset).toEqual(3);
-				expect(indention.lineOffset).toEqual(6);
+				expect(indention.lineOffset).toEqual(7);
 			});
 		});
 	});
