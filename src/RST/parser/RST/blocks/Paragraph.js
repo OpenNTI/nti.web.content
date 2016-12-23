@@ -27,7 +27,7 @@ export default class Paragraph extends IndentedBlock {
 		return this.parts.text;
 	}
 
-
+	//TODO: if the next block is not white space, and is indented its a term not a paragraph
 	shouldAppendBlock (block) {
 		return block && block.isParagraph && this.isSameOffset(block);
 	}
@@ -43,7 +43,8 @@ export default class Paragraph extends IndentedBlock {
 	getOutput (context) {
 		const {text} = this;
 		const {output, context:newContext} = text.getOutput(context);
+		const type = this.depth === 0 ? BLOCK_TYPE.UNSTYLED : BLOCK_TYPE.BLOCKQUOTE;
 
-		return {output: {...output, depth: 0, type: BLOCK_TYPE.UNSTYLED}, newContext};
+		return {output: {...output, depth: 0, type}, newContext};
 	}
 }
