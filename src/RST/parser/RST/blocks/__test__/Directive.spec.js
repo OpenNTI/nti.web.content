@@ -6,7 +6,7 @@ import FieldList from '../FieldList';
 import {getInputInterface} from '../../../Parser';
 
 
-fdescribe('Generic Directive', () => {
+describe('Generic Directive', () => {
 	describe('isNextBlock', () => {
 		it('Matches on a directive', () => {
 			const rst = '.. directive:: argument1 argument 2';
