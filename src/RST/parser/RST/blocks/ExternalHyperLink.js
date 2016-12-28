@@ -1,6 +1,6 @@
 import {ENTITY_TYPE} from 'draft-js-utils';
 
-import {getKeyForEntityText} from '../utils';
+import {normalizeEntityName} from '../utils';
 
 const EXTERNAL_TARGET = /^.. _([^:|^_]+):\s?(.*)/;
 
@@ -23,7 +23,7 @@ export default {
 			context.entityMap = {};
 		}
 
-		context.entityMap[getKeyForEntityText(name)] = {
+		context.entityMap[normalizeEntityName(name)] = {
 			type: ENTITY_TYPE.LINK,
 			mutability: 'MUTABLE',
 			data: {

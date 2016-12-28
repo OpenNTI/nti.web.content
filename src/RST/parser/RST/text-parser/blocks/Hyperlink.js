@@ -1,6 +1,6 @@
 import {ENTITY_TYPE} from 'draft-js-utils';
 
-import {getKeyForEntityText} from '../../utils';
+import {normalizeEntityName} from '../../utils';
 import Regex from '../Regex';
 
 import Plaintext from './Plaintext';
@@ -17,7 +17,7 @@ function parseTargetFrom (text) {
 	return {
 		name,
 		href,
-		key: getKeyForEntityText(name)
+		key: normalizeEntityName(name)
 	};
 }
 

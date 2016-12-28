@@ -1,6 +1,8 @@
 const WHITE_SPACE = /\s/;
 const TAB_REGEX = /\t/;
 
+const ALL_WHITE_SPACE = /\s/g;
+
 /**
  * Return the offsets of the start of the block and the start of the text.
  *
@@ -83,6 +85,6 @@ export function getIndention (block, blockIndicator, baseDepth = 0) {
 }
 
 
-export function getKeyForEntityText (text) {
-	return text.replace(WHITE_SPACE, ' ').toLowerCase();
+export function normalizeEntityName (text) {
+	return text.replace(ALL_WHITE_SPACE, ' ').toLowerCase();
 }

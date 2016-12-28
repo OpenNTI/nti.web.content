@@ -1,4 +1,4 @@
-import {getIndention} from '../utils';
+import {getIndention, normalizeEntityName} from '../utils';
 
 describe('RST Parser Utils', () => {
 	describe('getIndention tests', () => {
@@ -100,6 +100,29 @@ describe('RST Parser Utils', () => {
 				expect(indention.blockOffset).toEqual(3);
 				expect(indention.lineOffset).toEqual(7);
 			});
+		});
+	});
+
+	describe('normalizeEntityName tests', () => {
+		it('normalizes whitespace', () => {
+			const base = '		two tabs';
+			const normalized = normalizeEntityName(base);
+
+			expect(normalized).toEqual('  two tabs');
+		});
+
+		it('normalizes case', () => {
+			const base = 'UpPeR AnD LoWeR CaSe';
+			const normalized = normalizeEntityName(base);
+
+			expect(normalized).toEqual('upper and lower case');
+		});
+
+		it('normalizes both', () => {
+			const base = '	UPPER and lower case';
+			const normalized = normalizeEntityName(base);
+
+			expect(normalized).toEqual(' upper and lower case');
 		});
 	});
 });
