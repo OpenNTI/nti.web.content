@@ -41,6 +41,11 @@ export default class Directive extends IndentedBlock {
 	}
 
 
+	get name () {
+		return this.parts.name;
+	}
+
+
 	get options () {
 		return this[OPTIONS];
 	}

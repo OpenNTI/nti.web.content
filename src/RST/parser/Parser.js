@@ -2,7 +2,7 @@ const BLOCK_TYPES = Symbol('Block Types');
 const INPUT_TRANSFORMS = Symbol('Input Transforms');
 const OUTPUT_TRANSFORMS = Symbol('Output Transforms');
 
-function getInputInterface (currentIndex, inputs) {
+export function getInputInterface (currentIndex, inputs) {
 	return {
 		getInput (offset = 0) {
 			const index = currentIndex + offset;
