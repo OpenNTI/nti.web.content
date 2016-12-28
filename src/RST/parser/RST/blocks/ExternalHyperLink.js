@@ -1,23 +1,46 @@
 import {ENTITY_TYPE} from 'draft-js-utils';
 
+import IndentedBlock from './IndentedBlock';
+
 import {normalizeEntityName} from '../utils';
 
 const EXTERNAL_TARGET = /^.. _([^:|^_]+):\s?(.*)/;
 
-export default {
-	isNextBlock (inputInterface) {
-		const input = inputInterface.getInput();
+export default class ExternalHyperLink extends IndentedBlock {
+	static isNextBlock (inputInterface) {
+		const current = inputInterface.getInput();
 
-		return EXTERNAL_TARGET.test(input);
-	},
+		return EXTERNAL_TARGET.test(current);
+	}
 
+	static parse (inputInterface) {
+		const current = inputInterface.getInput();
 
-	parse (inputInterface, context) {
-		const input = inputInterface.getInput();
-
-		const matches = input.match(EXTERNAL_TARGET);
+		const matches = current.match(EXTERNAL_TARGET);
 		const name = matches[1];
 		const target = matches[2];
+
+		return {block: new this(current, '..', {name, target})};
+	}
+
+
+	get name () {
+		return this.parts.name;
+	}
+
+
+	get target () {
+		return this.parts.target;
+	}
+
+
+	shouldAppendBlock (/*block*/) {
+		//TODO: there is a format where the target may be on the next line so check for that case
+	}
+
+
+	getOutput (context) {
+		const {name, target} = this;
 
 		if (!context.entityMap) {
 			context.entityMap = {};
@@ -34,4 +57,4 @@ export default {
 
 		return {context};
 	}
-};
+}
