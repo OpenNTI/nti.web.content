@@ -31,4 +31,9 @@ export default class FieldList extends IndentedBlock {
 	get value () {
 		return this.parts.value;
 	}
+
+	getOutput (context) {
+		//TODO: fill this out
+		return {context};
+	}
 }

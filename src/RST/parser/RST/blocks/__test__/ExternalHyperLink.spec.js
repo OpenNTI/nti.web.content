@@ -4,7 +4,7 @@ import {normalizeEntityName} from '../../utils';
 
 import {getInputInterface} from '../../../Parser';
 
-fdescribe('External HyperLink', () => {
+describe('External HyperLink', () => {
 	describe('isNextBlock', () => {
 		it('Matches ExternalHyperLink', () => {
 			const rst = '.. _link name: http://www.google.com';
