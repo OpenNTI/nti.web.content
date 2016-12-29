@@ -4,8 +4,8 @@ import Block from './Block';
 
 
 //Checks if the line is the same header character repeating
-//TODO: add the other header characters
-const IS_LINE_HEADER_REGEX = /^([\=,\-,\+])\1+$/;
+//= - ` : . ' " ~ ^ _ * + #
+const IS_LINE_HEADER_REGEX = /^([\=,\-,\+,`,:,\.,',",~,\^,_,\*,#])\1+$/;
 
 const LEVEL_TO_TYPE = {
 	1: BLOCK_TYPE.HEADER_ONE,
@@ -24,8 +24,6 @@ export default class Header extends Block {
 	}
 
 	static parse (inputInterface, context, currentBlock) {
-		const input = inputInterface.getInput();
-
 		if (!context.headerLevels) {
 			context.headerLevels = {
 				charToLevel: {},
@@ -33,6 +31,7 @@ export default class Header extends Block {
 			};
 		}
 
+		const input = inputInterface.getInput();
 		const char = input.charAt(0);
 
 		//If we have an open header for a different character, this is
@@ -54,7 +53,7 @@ export default class Header extends Block {
 		let newContext = {...context};
 
 		//TODO: look into stream
-		//If there is no open block, just mark the header being open
+		//If there is no open block or the current block is not a paragraph, just mark the header being open
 		if (!currentBlock || !currentBlock.isParagraph) {
 			newContext.openHeader = char;
 		//If we just parsed a text block, close any open header and return a header block
