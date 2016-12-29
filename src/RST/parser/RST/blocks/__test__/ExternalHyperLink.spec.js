@@ -31,7 +31,7 @@ fdescribe('External HyperLink', () => {
 			expect(block.name).toEqual(name);
 		});
 
-		it('Parses target', () => {
+		it('Parses target with space', () => {
 			const link = 'http://www.google.com';
 			const rst = `.. _external link: ${link}`;
 			const inputInterface = getInputInterface(0, [rst]);
@@ -39,7 +39,41 @@ fdescribe('External HyperLink', () => {
 
 			expect(block.target).toEqual(link);
 		});
+
+		it('Parses target without space', () => {
+			const link = 'http://www.google.com';
+			const rst = `.. _external link:${link}`;
+			const inputInterface = getInputInterface(0, [rst]);
+			const {block} = ExternalHyperLink.parse(inputInterface);
+
+			expect(block.target).toEqual(link);
+		});
 	});
 
-	//TODO: test that it puts the correct entity in the entityMap
+	describe('Instance Tests', () => {
+		const name = 'Test Link Name';
+		const target = 'http://www.google.com';
+		let link;
+
+		beforeEach(() => {
+			const rst = `.. _${name}: ${target}`;
+			const inputInterface = getInputInterface(0, [rst]);
+			const {block} = ExternalHyperLink.parse(inputInterface);
+
+			link = block;
+		});
+
+		it('Adds correct link to the entity map', () => {
+			const context = {};
+
+			link.getOutput(context);
+
+			const entity = context.entityMap[normalizeEntityName(name)];
+
+			expect(entity).toBeTruthy();
+			expect(entity.data).toBeTruthy();
+			expect(entity.data.name).toEqual(name);
+			expect(entity.data.url).toEqual(target);
+		});
+	});
 });
