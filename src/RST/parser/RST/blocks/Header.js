@@ -7,7 +7,7 @@ import Block from './Block';
 //= - ` : . ' " ~ ^ _ * + #
 const IS_LINE_HEADER_REGEX = /^([\=,\-,\+,`,:,\.,',",~,\^,_,\*,#])\1+$/;
 
-const LEVEL_TO_TYPE = {
+export const LEVEL_TO_TYPE = {
 	1: BLOCK_TYPE.HEADER_ONE,
 	2: BLOCK_TYPE.HEADER_TWO,
 	3: BLOCK_TYPE.HEADER_THREE,

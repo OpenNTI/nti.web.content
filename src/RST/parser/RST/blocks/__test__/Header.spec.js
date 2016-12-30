@@ -1,5 +1,6 @@
-import Header from '../Header';
+import Header, {LEVEL_TO_TYPE} from '../Header';
 import Paragraph from '../Paragraph';
+import Text from '../Text';
 
 import {getInputInterface} from '../../../Parser';
 
@@ -96,5 +97,25 @@ fdescribe('Header', () => {
 		});
 	});
 
-	//TODO: test output
+	describe('Instance Tests', () => {
+		it('Returns the correct type for the level', () => {
+			const textBlock = new Paragraph('paragraph', '', {text: new Text('paragraph')});
+
+			for (let i = 0; i <= 6; i++) {
+				let block = new Header('++++', {level: i, char: '+', textBlock});
+				let {output} = block.getOutput({});
+
+				expect(output.type).toEqual(LEVEL_TO_TYPE[i]);
+			}
+		});
+
+		it('Returns the correct text', () => {
+			const text = 'paragraph';
+			const textBlock = new Paragraph(text, '', {text: new Text(text)});
+			const block = new Header('+++', {level: 1, char: '+', textBlock});
+			const {output} = block.getOutput({});
+
+			expect(output.text).toEqual(text);
+		});
+	});
 });
