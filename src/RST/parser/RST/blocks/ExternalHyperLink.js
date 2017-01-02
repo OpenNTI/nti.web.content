@@ -33,6 +33,11 @@ export default class ExternalHyperLink extends IndentedBlock {
 		return this.parts.target;
 	}
 
+	get mutability () {
+		//TODO: look into when this would need to be immutable or segmented
+		return 'MUTABLE';
+	}
+
 
 	shouldAppendBlock (/*block*/) {
 		//TODO: there is a format where the target may be on the next line so check for that case

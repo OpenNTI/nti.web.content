@@ -50,7 +50,7 @@ export default class Target {
 
 	get mutability () {
 		//TODO look at when this would need to be false
-		return true;
+		return 'MUTABLE';
 	}
 
 
