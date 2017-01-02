@@ -20,11 +20,21 @@ export default class Paragraph extends IndentedBlock {
 		return {block: new this(input, '', {text: new Text(text)}), context};
 	}
 
+	constructor (...args) {
+		super(...args);
+
+		this.lineCount = 1;
+	}
+
 
 	isParagraph = true
 
 	get text () {
 		return this.parts.text;
+	}
+
+	get isOneLine () {
+		return this.lineCount === 1;
 	}
 
 	//TODO: if the next block is not white space, and is indented its a term not a paragraph
@@ -34,6 +44,7 @@ export default class Paragraph extends IndentedBlock {
 
 
 	appendBlock (block) {
+		this.lineCount += 1;
 		this.parts.text.append(block.text);
 
 		return {block: this};

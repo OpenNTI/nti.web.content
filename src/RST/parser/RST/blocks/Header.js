@@ -1,6 +1,6 @@
 import {BLOCK_TYPE} from 'draft-js-utils';
 
-import Block from './Block';
+import IndentedBlock from './IndentedBlock';
 
 
 //Checks if the line is the same header character repeating
@@ -16,12 +16,38 @@ export const LEVEL_TO_TYPE = {
 	6: BLOCK_TYPE.HEADER_SIX
 };
 
-export default class Header extends Block {
-	static isNextBlock (inputInterface) {
-		const input = inputInterface.getInput();
+export default class Header extends IndentedBlock {
+	static isValidOverLined (inputInterface, context, currentBlock) {
+		const overline = inputInterface.getInput(0);
+		const text = inputInterface.getInput(1);
+		const underline = inputInterface.getInput(2);
 
-		return IS_LINE_HEADER_REGEX.test(input);
+		//We aren't a valid overlined header unless the line after next is a valid underlined header,
+		//meaning its the same length and char as the overline
+		return (!currentBlock || !currentBlock.isParagraph) &&
+				overline === underline &&
+				text.length === overline.length;
 	}
+
+	static isValidUnderlined (inputInterface, context, currentBlock) {
+		const underline = inputInterface.getInput(0);
+		const text = inputInterface.getInput(-1);
+		const char = underline.charAt(0);
+
+		//If we have an open header we aren't a valid close unless its the same char
+		return currentBlock && currentBlock.isParagraph && currentBlock.isOneLine &&
+				(!context.openHeader || context.openHeader === char) &&
+				text.length === underline.length;
+	}
+
+
+	static isNextBlock (inputInterface, context, currentBlock) {
+		const current = inputInterface.getInput(0);
+
+		return IS_LINE_HEADER_REGEX.test(current) &&
+				(this.isValidOverLined(inputInterface, context, currentBlock) ||	this.isValidUnderlined(inputInterface, context, currentBlock));
+	}
+
 
 	static parse (inputInterface, context, currentBlock) {
 		if (!context.headerLevels) {
@@ -34,12 +60,6 @@ export default class Header extends Block {
 		const input = inputInterface.getInput();
 		const char = input.charAt(0);
 
-		//If we have an open header for a different character, this is
-		//an invalid header input
-		if (context.openHeader && context.openHeader !== char) {
-			throw new Error('Invalid Header Block');
-		}
-
 		//If we haven't seen this character yet, add it to the levels
 		//make sure we don't go beyond 6 levels
 		if (!context.headerLevels.charToLevel[char]) {
@@ -47,14 +67,12 @@ export default class Header extends Block {
 			context.headerLevels.charToLevel[char] = context.headerLevels.currentLevel;
 		}
 
-
 		const level = context.headerLevels.charToLevel[char];
 		let newBlock;
 		let newContext = {...context};
 
-		//TODO: look into stream
 		//If there is no open block or the current block is not a paragraph, just mark the header being open
-		if (!currentBlock || !currentBlock.isParagraph) {
+		if (!currentBlock || currentBlock.isEmpty) {
 			newContext.openHeader = char;
 		//If we just parsed a text block, close any open header and return a header block
 		} else {
@@ -64,7 +82,7 @@ export default class Header extends Block {
 			//to prevent it from being output.
 			currentBlock.consume();
 
-			newBlock = new this(input, {level, char, textBlock: currentBlock});
+			newBlock = new this(input, '', {level, char, textBlock: currentBlock});
 		}
 
 		return {block: newBlock, context: newContext};
