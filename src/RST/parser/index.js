@@ -1,4 +1,4 @@
-import RSTParser from './RST';
+import RSTParser from './rst-to-draft';
 
 
 export function convertRSTToDraftState (rst) {
