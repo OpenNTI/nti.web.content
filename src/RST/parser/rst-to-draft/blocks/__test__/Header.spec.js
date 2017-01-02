@@ -5,15 +5,73 @@ import Text from '../Text';
 import {getInputInterface} from '../../../Parser';
 
 fdescribe('Header', () => {
-	describe('isNextBlock', () => {
-		it('Matches headers', () => {
+	describe('isValidOverlined', () => {
+		it('No currentBlock, and a valid underline', () => {
+			const input = [
+				'===',
+				'asd',
+				'==='
+			];
+			const inputInterface = getInputInterface(0, input);
+
+			expect(Header.isValidOverlined(inputInterface, {}, null)).toBeTruthy();
+		});
+
+		it('No currentBlock, and underline is too short', () => {
+			const input = [
+				'===',
+				'asd',
+				'=='
+			];
+			const inputInterface = getInputInterface(0, input);
+
+			expect(Header.isValidOverlined(inputInterface, {}, null)).toBeFalsy();
+		});
+
+		it('Non-paragraph currentBlock, and the the overline is too short for the text', () => {
+			const input = [
+				'==',
+				'asd',
+				'=='
+			];
+			const inputInterface = getInputInterface(0, input);
+
+			expect(Header.isValidOverlined(inputInterface, {}, {isParagraph: false})).toBeFalsy();
+		});
+	});
+
+
+	describe('isValidUnderline', () => {
+		it('One line paragraph, no open header, right length', () => {
+			const input = [
+				'asd',
+				'==='
+			];
+			const inputInterface = getInputInterface(1, input);
+
+			expect(Header.isValidUnderlined(inputInterface, {}, {isParagraph: true, isOneLine: true})).toBeTruthy();
+		});
+
+		it('Current header with the incorrect char', () => {
+			const input = [
+				'asd',
+				'==='
+			];
+			const inputInterface = getInputInterface(1, input);
+
+			expect(Header.isValidUnderlined(inputInterface, {openHeader: '+'}, {isParagraph: true, isOneLine: true})).toBeFalsy();
+		});
+	});
+
+	describe('isValidHeader', () => {
+		it('Matches Headers', () => {
 			const chars = ['=', '-', '`', ':', '.', '\'', '"', '~', '^', '_', '*', '+', '#'];
 
 			for (let char of chars) {
 				let rst = `${char}${char}${char}`;
 				let inputInterface = getInputInterface(0, [rst]);
 
-				expect(Header.isNextBlock(inputInterface)).toBeTruthy();
+				expect(Header.isValidHeader(inputInterface)).toBeTruthy();
 			}
 		});
 
@@ -26,19 +84,6 @@ fdescribe('Header', () => {
 	});
 
 	describe('parse', () => {
-		it('Hitting a different header character while a header is open throws an error', () => {
-			const rst = '====';
-			const inputInterface = getInputInterface(0, [rst]);
-			const context = {openHeader: '-'};
-
-			try {
-				Header.parse(inputInterface, context);
-				expect('Did not throw error').toEqual('Did throw error');
-			} catch (e) {
-				expect('Did throw error').toEqual('Did throw error');
-			}
-		});
-
 		it('Seeing the same header more than once keeps the same level', () => {
 			const rst = '===';
 			const inputInterface = getInputInterface(0, [rst]);
@@ -102,7 +147,7 @@ fdescribe('Header', () => {
 			const textBlock = new Paragraph('paragraph', '', {text: new Text('paragraph')});
 
 			for (let i = 0; i <= 6; i++) {
-				let block = new Header('++++', {level: i, char: '+', textBlock});
+				let block = new Header('++++', '', {level: i, char: '+', textBlock});
 				let {output} = block.getOutput({});
 
 				expect(output.type).toEqual(LEVEL_TO_TYPE[i]);
@@ -112,7 +157,7 @@ fdescribe('Header', () => {
 		it('Returns the correct text', () => {
 			const text = 'paragraph';
 			const textBlock = new Paragraph(text, '', {text: new Text(text)});
-			const block = new Header('+++', {level: 1, char: '+', textBlock});
+			const block = new Header('+++', '', {level: 1, char: '+', textBlock});
 			const {output} = block.getOutput({});
 
 			expect(output.text).toEqual(text);

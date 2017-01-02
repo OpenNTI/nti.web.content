@@ -17,7 +17,13 @@ export const LEVEL_TO_TYPE = {
 };
 
 export default class Header extends IndentedBlock {
-	static isValidOverLined (inputInterface, context, currentBlock) {
+	static isValidHeader (inputInterface) {
+		const current = inputInterface.getInput(0);
+
+		return IS_LINE_HEADER_REGEX.test(current);
+	}
+
+	static isValidOverlined (inputInterface, context, currentBlock) {
 		const overline = inputInterface.getInput(0);
 		const text = inputInterface.getInput(1);
 		const underline = inputInterface.getInput(2);
@@ -42,10 +48,8 @@ export default class Header extends IndentedBlock {
 
 
 	static isNextBlock (inputInterface, context, currentBlock) {
-		const current = inputInterface.getInput(0);
-
-		return IS_LINE_HEADER_REGEX.test(current) &&
-				(this.isValidOverLined(inputInterface, context, currentBlock) ||	this.isValidUnderlined(inputInterface, context, currentBlock));
+		return this.isValidHeader(inputInterface) &&
+				(this.isValidOverlined(inputInterface, context, currentBlock) || this.isValidUnderlined(inputInterface, context, currentBlock));
 	}
 
 
