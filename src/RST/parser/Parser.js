@@ -150,6 +150,7 @@ export default class Parser {
 			parsed = {block:nextBlock, context:nextContext};
 		}
 
+		//Even if the block is appended, we still need to advance the parser the length of the block we just parsed;
 		parsed.length = length;
 
 		return parsed;

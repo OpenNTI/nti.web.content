@@ -5,10 +5,10 @@ import Interpreted from './Interpreted';
 import Role from './Role';
 import Literal from './Literal';
 import Hyperlink from './Hyperlink';
-
-//TODO: add an escape
+import Escaped from './Escaped';
 
 export default [
+	Escaped,
 	StrongEmphasis,
 	Emphasis,
 	Literal,
