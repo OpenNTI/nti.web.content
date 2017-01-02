@@ -4,7 +4,7 @@ import Text from '../Text';
 
 import {getInputInterface} from '../../../Parser';
 
-fdescribe('Header', () => {
+describe('Header', () => {
 	describe('isValidOverlined', () => {
 		it('No currentBlock, and a valid underline', () => {
 			const input = [

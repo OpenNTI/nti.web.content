@@ -58,6 +58,17 @@ export default class OrderedListItem extends UnorderedListItem {
 		return this.parts.text;
 	}
 
+
+	get listStyle () {
+		return this.parts.listStyle;
+	}
+
+
+	get bullet () {
+		return this.parts.bullet;
+	}
+
+
 	shouldAppendBlock (block) {
 		return block && block.isParagraph && this.isSameOffset(block);
 	}
@@ -71,8 +82,7 @@ export default class OrderedListItem extends UnorderedListItem {
 
 
 	getOutput (context) {
-		const {text} = this;
-		const {listStyle} = this.parts;
+		const {text, listStyle} = this;
 		const {output, context:newContext} = text.getOutput(context);
 
 		return {output: {...output, depth: this.depth, type: BLOCK_TYPE.ORDERED_LIST_ITEM, data: {listStyle}}, newContext};
