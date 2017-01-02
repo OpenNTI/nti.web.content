@@ -83,6 +83,7 @@ export default class Directive extends IndentedBlock {
 
 
 	getOutput () {
-		throw new Error('Unknown Directive');
+		//TODO: warn that there is an unknown directive;
+		return {};
 	}
 }

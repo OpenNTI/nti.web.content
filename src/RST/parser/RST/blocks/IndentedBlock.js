@@ -31,6 +31,13 @@ export default class IndentedBlock extends Block {
 	}
 
 
+	get isIndented () {
+		const {depth} = this;
+
+		return depth > 0;
+	}
+
+
 	isSameDepth (block) {
 		const {depth:myDepth} = this;
 		const {depth:theirDepth} = block;
