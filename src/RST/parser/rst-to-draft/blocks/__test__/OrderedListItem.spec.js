@@ -83,7 +83,7 @@ describe('OrderedListItem', () => {
 
 
 	describe('parse', () => {
-		it('Parses test', () => {
+		it('Parses text', () => {
 			const rst = '1 Ordered List Item';
 			const inputInterface = getInputInterface(0, [rst]);
 			const {block} = OrderedListItem.parse(inputInterface);
