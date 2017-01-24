@@ -4,7 +4,7 @@ import Text from '../Text';
 
 import {getInputInterface} from '../../../Parser';
 
-fdescribe('Unordered List Item', () => {
+describe('Unordered List Item', () => {
 	describe('isNextBlock', () => {
 		it('Matches Unordered List Item depth 0', () => {
 			const test = '- unordered list item';
@@ -60,27 +60,27 @@ fdescribe('Unordered List Item', () => {
 
 	describe('Instance Tests', () => {
 		it('Should append paragraphs that are the same offset', () => {
-			const orderedListItem = new UnorderedListItem('- Unordered List Item', '-');
-			const paragraph = new Paragraph('  Paragraph');
+			const unorderedListItem = new UnorderedListItem('- Unordered List Item', '-');
+			const paragraph = new Paragraph('  Paragraph', '', {text: new Text('  Paragraph')});
 
-			expect(orderedListItem.shouldAppendBlock(paragraph)).toBeTruthy();
+			expect(unorderedListItem.shouldAppendBlock(paragraph)).toBeTruthy();
 		});
 
 
 		it('Does not append paragraphs that are not the same offset', () => {
-			const orderedListItem = new UnorderedListItem('- Unordered List Item', '-');
-			const paragraph = new Paragraph('Paragraph');
+			const unorderedListItem = new UnorderedListItem('- Unordered List Item', '-');
+			const paragraph = new Paragraph('Paragraph', '', {text: new Text('Paragraph')});
 
-			expect(orderedListItem.shouldAppendBlock(paragraph)).toBeFalsy();
+			expect(unorderedListItem.shouldAppendBlock(paragraph)).toBeFalsy();
 		});
 
 		it('Appending text adds it to the previous line', () => {
-			const orderedListItem = new UnorderedListItem('- Unordered', '-', {text: new Text('Unordered')});
-			const paragraph = new Paragraph('  List Item');
+			const unorderedListItem = new UnorderedListItem('- Unordered', '-', {text: new Text('Unordered')});
+			const paragraph = new Paragraph('  List item', '', {text: new Text(' List Item')});
 
-			orderedListItem.appendBlock(paragraph);
+			unorderedListItem.appendBlock(paragraph);
 
-			expect(orderedListItem.parts.text.text).toEqual('Unordered List Item');
+			expect(unorderedListItem.parts.text.text).toEqual('Unordered List Item');
 		});
 	});
 });
