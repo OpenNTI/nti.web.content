@@ -27,12 +27,12 @@ export default class Range {
 										this.matchClose(inputInterface, context, currentBlock);
 
 		const prevInput = prevChar || inputInterface.getInput(-1);
-		const nextInput = nextChar || inputInterface.getInput(length);
+		const nextInput = nextChar || inputInterface.getInput(this.openChars.length);
 
 		const isValidStart = Regex.isValidRangeStart(prevInput, nextInput);
 		const isValidEnd = Regex.isValidRangeEnd(prevInput, nextInput);
 
-		return matches && //the block is either a valid ope or close for this range
+		return matches && //the block is either a valid open or close for this range
 				(maybeOpening || maybeClosing) && //and we are opening or closing this range (not parsing another one)
 				((maybeOpening && isValidStart) || (maybeClosing && isValidEnd)); //and we are a valid start or end to our range
 	}
