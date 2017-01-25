@@ -1,4 +1,5 @@
 import Emphasis from '../Emphasis';
+import Plaintext from '../Plaintext';
 import {getInputInterface} from '../../../../Parser';
 
 fdescribe('Emphasis', () => {
@@ -52,6 +53,33 @@ fdescribe('Emphasis', () => {
 			// expect(context.openRange).toBeFalsy();
 			expect(block.text).toEqual('');
 			expect(length).toEqual(1);
+		});
+	});
+
+	describe('getRanges', () => {
+		it('Has Correct Offset', () => {
+			const block = new Emphasis('e');
+			const {inlineStyleRanges} = block.getRanges({charCount: 30});
+
+			expect(inlineStyleRanges.length).toEqual(1);
+			expect(inlineStyleRanges[0].offset).toEqual(30);
+		});
+
+		it('Has Correct Length', () => {
+			const block = new Emphasis('e');
+
+			block.appendBlock(new Plaintext('m'));
+			block.appendBlock(new Plaintext('p'));
+			block.appendBlock(new Plaintext('h'));
+			block.appendBlock(new Plaintext('a'));
+			block.appendBlock(new Plaintext('s'));
+			block.appendBlock(new Plaintext('i'));
+			block.appendBlock(new Plaintext('s'));
+
+			const {inlineStyleRanges} = block.getRanges({charCount: 0});
+
+			expect(inlineStyleRanges.length).toEqual(1);
+			expect(inlineStyleRanges[0].length).toEqual(8);
 		});
 	});
 });
