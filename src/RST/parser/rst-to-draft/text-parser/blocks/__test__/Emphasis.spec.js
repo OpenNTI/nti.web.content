@@ -2,7 +2,7 @@ import Emphasis from '../Emphasis';
 import Plaintext from '../Plaintext';
 import {getInputInterface} from '../../../../Parser';
 
-fdescribe('Emphasis', () => {
+describe('Emphasis', () => {
 	describe('isNextBlock', () => {
 		it('Opens a Range if there isn\'t an active range', () => {
 			const chars = ['*', 'e', 'm', 'p', 'h', 'a', 's', 'i', 's', '*'];
