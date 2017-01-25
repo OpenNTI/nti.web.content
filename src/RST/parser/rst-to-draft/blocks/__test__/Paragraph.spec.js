@@ -4,7 +4,7 @@ import Paragraph from '../Paragraph';
 
 import {getInputInterface} from '../../../Parser';
 
-fdescribe('Paragraph', () => {
+describe('Paragraph', () => {
 	it('isNextBlock matches everything', () => {
 		const tests = [
 			'paragraph',

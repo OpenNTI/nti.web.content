@@ -128,7 +128,7 @@ describe('OrderedListItem', () => {
 	describe('Instance Tests', () => {
 		it('Should append paragraphs that are the same offset', () => {
 			const orderedListItem = new OrderedListItem('1 Ordered List Item', '1');
-			const paragraph = new Paragraph('  Paragraph');
+			const paragraph = new Paragraph('  Paragraph', '', {text: new Text('Paragraph')});
 
 			expect(orderedListItem.shouldAppendBlock(paragraph)).toBeTruthy();
 		});
@@ -136,14 +136,14 @@ describe('OrderedListItem', () => {
 
 		it('Does not append paragraphs that are not the same offset', () => {
 			const orderedListItem = new OrderedListItem('1 Ordered List Item', '1');
-			const paragraph = new Paragraph('Paragraph');
+			const paragraph = new Paragraph('Paragraph', '', {text: new Text('Paragraph')});
 
 			expect(orderedListItem.shouldAppendBlock(paragraph)).toBeFalsy();
 		});
 
 		it('Appending text adds it to the previous line', () => {
 			const orderedListItem = new OrderedListItem('1 Ordered', '1', {text: new Text('Ordered')});
-			const paragraph = new Paragraph('  List Item');
+			const paragraph = new Paragraph('  List Item', '', {text: new Text('List Item')});
 
 			orderedListItem.appendBlock(paragraph);
 
