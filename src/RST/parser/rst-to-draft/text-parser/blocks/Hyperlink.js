@@ -30,7 +30,7 @@ export default class Target {
 
 		return input === '_' && //Check that its an underscore
 					!context.openRange && //and we aren't parsing a range
-					(currentBlock.isInterpreted || currentBlock.isPlaintext) && //and that the current block is linkable
+					(!currentBlock || (currentBlock.isInterpreted || currentBlock.isPlaintext)) && //and if there is a one the current block is linkable
 					Regex.isValidRangeEnd(prevInput, nextInput); //and that we are a valid end of a range
 	}
 
@@ -51,6 +51,11 @@ export default class Target {
 	get mutability () {
 		//TODO look at when this would need to be false
 		return 'MUTABLE';
+	}
+
+
+	get markerFor () {
+		return this[MARKER_FOR];
 	}
 
 

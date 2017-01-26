@@ -2,7 +2,7 @@ import Escaped from '../Escaped';
 
 import {getInputInterface} from '../../../../Parser';
 
-fdescribe('Escaped', () => {
+describe('Escaped', () => {
 	describe('isNextBlock', () => {
 		it('Is valid for \\', () => {
 			const test = ['\\'];
