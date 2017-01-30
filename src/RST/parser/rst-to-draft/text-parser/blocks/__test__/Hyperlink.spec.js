@@ -2,7 +2,7 @@ import Hyperlink from '../Hyperlink';
 
 import {getInputInterface} from '../../../../Parser';
 
-fdescribe('Hyperlink', () => {
+describe('Hyperlink', () => {
 	describe('isNextBlock', () => {
 		it('Is next block if valid char, no current block, and valid range end', () => {
 			const test = ['_', 'l', 'i', 'n', 'k'];

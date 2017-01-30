@@ -38,6 +38,10 @@ export default class Interpreted extends Range {
 
 	isInterpreted = true
 
+	get roleMarker () {
+		return this[ROLE_MARKER];
+	}
+
 
 	setRoleMarker (role) {
 		this[ROLE_MARKER] = role;
