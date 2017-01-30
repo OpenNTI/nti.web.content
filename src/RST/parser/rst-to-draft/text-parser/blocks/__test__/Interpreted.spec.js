@@ -5,7 +5,7 @@ import {getInputInterface} from '../../../../Parser';
 import Interpreted from '../Interpreted';
 import Plaintext from '../Plaintext';
 
-fdescribe('Interpreted', () => {
+describe('Interpreted', () => {
 	describe('isNextBlock', () => {
 		it('matchOpen is true for `', () => {
 			const test = ['`', 'i', 'n', 't'];
