@@ -2,7 +2,7 @@ import Plaintext from '../Plaintext';
 
 import {getInputInterface} from '../../../../Parser';
 
-fdescribe('Plaintext', () => {
+describe('Plaintext', () => {
 	describe('isNextBlock', () => {
 		it('Is always true', () => {
 			const chars = ['a', '*', '`', '.'];

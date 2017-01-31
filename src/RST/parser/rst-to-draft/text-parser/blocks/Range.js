@@ -6,7 +6,7 @@ const PLAIN_TEXT = Symbol('Text');
 
 
 export default class Range {
-	static rangeName = ''
+	static rangeName = 'range'
 	static openChars = ''
 	static closeChars = ''
 
