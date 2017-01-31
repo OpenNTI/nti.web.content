@@ -4,7 +4,7 @@ import Plaintext from '../Plaintext';
 import {getInputInterface} from '../../../../Parser';
 
 
-fdescribe('Range', () => {
+describe('Range', () => {
 	describe('isNextBlock', () => {
 		it('False if next char is whitespace', () => {
 			const test = ['', ' ', 't', 'e', 's', 't'];
