@@ -17,7 +17,7 @@ export default class Plaintext {
 			block.setRoleMarker(currentBlock);
 		}
 
-		return {block: new this(input), context: {...context, isEscaped: false, openRange: false}};
+		return {block, context: {...context, openRange: false}};
 	}
 
 	isPlaintext = true
@@ -42,6 +42,11 @@ export default class Plaintext {
 
 	get endsInWhitespace () {
 		return /\s$/.test(this.text);
+	}
+
+
+	get roleMarker () {
+		return this[ROLE_MARKER];
 	}
 
 

@@ -5,7 +5,7 @@ import Plaintext from '../Plaintext';
 
 import {getInputInterface} from '../../../../Parser';
 
-fdescribe('Literal', () => {
+describe('Literal', () => {
 	describe('isNextBlock', () => {
 		it('matchOpen is true for ``', () => {
 			const test = ['`', '`', 'l', 'i', 't', 'e', 'r', 'a', 'l'];
