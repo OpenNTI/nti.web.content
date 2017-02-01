@@ -1,6 +1,6 @@
 import Regex from '../Regex';
 
-fdescribe('text-parser Regex', () => {
+describe('text-parser Regex', () => {
 	describe('isWhitespaceChar', () => {
 		it('is true for whitespace', () => {
 			expect(Regex.isWhitespaceChar(' ')).toBeTruthy();

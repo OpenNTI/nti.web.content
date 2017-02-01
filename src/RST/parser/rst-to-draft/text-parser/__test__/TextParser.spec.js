@@ -1,0 +1,102 @@
+import TextParser from '../TextParser';
+
+import {normalizeEntityName} from '../../utils';
+
+describe('TextParser', () => {
+	const test1 = 'no markup in this string';
+	it(test1, () => {
+		const {text, inlineStyleRanges, entityRanges, entityMap} = TextParser.parse(test1);
+
+		expect(text).toEqual(test1);
+		expect(inlineStyleRanges.length).toEqual(0);
+		expect(entityRanges.length).toEqual(0);
+		expect(Object.keys(entityMap).length).toEqual(0);
+	});
+
+	const test2 = '*entire text is emphasis*';
+	it(test2, () => {
+		const {text, inlineStyleRanges, entityRanges, entityMap} = TextParser.parse(test2);
+		const range = inlineStyleRanges[0];
+
+		expect(text).toEqual('entire text is emphasis');
+		expect(entityRanges.length).toEqual(0);
+		expect(Object.keys(entityMap).length).toEqual(0);
+		expect(inlineStyleRanges.length).toEqual(1);
+		expect(range.style).toEqual('ITALIC');
+		expect(range.offset).toEqual(0);
+		expect(range.length).toEqual(23);
+	});
+
+	const test3 = 'last half **is strong emphasis**';
+	it(test3, () => {
+		const {text, inlineStyleRanges, entityRanges, entityMap} = TextParser.parse(test3);
+		const range = inlineStyleRanges[0];
+
+		expect(text).toEqual('last half is strong emphasis');
+		expect(entityRanges.length).toEqual(0);
+		expect(Object.keys(entityMap).length).toEqual(0);
+		expect(inlineStyleRanges.length).toEqual(1);
+		expect(range.style).toEqual('BOLD');
+		expect(range.offset).toEqual(10);
+		expect(range.length).toEqual(18);
+	});
+
+	const test4 = '`entire text is inline-link <http://www.google.com>`_';
+	it(test4, () => {
+		const {text, inlineStyleRanges, entityRanges, entityMap} = TextParser.parse(test4);
+		const range = entityRanges[0];
+		const entity = entityMap[range.key];
+
+		expect(text).toEqual('entire text is inline-link');
+		expect(inlineStyleRanges.length).toEqual(0);
+		expect(entityRanges.length).toEqual(1);
+		expect(range.offset).toEqual(0);
+		expect(range.length).toEqual(26);
+		expect(entity.type).toEqual('LINK');
+		expect(entity.mutability).toEqual('MUTABLE');
+		expect(entity.data.href).toEqual('http://www.google.com');
+		expect(entity.data.name).toEqual(range.key);
+	});
+
+	const test5 = 'text has a named link_';
+	it(test5, () => {
+		const {text, inlineStyleRanges, entityRanges, entityMap} = TextParser.parse(test5);
+		const range = entityRanges[0];
+
+		expect(text).toEqual('text has a named link');
+		expect(inlineStyleRanges.length).toEqual(0);
+		expect(Object.keys(entityMap).length).toEqual(0);
+		expect(entityRanges.length).toEqual(1);
+		expect(range.key).toEqual(normalizeEntityName('link'));
+		expect(range.offset).toEqual(17);
+		expect(range.length).toEqual(4);
+	});
+
+	const test6 = 'emphasis role works :emphasis:`on this`';
+	it(test6, () => {
+		const {text, inlineStyleRanges, entityRanges, entityMap} = TextParser.parse(test6);
+		const range = inlineStyleRanges[0];
+
+		expect(text).toEqual('emphasis role works on this');
+		expect(entityRanges.length).toEqual(0);
+		expect(Object.keys(entityMap).length).toEqual(0);
+		expect(inlineStyleRanges.length).toEqual(1);
+		expect(range.style).toEqual('ITALIC');
+		expect(range.offset).toEqual(20);
+		expect(range.length).toEqual(7);
+	});
+
+	const test7 = '**x*x**';
+	it(test7, () => {
+		const {text, inlineStyleRanges, entityRanges, entityMap} = TextParser.parse(test7);
+		const range = inlineStyleRanges[0];
+
+		expect(text).toEqual('x*x');
+		expect(entityRanges.length).toEqual(0);
+		expect(Object.keys(entityMap).length).toEqual(0);
+		expect(inlineStyleRanges.length).toEqual(1);
+		expect(range.style).toEqual('BOLD');
+		expect(range.offset).toEqual(0);
+		expect(range.length).toEqual(3);
+	});
+});
