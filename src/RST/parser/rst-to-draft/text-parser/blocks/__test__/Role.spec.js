@@ -3,7 +3,7 @@ import Plaintext from '../Plaintext';
 
 import {getInputInterface} from '../../../../Parser';
 
-fdescribe('Role', () => {
+describe('Role', () => {
 	describe('isNextBlock', () => {
 		it('matchOpen is true for :', () => {
 			const test = [':', 'r', 'o', 'l', 'e'];
