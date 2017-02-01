@@ -63,7 +63,7 @@ export default class Role extends Range {
 
 	static afterParse (block, inputInterface, context, currentBlock) {
 		if (currentBlock && currentBlock.isInterpreted) {
-			currentBlock.setRoleMaker(block);
+			currentBlock.setRoleMarker(block);
 			block.setMarkerFor(currentBlock);
 		}
 
@@ -74,6 +74,11 @@ export default class Role extends Range {
 
 	get name () {
 		return this.text;
+	}
+
+
+	get markerFor () {
+		return this[MARKER_FOR];
 	}
 
 

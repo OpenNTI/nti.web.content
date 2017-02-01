@@ -2,7 +2,7 @@ import Emphasis from '../Emphasis';
 import Plaintext from '../Plaintext';
 import {getInputInterface} from '../../../../Parser';
 
-fdescribe('Emphasis', () => {
+describe('Emphasis', () => {
 	describe('isNextBlock', () => {
 		it('matchOpen true for *', () => {
 			const chars = ['*', 'e', 'm', 'p'];
