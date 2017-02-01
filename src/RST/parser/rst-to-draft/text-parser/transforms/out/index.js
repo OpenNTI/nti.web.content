@@ -1,5 +1,5 @@
-import ToDraft from './ToDraft';
+import toDraft from './toDraft';
 
 export default [
-	ToDraft
+	toDraft
 ];
