@@ -47,10 +47,19 @@ export default {
 		return doesNotEndInWhitespace.test(s);
 	},
 
+	isOpen (char) {
+		return open.test(char) || Ps.test(char) || Pi.test(char) || Pf.test(char);
+	},
+
+	isClose (char) {
+		return close.test(char) || Pe.test(char) || Pi.test(char) || Pf.test(char);
+	},
+
+	//http://docutils.sourceforge.net/docs/ref/rst/restructuredtext.html#inline-markup
 	isValidRangeStart (prevChar, nextChar, simple = true) {
 		let valid = nextChar && //If the next character is falsy, we are at the end of the block and can't start a range
 						notWhitespaceChar.test(nextChar) && //If the next character is not white space
-						!(open.test(prevChar) && close.test(nextChar)); //And the range isn't wrapped quotes or parenthesis etc.
+						!(this.isOpen(prevChar) && this.isClose(nextChar)); //And the range isn't wrapped quotes or parenthesis etc.
 
 		if (!simple) {
 			valid = valid &&
@@ -65,7 +74,7 @@ export default {
 		return valid;
 	},
 
-
+	//http://docutils.sourceforge.net/docs/ref/rst/restructuredtext.html#inline-markup
 	isValidRangeEnd (prevChar, nextChar, simple = true) {
 		let valid = notWhitespaceChar.test(prevChar);
 

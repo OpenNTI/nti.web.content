@@ -23,7 +23,7 @@ const FAKE_BLOCKS = [
 	createBlock('block 4', [], [], {entityMap: 'entityMap'})
 ];
 
-fdescribe('text-parser toDraft', () => {
+describe('text-parser toDraft', () => {
 	it('Output is what is expected', () => {
 		const {text, inlineStyleRanges, entityRanges, entityMap} = toDraft({blocks:FAKE_BLOCKS, context: {}});
 
