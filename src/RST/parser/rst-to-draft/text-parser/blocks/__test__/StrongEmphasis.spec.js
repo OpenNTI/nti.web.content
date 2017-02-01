@@ -3,7 +3,7 @@ import Plaintext from '../Plaintext';
 
 import {getInputInterface} from '../../../../Parser';
 
-fdescribe('StrongEmphasis', () => {
+describe('StrongEmphasis', () => {
 	describe('isNextBlock', () => {
 		it('matchOpen is true for **, and has correct nextChar', () => {
 			const test = ['*', '*', 's', 't', 'r', 'o', 'n', 'g'];
