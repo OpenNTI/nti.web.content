@@ -1,5 +1,5 @@
-import Split from './Split';
+import split from './split';
 
 export default [
-	Split
+	split
 ];
