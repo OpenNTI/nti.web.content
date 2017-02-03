@@ -12,7 +12,7 @@ export default function (parsed) {
 		}
 
 		return acc;
-	}, {blocks: [], context});
+	}, {blocks: [], context: {entityMap: context.entityMap || {}}});
 
 	return {blocks: draftState.blocks, entityMap: draftState.context.entityMap || {}};
 }

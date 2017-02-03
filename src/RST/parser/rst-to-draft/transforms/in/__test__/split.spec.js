@@ -1,6 +1,6 @@
 import split from '../Split';
 
-fdescribe('rst-to-draft split', () => {
+describe('rst-to-draft split', () => {
 	it('Splits the input on newline', () => {
 		const input = split('Line 1\nLine 2\nLine 3');
 
