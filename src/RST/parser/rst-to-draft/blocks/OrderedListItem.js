@@ -9,7 +9,8 @@ const ALPHA_NUMERIC = 'alpha-numeric';
 const ROMAN_NUMERAL = 'roman-numeral';
 
 function buildOrderedListItemRegex (itemRegex) {
-	return new RegExp(`^\\s*(\\(?${itemRegex}\\.?\\)?)\\s(.*)`);
+	//^\s*(\(?{itemRegex}(\.|\)))\s*(.*)
+	return new RegExp(`^\\s*(\\(?${itemRegex}(?:\\.|\\)))\\s*(.*)`);
 }
 
 const REGEXS = {
