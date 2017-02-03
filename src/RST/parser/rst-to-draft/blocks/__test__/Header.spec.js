@@ -38,11 +38,33 @@ describe('Header', () => {
 
 			expect(Header.isValidOverlined(inputInterface, {}, {isParagraph: false})).toBeFalsy();
 		});
+
+		it('No currentBlock, and the text is indented with overline and underline 1 character longer', () => {
+			const input = [
+				'=====',
+				' asd',
+				'====='
+			];
+			const inputInterface = getInputInterface(0, input);
+
+			expect(Header.isValidOverlined(inputInterface, {}, null)).toBeTruthy();
+		});
+
+		it('No currentBlock, and the text is indented with overline and underline the same length', () => {
+			const input = [
+				'=====',
+				' asd ' ,
+				'====='
+			];
+			const inputInterface = getInputInterface(0, input);
+
+			expect(Header.isValidOverlined(inputInterface, {}, null)).toBeTruthy();
+		});
 	});
 
 
 	describe('isValidUnderline', () => {
-		it('One line paragraph, no open header, right length', () => {
+		it('One line paragraph, no open header, right length is true', () => {
 			const input = [
 				'asd',
 				'==='
@@ -52,14 +74,34 @@ describe('Header', () => {
 			expect(Header.isValidUnderlined(inputInterface, {}, {isParagraph: true, isOneLine: true})).toBeTruthy();
 		});
 
-		it('Current header with the incorrect char', () => {
+		it('Current header with the incorrect char is false', () => {
 			const input = [
 				'asd',
 				'==='
 			];
 			const inputInterface = getInputInterface(1, input);
 
-			expect(Header.isValidUnderlined(inputInterface, {openHeader: '+'}, {isParagraph: true, isOneLine: true})).toBeFalsy();
+			expect(Header.isValidUnderlined(inputInterface, {openHeader: {char: '+', length: 3}}, {isParagraph: true, isOneLine: true})).toBeFalsy();
+		});
+
+		it('Current header with incorrect length', () => {
+			const input = [
+				'asd',
+				'==='
+			];
+			const inputInterface = getInputInterface(1, input);
+
+			expect(Header.isValidUnderlined(inputInterface, {openHeader: {char: '=', length: 4}}, {isParagraph: true, isOneLine: true})).toBeFalsy();
+		});
+
+		it('Current header is a match, but text length isn\'t is true', () => {
+			const input = [
+				' asd',
+				'====='
+			];
+			const inputInterface = getInputInterface(1, input);
+
+			expect(Header.isValidUnderlined(inputInterface, {openHeader: {char: '=', length: 5}}, {isParagraph: true, isOneLine: true})).toBeTruthy();
 		});
 	});
 

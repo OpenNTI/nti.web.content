@@ -2,6 +2,19 @@ import {BLOCK_TYPE} from 'draft-js-utils';
 
 import IndentedBlock from './IndentedBlock';
 
+function isValidOverlineLength (text, header) {
+	const diff = text.length - header.length;
+	let isValid = diff === 0;
+
+	//If the text starts with a space, the text can be one char
+	//shorter then the overline and underline
+	if (text[0] === ' ') {
+		isValid = isValid || diff === -1;
+	}
+
+	return isValid;
+}
+
 
 //Checks if the line is the same header character repeating
 //= - ` : . ' " ~ ^ _ * + #
@@ -32,7 +45,7 @@ export default class Header extends IndentedBlock {
 		//meaning its the same length and char as the overline
 		return (!currentBlock || !currentBlock.isParagraph) &&
 				overline === underline &&
-				text.length === overline.length;
+				isValidOverlineLength(text, overline);
 	}
 
 	static isValidUnderlined (inputInterface, context, currentBlock) {
@@ -40,10 +53,13 @@ export default class Header extends IndentedBlock {
 		const text = inputInterface.getInput(-1);
 		const char = underline.charAt(0);
 
-		//If we have an open header we aren't a valid close unless its the same char
-		return currentBlock && currentBlock.isParagraph && currentBlock.isOneLine &&
-				(!context.openHeader || context.openHeader === char) &&
-				text.length === underline.length;
+		//If there is an open header and we are the same char and length we match it
+		const matchesOpenHeader = context.openHeader && (context.openHeader.char === char && context.openHeader.length === underline.length);
+		//If there is no open header and we are the same length as the text we match it
+		const matchesText = !context.openHeader && text.length === underline.length;
+
+		return currentBlock && currentBlock.isParagraph && currentBlock.isOneLine &&//if the current block is one line of text
+				(matchesOpenHeader || matchesText);//and we match the open header or the text
 	}
 
 
@@ -77,7 +93,10 @@ export default class Header extends IndentedBlock {
 
 		//If there is no open block or the current block is not a paragraph, just mark the header being open
 		if (!currentBlock || currentBlock.isEmpty) {
-			newContext.openHeader = char;
+			newContext.openHeader = {
+				char,
+				length: input.length
+			};
 		//If we just parsed a text block, close any open header and return a header block
 		} else {
 			delete newContext.openHeader;
