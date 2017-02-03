@@ -19,7 +19,7 @@ const FAKE_BLOCKS = [
 	createBlock(null, {'entity2': 'entity2'})
 ];
 
-fdescribe('rst-to-draft toDraft', () => {
+describe('rst-to-draft toDraft', () => {
 	it('Output is whats expected', () => {
 		const {blocks, entityMap} = toDraft({blocks:FAKE_BLOCKS, context:{}});
 
