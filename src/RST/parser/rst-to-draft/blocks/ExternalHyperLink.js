@@ -56,7 +56,7 @@ export default class ExternalHyperLink extends IndentedBlock {
 			mutability: 'MUTABLE',
 			data: {
 				name: name,
-				url: target
+				href: target
 			}
 		};
 
