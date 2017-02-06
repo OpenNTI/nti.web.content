@@ -94,9 +94,10 @@ export default class Parser {
 	 * @return {Object}       the result of parsing
 	 */
 	parse (input) {
-		const parsedInputs = this.formatInput(input);
+		debugger;
+		const {input:parsedInputs, context:parsedContext} = this.formatInput({input, context: {}});
 
-		let context = {};
+		let context = {...parsedContext};
 		let blocks = [];
 		let currentBlock = null;
 

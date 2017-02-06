@@ -1,3 +1,5 @@
-export default function (input) {
-	return input.split('');
+export default function (inputContext) {
+	const {input, context} = inputContext;
+
+	return {input:input.split(''), context};
 }

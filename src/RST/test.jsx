@@ -1,9 +1,8 @@
 import React from 'react';
 import {ENTITY_TYPE} from 'draft-js-utils';
-import {Editor, EditorState, convertFromRaw, CompositeDecorator, Entity} from 'draft-js';
-import parseDraftState from './XMLFromDraftState';
+import {Editor, EditorState, convertFromRaw, convertToRaw, CompositeDecorator, Entity} from 'draft-js';
 import {TestRST} from './DraftStateFromRST';
-import {convertRSTToDraftState} from './parser';
+import {convertRSTToDraftState, convertDraftStateToRST} from './parser';
 
 function findLinkEntities (contentBlock, callback) {
 	contentBlock.findEntityRanges(
@@ -46,8 +45,6 @@ export default class DraftToXMLText extends React.Component {
 
 		const t = convertRSTToDraftState(TestRST);
 
-		debugger;
-
 		this.state = {
 			editorState: EditorState.createWithContent(convertFromRaw(t), decorator),
 			inputText: TestRST
@@ -82,7 +79,7 @@ export default class DraftToXMLText extends React.Component {
 		const {editorState} = this.state;
 
 		this.setState({
-			outputText: parseDraftState(editorState.getCurrentContent())
+			outputText: convertDraftStateToRST(convertToRaw(editorState.getCurrentContent()))
 		});
 	}
 
