@@ -13,13 +13,14 @@ export default class Paragraph {
 		return {block: new this(input)};
 	}
 
+	followWithBlankLine = true
+
 	constructor (block) {
 		this.block = block;
 	}
 
 
 	getOutput () {
-		debugger;
 		return {output: this.block.text};
 	}
 }

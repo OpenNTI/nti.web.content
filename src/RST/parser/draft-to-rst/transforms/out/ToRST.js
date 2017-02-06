@@ -7,8 +7,14 @@ export default function (parsed) {
 
 		acc.context = newContext || acc.context;
 
-		if (output) {
+		if (Array.isArray(output)) {
+			acc.blocks = acc.blocks.concat(output);
+		} else {
 			acc.blocks.push(output);
+		}
+
+		if (block.followWithBlankLine) {
+			acc.blocks.push('');
 		}
 
 		return acc;
