@@ -94,7 +94,6 @@ export default class Parser {
 	 * @return {Object}       the result of parsing
 	 */
 	parse (input) {
-		debugger;
 		const {input:parsedInputs, context:parsedContext} = this.formatInput({input, context: {}});
 
 		let context = {...parsedContext};
@@ -142,6 +141,12 @@ export default class Parser {
 
 	parseNextBlock (inputInterface, context, currentBlock) {
 		const blockClass = this.getClassForBlock(inputInterface, context, currentBlock);
+
+		if (!blockClass) {
+			//TODO: warn if there is no block class
+			return {};
+		}
+
 		const {block:nextBlock, context:nextContext, length} = blockClass.parse(inputInterface, context, currentBlock);
 		let parsed;
 

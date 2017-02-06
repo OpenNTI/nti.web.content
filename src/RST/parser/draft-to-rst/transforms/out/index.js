@@ -1,1 +1,5 @@
-export default [];
+import ToRST from './ToRST';
+
+export default [
+	ToRST
+];
