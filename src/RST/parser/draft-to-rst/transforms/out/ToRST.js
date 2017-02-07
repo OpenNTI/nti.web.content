@@ -13,7 +13,7 @@ export default function (parsed) {
 			acc.blocks.push(output);
 		}
 
-		if (block.followWithBlankLine) {
+		if (output) {
 			acc.blocks.push('');
 		}
 

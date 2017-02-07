@@ -1,5 +1,7 @@
 import {BLOCK_TYPE} from 'draft-js-utils';
 
+const BLOCK = Symbol('Block');
+
 export const TYPE_TO_LEVEL = {
 	[BLOCK_TYPE.HEADER_ONE]: 1,
 	[BLOCK_TYPE.HEADER_TWO]: 2,
@@ -47,15 +49,15 @@ export default class Header {
 	followWithBlankLine = true
 
 	constructor (block) {
-		this.block = block;
+		this[BLOCK] = block;
 	}
 
 	get text () {
-		return this.block.text;
+		return this[BLOCK].text;
 	}
 
 	get depth () {
-		return TYPE_TO_LEVEL[this.block.type];
+		return TYPE_TO_LEVEL[this[BLOCK].type];
 	}
 
 	get isTitle () {

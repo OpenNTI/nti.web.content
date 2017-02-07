@@ -1,5 +1,7 @@
 import {BLOCK_TYPE} from 'draft-js-utils';
 
+const BLOCK = Symbol('Block');
+
 export default class Paragraph {
 	static isNextBlock (inputInterface) {
 		const input = inputInterface.getInput(0);
@@ -16,11 +18,11 @@ export default class Paragraph {
 	followWithBlankLine = true
 
 	constructor (block) {
-		this.block = block;
+		this[BLOCK] = block;
 	}
 
 
 	getOutput () {
-		return {output: this.block.text};
+		return {output: this[BLOCK].text};
 	}
 }
