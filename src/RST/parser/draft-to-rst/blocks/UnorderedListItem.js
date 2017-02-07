@@ -48,7 +48,8 @@ export default class UnorderedListItem {
 		let currentDepth = 0;
 
 		for (let block of blocks) {
-			let {depth} = block;
+			let {text, depth} = block;
+			let indent = getIndentForDepth(depth);
 
 			if (depth !== currentDepth) {
 				output.push('');
@@ -56,18 +57,9 @@ export default class UnorderedListItem {
 
 			currentDepth = depth;
 
-			output.push(this.getOutputForBlock(block));
+			output.push(`${indent}- ${text}`);
 		}
 
 		return {output};
 	}
-
-
-	getOutputForBlock (block) {
-		const {text, depth} = block;
-		const indent = getIndentForDepth(depth);
-
-		return `${indent}- ${text}`;
-	}
-
 }
