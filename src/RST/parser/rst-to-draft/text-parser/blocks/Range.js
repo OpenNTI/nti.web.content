@@ -18,16 +18,16 @@ export default class Range {
 		return this.matchOpen(...args); //By default assume the ranges are symmetrical
 	}
 
-	static isNextBlock (inputInterface, context, currentBlock) {
+	static isNextBlock (inputInterface, context, parsedInterface) {
 		const maybeOpening = !context.openRange;
 		const maybeClosing = context.openRange === this.rangeName;
 
 		const  {matches, nextChar, prevChar} = maybeOpening ?
-										this.matchOpen(inputInterface, context, currentBlock) :
-										this.matchClose(inputInterface, context, currentBlock);
+										this.matchOpen(inputInterface, context, parsedInterface) :
+										this.matchClose(inputInterface, context, parsedInterface);
 
-		const prevInput = prevChar || inputInterface.getInput(-1);
-		const nextInput = nextChar || inputInterface.getInput(this.openChars.length);
+		const prevInput = prevChar || inputInterface.get(-1);
+		const nextInput = nextChar || inputInterface.get(this.openChars.length);
 
 		const isValidStart = Regex.isValidRangeStart(prevInput, nextInput);
 		const isValidEnd = Regex.isValidRangeEnd(prevInput, nextInput);
@@ -38,25 +38,25 @@ export default class Range {
 	}
 
 
-	static parse (inputInterface, context, currentBlock) {
+	static parse (inputInterface, context, parsedInterface) {
 		const openedRange = !context.openRange;
 		const length = openedRange ? this.openChars.length : this.closeChars.length;
 		const newContext = {...context, isEscaped: false, openRange: this.rangeName};
 
 		//Ranges have to have at least one character between the start and end
 		//so go ahead and consume it here.
-		const char = inputInterface.getInput(length);
+		const char = inputInterface.get(length);
 		const block = new this(openedRange && char);
 
 		return {
-			block: this.afterParse(block, inputInterface, context, currentBlock),
+			block: this.afterParse(block, inputInterface, context, parsedInterface),
 			context: newContext,
 			length: openedRange ? length + 1 : length
 		};
 	}
 
 
-	static afterParse (block/*, inputInterface, context, currentBlock*/) {
+	static afterParse (block/*, inputInterface, context, parsedInterface*/) {
 		return block;
 	}
 

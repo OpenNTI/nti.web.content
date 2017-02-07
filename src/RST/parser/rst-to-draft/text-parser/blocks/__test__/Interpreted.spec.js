@@ -1,6 +1,6 @@
 import {INLINE_STYLE} from 'draft-js-utils';
 
-import {getInputInterface} from '../../../../Parser';
+import {getInterface} from '../../../../Parser';
 
 import Interpreted from '../Interpreted';
 import Plaintext from '../Plaintext';
@@ -9,7 +9,7 @@ describe('Interpreted', () => {
 	describe('isNextBlock', () => {
 		it('matchOpen is true for `', () => {
 			const test = ['`', 'i', 'n', 't'];
-			const inputInterface = getInputInterface(0, test);
+			const inputInterface = getInterface(0, test);
 			const {matches} = Interpreted.matchOpen(inputInterface);
 
 			expect(matches).toBeTruthy();
@@ -17,7 +17,7 @@ describe('Interpreted', () => {
 
 		it('matchOpen is not true for ``', () => {
 			const test = ['`', '`', 'l', 'i', 't'];
-			const inputInterface = getInputInterface(0, test);
+			const inputInterface = getInterface(0, test);
 			const {matches} = Interpreted.matchOpen(inputInterface);
 
 			expect(matches).toBeFalsy();
@@ -25,7 +25,7 @@ describe('Interpreted', () => {
 
 		it('matchOpen is not true for not `', () => {
 			const test = ['n', 'o', 't'];
-			const inputInterface = getInputInterface(0, test);
+			const inputInterface = getInterface(0, test);
 			const {matches} = Interpreted.matchOpen(inputInterface);
 
 			expect(matches).toBeFalsy();
@@ -33,7 +33,7 @@ describe('Interpreted', () => {
 
 		it('matchClose is true for `', () => {
 			const test = ['`', 'a', 'f', 't', 'e', 'r'];
-			const inputInterface = getInputInterface(0, test);
+			const inputInterface = getInterface(0, test);
 			const {matches, nextChar} = Interpreted.matchClose(inputInterface);
 
 			expect(matches).toBeTruthy();
@@ -42,7 +42,7 @@ describe('Interpreted', () => {
 
 		it('matchClose is false for ``', () => {
 			const test = ['`', '`', 'a', 'f', 't', 'e', 'r'];
-			const inputInterface = getInputInterface(0, test);
+			const inputInterface = getInterface(0, test);
 			const {matches} = Interpreted.matchClose(inputInterface);
 
 			expect(matches).toBeFalsy();
@@ -50,7 +50,7 @@ describe('Interpreted', () => {
 
 		it('matchClose consumes following _', () => {
 			const test = ['`', '_', 'a', 'f', 't', 'e', 'r'];
-			const inputInterface = getInputInterface(0, test);
+			const inputInterface = getInterface(0, test);
 			const {matches, nextChar} = Interpreted.matchClose(inputInterface);
 
 			expect(matches).toBeTruthy();
@@ -72,9 +72,10 @@ describe('Interpreted', () => {
 
 		it('Calls setMarker if currentBlock is role', () => {
 			const test = ['`'];
-			const inputInterface = getInputInterface(0, test);
 			const currentBlock = buildBlock('isRole');
-			const {block} = Interpreted.parse(inputInterface, {}, currentBlock);
+			const inputInterface = getInterface(0, test);
+			const parsedInterface = getInterface(0, [currentBlock]);
+			const {block} = Interpreted.parse(inputInterface, {}, parsedInterface);
 
 			expect(currentBlock.setMarkerFor).toHaveBeenCalledWith(block);
 			expect(block.roleMarker).toEqual(currentBlock);
@@ -82,9 +83,10 @@ describe('Interpreted', () => {
 
 		it('Calls setMarker if currentBlock is target', () => {
 			const test = ['`'];
-			const inputInterface = getInputInterface(0, test);
 			const currentBlock = buildBlock('isTarget');
-			const {block} = Interpreted.parse(inputInterface, {}, currentBlock);
+			const inputInterface = getInterface(0, test);
+			const parsedInterface = getInterface(0, [currentBlock]);
+			const {block} = Interpreted.parse(inputInterface, {}, parsedInterface);
 
 			expect(currentBlock.setMarkerFor).toHaveBeenCalledWith(block);
 			expect(block.roleMarker).toEqual(currentBlock);
@@ -105,10 +107,11 @@ describe('Interpreted', () => {
 
 		it('If it has a marker, its getOutputForInterpreted', () => {
 			const test = ['`'];
-			const inputInterface = getInputInterface(0, test);
+			const inputInterface = getInterface(0, test);
+			const parsedInterface = getInterface(0, []);
 			const marker = buildMarker();
 			const context = {};
-			const {block} = Interpreted.parse(inputInterface, context);
+			const {block} = Interpreted.parse(inputInterface, context, parsedInterface);
 
 			block.setRoleMarker(marker);
 			block.getOutput(context);
@@ -118,10 +121,11 @@ describe('Interpreted', () => {
 
 		it('If it has a marker, and output if forced', () => {
 			const test = ['`'];
-			const inputInterface = getInputInterface(0, test);
+			const inputInterface = getInterface(0, test);
+			const parsedInterface = getInterface(0, []);
 			const marker = buildMarker();
 			const context = {};
-			const {block} = Interpreted.parse(inputInterface, context);
+			const {block} = Interpreted.parse(inputInterface, context, parsedInterface);
 
 			block.setRoleMarker(marker);
 			block.getOutput(context, true);
@@ -131,8 +135,9 @@ describe('Interpreted', () => {
 
 		it('Without marker code range output is returned', () => {
 			const test = ['`'];
-			const inputInterface = getInputInterface(0, test);
-			const {block} = Interpreted.parse(inputInterface, {});
+			const inputInterface = getInterface(0, test);
+			const parsedInterface = getInterface(0, []);
+			const {block} = Interpreted.parse(inputInterface, {}, parsedInterface);
 
 			block.appendBlock(new Plaintext('i'));
 			block.appendBlock(new Plaintext('n'));

@@ -2,7 +2,7 @@ const WHITE_SPACE_ONLY = /^\s+$/;
 
 export default class Empty  {
 	static isNextBlock (inputInterface) {
-		const input = inputInterface.getInput();
+		const input = inputInterface.get(0);
 
 		return WHITE_SPACE_ONLY.test(input) || !input;
 	}

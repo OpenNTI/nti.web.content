@@ -23,10 +23,11 @@ function parseTargetFrom (text) {
 
 
 export default class Target {
-	static isNextBlock (inputInterface, context, currentBlock) {
-		const input = inputInterface.getInput(0);
-		const prevInput = inputInterface.getInput(-1);
-		const nextInput = inputInterface.getInput(1);
+	static isNextBlock (inputInterface, context, parsedInterface) {
+		const currentBlock = parsedInterface.get(0);
+		const input = inputInterface.get(0);
+		const prevInput = inputInterface.get(-1);
+		const nextInput = inputInterface.get(1);
 
 		return input === '_' && //Check that its an underscore
 					!context.openRange && //and we aren't parsing a range
@@ -34,7 +35,8 @@ export default class Target {
 					Regex.isValidRangeEnd(prevInput, nextInput); //and that we are a valid end of a range
 	}
 
-	static parse (inputInterface, context, currentBlock) {
+	static parse (inputInterface, context, parsedInterface) {
+		const currentBlock = parsedInterface.get(0);
 		const block = new this();
 
 		if (currentBlock && (currentBlock.isInterpreted || currentBlock.isPlaintext)) {

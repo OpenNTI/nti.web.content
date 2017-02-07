@@ -8,14 +8,14 @@ const UNORDERED_LIST_ITEM = /^\s*-\s(.*)/;
 
 export default class UnorderedListItem extends IndentedBlock {
 	static isNextBlock (inputInterface) {
-		const input = inputInterface.getInput();
+		const input = inputInterface.get();
 
 		return UNORDERED_LIST_ITEM.test(input);
 	}
 
 
 	static parse (inputInterface, context) {
-		const input = inputInterface.getInput();
+		const input = inputInterface.get();
 		const matches = input.match(UNORDERED_LIST_ITEM);
 		const text = matches[1];
 

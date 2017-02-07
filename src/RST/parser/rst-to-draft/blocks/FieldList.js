@@ -5,13 +5,13 @@ const FIELDLIST = /^\s*:(.*):\s*(.*)/;
 
 export default class FieldList extends IndentedBlock {
 	static isNextBlock (inputInterface) {
-		const current = inputInterface.getInput(0);
+		const current = inputInterface.get(0);
 
 		return FIELDLIST.test(current);
 	}
 
 	static parse (inputInterface) {
-		const current = inputInterface.getInput(0);
+		const current = inputInterface.get(0);
 		const matches = current.match(FIELDLIST);
 		const name = matches[1];
 		const value = matches[2];

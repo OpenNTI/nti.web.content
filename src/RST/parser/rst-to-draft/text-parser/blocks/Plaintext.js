@@ -8,8 +8,9 @@ export default class Plaintext {
 		return true;
 	}
 
-	static parse (inputInterface, context, currentBlock) {
-		const input = inputInterface.getInput();
+	static parse (inputInterface, context, parsedInterface) {
+		const currentBlock = parsedInterface.get();
+		const input = inputInterface.get();
 		const block = new this(input);
 
 		if (currentBlock && currentBlock.isTarget && !block.isWhitespace) {

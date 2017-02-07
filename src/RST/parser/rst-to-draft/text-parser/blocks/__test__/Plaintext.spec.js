@@ -1,6 +1,6 @@
 import Plaintext from '../Plaintext';
 
-import {getInputInterface} from '../../../../Parser';
+import {getInterface} from '../../../../Parser';
 
 describe('Plaintext', () => {
 	describe('isNextBlock', () => {
@@ -8,7 +8,7 @@ describe('Plaintext', () => {
 			const chars = ['a', '*', '`', '.'];
 
 			for (let char of chars) {
-				let inputInterface = getInputInterface(0, [char]);
+				let inputInterface = getInterface(0, [char]);
 
 				expect(Plaintext.isNextBlock(inputInterface)).toBeTruthy();
 			}
@@ -29,17 +29,19 @@ describe('Plaintext', () => {
 
 		it('If no currentBlock returns new Plaintext', () => {
 			const test = ['p', 'l', 'a', 'i', 'n'];
-			const inputInterface = getInputInterface(0, test);
-			const {block} = Plaintext.parse(inputInterface, {}, null);
+			const inputInterface = getInterface(0, test);
+			const parsedInterface = getInterface(0, []);
+			const {block} = Plaintext.parse(inputInterface, {}, parsedInterface);
 
 			expect(block.isPlaintext).toBeTruthy();
 		});
 
 		it('If currentBlock is target, and input is not whitespace, the currentBlock is a role marker', () => {
 			const test = ['p', 'l', 'a', 'i', 'n'];
-			const inputInterface = getInputInterface(0, test);
 			const currentBlock = buildBlock('isTarget');
-			const {block} = Plaintext.parse(inputInterface, {}, currentBlock);
+			const inputInterface = getInterface(0, test);
+			const parsedInterface = getInterface(0, [currentBlock]);
+			const {block} = Plaintext.parse(inputInterface, {}, parsedInterface);
 
 			expect(block.isPlaintext).toBeTruthy();
 			expect(currentBlock.setMarkerFor).toHaveBeenCalledWith(block);
@@ -48,9 +50,10 @@ describe('Plaintext', () => {
 
 		it('If the currentBlock is a target, and the input is whitespace, the currentBlock is not a role marker', () => {
 			const test = [' ', 'p', 'l', 'a', 'i', 'n'];
-			const inputInterface = getInputInterface(0, test);
 			const currentBlock = buildBlock('isTarget');
-			const {block} = Plaintext.parse(inputInterface, {}, currentBlock);
+			const inputInterface = getInterface(0, test);
+			const parsedInterface = getInterface(0, [currentBlock]);
+			const {block} = Plaintext.parse(inputInterface, {}, parsedInterface);
 
 			expect(block.isPlaintext).toBeTruthy();
 			expect(currentBlock.setMarkerFor).not.toHaveBeenCalled();

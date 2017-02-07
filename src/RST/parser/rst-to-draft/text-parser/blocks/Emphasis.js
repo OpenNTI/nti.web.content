@@ -18,8 +18,8 @@ export default class Emphasis extends Range {
 	static closeChars = '*'
 
 	static matchOpen (inputInterface) {
-		const input = inputInterface.getInput(0);
-		const nextInput = inputInterface.getInput(1);
+		const input = inputInterface.get(0);
+		const nextInput = inputInterface.get(1);
 
 		return {matches: input === '*' && nextInput !== '*'};
 	}

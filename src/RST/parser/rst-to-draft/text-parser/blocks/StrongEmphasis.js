@@ -9,10 +9,10 @@ export default class StrongEmphasis extends Range {
 	static closeChars = '**'
 
 	static matchOpen (inputInterface) {
-		const input = inputInterface.getInput(0);
-		const nextInput = inputInterface.getInput(1);
+		const input = inputInterface.get(0);
+		const nextInput = inputInterface.get(1);
 
-		return {matches: input === '*' && nextInput === '*', nextChar: inputInterface.getInput(2)};
+		return {matches: input === '*' && nextInput === '*', nextChar: inputInterface.get(2)};
 	}
 
 

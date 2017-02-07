@@ -1,12 +1,12 @@
 import Emphasis from '../Emphasis';
 import Plaintext from '../Plaintext';
-import {getInputInterface} from '../../../../Parser';
+import {getInterface} from '../../../../Parser';
 
 describe('Emphasis', () => {
 	describe('isNextBlock', () => {
 		it('matchOpen true for *', () => {
 			const chars = ['*', 'e', 'm', 'p'];
-			const inputInterface = getInputInterface(0, chars);
+			const inputInterface = getInterface(0, chars);
 			const {matches} = Emphasis.matchOpen(inputInterface);
 
 			expect(matches).toBeTruthy();
@@ -14,7 +14,7 @@ describe('Emphasis', () => {
 
 		it('matchOpen false for **', () => {
 			const chars = ['*', '*', 'e', 'm', 'p'];
-			const inputInterface = getInputInterface(0, chars);
+			const inputInterface = getInterface(0, chars);
 			const {matches} = Emphasis.matchOpen(inputInterface);
 
 			expect(matches).toBeFalsy();
@@ -22,7 +22,7 @@ describe('Emphasis', () => {
 
 		it('matchClose true for *', () => {
 			const chars = ['*', 'e', 'm', 'p'];
-			const inputInterface = getInputInterface(0, chars);
+			const inputInterface = getInterface(0, chars);
 			const {matches} = Emphasis.matchClose(inputInterface);
 
 			expect(matches).toBeTruthy();
@@ -30,7 +30,7 @@ describe('Emphasis', () => {
 
 		it('matchClose false for **', () => {
 			const chars = ['*', '*', 'e', 'm', 'p'];
-			const inputInterface = getInputInterface(0, chars);
+			const inputInterface = getInterface(0, chars);
 			const {matches} = Emphasis.matchClose(inputInterface);
 
 			expect(matches).toBeFalsy();
@@ -40,7 +40,7 @@ describe('Emphasis', () => {
 	describe('Parse', () => {
 		it('Opening Range consumes 2 characters and opens a range', () => {
 			const chars = ['*', 'e', 'm', 'p'];
-			const inputInterface = getInputInterface(0, chars);
+			const inputInterface = getInterface(0, chars);
 			const {block, context, length} = Emphasis.parse(inputInterface, {});
 
 			expect(context.openRange).toEqual(Emphasis.rangeName);
@@ -50,7 +50,7 @@ describe('Emphasis', () => {
 
 		it('Closing Range consumes 1 character and closes the range', () => {
 			const chars = ['*', ' ', 'n', 'o', 't'];
-			const inputInterface = getInputInterface(0, chars);
+			const inputInterface = getInterface(0, chars);
 			const {block, length} = Emphasis.parse(inputInterface, {openRange: Emphasis.rangeName});
 
 			//The open range is cleared out when this block is appended

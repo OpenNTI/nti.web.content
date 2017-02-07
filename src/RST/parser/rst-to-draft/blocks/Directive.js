@@ -12,14 +12,14 @@ const GENERIC_DIRECTIVE = buildDirectiveRegex('.*');
 
 export default class Directive extends IndentedBlock {
 	static isNextBlock (inputInterface) {
-		const current = inputInterface.getInput(0);
+		const current = inputInterface.get(0);
 
 		return GENERIC_DIRECTIVE.test(current);
 	}
 
 
 	static parse (inputInterface) {
-		const current = inputInterface.getInput(0);
+		const current = inputInterface.get(0);
 		const matches = current.match(GENERIC_DIRECTIVE);
 		const name = matches[1];
 		const args = matches[2];

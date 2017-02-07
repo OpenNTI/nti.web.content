@@ -2,7 +2,7 @@ import {BLOCK_TYPE} from 'draft-js-utils';
 
 import Paragraph from '../Paragraph';
 
-import {getInputInterface} from '../../../Parser';
+import {getInterface} from '../../../Parser';
 
 describe('Paragraph', () => {
 	it('isNextBlock matches everything', () => {
@@ -13,7 +13,7 @@ describe('Paragraph', () => {
 		];
 
 		for (let test of tests) {
-			let inputInterface = getInputInterface(0, [test]);
+			let inputInterface = getInterface(0, [test]);
 
 			expect(Paragraph.isNextBlock(inputInterface)).toBeTruthy();
 		}
@@ -21,7 +21,7 @@ describe('Paragraph', () => {
 
 	it('parses ignore leading spaces (that just makes it a block quote)', () => {
 		const text = ' paragraph';
-		const inputInterface = getInputInterface(0, [text]);
+		const inputInterface = getInterface(0, [text]);
 		const {block} = Paragraph.parse(inputInterface);
 
 		expect(block.text.text).toEqual('paragraph');
@@ -30,7 +30,7 @@ describe('Paragraph', () => {
 	describe('Instance', () => {
 		it('Indented paragraphs are output as block quotes', () => {
 			const text = '  paragraph';
-			const inputInterface = getInputInterface(0, [text]);
+			const inputInterface = getInterface(0, [text]);
 			const {block} = Paragraph.parse(inputInterface);
 			const {output} = block.getOutput({});
 

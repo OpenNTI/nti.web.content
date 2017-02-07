@@ -2,27 +2,27 @@ import UnorderedListItem from '../UnorderedListItem';
 import Paragraph from '../Paragraph';
 import Text from '../Text';
 
-import {getInputInterface} from '../../../Parser';
+import {getInterface} from '../../../Parser';
 
 describe('Unordered List Item', () => {
 	describe('isNextBlock', () => {
 		it('Matches Unordered List Item depth 0', () => {
 			const test = '- unordered list item';
-			const inputInterface = getInputInterface(0, [test]);
+			const inputInterface = getInterface(0, [test]);
 
 			expect(UnorderedListItem.isNextBlock(inputInterface)).toBeTruthy();
 		});
 
 		it('Matches Unordered List Item depth 1', () => {
 			const test = '	- nested unordered list item';
-			const inputInterface = getInputInterface(0, [test]);
+			const inputInterface = getInterface(0, [test]);
 
 			expect(UnorderedListItem.isNextBlock(inputInterface)).toBeTruthy();
 		});
 
 		it('Does not match non unordered list item', () => {
 			const test = 'not an unordered list item';
-			const inputInterface = getInputInterface(0, [test]);
+			const inputInterface = getInterface(0, [test]);
 
 			expect(UnorderedListItem.isNextBlock(inputInterface)).toBeFalsy();
 		});
@@ -31,7 +31,7 @@ describe('Unordered List Item', () => {
 	describe('Parsing', () => {
 		it('Parses Test', () => {
 			const test = 'unordered list item';
-			const inputInterface = getInputInterface(0, [`- ${test}`]);
+			const inputInterface = getInterface(0, [`- ${test}`]);
 			const {block} = UnorderedListItem.parse(inputInterface);
 
 			expect(block.text.text).toEqual(test);
@@ -50,7 +50,7 @@ describe('Unordered List Item', () => {
 
 			for (let i = 0; i < tests.length; i++) {
 				let test = tests[i];
-				let inputInterface = getInputInterface(0, [test]);
+				let inputInterface = getInterface(0, [test]);
 				let {block} = UnorderedListItem.parse(inputInterface);
 
 				expect(block.depth).toEqual(i);

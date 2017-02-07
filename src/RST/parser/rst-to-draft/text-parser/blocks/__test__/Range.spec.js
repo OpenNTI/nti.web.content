@@ -1,35 +1,35 @@
 import Range from '../Range';
 import Plaintext from '../Plaintext';
 
-import {getInputInterface} from '../../../../Parser';
+import {getInterface} from '../../../../Parser';
 
 
 describe('Range', () => {
 	describe('isNextBlock', () => {
 		it('False if next char is whitespace', () => {
 			const test = ['', ' ', 't', 'e', 's', 't'];
-			const inputInterface = getInputInterface(0, test);
+			const inputInterface = getInterface(0, test);
 
 			expect(Range.isNextBlock(inputInterface, {})).toBeFalsy();
 		});
 
 		it('False if wrapped in parenthesis', () => {
 			const test = ['(', '', ')', 't', 'e', 's', 't'];
-			const inputInterface = getInputInterface(1, test);
+			const inputInterface = getInterface(1, test);
 
 			expect(Range.isNextBlock(inputInterface, {})).toBeFalsy();
 		});
 
 		it('False if parsing another range', () => {
 			const test = ['', 't', 'e', 's', 't'];
-			const inputInterface = getInputInterface(0, test);
+			const inputInterface = getInterface(0, test);
 
 			expect(Range.isNextBlock(inputInterface, {openRange: 'other'})).toBeFalsy();
 		});
 
 		it('False if range is open and invalid close', () => {
 			const test = [' ', ''];
-			const inputInterface = getInputInterface(1, test);
+			const inputInterface = getInterface(1, test);
 
 			expect(Range.isNextBlock(inputInterface, {openRange: Range.rangeName})).toBeFalsy();
 		});
@@ -38,7 +38,7 @@ describe('Range', () => {
 			Range.openChar = '*';//Set this so it nextChar works correctly
 
 			const test = ['*', 't', 'e', 's', 't'];
-			const inputInterface = getInputInterface(0, test);
+			const inputInterface = getInterface(0, test);
 
 			expect(Range.isNextBlock(inputInterface, {})).toBeTruthy();
 
@@ -47,7 +47,7 @@ describe('Range', () => {
 
 		it('True is range is open and valid close', () => {
 			const test = ['t', 'e', 's', 't', ''];
-			const inputInterface = getInputInterface(4, test);
+			const inputInterface = getInterface(4, test);
 
 			expect(Range.isNextBlock(inputInterface, {openRange: Range.rangeName})).toBeTruthy();
 		});

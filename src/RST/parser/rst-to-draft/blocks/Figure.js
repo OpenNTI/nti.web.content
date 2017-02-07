@@ -6,7 +6,7 @@ const FIGURE = buildDirectiveRegex('figure');
 
 export default class Figure extends Directive {
 	static isNextBlock (inputInterface) {
-		const current = inputInterface.getInput(0);
+		const current = inputInterface.get(0);
 
 		return FIGURE.test(current);
 	}

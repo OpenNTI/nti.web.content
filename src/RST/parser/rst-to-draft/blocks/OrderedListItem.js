@@ -36,7 +36,7 @@ function parseBlock (block) {
 
 export default class OrderedListItem extends UnorderedListItem {
 	static isNextBlock (inputInterface) {
-		const input = inputInterface.getInput();
+		const input = inputInterface.get();
 
 		return REGEXS[AUTO_NUMBERED].test(input) ||
 				REGEXS[NUMERIC].test(input) ||
@@ -46,7 +46,7 @@ export default class OrderedListItem extends UnorderedListItem {
 	}
 
 	static parse (inputInterface, context) {
-		const input = inputInterface.getInput();
+		const input = inputInterface.get();
 		const {listStyle, matches} = parseBlock(input);
 		const bullet = matches[1];
 		const text = matches[2];

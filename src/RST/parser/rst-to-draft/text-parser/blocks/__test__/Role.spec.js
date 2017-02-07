@@ -1,13 +1,13 @@
 import Role from '../Role';
 import Plaintext from '../Plaintext';
 
-import {getInputInterface} from '../../../../Parser';
+import {getInterface} from '../../../../Parser';
 
 describe('Role', () => {
 	describe('isNextBlock', () => {
 		it('matchOpen is true for :', () => {
 			const test = [':', 'r', 'o', 'l', 'e'];
-			const inputInterface = getInputInterface(0, test);
+			const inputInterface = getInterface(0, test);
 			const {matches} = Role.matchOpen(inputInterface);
 
 			expect(matches).toBeTruthy();
@@ -15,7 +15,7 @@ describe('Role', () => {
 
 		it('matchOpen is false for not :', () => {
 			const test = ['r', 'o', 'l', 'e'];
-			const inputInterface = getInputInterface(0, test);
+			const inputInterface = getInterface(0, test);
 			const {matches} = Role.matchOpen(inputInterface);
 
 			expect(matches).toBeFalsy();
@@ -23,7 +23,7 @@ describe('Role', () => {
 
 		it('matchClose is true for :', () => {
 			const test = [':', 'r', 'o', 'l', 'e'];
-			const inputInterface = getInputInterface(0, test);
+			const inputInterface = getInterface(0, test);
 			const {matches} = Role.matchClose(inputInterface);
 
 			expect(matches).toBeTruthy();
@@ -31,7 +31,7 @@ describe('Role', () => {
 
 		it('matchClose is false for not : ', () => {
 			const test = ['r', 'o', 'l', 'e'];
-			const inputInterface = getInputInterface(0, test);
+			const inputInterface = getInterface(0, test);
 			const {matches} = Role.matchClose(inputInterface);
 
 			expect(matches).toBeFalsy();
@@ -52,9 +52,10 @@ describe('Role', () => {
 
 		it('If currentBlock is interpreted role get set as marker', () => {
 			const test = [':'];
-			const inputInterface = getInputInterface(0, test);
 			const currentBlock = buildBlock('isInterpreted');
-			const {block} = Role.parse(inputInterface, {}, currentBlock);
+			const inputInterface = getInterface(0, test);
+			const parsedInterface = getInterface(0, [currentBlock]);
+			const {block} = Role.parse(inputInterface, {}, parsedInterface);
 
 			expect(currentBlock.setRoleMarker).toHaveBeenCalledWith(block);
 			expect(block.markerFor).toEqual(currentBlock);
@@ -62,9 +63,10 @@ describe('Role', () => {
 
 		it('If currentBlock is not interpreted role does not get set as marker', () => {
 			const test = [':'];
-			const inputInterface = getInputInterface(0, test);
 			const currentBlock = buildBlock('notInterpreted');
-			const {block} = Role.parse(inputInterface, {}, currentBlock);
+			const inputInterface = getInterface(0, test);
+			const parsedInterface = getInterface(0, [currentBlock]);
+			const {block} = Role.parse(inputInterface, {}, parsedInterface);
 
 			expect(currentBlock.setRoleMarker).not.toHaveBeenCalled();
 			expect(block.markerFor).toBeFalsy();

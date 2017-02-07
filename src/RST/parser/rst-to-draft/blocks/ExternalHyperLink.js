@@ -8,13 +8,13 @@ const EXTERNAL_TARGET = /^.. _([^:|^_]+):\s?(.*)/;
 
 export default class ExternalHyperLink extends IndentedBlock {
 	static isNextBlock (inputInterface) {
-		const current = inputInterface.getInput();
+		const current = inputInterface.get();
 
 		return EXTERNAL_TARGET.test(current);
 	}
 
 	static parse (inputInterface) {
-		const current = inputInterface.getInput();
+		const current = inputInterface.get();
 
 		const matches = current.match(EXTERNAL_TARGET);
 		const name = matches[1];

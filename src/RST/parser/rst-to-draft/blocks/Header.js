@@ -31,15 +31,16 @@ export const LEVEL_TO_TYPE = {
 
 export default class Header extends IndentedBlock {
 	static isValidHeader (inputInterface) {
-		const current = inputInterface.getInput(0);
+		const current = inputInterface.get(0);
 
 		return IS_LINE_HEADER_REGEX.test(current);
 	}
 
-	static isValidOverlined (inputInterface, context, currentBlock) {
-		const overline = inputInterface.getInput(0);
-		const text = inputInterface.getInput(1);
-		const underline = inputInterface.getInput(2);
+	static isValidOverlined (inputInterface, context, parsedInterface) {
+		const currentBlock = parsedInterface.get(0);
+		const overline = inputInterface.get(0);
+		const text = inputInterface.get(1);
+		const underline = inputInterface.get(2);
 
 		//We aren't a valid overlined header unless the line after next is a valid underlined header,
 		//meaning its the same length and char as the overline
@@ -48,9 +49,10 @@ export default class Header extends IndentedBlock {
 				isValidOverlineLength(text, overline);
 	}
 
-	static isValidUnderlined (inputInterface, context, currentBlock) {
-		const underline = inputInterface.getInput(0);
-		const text = inputInterface.getInput(-1);
+	static isValidUnderlined (inputInterface, context, parsedInterface) {
+		const currentBlock = parsedInterface.get(0);
+		const underline = inputInterface.get(0);
+		const text = inputInterface.get(-1);
 		const char = underline.charAt(0);
 
 		//If there is an open header and we are the same char and length we match it
@@ -63,13 +65,13 @@ export default class Header extends IndentedBlock {
 	}
 
 
-	static isNextBlock (inputInterface, context, currentBlock) {
+	static isNextBlock (inputInterface, context, parsedInterface) {
 		return this.isValidHeader(inputInterface) &&
-				(this.isValidOverlined(inputInterface, context, currentBlock) || this.isValidUnderlined(inputInterface, context, currentBlock));
+				(this.isValidOverlined(inputInterface, context, parsedInterface) || this.isValidUnderlined(inputInterface, context, parsedInterface));
 	}
 
 
-	static parse (inputInterface, context, currentBlock) {
+	static parse (inputInterface, context, parsedInterface) {
 		if (!context.headerLevels) {
 			context.headerLevels = {
 				charToLevel: {},
@@ -77,7 +79,8 @@ export default class Header extends IndentedBlock {
 			};
 		}
 
-		const input = inputInterface.getInput();
+		const currentBlock = parsedInterface.get(0);
+		const input = inputInterface.get(0);
 		const char = input.charAt(0);
 
 		//If we haven't seen this character yet, add it to the levels

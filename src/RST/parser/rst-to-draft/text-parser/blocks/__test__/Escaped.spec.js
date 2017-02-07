@@ -1,19 +1,19 @@
 import Escaped from '../Escaped';
 
-import {getInputInterface} from '../../../../Parser';
+import {getInterface} from '../../../../Parser';
 
 describe('Escaped', () => {
 	describe('isNextBlock', () => {
 		it('Is valid for \\', () => {
 			const test = ['\\'];
-			const inputInterface = getInputInterface(0, test);
+			const inputInterface = getInterface(0, test);
 
 			expect(Escaped.isNextBlock(inputInterface)).toBeTruthy();
 		});
 
 		it('Is not valid for not \\', () => {
 			const test = ['a'];
-			const inputInterface = getInputInterface(0, test);
+			const inputInterface = getInterface(0, test);
 
 			expect(Escaped.isNextBlock(inputInterface)).toBeFalsy();
 		});
@@ -22,7 +22,7 @@ describe('Escaped', () => {
 	describe('parse', () => {
 		it('Returns a Plaintext block', () => {
 			const test = ['\\', '\\'];
-			const inputInterface = getInputInterface(0, test);
+			const inputInterface = getInterface(0, test);
 			const {block} = Escaped.parse(inputInterface);
 
 			expect(block.isPlaintext).toBeTruthy();
@@ -30,7 +30,7 @@ describe('Escaped', () => {
 
 		it('Consumes the next char', () => {
 			const test = ['\\', '\\'];
-			const inputInterface = getInputInterface(0, test);
+			const inputInterface = getInterface(0, test);
 			const {length} = Escaped.parse(inputInterface);
 
 			expect(length).toEqual(2);

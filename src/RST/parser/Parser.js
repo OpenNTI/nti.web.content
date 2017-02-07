@@ -2,9 +2,9 @@ const BLOCK_TYPES = Symbol('Block Types');
 const INPUT_TRANSFORMS = Symbol('Input Transforms');
 const OUTPUT_TRANSFORMS = Symbol('Output Transforms');
 
-export function getInputInterface (currentIndex, inputs) {
+export function getInterface (currentIndex, inputs) {
 	return {
-		getInput (offset = 0) {
+		get (offset = 0) {
 			const index = currentIndex + offset;
 
 			if (index < 0 || (index - 1) > inputs.length) {
@@ -103,7 +103,9 @@ export default class Parser {
 		let i = 0;
 
 		while (i < parsedInputs.length) {
-			let {block, context:newContext, length} = this.parseNextBlock(getInputInterface(i, parsedInputs), context, currentBlock);
+			let inputInterface = getInterface(i, parsedInputs);
+			let parsedInterface = getInterface(blocks.length - 1, blocks);
+			let {block, context:newContext, length} = this.parseNextBlock(inputInterface, context, parsedInterface);
 
 			if (block && block !== currentBlock) {
 				blocks.push(block);
@@ -127,27 +129,29 @@ export default class Parser {
 	 *
 	 * @param  {Object} inputInterface   the remaining inputs
 	 * @param  {Object} context the context of the parser
-	 * @param  {Object} currentBlock the current block of the parser
+	 * @param  {Object} parsedInterface the already parsed inputs
 	 * @return {Object}        the block to use to parse
 	 */
-	getClassForBlock (inputInterface, context, currentBlock) {
+	getClassForBlock (inputInterface, context, parsedInterface) {
 		for (let blockType of this[BLOCK_TYPES]) {
-			if (blockType.isNextBlock(inputInterface, context, currentBlock)) {
+			if (blockType.isNextBlock(inputInterface, context, parsedInterface)) {
 				return blockType;
 			}
 		}
 	}
 
 
-	parseNextBlock (inputInterface, context, currentBlock) {
-		const blockClass = this.getClassForBlock(inputInterface, context, currentBlock);
+	parseNextBlock (inputInterface, context, parsedInterface) {
+		const blockClass = this.getClassForBlock(inputInterface, context, parsedInterface);
 
 		if (!blockClass) {
 			//TODO: warn if there is no block class
 			return {};
 		}
 
-		const {block:nextBlock, context:nextContext, length} = blockClass.parse(inputInterface, context, currentBlock);
+		const {block:nextBlock, context:nextContext, length} = blockClass.parse(inputInterface, context, parsedInterface);
+		const currentBlock = parsedInterface.get(0);
+
 		let parsed;
 
 		if (currentBlock && nextBlock && currentBlock.shouldAppendBlock && currentBlock.shouldAppendBlock(nextBlock, nextContext, inputInterface)) {

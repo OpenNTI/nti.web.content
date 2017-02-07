@@ -7,13 +7,13 @@ const PARAGRAPH_REGEX = /^\s*(.*)/;
 
 export default class Paragraph extends IndentedBlock {
 	static isNextBlock (inputInterface) {
-		const input = inputInterface.getInput();
+		const input = inputInterface.get();
 
 		return PARAGRAPH_REGEX.test(input);
 	}
 
 	static parse (inputInterface, context) {
-		const input = inputInterface.getInput();
+		const input = inputInterface.get();
 		const matches = input.match(PARAGRAPH_REGEX);
 		const text = matches[1];
 

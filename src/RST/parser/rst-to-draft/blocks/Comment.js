@@ -4,13 +4,13 @@ const COMMENT = /^\.\.(.*)/;
 
 export default class Comment extends IndentedBlock {
 	static isNextBlock (inputInterface) {
-		const current = inputInterface.getInput(0);
+		const current = inputInterface.get(0);
 
 		return COMMENT.test(current);
 	}
 
 	static parse (inputInterface) {
-		const input = inputInterface.getInput(0);
+		const input = inputInterface.get(0);
 		const matches = input.match(COMMENT);
 		const text = matches[1];
 

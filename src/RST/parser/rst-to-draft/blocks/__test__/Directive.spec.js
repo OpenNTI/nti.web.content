@@ -3,21 +3,21 @@ import Paragraph from '../Paragraph';
 import Empty from '../Empty';
 import FieldList from '../FieldList';
 
-import {getInputInterface} from '../../../Parser';
+import {getInterface} from '../../../Parser';
 
 
 describe('Generic Directive', () => {
 	describe('isNextBlock', () => {
 		it('Matches on a directive', () => {
 			const rst = '.. directive:: argument1 argument 2';
-			const inputInterface = getInputInterface(0, [rst]);
+			const inputInterface = getInterface(0, [rst]);
 
 			expect(Directive.isNextBlock(inputInterface, {})).toBeTruthy();
 		});
 
 		it('Does not match on non directives', () => {
 			const rst = '- bullet list item';
-			const inputInterface = getInputInterface(0, [rst]);
+			const inputInterface = getInterface(0, [rst]);
 
 			expect(Directive.isNextBlock(inputInterface, {})).toBeFalsy();
 		});
@@ -27,7 +27,7 @@ describe('Generic Directive', () => {
 		it('Parses name', () => {
 			const name = 'directive';
 			const rst = `.. ${name}:: argument1 argument 2`;
-			const inputInterface = getInputInterface(0, [rst]);
+			const inputInterface = getInterface(0, [rst]);
 			const {block} = Directive.parse(inputInterface, {});
 
 			expect(block.name).toEqual(name);
@@ -36,7 +36,7 @@ describe('Generic Directive', () => {
 		it('Parses arguments', () => {
 			const args = 'argument1 argument2';
 			const rst = `.. directive:: ${args}`;
-			const inputInterface = getInputInterface(0, [rst]);
+			const inputInterface = getInterface(0, [rst]);
 			const {block} = Directive.parse(inputInterface, {});
 
 			expect(block.arguments).toEqual(args);
@@ -49,7 +49,7 @@ describe('Generic Directive', () => {
 
 		beforeEach(() => {
 			const rst = '.. directive:: argument1 argument2';
-			const inputInterface = getInputInterface(0, [rst]);
+			const inputInterface = getInterface(0, [rst]);
 			const {block} = Directive.parse(inputInterface, {});
 
 			directive = block;

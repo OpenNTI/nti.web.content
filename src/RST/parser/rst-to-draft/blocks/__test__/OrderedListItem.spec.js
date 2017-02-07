@@ -2,7 +2,7 @@ import OrderedListItem from '../OrderedListItem';
 import Paragraph from '../Paragraph';
 import Text from '../Text';
 
-import {getInputInterface} from '../../../Parser';
+import {getInterface} from '../../../Parser';
 
 describe('OrderedListItem', () => {
 	describe('isNextBlock', () => {
@@ -14,7 +14,7 @@ describe('OrderedListItem', () => {
 			];
 
 			for (let test of tests) {
-				let inputInterface = getInputInterface(0, [test]);
+				let inputInterface = getInterface(0, [test]);
 
 				expect(OrderedListItem.isNextBlock(inputInterface)).toBeTruthy();
 			}
@@ -28,7 +28,7 @@ describe('OrderedListItem', () => {
 			];
 
 			for (let test of tests) {
-				let inputInterface = getInputInterface(0, [test]);
+				let inputInterface = getInterface(0, [test]);
 
 				expect(OrderedListItem.isNextBlock(inputInterface)).toBeTruthy();
 			}
@@ -42,7 +42,7 @@ describe('OrderedListItem', () => {
 			];
 
 			for (let test of tests) {
-				let inputInterface = getInputInterface(0, [test]);
+				let inputInterface = getInterface(0, [test]);
 
 				expect(OrderedListItem.isNextBlock(inputInterface)).toBeTruthy();
 			}
@@ -56,7 +56,7 @@ describe('OrderedListItem', () => {
 			];
 
 			for (let test of tests) {
-				let inputInterface = getInputInterface(0, [test]);
+				let inputInterface = getInterface(0, [test]);
 
 				expect(OrderedListItem.isNextBlock(inputInterface)).toBeTruthy();
 			}
@@ -73,7 +73,7 @@ describe('OrderedListItem', () => {
 			];
 
 			for (let test of tests) {
-				let inputInterface = getInputInterface(0, [test]);
+				let inputInterface = getInterface(0, [test]);
 
 				expect(OrderedListItem.isNextBlock(inputInterface)).toBeFalsy();
 			}
@@ -84,7 +84,7 @@ describe('OrderedListItem', () => {
 	describe('parse', () => {
 		it('Parses text', () => {
 			const rst = '1. Ordered List Item';
-			const inputInterface = getInputInterface(0, [rst]);
+			const inputInterface = getInterface(0, [rst]);
 			const {block} = OrderedListItem.parse(inputInterface);
 
 			expect(block.text.text).toEqual('Ordered List Item');
@@ -92,7 +92,7 @@ describe('OrderedListItem', () => {
 
 		it('Parses Roman Numeral Link Style', () => {
 			const rst = '(ii) Ordered List Item';
-			const inputInterface = getInputInterface(0, [rst]);
+			const inputInterface = getInterface(0, [rst]);
 			const {block} = OrderedListItem.parse(inputInterface);
 
 			expect(block.listStyle).toEqual('roman-numeral');
@@ -100,7 +100,7 @@ describe('OrderedListItem', () => {
 
 		it('Parses Alpha Numeric Link Style', () => {
 			const rst = 'a.) Ordered List Item';
-			const inputInterface = getInputInterface(0, [rst]);
+			const inputInterface = getInterface(0, [rst]);
 			const {block} = OrderedListItem.parse(inputInterface);
 
 			expect(block.listStyle).toEqual('alpha-numeric');
@@ -108,7 +108,7 @@ describe('OrderedListItem', () => {
 
 		it('Parses Numeric Link Style', () => {
 			const rst = '(1) Ordered List Item';
-			const inputInterface = getInputInterface(0, [rst]);
+			const inputInterface = getInterface(0, [rst]);
 			const {block} = OrderedListItem.parse(inputInterface);
 
 			expect(block.listStyle).toEqual('numeric');
@@ -116,7 +116,7 @@ describe('OrderedListItem', () => {
 
 		it('Parses Auto Numbered Link Style', () => {
 			const rst = '#) Ordered List Item';
-			const inputInterface = getInputInterface(0, [rst]);
+			const inputInterface = getInterface(0, [rst]);
 			const {block} = OrderedListItem.parse(inputInterface);
 
 			expect(block.listStyle).toEqual('auto-numbered');

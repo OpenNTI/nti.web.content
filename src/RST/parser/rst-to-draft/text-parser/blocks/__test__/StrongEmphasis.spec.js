@@ -1,13 +1,13 @@
 import StrongEmphasis from '../StrongEmphasis';
 import Plaintext from '../Plaintext';
 
-import {getInputInterface} from '../../../../Parser';
+import {getInterface} from '../../../../Parser';
 
 describe('StrongEmphasis', () => {
 	describe('isNextBlock', () => {
 		it('matchOpen is true for **, and has correct nextChar', () => {
 			const test = ['*', '*', 's', 't', 'r', 'o', 'n', 'g'];
-			const inputInterface = getInputInterface(0, test);
+			const inputInterface = getInterface(0, test);
 			const {matches, nextChar} = StrongEmphasis.matchOpen(inputInterface);
 
 			expect(matches).toBeTruthy();
@@ -16,7 +16,7 @@ describe('StrongEmphasis', () => {
 
 		it('matchOpen is false for *', () => {
 			const test = ['*', 'n', 'o', 't'];
-			const inputInterface = getInputInterface(0, test);
+			const inputInterface = getInterface(0, test);
 			const {matches} = StrongEmphasis.matchOpen(inputInterface);
 
 			expect(matches).toBeFalsy();
@@ -24,7 +24,7 @@ describe('StrongEmphasis', () => {
 
 		it('matchClose is true for **, and has correct nextChar', () => {
 			const test = ['*', '*', 'c'];
-			const inputInterface = getInputInterface(0, test);
+			const inputInterface = getInterface(0, test);
 			const {matches, nextChar} = StrongEmphasis.matchClose(inputInterface);
 
 			expect(matches).toBeTruthy();
@@ -33,7 +33,7 @@ describe('StrongEmphasis', () => {
 
 		it('matchClose is false for *', () => {
 			const test = ['*', 'c'];
-			const inputInterface = getInputInterface(0, test);
+			const inputInterface = getInterface(0, test);
 			const {matches} = StrongEmphasis.matchClose(inputInterface);
 
 			expect(matches).toBeFalsy();

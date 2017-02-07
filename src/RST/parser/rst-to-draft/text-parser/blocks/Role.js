@@ -55,13 +55,15 @@ export default class Role extends Range {
 	static closeChars = ':'
 
 	static matchOpen (inputInterface) {
-		const input = inputInterface.getInput(0);
+		const input = inputInterface.get(0);
 
 		return {matches: input === ':'};
 	}
 
 
-	static afterParse (block, inputInterface, context, currentBlock) {
+	static afterParse (block, inputInterface, context, parsedInterface) {
+		const currentBlock = parsedInterface.get();
+
 		if (currentBlock && currentBlock.isInterpreted) {
 			currentBlock.setRoleMarker(block);
 			block.setMarkerFor(currentBlock);

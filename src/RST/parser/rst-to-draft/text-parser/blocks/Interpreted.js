@@ -10,23 +10,25 @@ export default class Interpreted extends Range {
 	static closeChars = '`'
 
 	static matchOpen (inputInterface) {
-		const input = inputInterface.getInput(0);
-		const nextInput = inputInterface.getInput(1);
+		const input = inputInterface.get(0);
+		const nextInput = inputInterface.get(1);
 
 		return {matches: input === '`' && nextInput !== '`'};
 	}
 
 	static matchClose (inputInterface) {
-		const input = inputInterface.getInput(0);
-		const nextInput = inputInterface.getInput(1);
+		const input = inputInterface.get(0);
+		const nextInput = inputInterface.get(1);
 
 		return {
 			matches: input === '`' && nextInput !== '`',
-			nextChar: nextInput === '_' ? inputInterface.getInput(2) : nextInput //if the next char is an _ we need to look at the char after to determine if its a valid close
+			nextChar: nextInput === '_' ? inputInterface.get(2) : nextInput //if the next char is an _ we need to look at the char after to determine if its a valid close
 		};
 	}
 
-	static afterParse (block, inputInterface, context, currentBlock) {
+	static afterParse (block, inputInterface, context, parsedInterface) {
+		const currentBlock = parsedInterface.get();
+
 		if (currentBlock && (currentBlock.isRole || currentBlock.isTarget)) {
 			block.setRoleMarker(currentBlock);
 			currentBlock.setMarkerFor(block);
