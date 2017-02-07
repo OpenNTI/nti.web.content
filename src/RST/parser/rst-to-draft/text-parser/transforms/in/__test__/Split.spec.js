@@ -1,8 +1,8 @@
-import Split from '../Split';
+import split from '../split';
 
 describe('text-parser Split', () => {
 	it('Splits input as expected', () => {
-		const input = Split('split');
+		const {input} = split({input: 'split', context: {}});
 
 		expect(input.length).toEqual(5);
 		expect(input[0]).toEqual('s');

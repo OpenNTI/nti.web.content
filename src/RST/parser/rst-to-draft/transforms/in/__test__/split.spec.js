@@ -1,8 +1,8 @@
-import split from '../Split';
+import split from '../split';
 
 describe('rst-to-draft split', () => {
 	it('Splits the input on newline', () => {
-		const input = split('Line 1\nLine 2\nLine 3');
+		const {input} = split({input: 'Line 1\nLine 2\nLine 3', context: {}});
 
 		expect(input.length).toEqual(3);
 		expect(input[0]).toEqual('Line 1');
