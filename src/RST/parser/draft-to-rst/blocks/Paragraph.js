@@ -1,5 +1,7 @@
 import {BLOCK_TYPE} from 'draft-js-utils';
 
+import parseText from '../text-parser';
+
 const BLOCK = Symbol('Block');
 
 export default class Paragraph {
@@ -22,7 +24,7 @@ export default class Paragraph {
 	}
 
 
-	getOutput () {
-		return {output: this[BLOCK].text};
+	getOutput (context) {
+		return {output: parseText(this[BLOCK], context)};
 	}
 }

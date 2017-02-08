@@ -32,6 +32,10 @@ const ROLES = {
 		return buildOutput([INLINE_STYLE.CODE], block, context);
 	},
 
+	underlined: (block, context) => {
+		return buildOutput([INLINE_STYLE.UNDERLINE], block, context);
+	},
+
 	bolditalic: (block, context) => {
 		return buildOutput([INLINE_STYLE.BOLD, INLINE_STYLE.ITALIC], block, context);
 	},
