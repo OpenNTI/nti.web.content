@@ -8,13 +8,13 @@ export function getIndentForDepth (depth) {
 
 export default class UnorderedListItem {
 	static isNextBlock (inputInterface) {
-		const input = inputInterface.getInput(0);
+		const input = inputInterface.get(0);
 
 		return input.type === BLOCK_TYPE.UNORDERED_LIST_ITEM;
 	}
 
 	static parse (inputInterface) {
-		const input = inputInterface.getInput(0);
+		const input = inputInterface.get(0);
 
 		return {block: new this(input)};
 	}

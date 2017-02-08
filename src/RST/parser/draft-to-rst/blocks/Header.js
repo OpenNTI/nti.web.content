@@ -35,13 +35,13 @@ function buildStringForChar (char, length) {
 
 export default class Header {
 	static isNextBlock (inputInterface) {
-		const input = inputInterface.getInput(0);
+		const input = inputInterface.get(0);
 
 		return !!TYPE_TO_LEVEL[input.type];
 	}
 
 	static parse (inputInterface) {
-		const input = inputInterface.getInput(0);
+		const input = inputInterface.get(0);
 
 		return {block: new this(input)};
 	}

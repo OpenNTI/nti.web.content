@@ -1,6 +1,10 @@
 import {BLOCK_TYPE} from 'draft-js-utils';
 
+import {LIST_STYLES} from '../../Constants';
+
 import UnorderedListItem, {getIndentForDepth} from './UnorderedListItem';
+
+const {AUTO_NUMBERED, NUMERIC, ALPHA_NUMERIC, ROMAN_NUMERAL} = LIST_STYLES;
 
 
 //from: http://blog.stevenlevithan.com/archives/javascript-roman-numeral-converter
@@ -37,18 +41,16 @@ export function toAlphaNumeric (num) {
 	return letter;
 }
 
-//TODO: import these constants from either the ordered list item in the rst parser
-//or a shared place that both pull from
 const STYLE_TO_ORDINAL = {
-	'numeric': ordinal => ordinal,
-	'auto-numbered': ordinal => ordinal,
-	'alpha-numeric': ordinal => toAlphaNumeric(ordinal),
-	'roman-numeral': ordinal => toRomanNumeral(ordinal)
+	[AUTO_NUMBERED]: ordinal => ordinal,
+	[NUMERIC]: ordinal => ordinal,
+	[ALPHA_NUMERIC]: ordinal => toAlphaNumeric(ordinal),
+	[ROMAN_NUMERAL]: ordinal => toRomanNumeral(ordinal)
 };
 
 export default class OrderedListItem extends UnorderedListItem {
 	static isNextBlock (inputInterface) {
-		const input = inputInterface.getInput(0);
+		const input = inputInterface.get(0);
 
 		return input.type === BLOCK_TYPE.ORDERED_LIST_ITEM;
 	}
