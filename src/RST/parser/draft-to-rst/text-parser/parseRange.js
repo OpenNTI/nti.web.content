@@ -44,7 +44,7 @@ const ENTITY_HANDLERS = {
 
 		return {
 			start: '`',
-			end: ` <${href}>`
+			end: ` <${href}>\``
 		};
 	}
 };
