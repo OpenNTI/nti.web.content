@@ -70,6 +70,8 @@ function parseRangeForStyles (styles, text) {
 
 
 export default function parseRange (range, text, context) {
+	if (!text) { return ''; }
+
 	const {styles, keys} = range;
 	let parsed = text;
 
