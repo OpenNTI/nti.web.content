@@ -1,5 +1,7 @@
 import {BLOCK_TYPE} from 'draft-js-utils';
 
+import parseText from '../text-parser';
+
 const BLOCK = Symbol('Block');
 
 export const TYPE_TO_LEVEL = {
@@ -52,10 +54,6 @@ export default class Header {
 		this[BLOCK] = block;
 	}
 
-	get text () {
-		return this[BLOCK].text;
-	}
-
 	get depth () {
 		return TYPE_TO_LEVEL[this[BLOCK].type];
 	}
@@ -64,8 +62,9 @@ export default class Header {
 		return this.depth === 1;
 	}
 
-	getOutput () {
-		const {text, depth, isTitle} = this;
+	getOutput (context) {
+		const {depth, isTitle} = this;
+		const text = parseText(this[BLOCK], context);
 		const lineLength = isTitle ? text.length + 2 : text.length;
 		const char = LEVEL_TO_CHAR[depth];
 		const indent = LEVEL_TO_INDENT[depth];

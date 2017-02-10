@@ -1,5 +1,7 @@
 import {BLOCK_TYPE} from 'draft-js-utils';
 
+import parseText from '../text-parser';
+
 const BLOCK = Symbol('Block');
 
 export function getIndentForDepth (depth) {
@@ -42,13 +44,14 @@ export default class UnorderedListItem {
 		return {block: this};
 	}
 
-	getOutput () {
+	getOutput (context) {
 		const {blocks} = this;
 		let output = [];
 		let currentDepth = 0;
 
 		for (let block of blocks) {
-			let {text, depth} = block;
+			let {depth} = block;
+			let text = parseText(block, context);
 			let indent = getIndentForDepth(depth);
 
 			if (depth !== currentDepth) {

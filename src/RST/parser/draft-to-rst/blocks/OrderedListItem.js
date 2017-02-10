@@ -1,5 +1,6 @@
 import {BLOCK_TYPE} from 'draft-js-utils';
 
+import parseText from '../text-parser';
 import {LIST_STYLES} from '../../Constants';
 
 import UnorderedListItem, {getIndentForDepth} from './UnorderedListItem';
@@ -59,14 +60,15 @@ export default class OrderedListItem extends UnorderedListItem {
 		return block.type === BLOCK_TYPE.ORDERED_LIST_ITEM;
 	}
 
-	getOutput () {
+	getOutput (context) {
 		const {blocks} = this;
 		let output = [];
 		let currentDepth = 0;
 		let ordinals = {};
 
 		for (let block of blocks) {
-			let {depth, text, data:{listStyle}} = block;
+			let {depth, data:{listStyle}} = block;
+			let text = parseText(block, context);
 			let ordinal = ordinals[depth] ? ordinals[depth] + 1 : 1;
 			let indent = getIndentForDepth(depth);
 			let bullet = STYLE_TO_ORDINAL[listStyle || 'numeric'](ordinal);
