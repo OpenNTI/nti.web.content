@@ -2,14 +2,15 @@
 import 'babel-polyfill';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import RSTTest from '../../src/RST/test';
+import {DraftCore} from '../../src';
+// import RSTTest from '../../src/RST/test';
 
 import 'normalize.css';
 import 'nti-style-common/fonts.scss';
 import 'nti-web-commons/lib/index.css';
 
 
-
+//Test: Content package: tag:nextthought.com,2011-10:NTI-HTML-system_4744023779772891797_C92F81A2
 
 class Test extends React.Component {
 
@@ -28,7 +29,10 @@ class Test extends React.Component {
 	}
 
 	render () {
-		return (<RSTTest />);
+		return (
+			<DraftCore.Editor />
+		);
+		// return (<RSTTest />);
 		// return (
 		// 	<div>
 		// 		<div>
