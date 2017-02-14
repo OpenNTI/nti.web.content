@@ -30,7 +30,14 @@ class Test extends React.Component {
 
 	render () {
 		return (
-			<DraftCore.Editor allowedInlineStyles={[]} />
+			<div>
+				<DraftCore.Editor allowedInlineStyles={[]} onFocus={this.onFocus} />
+				<DraftCore.ContextProvider editor={this.state.editor}>
+					<div>
+						<DraftCore.FormatButton format={DraftCore.FormatButton.Formats.BOLD} />
+					</div>
+				</DraftCore.ContextProvider>
+			</div>
 		);
 		// return (<RSTTest />);
 		// return (

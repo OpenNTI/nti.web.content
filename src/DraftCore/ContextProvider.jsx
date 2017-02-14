@@ -1,16 +1,16 @@
 import React from 'react';
 
 const toggleInlineStyle = (x, editor) => editor && editor.toggleInlineStyle && editor.toggleInlineStyle(x, true);
-const getAllowedInlineStyles = (editor) => (editor && editor.getAllowedInlineStyles) ? editor.getAllowedInlineStyles() : null;
-const getCurrentInlineStyles = (editor) => (editor && editor.getCurrentInlineStyles) ? editor.getCurrentInlineStyles() : null;
+const getAllowedInlineStyles = (editor) => (editor && editor.allowedInlineStyles) || null;
+const getCurrentInlineStyles = (editor) => (editor && editor.currentInlineStyles) || null;
 
 const toggleBlockType = (x, editor) => editor && editor.toggleBlockType && editor.toggleBlockType(x, true);
-const getAllowedBlockTypes = (editor) => (editor && editor.getAllowedBlockTypes) ? editor.getAllowedBlockTypes() : null;
-const getCurrentBlockType = (editor) => (editor && editor.getCurrentBlockType) ? editor.getCurrentBlockType() : null;
+const getAllowedBlockTypes = (editor) => (editor && editor.allowedBlockTypes) || null;
+const getCurrentBlockType = (editor) => (editor && editor.currentBlockType) || null;
 
 const toggleLink = (x, editor) => editor && editor.toggleLink && editor.toggleLink(x, true);
-const getAllowLinks = (editor) => (editor && editor.getAllowLinks) ? editor.getAllowLinks() : null;
-const getCurrentLink = (editor) => (editor && editor.getCurrentLink) ? editor.getCurrentLink() : null;
+const getAllowLinks = (editor) => (editor && editor.allowLinks) || null;
+const getCurrentLink = (editor) => (editor && editor.currentLink) || null;
 
 
 export default class ContextProvider extends React.Component {

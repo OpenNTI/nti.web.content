@@ -7,6 +7,9 @@ import {EditorState} from 'draft-js';
 import ContextProvider from '../ContextProvider';
 import fixStateForAllowed, {STYLE_SET, BLOCK_SET} from '../fixStateForAllowed';
 
+const ALLOWED_STYLES = Symbol('Allowed Styles');
+const ALLOWED_BLOCKS = Symbol('Allowed Blocks');
+
 export default class DraftCoreEditor extends React.Component {
 	static propTypes = {
 		className: React.PropTypes.string,
@@ -46,6 +49,40 @@ export default class DraftCoreEditor extends React.Component {
 	}
 
 
+	get allowedInlineStyles () {
+		this[ALLOWED_STYLES] = this[ALLOWED_STYLES] || new Set(this.props.allowedInlineStyles);
+
+		return this[ALLOWED_STYLES];
+	}
+
+	get allowedBlockTypes () {
+		this[ALLOWED_BLOCKS] = this[ALLOWED_BLOCKS] || new Set(this.props.allowedBlockTypes);
+
+		return this[ALLOWED_BLOCKS];
+	}
+
+	get allowLinks () {
+		return this.props.allowLinks;
+	}
+
+
+	get currentInlineStyles () {
+		const {currentEditorState} = this.state;
+
+		return currentEditorState && currentEditorState.getCurrentInlineStyle();
+	}
+
+
+	get currentBlockType () {
+		//TODO: fill this out
+	}
+
+
+	get currentLink () {
+		//TODO: fill this out
+	}
+
+
 	componentWillReceiveProps (nextProps) {
 		const {plugins:newPlugins, editorState:newEditorState} = nextProps;
 		const {plugins:oldPlugins, editorState:oldEditorState} = this.props;
@@ -67,6 +104,17 @@ export default class DraftCoreEditor extends React.Component {
 	}
 
 
+	componentDidUpdate () {
+		delete this[ALLOWED_STYLES];
+		delete this[ALLOWED_BLOCKS];
+	}
+
+
+	toggleInlineStyle (style) {
+		debugger;
+	}
+
+
 	onChange = (editorState) => {
 		const {onChange, allowedInlineStyles, allowedBlockTypes, allowLinks} = this.props;
 		const state = fixStateForAllowed(editorState, allowedInlineStyles, allowedBlockTypes, allowLinks);
@@ -77,12 +125,21 @@ export default class DraftCoreEditor extends React.Component {
 	}
 
 
+	onFocus = () => {
+		const {onFocus} = this.props;
+
+		if (onFocus) {
+			onFocus();
+		}
+	}
+
+
 	render () {
 		const {className} = this.props;
 		const {currentEditorState:editorState, currentPlugins:plugins, busy} = this.state;
 
-		const contentState = editorState.getCurrentContent();
-		const hidePlaceholder = !contentState.hasText() && contentState.getBlockMap().first().getType() !== 'unstyled';
+		const contentState = editorState && editorState.getCurrentContent();
+		const hidePlaceholder = contentState && !contentState.hasText() && contentState.getBlockMap().first().getType() !== 'unstyled';
 
 		const cls = cx(
 			'nti-draft-core',
@@ -102,6 +159,7 @@ export default class DraftCoreEditor extends React.Component {
 						editorState={editorState}
 						plugins={plugins}
 						onChange={this.onChange}
+						onFocus={this.onFocus}
 					/>
 				</div>
 			</ContextProvider>

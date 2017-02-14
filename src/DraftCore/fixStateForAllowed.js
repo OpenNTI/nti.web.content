@@ -118,9 +118,9 @@ export default function fixStateForAllowed (newState, allowedStyles = [], allowe
 
 	const blocks = content.getBlocksAsArray();
 
-	if (blocks.length < 1) { return; }
+	if (blocks.length < 1) { return EditorState.createEmpty(); }
 
-	if (content === originalContent) { return; }
+	if (content === originalContent) { return newState; }
 
 	return EditorState.create({
 		currentContent: content,
