@@ -81,7 +81,7 @@ export default class DraftCoreEditor extends React.Component {
 		const end = selection.getEndKey();
 		const block = content.getBlockForKey(start);
 
-		return start === end ? new Set([block.getType()]) : null;
+		return start === end ? block.getType() : '';
 	}
 
 

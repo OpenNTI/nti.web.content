@@ -40,6 +40,7 @@ class Test extends React.Component {
 							<DraftCore.UnderlineButton />
 						</div>
 						<div>
+							<DraftCore.ActiveType />
 							<DraftCore.TypeButton type={DraftCore.TypeButton.Types.HEADER_ONE} />
 						</div>
 					</div>

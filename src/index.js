@@ -1,1 +1,1 @@
-export * as DraftCore from './DraftCore';
+export * as DraftCore from './draft-core';

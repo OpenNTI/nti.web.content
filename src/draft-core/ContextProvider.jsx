@@ -22,7 +22,7 @@ export default class ContextProvider extends React.Component {
 
 			toggleBlockType: React.PropTypes.func,
 			getAllowedBlockTypes: React.PropTypes.func,
-			getCurrentBlockType: React.PropTypes.func,
+			getCurrentBlockType: React.PropTypes.string,
 
 			toggleLink: React.PropTypes.func,
 			getAllowLink: React.PropTypes.func,
@@ -47,7 +47,7 @@ export default class ContextProvider extends React.Component {
 
 			toggleBlockType: React.PropTypes.func,
 			allowedBlockTypes: React.PropTypes.object,
-			currentBlockType: React.PropTypes.object,
+			currentBlockType: React.PropTypes.string,
 
 			toggleLink: React.PropTypes.func,
 			allowLinks: React.PropTypes.bool,
