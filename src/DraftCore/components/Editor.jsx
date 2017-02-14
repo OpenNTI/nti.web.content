@@ -7,21 +7,21 @@ import {EditorState, RichUtils} from 'draft-js';
 import ContextProvider from '../ContextProvider';
 import fixStateForAllowed, {STYLE_SET, BLOCK_SET} from '../fixStateForAllowed';
 
-const ALLOWED_STYLES = Symbol('Allowed Styles');
-const ALLOWED_BLOCKS = Symbol('Allowed Blocks');
-
 export default class DraftCoreEditor extends React.Component {
 	static propTypes = {
 		className: React.PropTypes.string,
 		editorState: React.PropTypes.object.isRequired,
 		plugins: React.PropTypes.array,
+		placeholder: React.PropTypes.string,
+
+		allowedInlineStyles: React.PropTypes.array,
+		allowedBlockTypes: React.PropTypes.array,
+		allowLinks: React.PropTypes.bool,
+
 		onChange: React.PropTypes.func,
 		onBlur: React.PropTypes.func,
 		onFocus: React.PropTypes.func,
-		placeholder: React.PropTypes.string,
-		allowedInlineStyles: React.PropTypes.array,
-		allowedBlockTypes: React.PropTypes.array,
-		allowLinks: React.PropTypes.bool
+
 	}
 
 	static defaultProps = {
@@ -55,15 +55,11 @@ export default class DraftCoreEditor extends React.Component {
 
 
 	get allowedInlineStyles () {
-		this[ALLOWED_STYLES] = this[ALLOWED_STYLES] || new Set(this.props.allowedInlineStyles);
-
-		return this[ALLOWED_STYLES];
+		return new Set(this.props.allowedInlineStyles);
 	}
 
 	get allowedBlockTypes () {
-		this[ALLOWED_BLOCKS] = this[ALLOWED_BLOCKS] || new Set(this.props.allowedBlockTypes);
-
-		return this[ALLOWED_BLOCKS];
+		return new Set(this.props.allowedBlockTypes);
 	}
 
 	get allowLinks () {
@@ -106,12 +102,6 @@ export default class DraftCoreEditor extends React.Component {
 		if (newState) {
 			this.setState(newState);
 		}
-	}
-
-
-	componentDidUpdate () {
-		delete this[ALLOWED_STYLES];
-		delete this[ALLOWED_BLOCKS];
 	}
 
 
