@@ -1,1 +1,0 @@
-export StyleButton from './StyleButton';
