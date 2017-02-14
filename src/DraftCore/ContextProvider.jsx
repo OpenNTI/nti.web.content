@@ -47,7 +47,7 @@ export default class ContextProvider extends React.Component {
 
 			toggleBlockType: React.PropTypes.func,
 			allowedBlockTypes: React.PropTypes.object,
-			currentBlockType: React.PropTypes.string,
+			currentBlockType: React.PropTypes.object,
 
 			toggleLink: React.PropTypes.func,
 			allowLinks: React.PropTypes.bool,

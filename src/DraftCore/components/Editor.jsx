@@ -67,14 +67,21 @@ export default class DraftCoreEditor extends React.Component {
 
 
 	get currentInlineStyles () {
-		const {currentEditorState} = this.state;
+		const {editorState} = this;
 
-		return currentEditorState && currentEditorState.getCurrentInlineStyle();
+		return editorState && editorState.getCurrentInlineStyle();
 	}
 
 
 	get currentBlockType () {
-		//TODO: fill this out
+		const {editorState} = this;
+		const selection = editorState.getSelection();
+		const content = editorState.getCurrentContent();
+		const start = selection.getStartKey();
+		const end = selection.getEndKey();
+		const block = content.getBlockForKey(start);
+
+		return start === end ? new Set([block.getType()]) : null;
 	}
 
 
@@ -123,6 +130,14 @@ export default class DraftCoreEditor extends React.Component {
 				this.focus();
 			}
 		});
+	}
+
+
+	toggleBlockType (type) {
+		const {editorState} = this;
+		const newState = RichUtils.toggleBlockType(editorState, type);
+
+		this.onChange(newState);
 	}
 
 

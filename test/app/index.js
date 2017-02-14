@@ -34,9 +34,14 @@ class Test extends React.Component {
 				<DraftCore.Editor onFocus={this.onFocus} />
 				<DraftCore.ContextProvider editor={this.state.editor}>
 					<div>
-						<DraftCore.BoldButton />
-						<DraftCore.ItalicButton />
-						<DraftCore.UnderlineButton />
+						<div>
+							<DraftCore.BoldButton />
+							<DraftCore.ItalicButton />
+							<DraftCore.UnderlineButton />
+						</div>
+						<div>
+							<DraftCore.TypeButton type={DraftCore.TypeButton.Types.HEADER_ONE} />
+						</div>
 					</div>
 				</DraftCore.ContextProvider>
 			</div>
