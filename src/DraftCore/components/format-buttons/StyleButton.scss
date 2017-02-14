@@ -1,0 +1,41 @@
+@import '~nti-style-common';
+
+.draft-core-style-button {
+	color: $tertiary-grey;
+	font-weight: bold;
+	margin: 0;
+	padding: 0;
+	border: 0;
+	width: 2rem;
+	height: 2rem;
+	vertical-align: bottom;
+	min-width: inherit;
+	position: relative;
+	overflow: hidden;
+	cursor: pointer;
+	background: {
+		color: inherit;
+		repeat: no-repeat;
+		position: center center;
+	}
+
+	&:hover { color: $tertiary-grey; }
+
+	&:focus,
+	&:active,
+	&.active,
+	.no-touch &:hover {
+		color: $secondary-grey;
+	}
+
+
+	&.disabled {
+		opacity: 0.6;
+		cursor: none;
+		pointer-events: none;
+	}
+
+	i[class^="icon-"], i[class*=" icon-"] {
+		font-size: 1rem;
+	}
+}

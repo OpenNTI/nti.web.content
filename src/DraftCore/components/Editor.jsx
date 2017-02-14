@@ -2,7 +2,7 @@ import React from 'react';
 import cx from 'classnames';
 import UserAgent from 'fbjs/lib/UserAgent';
 import Editor from 'draft-js-plugins-editor';
-import {EditorState} from 'draft-js';
+import {EditorState, RichUtils} from 'draft-js';
 
 import ContextProvider from '../ContextProvider';
 import fixStateForAllowed, {STYLE_SET, BLOCK_SET} from '../fixStateForAllowed';
@@ -46,6 +46,11 @@ export default class DraftCoreEditor extends React.Component {
 			currentEditorState: props.editorState,
 			currentPlugins: props.plugins
 		};
+	}
+
+
+	get editorState () {
+		return this.state.currentEditorState;
 	}
 
 
@@ -110,16 +115,37 @@ export default class DraftCoreEditor extends React.Component {
 	}
 
 
-	toggleInlineStyle (style) {
-		debugger;
+	focus = () => {
+		const {editorState} = this;
+		const hasFocus = editorState && editorState.getSelection().getHasFocus();
+
+		if (!hasFocus && this.draftEditor) {
+			this.draftEditor.focus();
+		}
 	}
 
 
-	onChange = (editorState) => {
+	toggleInlineStyle (style, reclaimFocus) {
+		const {editorState} = this;
+		const newState = RichUtils.toggleInlineStyle(editorState, style);
+
+		this.onChange(newState, () => {
+			if (reclaimFocus) {
+				this.focus();
+			}
+		});
+	}
+
+
+	onChange = (editorState, cb) => {
 		const {onChange, allowedInlineStyles, allowedBlockTypes, allowLinks} = this.props;
 		const state = fixStateForAllowed(editorState, allowedInlineStyles, allowedBlockTypes, allowLinks);
 
 		this.setState({currentEditorState: state}, () => {
+			if (typeof cb === 'function') {
+				cb();
+			}
+
 			onChange(editorState);
 		});
 	}
@@ -129,7 +155,16 @@ export default class DraftCoreEditor extends React.Component {
 		const {onFocus} = this.props;
 
 		if (onFocus) {
-			onFocus();
+			onFocus(this);
+		}
+	}
+
+
+	onBlur = () => {
+		const {onBlur} = this.props;
+
+		if (onBlur) {
+			onBlur(this);
 		}
 	}
 

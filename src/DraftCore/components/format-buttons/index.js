@@ -1,1 +1,1 @@
-export FormatButton from './FormatButton';
+export StyleButton from './StyleButton';

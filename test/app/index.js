@@ -31,10 +31,10 @@ class Test extends React.Component {
 	render () {
 		return (
 			<div>
-				<DraftCore.Editor allowedInlineStyles={[]} onFocus={this.onFocus} />
+				<DraftCore.Editor onFocus={this.onFocus} />
 				<DraftCore.ContextProvider editor={this.state.editor}>
 					<div>
-						<DraftCore.FormatButton format={DraftCore.FormatButton.Formats.BOLD} />
+						<DraftCore.StyleButton style={DraftCore.StyleButton.Styles.BOLD} />
 					</div>
 				</DraftCore.ContextProvider>
 			</div>

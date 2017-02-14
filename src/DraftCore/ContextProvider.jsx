@@ -101,7 +101,7 @@ export default class ContextProvider extends React.Component {
 	componentWillReceiveProps (nextProps) {
 		if (nextProps.editor !== this.props.editor) {
 			this.unregister();
-			this.register();
+			this.register(nextProps);
 		}
 
 		for (let cmp of this.externalLinks) {
