@@ -21,18 +21,17 @@ export default class DraftCoreEditor extends React.Component {
 		onChange: React.PropTypes.func,
 		onBlur: React.PropTypes.func,
 		onFocus: React.PropTypes.func,
+		handleKeyCommand: React.PropTypes.func
 
 	}
 
 	static defaultProps = {
 		editorState: EditorState.createEmpty(),
 		plugins: [],
-		onChange: () => {},
-		onBlur: () => {},
-		onFocus: () => {},
 		allowedInlineStyles: STYLE_SET,
 		allowedBlockTypes: BLOCK_SET,
-		allowLinks: true
+		allowLinks: true,
+		allowKeyBoardShortcuts: true
 	}
 
 
@@ -136,7 +135,9 @@ export default class DraftCoreEditor extends React.Component {
 				cb();
 			}
 
-			onChange(editorState);
+			if (onChange) {
+				onChange(editorState);
+			}
 		});
 	}
 
@@ -156,6 +157,27 @@ export default class DraftCoreEditor extends React.Component {
 		if (onBlur) {
 			onBlur(this);
 		}
+	}
+
+
+	handleKeyCommand = (command) => {
+		const {handleKeyCommand} = this.props;
+
+		//If the prop handles the key command let it
+		if (handleKeyCommand && handleKeyCommand(command)) {
+			return true;
+		}
+
+		//Otherwise do the default
+		const {editorState} = this;
+		const newState = RichUtils.handleKeyCommand(editorState, command);
+
+		if (newState) {
+			this.onChange(newState);
+			return true;
+		}
+
+		return false;
 	}
 
 
@@ -185,6 +207,7 @@ export default class DraftCoreEditor extends React.Component {
 						plugins={plugins}
 						onChange={this.onChange}
 						onFocus={this.onFocus}
+						handleKeyCommand={this.handleKeyCommand}
 					/>
 				</div>
 			</ContextProvider>
