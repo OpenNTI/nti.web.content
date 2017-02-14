@@ -20,7 +20,7 @@ class Test extends React.Component {
 	attachEditor2Ref = e => this.editor2 = e;
 	logValue = ()=> console.debug(this.focused.getValue())
 	logState = ()=> this.focused.logState()
-	focusError = () => error.focus()
+	// focusError = () => error.focus()
 	focusToEnd = () => this.editor1.focusToEnd()
 
 	onFocus = (editor) => {
@@ -30,7 +30,7 @@ class Test extends React.Component {
 
 	render () {
 		return (
-			<DraftCore.Editor />
+			<DraftCore.Editor allowedInlineStyles={[]} />
 		);
 		// return (<RSTTest />);
 		// return (

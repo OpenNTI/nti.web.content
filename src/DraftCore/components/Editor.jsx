@@ -2,10 +2,10 @@ import React from 'react';
 import cx from 'classnames';
 import UserAgent from 'fbjs/lib/UserAgent';
 import Editor from 'draft-js-plugins-editor';
-import {INLINE_STYLE, BLOCK_TYPE} from 'draft-js-utils';
 import {EditorState} from 'draft-js';
 
 import ContextProvider from '../ContextProvider';
+import fixStateForAllowed, {STYLE_SET, BLOCK_SET} from '../fixStateForAllowed';
 
 export default class DraftCoreEditor extends React.Component {
 	static propTypes = {
@@ -27,18 +27,8 @@ export default class DraftCoreEditor extends React.Component {
 		onChange: () => {},
 		onBlur: () => {},
 		onFocus: () => {},
-		allowedInlineStyles: [INLINE_STYLE.BOLD, INLINE_STYLE.ITALIC, INLINE_STYLE.UNDERLINE],
-		allowedBlockTypes: [
-			BLOCK_TYPE.UNSTYLED,
-			BLOCK_TYPE.HEADER_ONE,
-			BLOCK_TYPE.HEADER_TWO,
-			BLOCK_TYPE.HEADER_THREE,
-			BLOCK_TYPE.HEADER_FOUR,
-			BLOCK_TYPE.HEADER_FIVE,
-			BLOCK_TYPE.HEADER_SIX,
-			BLOCK_TYPE.ORDERED_LIST_ITEM,
-			BLOCK_TYPE.UNORDERED_LIST_ITEM
-		],
+		allowedInlineStyles: STYLE_SET,
+		allowedBlockTypes: BLOCK_SET,
 		allowLinks: true
 	}
 
@@ -78,9 +68,10 @@ export default class DraftCoreEditor extends React.Component {
 
 
 	onChange = (editorState) => {
-		const {onChange} = this.props;
+		const {onChange, allowedInlineStyles, allowedBlockTypes, allowLinks} = this.props;
+		const state = fixStateForAllowed(editorState, allowedInlineStyles, allowedBlockTypes, allowLinks);
 
-		this.setState({currentEditorState: editorState}, () => {
+		this.setState({currentEditorState: state}, () => {
 			onChange(editorState);
 		});
 	}
