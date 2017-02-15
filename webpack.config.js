@@ -1,7 +1,13 @@
 const autoprefixer = require('autoprefixer');
 const webpack = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const path = require('path');
 
+const root = path.resolve(__dirname, 'src');
+const testRoot = path.resolve(__dirname, 'test');
+const isRoot = (e) => e.startsWith(root) || e.startsWith(testRoot);
+
+const modules = path.resolve(__dirname, 'node_modules');
 
 exports = module.exports = {
 	entry: './src/index.js',
@@ -15,13 +21,17 @@ exports = module.exports = {
 	devtool: 'source-map',
 
 	node: {
-		globale: false
+		global: false
 	},
 
 	target: 'web',
 
 	resolve: {
 		extensions: ['', '.jsx', '.js']
+	},
+
+	resolveLoader: {
+		root: [modules]
 	},
 
 
@@ -33,7 +43,7 @@ exports = module.exports = {
 
 
 	postcss: [
-		autoprefixer({ browsers: ['> 1%', 'last 2 versions', 'iOS > 8'] })
+		autoprefixer({ browsers: ['> 1%', 'last 2 versions'] })
 	],
 
 
@@ -46,13 +56,14 @@ exports = module.exports = {
 		preLoaders: [
 			{
 				test: /src.+jsx?$/,
-				loader: 'baggage-loader?[file].scss'
+				loader: 'baggage?[file].scss',
+				include: isRoot
 			}
 		],
 		loaders: [
 			{
 				test: /\.js(x?)$/,
-				exclude: /node_modules/,
+				include: isRoot,
 				loader: 'babel-loader',
 				query: {
 					sourceMaps: true
@@ -62,7 +73,21 @@ exports = module.exports = {
 			{ test: /\.json$/, loader: 'json-loader' },
 
 			{
+				test: /\-avatar.png$/,
+				loader: 'url',
+				query: {
+					mimeType: 'image/[ext]'
+				}
+			},
+
+			{
+				test: /\.template\.svg$/,
+				loader: 'raw-loader'
+			},
+
+			{
 				test: /\.(ico|gif|png|jpg|svg)$/,
+				exclude: [/\-avatar.png$/, /.template.svg$/],
 				loader: 'url-loader',
 				query: {
 					limit: 500,
@@ -73,7 +98,7 @@ exports = module.exports = {
 
 			{ test: /\.(s?)css$/, loader: ExtractTextPlugin.extract(
 				'style-loader',
-				'css-loader?sourceMap&-minimize!postcss-loader!resolve-url-loader!sass-loader'
+				'css?sourceMap&-minimize!postcss!resolve-url!sass'
 				)
 			}
 		]

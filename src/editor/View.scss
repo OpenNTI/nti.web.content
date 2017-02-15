@@ -1,0 +1,27 @@
+@import '~nti-style-common';
+
+.content-editor {
+	max-width: rem-calc(1024px);
+	min-height: rem-calc(400px);
+	margin: 0 auto;
+	font-family: $body-font-family;
+
+	&, * {
+		box-sizing: border-box
+	}
+
+	.content-editor-inner {
+		display: flex;
+	}
+
+	.editor-container {
+		flex: 1 1 auto;
+		max-width: rem-calc(768px);
+	}
+
+	.content-editor-sidebar {
+		flex: 0 0 auto;
+		width: rem-calc(250px);
+		margin-left: rem-calc(5px);
+	}
+}

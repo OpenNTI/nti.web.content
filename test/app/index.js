@@ -2,15 +2,56 @@
 import 'babel-polyfill';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {DraftCore} from '../../src';
+import {decodeFromURI} from 'nti-lib-ntiids';
+import {getService} from 'nti-web-client';
+
+import {Editor} from '../../src';
 // import RSTTest from '../../src/RST/test';
 
 import 'normalize.css';
 import 'nti-style-common/fonts.scss';
 import 'nti-web-commons/lib/index.css';
 
+window.$AppConfig = window.$AppConfig || {server: '/dataserver2/'};
+
 
 //Test: Content package: tag:nextthought.com,2011-10:NTI-HTML-system_4744023779772891797_C92F81A2
+
+let contentPackageID = localStorage.getItem('content-package-ntiid');
+
+if (!contentPackageID) {
+	contentPackageID = decodeFromURI(window.prompt('Enter Content Package NTIID'));
+	localStorage.setItem('content-package-ntiid', contentPackageID);
+}
+
+let courseID = localStorage.getItem('course-ntiid');
+
+if (!courseID) {
+	courseID = decodeFromURI(window.prompt('Enter Course NTIID'));
+	localStorage.setItem('course-ntiid', courseID);
+}
+
+function resolveObjects () {
+	return getService()
+		.then((service) => {
+			return service.getObject(courseID);
+		})
+		.then((course) => {
+			const {ContentPackageBundle: {ContentPackages}} = course;
+
+			for (let pack of ContentPackages) {
+				if (pack.getID() === contentPackageID) {
+					return {
+						content: pack,
+						course
+					};
+				}
+			}
+
+			return {course};
+		});
+}
+
 
 class Test extends React.Component {
 
@@ -28,78 +69,22 @@ class Test extends React.Component {
 		this.focused = editor;
 	}
 
+
+	componentDidMount () {
+		resolveObjects()
+			.then((objects) => {
+				this.setState(objects);
+			});
+	}
+
 	render () {
+		const {content, course} = this.state;
+
 		return (
 			<div>
-				<DraftCore.Editor onFocus={this.onFocus} />
-				<DraftCore.ContextProvider editor={this.state.editor}>
-					<div>
-						<div>
-							<DraftCore.BoldButton />
-							<DraftCore.ItalicButton />
-							<DraftCore.UnderlineButton />
-						</div>
-						<div>
-							<DraftCore.ActiveType />
-							<DraftCore.TypeButton type={DraftCore.TypeButton.Types.HEADER_ONE} />
-						</div>
-					</div>
-				</DraftCore.ContextProvider>
+				<Editor content={content} course={course} />
 			</div>
 		);
-		// return (<RSTTest />);
-		// return (
-		// 	<div>
-		// 		<div>
-		// 			<div className="text-editor">
-		// 			<Editor plugins={[counter]}
-		// 				onFocus={this.onFocus}
-		// 				ref={this.attachEditor1Ref}
-		// 				allowInsertVideo
-		// 				allowInsertImage
-		// 				/>
-		// 			<CharCount/>
-		// 			</div>
-
-		// 			<TextEditor charLimit={150}
-		// 				countDown
-		// 				onFocus={this.onFocus}
-		// 				onBlur={this.onBlur}
-		// 				ref={this.attachEditor2Ref}
-		// 				error={error}
-		// 				singleLine
-		// 				/>
-		// 		</div>
-
-		// 		<EditorContextProvider editor={this.state.editor}>
-		// 			<div>
-		// 				<FormatButton format={FormatButton.Formats.BOLD}/>
-		// 				<FormatButton format={FormatButton.Formats.ITALIC}/>
-		// 				<FormatButton format={FormatButton.Formats.UNDERLINE}/>
-		// 			</div>
-		// 		</EditorContextProvider>
-
-		// 		<div>
-		// 			<button style={{marginTop: 10, textAlign: 'center'}} onClick={this.logState}>
-		// 				Log State
-		// 			</button>
-
-		// 			&nbsp;
-
-		// 			<button style={{marginTop: 10, textAlign: 'center'}} onClick={this.logValue}>
-		// 				Log Value
-		// 			</button>
-
-		// 			<button style={{marginTop: 10, textAlign: 'center'}} onClick={this.focusError}>
-		// 				Focus Error
-		// 			</button>
-
-		// 			<button style={{marginTop: 10, textAlign: 'center'}} onClick={this.focusToEnd}>
-		// 				Focus To End
-		// 			</button>
-		// 		</div>
-		// 	</div>
-		// );
 	}
 }
 
