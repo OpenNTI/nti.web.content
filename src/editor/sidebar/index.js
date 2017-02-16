@@ -1,3 +1,3 @@
-import Sidebar from './Sidebar';
+import View from './View';
 
-export default Sidebar;
+export default View;

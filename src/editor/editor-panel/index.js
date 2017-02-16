@@ -1,3 +1,3 @@
-import Panel from './Panel';
+import View from './View';
 
-export default Panel;
+export default View;

@@ -1,3 +1,3 @@
-import Editor from './Editor';
+import View from './View';
 
-export default Editor;
+export default View;

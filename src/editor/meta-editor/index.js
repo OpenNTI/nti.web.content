@@ -1,3 +1,3 @@
-import MetaEditor from './MetaEditor';
+import View from './View';
 
-export default MetaEditor;
+export default View;

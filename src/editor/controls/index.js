@@ -1,3 +1,3 @@
-import Controls from './Controls';
+import View from './View';
 
-export default Controls;
+export default View;
