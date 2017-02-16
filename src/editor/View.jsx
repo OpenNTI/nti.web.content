@@ -38,7 +38,7 @@ export default class ContentEditor extends React.Component {
 					<EditorPanel />
 				</PanelSidebar>
 				<ControlBar visible>
-					<Controls />
+					<Controls selectionManager={selectionManager} />
 				</ControlBar>
 			</div>
 		);
