@@ -1,6 +1,8 @@
 import React from 'react';
 import cx from 'classnames';
 
+const stop = e => (e.preventDefault(), e.stopPropagation());
+
 export default class ActiveType extends React.Component {
 	static propTypes = {
 		className: React.PropTypes.string,
@@ -33,17 +35,23 @@ export default class ActiveType extends React.Component {
 	}
 
 
-	onClick = () => {
+	onMouseDown = (e) => {
 		const {onClick} = this.props;
-		const {editorContext} = this.context;
-		const {editor} = editorContext || {};
 
 		if (onClick) {
 			onClick();
 
-			if (editor) {
-				editor.focus();
+			if (e) {
+				e.preventDefault();
 			}
+		}
+	}
+
+	onClick = (e) => {
+		const {onClick} = this.props;
+
+		if (onClick) {
+			stop(e);
 		}
 	}
 
@@ -54,9 +62,10 @@ export default class ActiveType extends React.Component {
 
 		delete otherProps.getString;
 		delete otherProps.onClick;
+		delete otherProps.onMouseDown;
 
 		return (
-			<div className={cls} onClick={this.onClick} {...otherProps}>
+			<div className={cls} onClick={this.onClick} onMouseDown={this.onMouseDown} {...otherProps}>
 				<span>{activeType ? this.getString(activeType) : ''}</span>
 			</div>
 		);

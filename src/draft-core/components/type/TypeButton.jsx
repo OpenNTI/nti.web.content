@@ -3,7 +3,6 @@ import cx from 'classnames';
 import {scoped} from 'nti-lib-locale';
 import {BLOCK_TYPE} from 'draft-js-utils';
 
-const clone = x => typeof x === 'string' ? x : React.cloneElement(x);
 const stop = e => (e.preventDefault(), e.stopPropagation());
 
 export const Types = Object.freeze({
