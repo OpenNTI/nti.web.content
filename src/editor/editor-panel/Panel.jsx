@@ -1,6 +1,8 @@
 import React from 'react';
 import {StickyElement, StickyContainer} from 'nti-web-commons';
 
+import {ContentOptionSwitcher} from '../../common';
+
 import NavBar from '../nav-bar';
 
 export default class EditorPanel extends React.Component {
@@ -19,8 +21,26 @@ export default class EditorPanel extends React.Component {
 				<StickyElement>
 					<NavBar pageSource={pageSource} />
 				</StickyElement>
-				<span>Editor Panel</span>
+				<ContentOptionSwitcher options={this.renderOptions()} content={this.renderContent()} />
 			</StickyContainer>
+		);
+	}
+
+
+	renderOptions = () => {
+		return (
+			<div>
+				<span>Options</span>
+			</div>
+		);
+	}
+
+
+	renderContent = () => {
+		return (
+			<div>
+				<span>Content</span>
+			</div>
 		);
 	}
 }

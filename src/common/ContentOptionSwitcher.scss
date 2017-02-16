@@ -1,0 +1,105 @@
+@import "~nti-style-common";
+
+.content-option-switcher {
+	position: relative;
+	min-height: 200px;
+	background: white;
+
+	.toggle {
+		position: absolute;
+		top: rem-calc(20px);
+		right: rem-calc(20px);
+		font: normal 400 0.875rem/2.375rem $body-font-family;
+		border-radius: 2px;
+		text-align: center;
+
+		&.show-options {
+			color: $secondary-grey;
+			width: rem-calc(103px);
+			box-shadow: 0 0 0 1px $border-grey-light;
+			border-radius: 2px;
+			background: white;
+			line-height: 1;
+			padding: rem-calc(11px 0);
+
+			span, i {
+				vertical-align: middle;
+			}
+
+			span {
+				font-weight: 600;
+			}
+
+			i {
+				margin-right: rem-calc(4px);
+			}
+		}
+
+		&.show-content {
+			width: 103px;
+			background-color: $primary-blue;
+			color: white;
+			font-weight: 600;
+		}
+	}
+
+	.options-container, .content-container {
+		background: white;
+		min-height: 75vh;
+		min-height: calc(100vh - 125px);
+	}
+
+	.fadeInOut-enter {
+		&.options-container {
+			opaticy: 0;
+			transform: scale(0.8);
+			position: absolute;
+			top: 0;
+			left: 0;
+			right: 0;
+			z-index: 1;
+
+			&.fadeInOut-enter-active {
+				opacity: 1;
+				transform: scale(1);
+				transition: opacity 400ms, transform 400ms cubic-bezier(0.5, 0.01, 0.02, 1.35);
+			}
+		}
+
+		&.content-container {
+			opacity: 0;
+
+			&.fadeInOut-enter-active {
+				opacity: 1;
+				transition: opacity 400ms;
+			}
+		}
+	}
+
+	.fadeInOut-leave {
+		&.options-container {
+			opacity: 1;
+			transform: scale(1);
+			position: absolute;
+			top: 0;
+			left: 0;
+			right: 0;
+			z-index: 1;
+
+			&.fadeInOut-leave-active {
+				opacity: 0;
+				transform: scale(0.8);
+				transition: opacity 250ms, transform 250ms;
+			}
+		}
+
+		&.content-container {
+			opacity: 1;
+
+			&.fadeInOut-leave-active {
+				opacity: 0;
+				transition: opacity 250ms;
+			}
+		}
+	}
+}

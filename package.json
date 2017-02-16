@@ -54,7 +54,8 @@
     "nti-web-video": "^1.2.0",
     "nti-web-whiteboard": "0.0.1",
     "object-hash": "^1.1.5",
-    "punycode": "^1.4.1"
+    "punycode": "^1.4.1",
+    "react-addons-css-transition-group": "^15.4.2"
   },
   "devDependencies": {
     "autoprefixer": "^6.3.6",
