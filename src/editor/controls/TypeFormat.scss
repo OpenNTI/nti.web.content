@@ -7,3 +7,80 @@
 		line-height: rem-calc(60px);
 	}
 }
+
+.content-editor-type-format .content-editor-active-type,
+.content-editor-type-flyout .content-editor-type-button {
+	font: normal normal 0.875rem/1 $body-font-family;
+
+	&.header-one {
+		font-weight: 300;
+		font-size: 2.4rem;
+	}
+
+	&.header-two {
+		font-weight: 300;
+		font-size: 1.5rem;
+	}
+
+	&.header-three {
+		font-weight: bold;
+	}
+
+	&.unstyled {
+		line-height: 1.5;
+	}
+
+	&.ordered-list-item {
+		font-size: 1rem;
+
+		span::before {
+			content: '1.';
+			display: inline-block;
+			margin-right: 0.3rem;
+		}
+	}
+
+	&.unordered-list-item {
+		font-size: 1rem;
+
+		span::before {
+			content: '•';
+			display: inline-block;
+			margin-right: 0.5rem;
+		}
+	}
+}
+
+.content-editor-type-flyout {
+	ul {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+
+		&.plain {
+			border-bottom: 1px solid $border-grey-light;
+		}
+
+
+		li {
+			&:first-of-type {
+				.content-editor-type-button {
+					padding: 1rem 2rem 0.25rem 0;
+				}
+			}
+
+			&:last-of-type {
+				.content-editor-type-button {
+					padding: 0.25rem 2rem 1rem 0;
+				}
+			}
+		}
+	}
+
+	.content-editor-type-button {
+		display: block;
+		padding: 0.25rem 2rem 0.25rem 0;
+		position: relative;
+		min-width: rem-calc(300px);
+	}
+}

@@ -23,38 +23,22 @@ ContentEditorTypeFormat.propTypes = {
 	editor: React.PropTypes.object
 };
 export default function ContentEditorTypeFormat ({editor}) {
-	const trigger = (<ActiveType className="content-editor-active-type" getString={t} />)
+	const trigger = (<ActiveType className="content-editor-active-type" getString={t} />);
 
 	return (
-		<div className='content-editor-type-format'>
+		<div className="content-editor-type-format">
 			<Flyout className="content-editor-type-formats" trigger={trigger} verticalAlign={Flyout.ALIGNMENTS.TOP} horizontalAlign={Flyout.ALIGNMENTS.LEFT}>
 				<ContextProvider editor={editor}>
 					<div className="content-editor-type-flyout">
 						<ul className="plain">
-							<li><TypeButton className={typeClass} type={Types.HEADER_ONE} getString={t} /></li>
-							<li><TypeButton className={typeClass} type={Types.HEADER_TWO} getString={t} /></li>
-							<li><TypeButton className={typeClass} type={Types.HEADER_THREE} getString={t} /></li>
-							<li><TypeButton className={typeClass} type={Types.UNSTYLED} getString={t} /></li>
+							<li><TypeButton className={typeClass} type={Types.HEADER_ONE} getString={t} plain checkmark /></li>
+							<li><TypeButton className={typeClass} type={Types.HEADER_TWO} getString={t} plain checkmark /></li>
+							<li><TypeButton className={typeClass} type={Types.HEADER_THREE} getString={t} plain checkmark /></li>
+							<li><TypeButton className={typeClass} type={Types.UNSTYLED} getString={t} plain checkmark /></li>
 						</ul>
 						<ul className="lists">
-							<li>
-								<TypeButton className={typeClass} type={Types.ORDERED_LIST_ITEM}>
-									<ol>
-										<li>
-											<span>{t(Types.ORDERED_LIST_ITEM)}</span>
-										</li>
-									</ol>
-								</TypeButton>
-							</li>
-							<li>
-								<TypeButton className={typeClass} type={Types.UNORDERED_LIST_ITEM}>
-									<ul>
-										<li>
-											<span>{t(Types.UNORDERED_LIST_ITEM)}</span>
-										</li>
-									</ul>
-								</TypeButton>
-							</li>
+							<li><TypeButton className={typeClass} type={Types.ORDERED_LIST_ITEM} getString={t} plain checkmark /></li>
+							<li><TypeButton className={typeClass} type={Types.UNORDERED_LIST_ITEM} getString={t} plain checkmark /></li>
 						</ul>
 					</div>
 				</ContextProvider>

@@ -39,7 +39,9 @@ export default class TypeButton extends React.Component {
 		type: React.PropTypes.oneOf(Object.values(Types)).isRequired,
 		label: React.PropTypes.string,
 		children: React.PropTypes.node,
-		getString: React.PropTypes.func
+		getString: React.PropTypes.func,
+		plain: React.PropTypes.bool,
+		checkmark: React.PropTypes.bool
 	}
 
 	get getString () {
@@ -81,9 +83,9 @@ export default class TypeButton extends React.Component {
 
 
 	render () {
-		const {type = '_', className} = this.props;
+		const {type = '_', className, plain, checkmark} = this.props;
 		const {isAllowed, isCurrent} = this;
-		const cls = cx('draft-core-type-button', className, {active: isCurrent, disabled: !isAllowed});
+		const cls = cx('draft-core-type-button', className, type, {active: isCurrent, disabled: !isAllowed, plain, checkmark});
 
 		return (
 			<button
