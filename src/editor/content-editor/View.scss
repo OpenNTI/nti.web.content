@@ -1,0 +1,10 @@
+@import '~nti-style-common';
+
+.content-editing-editor-container {
+	.content-editing-editor {
+		.DraftEditor-root {
+			min-height: 75vh;//TODO: figure out a better way than this...
+			padding: 1.25rem;
+		}
+	}
+}
