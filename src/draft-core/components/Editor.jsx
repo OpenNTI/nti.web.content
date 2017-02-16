@@ -112,6 +112,7 @@ export default class DraftCoreEditor extends React.Component {
 
 
 	focus = () => {
+		debugger;
 		const {editorState} = this;
 		const hasFocus = editorState && editorState.getSelection().getHasFocus();
 
@@ -133,11 +134,15 @@ export default class DraftCoreEditor extends React.Component {
 	}
 
 
-	toggleBlockType (type) {
+	toggleBlockType (type, reclaimFocus) {
 		const {editorState} = this;
 		const newState = RichUtils.toggleBlockType(editorState, type);
 
-		this.onChange(newState);
+		this.onChange(newState, () => {
+			if (reclaimFocus) {
+				this.focus();
+			}
+		});
 	}
 
 

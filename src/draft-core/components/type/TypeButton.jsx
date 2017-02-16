@@ -1,7 +1,9 @@
 import React from 'react';
 import cx from 'classnames';
+import {scoped} from 'nti-lib-locale';
 import {BLOCK_TYPE} from 'draft-js-utils';
 
+const clone = x => typeof x === 'string' ? x : React.cloneElement(x);
 const stop = e => (e.preventDefault(), e.stopPropagation());
 
 export const Types = Object.freeze({
@@ -20,6 +22,8 @@ export const Types = Object.freeze({
 	UNSTYLED: BLOCK_TYPE.UNSTYLED
 });
 
+const t = scoped('DRAFT_CORE_TYPE_BUTTON', Types);
+
 export default class TypeButton extends React.Component {
 	static Types = Types
 
@@ -34,19 +38,29 @@ export default class TypeButton extends React.Component {
 	static propTypes = {
 		className: React.PropTypes.string,
 		type: React.PropTypes.oneOf(Object.values(Types)).isRequired,
-		label: React.PropTypes.string
+		label: React.PropTypes.string,
+		children: React.PropTypes.node,
+		getString: React.PropTypes.func
+	}
+
+	get getString () {
+		const {getString} = this.props;
+
+		return getString ? t.override(getString) : t;
 	}
 
 	get isAllowed () {
 		const {type} = this.props;
-		const {editorContext: {allowedBlockTypes}} = this.context;
+		const {editorContext} = this.context;
+		const {allowedBlockTypes} = editorContext || {};
 
 		return allowedBlockTypes && allowedBlockTypes.has(type);
 	}
 
 	get isCurrent () {
 		const {type} = this.props;
-		const {editorContext: {currentBlockType}} = this.context;
+		const {editorContext} = this.context;
+		const {currentBlockType} = editorContext || {};
 
 		return type === currentBlockType;
 	}
@@ -54,7 +68,8 @@ export default class TypeButton extends React.Component {
 
 	onMouseDown = (e) => {
 		const {type} = this.props;
-		const {editorContext: {toggleBlockType}} = this.context;
+		const {editorContext} = this.context;
+		const {toggleBlockType} = editorContext || {};
 
 		if (e) {
 			e.preventDefault();
@@ -86,10 +101,15 @@ export default class TypeButton extends React.Component {
 
 
 	renderLabel = (type) => {
-		const {label} = this.props;
+		const {label, children} = this.props;
+		const child = children && React.Children.only(children);
+
+		if (child) {
+			return child;
+		}
 
 		return (
-			<span>{label || type}</span>
+			<span>{label || this.getString(type)}</span>
 		);
 	}
 }

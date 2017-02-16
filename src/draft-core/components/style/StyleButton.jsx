@@ -29,9 +29,13 @@ export default class StyleButton extends React.Component {
 		style: React.PropTypes.oneOf(Object.values(Styles)).isRequired
 	}
 
+	get editorContext () {
+		return this.context.editorContext || {};
+	}
+
 	get isAllowed () {
 		const {style} = this.props;
-		const {editorContext: {allowedInlineStyles}} = this.context;
+		const {allowedInlineStyles} = this.editorContext;
 
 		return allowedInlineStyles && allowedInlineStyles.has(style);
 	}
@@ -39,7 +43,7 @@ export default class StyleButton extends React.Component {
 
 	get isCurrent () {
 		const {style} = this.props;
-		const {editorContext: {currentInlineStyles}} = this.context;
+		const {currentInlineStyles} = this.editorContext;
 
 		return currentInlineStyles && currentInlineStyles.has(style);
 	}
@@ -47,7 +51,7 @@ export default class StyleButton extends React.Component {
 
 	onMouseDown = (e) => {
 		const {style} = this.props;
-		const {editorContext: {toggleInlineStyle}} = this.context;
+		const {toggleInlineStyle} = this.editorContext;
 
 		if (e) {
 			e.preventDefault();

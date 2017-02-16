@@ -1,0 +1,9 @@
+@import "~nti-style-common";
+
+.content-editor-type-format {
+	.content-editor-active-type {
+		min-width: 200px;
+		min-height: rem-calc(60px);
+		line-height: rem-calc(60px);
+	}
+}

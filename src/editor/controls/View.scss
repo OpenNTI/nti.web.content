@@ -1,0 +1,11 @@
+@import "~nti-style-common";
+
+.content-editor-controls {
+	display: flex;
+	align-items: center;
+
+	.content-editor-type-format,
+	.content-editor-style-format {
+		flex: 0 0 auto;
+	}
+}

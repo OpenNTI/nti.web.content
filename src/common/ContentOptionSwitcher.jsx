@@ -37,6 +37,12 @@ export default class ContentOptionSwitcher extends React.Component {
 		};
 	}
 
+	get getString () {
+		const {getString} = this.props;
+
+		return getString ? t.override(getString) : t;
+	}
+
 
 	componentWillReceiveProps (nextProps) {
 		const {active:nextActive} = nextProps;
@@ -45,13 +51,6 @@ export default class ContentOptionSwitcher extends React.Component {
 		if (nextActive !== oldActive) {
 			this.setState({active:nextActive});
 		}
-	}
-
-
-	getStringFn () {
-		const {getString} = this.props;
-
-		return getString ? t.override(getString) : t;
 	}
 
 
@@ -89,13 +88,12 @@ export default class ContentOptionSwitcher extends React.Component {
 
 	renderContent () {
 		const {content} = this.props;
-		const getString = this.getStringFn();
 
 		return (
 			<div className="content-container" key="content">
 				<div className="show-options toggle" onClick={this.showOptions}>
 					<i className="icon-settings small" />
-					<span>{getString('showOptions')}</span>
+					<span>{this.getString('showOptions')}</span>
 				</div>
 				{content}
 			</div>
@@ -105,12 +103,11 @@ export default class ContentOptionSwitcher extends React.Component {
 
 	renderOptions () {
 		const {options} = this.props;
-		const getString = this.getStringFn();
 
 		return (
 			<div className="options-container" key="options">
 				<div className="show-content toggle" onClick={this.showContent}>
-					<span>{getString('showContent')}</span>
+					<span>{this.getString('showContent')}</span>
 				</div>
 				{options}
 			</div>

@@ -1,6 +1,21 @@
 import React from 'react';
+import {ContextProvider} from '../../draft-core';
 
-import Formatting from './Formatting';
+import TypeFormat from './TypeFormat';
+import StyleFormat from './StyleFormat';
+
+function getEditorForSelection (selection) {
+	const first = selection && selection[0];
+	let value = first && first.value;
+	let editor;
+
+	//If there is more than one don't return any editor for now
+	if (value && selection.length === 1) {
+		editor = value
+	}
+
+	return editor;
+}
 
 export default class ContentEditorControls extends React.Component {
 	static propTypes = {
@@ -44,11 +59,15 @@ export default class ContentEditorControls extends React.Component {
 
 	render () {
 		const {selection} = this.state;
+		const editor = getEditorForSelection(selection);
 
 		return (
-			<div className="content-editor-controls">
-				<Formatting selection={selection} />
-			</div>
+			<ContextProvider editor={getEditorForSelection(selection)}>
+				<div className="content-editor-controls">
+					<TypeFormat  editor={editor}/>
+					<StyleFormat editor={editor}/>
+				</div>
+			</ContextProvider>
 		);
 	}
 }
