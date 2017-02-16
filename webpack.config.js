@@ -27,6 +27,7 @@ exports = module.exports = {
 	target: 'web',
 
 	resolve: {
+		root: [root, modules],
 		extensions: ['', '.jsx', '.js']
 	},
 

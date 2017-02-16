@@ -4,7 +4,7 @@ import {Selection, ControlBar} from 'nti-web-commons';
 import {PanelSidebar} from '../common';
 
 import Sidebar from './sidebar';
-import RSTEditor from './rst-editor';
+import EditorPanel from './editor-panel';
 import Controls from './controls';
 
 const selectionManager = new Selection.Manager();
@@ -35,7 +35,7 @@ export default class ContentEditor extends React.Component {
 		return (
 			<div className="content-editor">
 				<PanelSidebar className="content-editor-panel-sidebar" sidebar={sidebar}>
-					<RSTEditor />
+					<EditorPanel />
 				</PanelSidebar>
 				<ControlBar visible>
 					<Controls />
