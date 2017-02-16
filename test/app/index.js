@@ -10,6 +10,7 @@ import {Editor} from '../../src';
 
 import 'normalize.css';
 import 'nti-style-common/fonts.scss';
+import 'nti-style-common/all.scss';
 import 'nti-web-commons/lib/index.css';
 
 window.$AppConfig = window.$AppConfig || {server: '/dataserver2/'};
@@ -82,7 +83,7 @@ class Test extends React.Component {
 
 		return (
 			<div>
-				<Editor content={content} course={course} />
+				<Editor contentPackage={content} course={course} />
 			</div>
 		);
 	}

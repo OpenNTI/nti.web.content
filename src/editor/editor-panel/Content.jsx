@@ -3,11 +3,15 @@ import React from 'react';
 import MetaEditor from '../meta-editor';
 import ContentEditor from '../content-editor';
 
-export default function EditorPanelContent ({content, course}) {
+EditorPanelContent.propTypes = {
+	contentPackage: React.PropTypes.object,
+	course: React.PropTypes.object
+};
+export default function EditorPanelContent ({contentPackage, course}) {
 	return (
 		<div>
-			<MetaEditor content={content} course={course} />
-			<ContentEditor content={content} course={course} />
+			<MetaEditor contentPackage={contentPackage} course={course} />
+			<ContentEditor contentPackage={contentPackage} course={course} />
 		</div>
 	);
 }

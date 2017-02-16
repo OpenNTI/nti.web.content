@@ -11,7 +11,7 @@ function getEditorForSelection (selection) {
 
 	//If there is more than one don't return any editor for now
 	if (value && selection.length === 1) {
-		editor = value
+		editor = value;
 	}
 
 	return editor;
@@ -19,7 +19,7 @@ function getEditorForSelection (selection) {
 
 export default class ContentEditorControls extends React.Component {
 	static propTypes = {
-		content: React.PropTypes.object,
+		contentPackage: React.PropTypes.object,
 		course: React.PropTypes.object,
 		selectionManager: React.PropTypes.shape({
 			addListener: React.PropTypes.func,

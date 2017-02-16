@@ -30,15 +30,16 @@ export default class ContentEditor extends React.Component {
 	}
 
 	render () {
+		const {contentPackage, course} = this.props;
 		const sidebar = (<Sidebar />);
 
 		return (
 			<div className="content-editor">
 				<PanelSidebar className="content-editor-panel-sidebar" sidebar={sidebar}>
-					<EditorPanel />
+					<EditorPanel contentPackage={contentPackage} course={course} />
 				</PanelSidebar>
 				<ControlBar visible>
-					<Controls selectionManager={selectionManager} />
+					<Controls selectionManager={selectionManager} contentPackage={contentPackage} course={course} />
 				</ControlBar>
 			</div>
 		);

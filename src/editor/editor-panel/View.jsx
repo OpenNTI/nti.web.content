@@ -9,13 +9,13 @@ import Options from './Options';
 
 
 EditorPanel.propTypes = {
-	content: React.PropTypes.object,
+	contentPackage: React.PropTypes.object,
 	course: React.PropTypes.object,
 	pageSource: React.PropTypes.object
 };
-export default function EditorPanel ({content, course, pageSource}) {
-	const optionsCmp = (<Options content={content} course={course} />);
-	const contentCmp = (<Content content={content} course={course} />);
+export default function EditorPanel ({contentPackage, course, pageSource}) {
+	const optionsCmp = (<Options contentPackage={contentPackage} course={course} />);
+	const contentCmp = (<Content contentPackage={contentPackage} course={course} />);
 
 	return (
 		<StickyContainer className="content-editor-panel">
