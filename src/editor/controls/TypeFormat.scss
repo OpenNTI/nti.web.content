@@ -6,6 +6,18 @@
 		min-height: rem-calc(60px);
 		line-height: rem-calc(60px);
 	}
+
+	.content-editor-active-type {
+		min-width: 200px;
+		box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.2);
+		line-height: 3.75rem !important;
+		padding: 0 0.625rem;
+		margin-right: 20px;
+
+		&:not(.empty) {
+			background-color: $panel-background;
+		}
+	}
 }
 
 .content-editor-type-format .content-editor-active-type,
@@ -14,12 +26,12 @@
 
 	&.header-one {
 		font-weight: 300;
-		font-size: 2.4rem;
+		font-size: 1.75rem;
 	}
 
 	&.header-two {
 		font-weight: 300;
-		font-size: 1.5rem;
+		font-size: 1.25rem;
 	}
 
 	&.header-three {

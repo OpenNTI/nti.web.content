@@ -26,7 +26,7 @@ export default class StyleButton extends React.Component {
 	static propTypes = {
 		className: React.PropTypes.string,
 		children: React.PropTypes.any,
-		style: React.PropTypes.oneOf(Object.values(Styles)).isRequired
+		style: React.PropTypes.oneOf(Object.values(Styles)).isRequired,
 	}
 
 	get editorContext () {

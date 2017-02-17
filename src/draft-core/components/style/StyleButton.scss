@@ -1,13 +1,15 @@
 @import '~nti-style-common';
 
 .draft-core-style-button {
-	color: $tertiary-grey;
+	color: $secondary-grey;
 	font-weight: bold;
 	margin: 0;
 	padding: 0;
 	border: 0;
 	width: 2rem;
 	height: 2rem;
+	line-height: 2rem;
+	text-align: center;
 	vertical-align: bottom;
 	min-width: inherit;
 	position: relative;
@@ -18,14 +20,25 @@
 		repeat: no-repeat;
 		position: center center;
 	}
+	border-radius: 2px;
+	margin-right: 0.3rem;
+	border: 1px solid white;
 
-	&:hover { color: $tertiary-grey; }
+	&:hover,
+	&:focus,
+	&:active,
+	&.active,
+	.no-touch &:hover {
+		background-color: $panel-background;
+		border-color: $border-grey-light;
+		box-shadow: inset 0 0 1px 0 rgba(0, 0, 0, 0.2);
+	}
 
 	&:focus,
 	&:active,
 	&.active,
 	.no-touch &:hover {
-		color: $secondary-grey;
+		color: $primary-blue;
 	}
 
 
