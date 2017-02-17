@@ -2,15 +2,12 @@ import React from 'react';
 import cx from 'classnames';
 import {scoped} from 'nti-lib-locale';
 import {Selection, Loading, EmptyState, Errors} from 'nti-web-commons';
-import {EditorState, convertFromRaw, convertToRaw} from 'draft-js';
-import {buffer} from 'nti-commons';
-
-import {Editor} from '../../draft-core';
-import {Parser} from '../../RST';
 
 import Store from '../Store';
 import {SET_ERROR} from '../Constants';
 import {saveContentPackageRST} from '../Actions';
+
+import RSTEditor from './RSTEditor';
 
 const {Field:{Component:ErrorCmp}} = Errors;
 
@@ -32,12 +29,10 @@ export default class ContentEditor extends React.Component {
 	constructor (props) {
 		super(props);
 
-		this.onChangeBuffered = buffer(500, () => this.onChange());
-
 		this.state = {
 			selectableID: 'content-editor',
 			selectableValue: null,
-			contents: LOADING
+			rstContents: LOADING
 		};
 	}
 
@@ -81,36 +76,14 @@ export default class ContentEditor extends React.Component {
 		}
 
 		contentPackage.getContents()
-			.then((rst) => {
-				const draftState = rst && Parser.convertRSTToDraftState(rst);
-				const contents = draftState ? EditorState.createWithContent(convertFromRaw(draftState)) : EditorState.createEmpty();
-
-				this.setState({contents, rst});
+			.then((rstContents) => {
+				this.setState({rstContents});
 			})
 			.catch(() => {
 				this.setState({
-					contents: new Error('Failed to load contents')
+					rstContents: new Error('Failed to load rst')
 				});
 			});
-	}
-
-
-	onChange = () => {
-		if (!this.pendingState) { return; }
-
-		const {contentPackage} = this.props;
-		const {rst:oldRST} = this.state;
-		const newRST = Parser.convertDraftStateToRST(convertToRaw(this.pendingState.getCurrentContent()));
-
-		//TODO: look into how expensive this comparison actually is for larger strings
-		if (oldRST !== newRST) {
-			saveContentPackageRST(contentPackage, newRST);
-		}
-	}
-
-
-	flushChanges = () =>{
-		this.onChangeBuffered.flush();
 	}
 
 
@@ -145,42 +118,40 @@ export default class ContentEditor extends React.Component {
 	}
 
 
-	onEditorBlur = () => {
-		this.flushChanges();
-	}
-
-
-	onEditorChange = (newState) => {
+	onEditorChange = () => {
 		const {error} = this.state;
 
 		if (error && error.clear) {
 			error.clear();
 		}
+	}
 
-		this.pendingState = newState;
 
-		this.onChangeBuffered();
+	onEditorContentChange = (rst) => {
+		const {contentPackage} = this.props;
+
+		saveContentPackageRST(contentPackage, rst);
 	}
 
 
 	render () {
-		const {selectableID, selectableValue, contents, error} = this.state;
+		const {selectableID, selectableValue, rstContents, error} = this.state;
 		const cls = cx('content-editing-editor-container', {error});
 
 		return (
 			<Selection.Component className={cls} id={selectableID} value={selectableValue}>
 				{error && (<ErrorCmp className="content-editing-editor-error" error={error} />)}
 
-				{contents === LOADING ?
+				{rstContents === LOADING ?
 						(<Loading.Mask message={t('Loading')} />) :
-						contents instanceof Error ?
+						rstContents instanceof Error ?
 							(<EmptyState header={t('failedHeader')}/>) :
-							(<Editor
-								className="content-editing-editor"
+							(<RSTEditor
+								value={rstContents}
 								onFocus={this.onEditorFocus}
 								onBlur={this.onEditorBlur}
-								editorState={contents}
 								onChange={this.onEditorChange}
+								onContentChange={this.onEditorContentChange}
 							/>)
 				}
 			</Selection.Component>

@@ -3,9 +3,12 @@ import cx from 'classnames';
 import UserAgent from 'fbjs/lib/UserAgent';
 import Editor from 'draft-js-plugins-editor';
 import {EditorState, RichUtils} from 'draft-js';
+import {buffer} from 'nti-commons';
 
 import ContextProvider from '../ContextProvider';
 import fixStateForAllowed, {STYLE_SET, BLOCK_SET} from '../fixStateForAllowed';
+
+const CONTENT_CHANGE_BUFFER = 1000;
 
 export default class DraftCoreEditor extends React.Component {
 	static propTypes = {
@@ -18,7 +21,10 @@ export default class DraftCoreEditor extends React.Component {
 		allowedBlockTypes: React.PropTypes.array,
 		allowLinks: React.PropTypes.bool,
 
+		contentChangeBuffer: React.PropTypes.number,
+
 		onChange: React.PropTypes.func,
+		onContentChange: React.PropTypes.func,
 		onBlur: React.PropTypes.func,
 		onFocus: React.PropTypes.func,
 		handleKeyCommand: React.PropTypes.func
@@ -28,10 +34,13 @@ export default class DraftCoreEditor extends React.Component {
 	static defaultProps = {
 		editorState: EditorState.createEmpty(),
 		plugins: [],
+
 		allowedInlineStyles: STYLE_SET,
 		allowedBlockTypes: BLOCK_SET,
 		allowLinks: true,
-		allowKeyBoardShortcuts: true
+		allowKeyBoardShortcuts: true,
+
+		contentChangeBuffer: CONTENT_CHANGE_BUFFER
 	}
 
 
@@ -41,9 +50,17 @@ export default class DraftCoreEditor extends React.Component {
 	constructor (props) {
 		super(props);
 
+		const {contentChangeBuffer, editorState, plugins} = props;
+
+		this.onContentChangeBuffered = buffer(contentChangeBuffer, this.onContentChange);
+
+		if (!editorState) {
+			debugger;
+		}
+
 		this.state = {
-			currentEditorState: props.editorState,
-			currentPlugins: props.plugins
+			currentEditorState: editorState,
+			currentPlugins: plugins
 		};
 	}
 
@@ -91,9 +108,13 @@ export default class DraftCoreEditor extends React.Component {
 
 
 	componentWillReceiveProps (nextProps) {
-		const {plugins:newPlugins, editorState:newEditorState} = nextProps;
-		const {plugins:oldPlugins, editorState:oldEditorState} = this.props;
+		const {plugins:newPlugins, editorState:newEditorState, contentChangeBuffer:newContentChangeBuffer} = nextProps;
+		const {plugins:oldPlugins, editorState:oldEditorState, contentChangeBuffer:oldContentChangeBuffer} = this.props;
 		let newState = null;
+
+		if (newContentChangeBuffer !== oldContentChangeBuffer) {
+			this.onContentChangeBuffered = buffer(newContentChangeBuffer, this.onContentChange);
+		}
 
 		if (newEditorState !== oldEditorState) {
 			newState = newState || {};
@@ -112,7 +133,6 @@ export default class DraftCoreEditor extends React.Component {
 
 
 	focus = () => {
-		debugger;
 		const {editorState} = this;
 		const hasFocus = editorState && editorState.getSelection().getHasFocus();
 
@@ -146,8 +166,19 @@ export default class DraftCoreEditor extends React.Component {
 	}
 
 
+	onContentChange = () => {
+		const {onContentChange} = this.props;
+		const {currentEditorState} = this.state;
+
+		if (onContentChange) {
+			onContentChange(currentEditorState);
+		}
+	}
+
+
 	onChange = (editorState, cb) => {
 		const {onChange, allowedInlineStyles, allowedBlockTypes, allowLinks} = this.props;
+		const {currentEditorState} = this.state;
 		const state = fixStateForAllowed(editorState, allowedInlineStyles, allowedBlockTypes, allowLinks);
 
 		this.setState({currentEditorState: state}, () => {
@@ -156,7 +187,11 @@ export default class DraftCoreEditor extends React.Component {
 			}
 
 			if (onChange) {
-				onChange(editorState);
+				onChange(state);
+			}
+
+			if (currentEditorState.getCurrentContent() !== editorState.getCurrentContent()) {
+				this.onContentChangeBuffered();
 			}
 		});
 	}
