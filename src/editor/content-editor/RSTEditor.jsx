@@ -2,7 +2,7 @@ import React from 'react';
 import {EditorState, convertFromRaw, convertToRaw} from 'draft-js';
 
 import {Editor} from '../../draft-core';
-import {Parser} from '../../RST';
+import {Parser, test} from '../../RST';
 
 function rstToEditorState (rst) {
 	const draftState = rst && Parser.convertRSTToDraftState(rst);
@@ -41,7 +41,7 @@ export default class RSTEditor extends React.Component {
 
 	setUpValue (props = this.props) {
 		const {value} = props;
-		const editorState = rstToEditorState(value);
+		const editorState = rstToEditorState(test);//value);
 		const state = {editorState};
 
 		if (this.state) {
