@@ -60,6 +60,7 @@ export default class ContentEditor extends React.Component {
 			this.loadContentFromPackage(contentPackage);
 		}
 
+		Store.removeChangeListener(this.onStoreChange);
 		Store.addChangeListener(this.onStoreChange);
 		this.onMessage();
 	}
@@ -153,7 +154,6 @@ export default class ContentEditor extends React.Component {
 		const {error} = this.state;
 
 		if (error && error.clear) {
-			debugger;
 			error.clear();
 		}
 

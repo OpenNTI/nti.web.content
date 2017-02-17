@@ -140,6 +140,16 @@ class Store extends StorePrototype {
 	}
 
 
+	get isSaving () {
+		return this[Protected].savingCount > 0;
+	}
+
+
+	get errors () {
+		return this[Protected][ErrorMessages];
+	}
+
+
 	getErrorFor (id, field) {
 		return this[GetMessage](ErrorMessages, id, field);
 	}

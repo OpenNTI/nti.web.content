@@ -3,9 +3,15 @@
 .content-editor-controls {
 	display: flex;
 	align-items: center;
+	padding-right: 0.5rem;
 
 	.content-editor-type-format,
-	.content-editor-style-format {
+	.content-editor-style-format,
+	.content-editor-status {
 		flex: 0 0 auto;
+	}
+
+	.spacer {
+		flex: 1 1 auto;
 	}
 }
