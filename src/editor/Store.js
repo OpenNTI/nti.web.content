@@ -1,35 +1,45 @@
 import StorePrototype from 'nti-lib-store';
-// import {Errors} from 'nti-web-commons';
+import {Errors} from 'nti-web-commons';
 import Logger from 'nti-util-logger';
 
 import {
 	SAVING,
-	SAVE_ENDED
+	SAVE_ENDED,
+	SET_ERROR
 } from './Constants';
 
 const logger = Logger.get('lib:content-editor:Store');
 
-// const {Field: {Factory:ErrorFactory}} = Errors;
-// const errorFactory = new ErrorFactory();
+const {Field: {Factory:ErrorFactory}} = Errors;
+const errorFactory = new ErrorFactory();
 
 const SHORT = 3000;
 
 const Protected = Symbol('Protected');
+const ErrorMessages = 'error-messages';
 
 const SetSaveStart = Symbol('SetSaveStart');
 const SetSaveEnd = Symbol('SetSaveEnd');
+const SetError = Symbol('SetError');
+
+const SetMessage = Symbol('SetMessage');
+const GetMessage = Symbol('GetMessage');
+const RemoveMessage = Symbol('RemoveMessage');
+
 
 class Store extends StorePrototype {
 	constructor () {
 		super();
 
 		this[Protected] = {
-			savingCount: 0
+			savingCount: 0,
+			[ErrorMessages]: []
 		};
 
 		this.registerHandlers({
 			[SAVING]: SetSaveStart,
-			[SAVE_ENDED]: SetSaveEnd
+			[SAVE_ENDED]: SetSaveEnd,
+			[SET_ERROR]: SetError
 		});
 	}
 
@@ -75,6 +85,63 @@ class Store extends StorePrototype {
 		} else {
 			maybeEnd();
 		}
+	}
+
+
+	[GetMessage] (messageCategory, id, field) {
+		const messages = this[Protected][messageCategory];
+
+		for (let message of messages) {
+			if (message.isAttachedTo(id, field)) { return message; }
+		}
+	}
+
+
+	[RemoveMessage] (messageCategory, id, field, type) {
+		let messages = this[Protected][messageCategory];
+
+		this[Protected][messageCategory] = messages.filter(x => !x.isAttachedTo(id, field));
+
+		this.emitChange({type, NTIID: id});
+
+		return messages;
+	}
+
+
+	[SetMessage] (messageCategory, message, type) {
+		const messages = this[Protected][messageCategory];
+		const {NTIID, field, label, reason} = message;
+
+		if (!this[GetMessage](messageCategory, NTIID, field)) {
+			const newMessage = errorFactory.make(
+				{NTIID, field, type, label},
+				reason,
+				() => this[RemoveMessage](messageCategory, NTIID, field, type)
+			);
+
+			messages.push(newMessage);
+
+			this.emitChange({type, NTIID});
+		}
+
+		return messages;
+	}
+
+
+	[SetError] (e) {
+		const {response} = e.action;
+		const {type} = response || {};
+
+		//Note: Do not show 409s.
+		//since the user deals with them directly through a modal dialog
+		if (!response || response.statusCode !== 409) {
+			this[SetMessage](ErrorMessages, response, type || SET_ERROR);
+		}
+	}
+
+
+	getErrorFor (id, field) {
+		return this[GetMessage](ErrorMessages, id, field);
 	}
 }
 

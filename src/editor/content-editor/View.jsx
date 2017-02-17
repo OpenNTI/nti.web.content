@@ -1,13 +1,18 @@
 import React from 'react';
+import cx from 'classnames';
 import {scoped} from 'nti-lib-locale';
-import {Selection, Loading, EmptyState} from 'nti-web-commons';
+import {Selection, Loading, EmptyState, Errors} from 'nti-web-commons';
 import {EditorState, convertFromRaw, convertToRaw} from 'draft-js';
 import {buffer} from 'nti-commons';
 
 import {Editor} from '../../draft-core';
 import {Parser} from '../../RST';
+
+import Store from '../Store';
+import {SET_ERROR} from '../Constants';
 import {saveContentPackageRST} from '../Actions';
 
+const {Field:{Component:ErrorCmp}} = Errors;
 
 const LOADING = Symbol('Loading');
 
@@ -43,6 +48,7 @@ export default class ContentEditor extends React.Component {
 
 		if (oldPackage !== currentPackage) {
 			this.loadContentFromPackage(currentPackage);
+			this.onMessage();
 		}
 	}
 
@@ -53,6 +59,14 @@ export default class ContentEditor extends React.Component {
 		if (contentPackage) {
 			this.loadContentFromPackage(contentPackage);
 		}
+
+		Store.addChangeListener(this.onStoreChange);
+		this.onMessage();
+	}
+
+
+	componentWillUnmount () {
+		Store.removeChangeListener(this.onStoreChange);
 	}
 
 
@@ -87,7 +101,7 @@ export default class ContentEditor extends React.Component {
 		const {rst:oldRST} = this.state;
 		const newRST = Parser.convertDraftStateToRST(convertToRaw(this.pendingState.getCurrentContent()));
 
-		//TODO: look into how expensive this actually is for larger strings
+		//TODO: look into how expensive this comparison actually is for larger strings
 		if (oldRST !== newRST) {
 			saveContentPackageRST(contentPackage, newRST);
 		}
@@ -96,6 +110,26 @@ export default class ContentEditor extends React.Component {
 
 	flushChanges = () =>{
 		this.onChangeBuffered.flush();
+	}
+
+
+	onStoreChange = (data) => {
+		const {contentPackage} = this.props;
+
+		if (data.type === SET_ERROR && data.NTIID === contentPackage.NTIID) {
+			this.onMessage();
+		}
+	}
+
+
+	onMessage () {
+		const {contentPackage} = this.props;
+		const {NTIID} = contentPackage || {};
+		const error = NTIID && Store.getErrorFor(NTIID, 'contents');
+
+		this.setState({
+			error
+		});
 	}
 
 
@@ -116,6 +150,13 @@ export default class ContentEditor extends React.Component {
 
 
 	onEditorChange = (newState) => {
+		const {error} = this.state;
+
+		if (error && error.clear) {
+			debugger;
+			error.clear();
+		}
+
 		this.pendingState = newState;
 
 		this.onChangeBuffered();
@@ -123,10 +164,13 @@ export default class ContentEditor extends React.Component {
 
 
 	render () {
-		const {selectableID, selectableValue, contents} = this.state;
+		const {selectableID, selectableValue, contents, error} = this.state;
+		const cls = cx('content-editing-editor-container', {error});
 
 		return (
-			<Selection.Component className="content-editing-editor-container" id={selectableID} value={selectableValue}>
+			<Selection.Component className={cls} id={selectableID} value={selectableValue}>
+				{error && (<ErrorCmp className="content-editing-editor-error" error={error} />)}
+
 				{contents === LOADING ?
 						(<Loading.Mask message={t('Loading')} />) :
 						contents instanceof Error ?
