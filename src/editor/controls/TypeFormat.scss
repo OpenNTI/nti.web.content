@@ -13,9 +13,25 @@
 		line-height: 3.75rem !important;
 		padding: 0 0.625rem;
 		margin-right: 20px;
+		position: relative;
+		background-color: $panel-background;
+		cursor: pointer;
 
-		&:not(.empty) {
-			background-color: $panel-background;
+		&::after {
+			content: '\25BC';
+			background: white;
+			position: absolute;
+			top: 50%;
+			right: 0.625rem;
+			margin-top: -0.5rem;
+			color: $tertiary-grey;
+			text-align: center;
+			font-size: 8px;
+			line-height: 1rem;
+			height: 1rem;
+			width: 1rem;
+			border-radius: 1rem;
+			border: 1px solid $border-grey-light;
 		}
 	}
 }
