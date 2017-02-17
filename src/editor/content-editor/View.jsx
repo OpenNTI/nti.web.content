@@ -75,7 +75,7 @@ export default class ContentEditor extends React.Component {
 			});
 		}
 
-		contentPackage.getContents()
+		contentPackage.getRSTContents()
 			.then((rstContents) => {
 				this.setState({rstContents});
 			})

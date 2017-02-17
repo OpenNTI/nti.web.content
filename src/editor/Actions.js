@@ -4,7 +4,7 @@ import {SAVING, SAVE_ENDED, SET_ERROR} from './Constants';
 export function saveContentPackageRST (contentPackage, rst) {
 	dispatch(SAVING, contentPackage);
 
-	contentPackage.setContents(rst)
+	contentPackage.setRSTContents(rst)
 		.then(() => {
 			dispatch(SAVE_ENDED);
 		})

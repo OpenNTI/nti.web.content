@@ -11,7 +11,10 @@
 			padding: 1.25rem;
 			font: normal normal 0.875rem/2.2 $body-font-family;
 			color: $primary-grey;
-			margin: 0.875rem 0;
+
+			div {
+				margin: 0.875rem 0;
+			}
 		}
 
 		h1 {

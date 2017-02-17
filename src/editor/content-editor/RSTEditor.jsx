@@ -1,8 +1,14 @@
 import React from 'react';
 import {EditorState, convertFromRaw, convertToRaw} from 'draft-js';
 
-import {Editor} from '../../draft-core';
+import {Editor, Plugins} from '../../draft-core';
 import {Parser, test} from '../../RST';
+
+const externalLinks = Plugins.createExternalLinks();
+
+const plugins = [
+	externalLinks
+];
 
 function rstToEditorState (rst) {
 	const draftState = rst && Parser.convertRSTToDraftState(rst);
@@ -57,7 +63,7 @@ export default class RSTEditor extends React.Component {
 		const newValue = editorStateToRST(editorState);
 
 		if (oldValue !== newValue) {
-			onContentChange(newValue);
+			// onContentChange(newValue);
 		}
 	}
 
@@ -74,6 +80,7 @@ export default class RSTEditor extends React.Component {
 				className="content-editing-rst-editor"
 				editorState={editorState}
 				onContentChange={this.onContentChange}
+				plugins={plugins}
 				{...otherProps}
 			/>
 		);
