@@ -41,7 +41,7 @@ function resolveObjects () {
 			const {ContentPackageBundle: {ContentPackages}} = course;
 
 			for (let pack of ContentPackages) {
-				if (pack.getID() === contentPackageID) {
+				if (pack.getID() === contentPackageID || pack.OID === contentPackageID) {
 					return {
 						content: pack,
 						course
