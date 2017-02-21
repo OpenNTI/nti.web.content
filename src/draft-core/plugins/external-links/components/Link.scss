@@ -3,4 +3,8 @@
 .draft-core-external-link {
 	color: $primary-blue;
 	text-decoration: none;
+
+	&.focused {
+		font-weight: 800;
+	}
 }
