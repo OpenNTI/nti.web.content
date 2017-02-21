@@ -5,6 +5,20 @@
 	text-decoration: none;
 
 	&.focused {
-		font-weight: 800;
+		position: relative;
+
+		.editor-container {
+			position: absolute;
+			top: 100%;
+			left: 0;
+			width: 200px;
+			background: white;
+			border: 1px solid black;
+
+			//TODO: figure out how not to have to fight specificity here
+			.content-editing-editor-container .content-editing-rst-editor .DraftEditor-root & {
+				margin: 0;
+			}
+		}
 	}
 }

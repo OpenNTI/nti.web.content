@@ -2,6 +2,8 @@ import React from 'react';
 import cx from 'classnames';
 import {Entity} from 'draft-js';
 
+import Editor from './Editor';
+
 const eventName = 'selectedEntityKey-changed';
 
 export default class ExternalLink extends React.Component {
@@ -55,16 +57,43 @@ export default class ExternalLink extends React.Component {
 	}
 
 
+	setPendingData = (data) => {
+		this.pendingData = data;
+	}
+
+
+	onChange = (data) => {
+
+	}
+
+
+	onRemove = () => {
+
+	}
+
+
 	render () {
 		const {children} = this.props;
 		const {focused} = this.state;
 		const {url} = this.entityData;
-		const cls = cx('draft-core-external-link', {focused});
+		const cls = cx('draft-core-external-link', {focused: true});
 
+				// {focused ? this.renderEditor() : null}
 		return (
 			<a href={url} className={cls}>
 				{children}
+				{this.renderEditor()}
 			</a>
+		);
+	}
+
+
+	renderEditor = () => {
+		return (
+			<div className="editor-container">
+				<div className="arrow" />
+				<Editor data={this.endityData} onChange={this.setPendingChange} onSave={this.onChange} onRemove={this.onRemove} />
+			</div>
 		);
 	}
 }
