@@ -10,7 +10,7 @@ export default function ExternalLink ({entityKey, children}) {
 
 	return (
 		<a href={url} className="draft-core-external-link">
-			{children}
+			Link
 		</a>
 	);
 }

@@ -7,6 +7,7 @@ import {buffer} from 'nti-commons';
 
 import ContextProvider from '../ContextProvider';
 import fixStateForAllowed, {STYLE_SET, BLOCK_SET} from '../fixStateForAllowed';
+import {getCurrentLink, getCurrentBlockType, createLink} from '../utils';
 
 const CONTENT_CHANGE_BUFFER = 1000;
 
@@ -54,10 +55,6 @@ export default class DraftCoreEditor extends React.Component {
 
 		this.onContentChangeBuffered = buffer(contentChangeBuffer, this.onContentChange);
 
-		if (!editorState) {
-			debugger;
-		}
-
 		this.state = {
 			currentEditorState: editorState,
 			currentPlugins: plugins
@@ -79,7 +76,11 @@ export default class DraftCoreEditor extends React.Component {
 	}
 
 	get allowLinks () {
-		return this.props.allowLinks;
+		const {allowLinks} = this.props;
+		const {editorState} = this;
+		const selection = editorState.getSelection();
+
+		return allowLinks && !selection.isCollapsed();
 	}
 
 
@@ -92,18 +93,15 @@ export default class DraftCoreEditor extends React.Component {
 
 	get currentBlockType () {
 		const {editorState} = this;
-		const selection = editorState.getSelection();
-		const content = editorState.getCurrentContent();
-		const start = selection.getStartKey();
-		const end = selection.getEndKey();
-		const block = content.getBlockForKey(start);
 
-		return start === end ? block.getType() : '';
+		return getCurrentBlockType(editorState);
 	}
 
 
 	get currentLink () {
-		//TODO: fill this out
+		const {editorState} = this;
+
+		return getCurrentLink(editorState);
 	}
 
 
@@ -157,6 +155,19 @@ export default class DraftCoreEditor extends React.Component {
 	toggleBlockType (type, reclaimFocus) {
 		const {editorState} = this;
 		const newState = RichUtils.toggleBlockType(editorState, type);
+
+		this.onChange(newState, () => {
+			if (reclaimFocus) {
+				this.focus();
+			}
+		});
+	}
+
+
+	toggleLink (link, reclaimFocus) {
+		const {editorState} = this;
+		const selection = editorState.getSelection();
+		const newState = RichUtils.toggleLink(editorState, selection, createLink(''));
 
 		this.onChange(newState, () => {
 			if (reclaimFocus) {

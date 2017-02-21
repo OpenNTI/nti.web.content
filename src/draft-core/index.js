@@ -1,5 +1,6 @@
 export * from './components/style';
 export * from './components/type';
+export * from './components/entity';
 
 export * as Plugins from './plugins';
 
