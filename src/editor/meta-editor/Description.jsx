@@ -1,8 +1,15 @@
 import React from 'react';
+import {scoped} from 'nti-lib-locale';
 
 import {saveContentPackageDescription} from '../Actions';
 
 import MetaEditor from './MetaEditor';
+
+const DEFAULT_TEXT = {
+	placeholder: 'Write a description here'
+};
+
+const t = scoped('CONTENT_EDITOR_TITLE', DEFAULT_TEXT);
 
 export default class ContentEditorTitle extends React.Component {
 	static propTypes = {
@@ -29,6 +36,7 @@ export default class ContentEditorTitle extends React.Component {
 				contentPackage={contentPackage}
 				value={description}
 				onContentChange={this.onContentChange}
+				placeholder={t('placeholder')}
 			/>
 		);
 	}

@@ -1,9 +1,15 @@
 import React from 'react';
+import {scoped} from 'nti-lib-locale';
 
 import {Plugins} from '../../draft-core';
 import {saveContentPackageTitle} from '../Actions';
 
 import MetaEditor from './MetaEditor';
+
+const DEFAULT_TEXT = {
+	placeholder: 'Title'
+};
+const t = scoped('CONTENT_TITLE_EDITOR', DEFAULT_TEXT);
 
 const plugins = [
 	Plugins.createSingleLine()
@@ -35,6 +41,7 @@ export default class ContentEditorTitle extends React.Component {
 				value={title}
 				onContentChange={this.onContentChange}
 				plugins={plugins}
+				placeholder={t('placeholder')}
 			/>
 		);
 	}

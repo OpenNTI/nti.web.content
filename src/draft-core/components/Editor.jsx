@@ -248,7 +248,7 @@ export default class DraftCoreEditor extends React.Component {
 
 
 	render () {
-		const {className} = this.props;
+		const {className, placeholder} = this.props;
 		const {currentEditorState:editorState, currentPlugins:plugins, busy} = this.state;
 
 		const contentState = editorState && editorState.getCurrentContent();
@@ -276,6 +276,7 @@ export default class DraftCoreEditor extends React.Component {
 						onChange={this.onChange}
 						onFocus={this.onFocus}
 						handleKeyCommand={this.handleKeyCommand}
+						placeholder={placeholder}
 					/>
 				</div>
 			</ContextProvider>
