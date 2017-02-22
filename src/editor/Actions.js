@@ -68,3 +68,29 @@ export function saveContentPackageDescription (contentPackage, description) {
 			dispatch(SAVE_ENDED);
 		});
 }
+
+
+export function saveContentPackageIcon (contentPackage, icon) {
+	debugger;
+	const {icon:oldIcon} = contentPackage;
+
+	if (oldIcon === icon) {
+		return Promise.resolve();
+	}
+
+	dispatch(SAVING, contentPackage);
+
+	contentPackage.save({icon})
+		.then(() => {
+			dispatch(SAVE_ENDED);
+		})
+		.catch((reason) => {
+			dispatch(SET_ERROR, {
+				NTIID: contentPackage.NTIID,
+				field: 'icon',
+				reason
+			});
+
+			dispatch(SAVE_ENDED);
+		});
+}
