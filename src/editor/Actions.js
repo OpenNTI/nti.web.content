@@ -19,3 +19,27 @@ export function saveContentPackageRST (contentPackage, rst) {
 			return Promise.reject(reason);
 		});
 }
+
+
+export function saveContentPackageTitle (contentPackage, title) {
+	const {title:oldTitle} = contentPackage;
+
+	if (oldTitle === title) {
+		return Promise.resolve();
+	}
+
+	dispatch(SAVING, contentPackage);
+
+	contentPackage.save({title})
+		.then(() => {
+			dispatch(SAVE_ENDED);
+		})
+		.catch((reason) => {
+			dispatch(SET_ERROR, {
+				NTIID: contentPackage.NTIID,
+				field: 'title',
+				reason
+			});
+			dispatch(SAVE_ENDED);
+		});
+}

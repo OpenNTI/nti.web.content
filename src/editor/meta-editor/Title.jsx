@@ -1,6 +1,13 @@
 import React from 'react';
 
+import {Plugins} from '../../draft-core';
+import {saveContentPackageTitle} from '../Actions';
+
 import MetaEditor from './MetaEditor';
+
+const plugins = [
+	Plugins.createSingleLine()
+];
 
 export default class ContentEditorTitle extends React.Component {
 	static propTypes = {
@@ -10,7 +17,9 @@ export default class ContentEditorTitle extends React.Component {
 
 
 	onContentChange = (title) => {
-		debugger;
+		const {contentPackage} = this.props;
+
+		saveContentPackageTitle(contentPackage, title);
 	}
 
 
@@ -19,7 +28,14 @@ export default class ContentEditorTitle extends React.Component {
 		const {title} = contentPackage || {};
 
 		return (
-			<MetaEditor className="content-title-editor" fieldName="title" value={title} onContentChange={this.onContentChange} />
+			<MetaEditor
+				className="content-title-editor"
+				fieldName="title"
+				contentPackage={contentPackage}
+				value={title}
+				onContentChange={this.onContentChange}
+				plugins={plugins}
+			/>
 		);
 	}
 }

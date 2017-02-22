@@ -253,20 +253,18 @@ export default class DraftCoreEditor extends React.Component {
 
 		const contentState = editorState && editorState.getCurrentContent();
 		const hidePlaceholder = contentState && !contentState.hasText() && contentState.getBlockMap().first().getType() !== 'unstyled';
+		const pluginClasses = plugins.map(x => x.editorClass);
 
 		const cls = cx(
 			'nti-draft-core',
 			className,
+			pluginClasses,
 			{
 				busy,
 				'auto-hyphenate': UserAgent.isBrowser('Firefox'),// || UserAgent.isBrowser('IE')
 				'hide-placeholder': hidePlaceholder
 			}
 		);
-
-		if (!editorState) {
-			debugger;
-		}
 
 		return (
 			<ContextProvider editor={this} ref={this.attachContextRef} internal>
