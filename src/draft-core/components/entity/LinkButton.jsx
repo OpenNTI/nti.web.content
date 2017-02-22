@@ -34,7 +34,7 @@ export default class LinkButton extends React.Component {
 	get isCurrent () {
 		const {currentLink} = this.editorContext;
 
-		return currentLink;
+		return !!currentLink;
 	}
 
 

@@ -18,7 +18,7 @@ export function getCurrentLink (editorState) {
 				selection.getAnchorOffset() >= start &&
 				selection.getFocusOffset() <= end
 			) {
-			currentLink = true;
+			currentLink = currentBlock.getEntityAt(start);
 		}
 	});
 

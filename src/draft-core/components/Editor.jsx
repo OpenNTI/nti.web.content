@@ -264,6 +264,10 @@ export default class DraftCoreEditor extends React.Component {
 			}
 		);
 
+		if (!editorState) {
+			debugger;
+		}
+
 		return (
 			<ContextProvider editor={this} ref={this.attachContextRef} internal>
 				<div className={cls}>

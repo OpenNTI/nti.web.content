@@ -68,7 +68,7 @@ function cleanStyles (disallowed, content, range, block) {
 
 
 function cleanBlock (disallowed, content, range, block) {
-	if (disallowed[block.type]) {
+	if (disallowed[block.type] && block.type !== BLOCK_TYPE.UNSTYLED) {
 		content = Modifier.setBlockType(content, range, BLOCK_TYPE.UNSTYLED);
 	}
 
@@ -76,7 +76,7 @@ function cleanBlock (disallowed, content, range, block) {
 }
 
 
-function cleanLinks (disallowed, content/*, range, block*/) {
+function cleanLinks (content/*, range, block*/) {
 	//TODO: fill this out
 
 	return content;
@@ -111,7 +111,7 @@ export default function fixStateForAllowed (newState, allowedStyles = [], allowe
 			content = cleanLinks(content, range, block);
 		}
 
-		if (disallowedStyles.length > 0) {
+		if (disallowedBlocks.length > 0) {
 			content = cleanBlock(blockMap, content, range, block);
 		}
 	}
