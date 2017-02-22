@@ -1,5 +1,12 @@
 @import "~nti-style-common";
 
+.content-editor-publish-trigger {
+	&.disabled {
+		pointer-events: none;
+		opacity: 0.8;
+	}
+}
+
 .content-editor-publish.flyout {
 	.flyout-inner {
 		border-radius: rem-calc(4px);

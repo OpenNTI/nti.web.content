@@ -1,4 +1,5 @@
 import React from 'react';
+import cx from 'classnames';
 import {scoped} from 'nti-lib-locale';
 import {Flyout, PublishTrigger} from 'nti-web-commons';
 
@@ -27,6 +28,9 @@ export default class ContentEditorPublish extends React.Component {
 	static propTypes = {
 		contentPackage: React.PropTypes.object
 	}
+
+	state = {}
+
 
 	onPublish = () => {
 		debugger;
@@ -60,8 +64,12 @@ export default class ContentEditorPublish extends React.Component {
 
 
 	renderTrigger () {
+		const {contentPackage} = this.props;
+		const {disabled} = this.state;
+		const cls = cx('content-editor-publish-trigger', {disabled: disabled || !contentPackage});
+
 		return (
-			<div>
+			<div className={cls}>
 				<PublishTrigger label={t('publish.trigger')} />
 			</div>
 		);
