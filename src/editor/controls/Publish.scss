@@ -1,0 +1,60 @@
+@import "~nti-style-common";
+
+.content-editor-publish.flyout {
+	.flyout-inner {
+		border-radius: rem-calc(4px);
+		padding: rem-calc(10px 15px);
+	}
+
+	.content-editor-publish-menu {
+		max-width: 280px;
+		font: normal 400 0.875rem/1.25rem $body-font-family;
+
+		h3 {
+			font: normal 400 1.125rem/1.5rem $body-font-family;
+			color: $primary-grey;
+			margin: 0 0 0.5rem;
+		}
+
+		p {
+			color: $secondary-grey;
+			margin-bottom: 1rem;
+		}
+
+
+		.action {
+			color: $primary-blue;
+			margin-bottom: 0.625rem;
+			cursor: pointer;
+		}
+
+
+		.delete {
+			padding-top: 0.625rem;
+			color: $secondary-grey;
+			cursor: pointer;
+
+			i {
+				display: inline-block;
+				vertical-align: middle;
+				margin-right: 10px;
+			}
+
+			span {
+				display: inline-block;
+				vertical-align: middle;
+			}
+		}
+
+
+		.publish {
+			margin: 1.6rem 0 0;
+			background-color: $primary-blue;
+			line-height: 2rem;
+			text-align: center;
+			border-radius: 4px;
+			color: white;
+			cursor: pointer;
+		}
+	}
+}

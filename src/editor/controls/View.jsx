@@ -4,6 +4,7 @@ import {ContextProvider} from '../../draft-core';
 import TypeFormat from './TypeFormat';
 import StyleFormat from './StyleFormat';
 import Status from './Status';
+import Publish from './Publish';
 
 function getEditorForSelection (selection) {
 	const first = selection && selection[0];
@@ -59,6 +60,7 @@ export default class ContentEditorControls extends React.Component {
 
 
 	render () {
+		const {contentPackage} = this.props;
 		const {selection} = this.state;
 		const editor = getEditorForSelection(selection);
 
@@ -69,6 +71,7 @@ export default class ContentEditorControls extends React.Component {
 					<StyleFormat editor={editor} />
 					<div className="spacer" />
 					<Status />
+					<Publish contentPackage={contentPackage} />
 				</div>
 			</ContextProvider>
 		);
