@@ -268,7 +268,7 @@ export default class DraftCoreEditor extends React.Component {
 
 		return (
 			<ContextProvider editor={this} ref={this.attachContextRef} internal>
-				<div className={cls}>
+				<div className={cls} onClick={this.focus}>
 					<Editor
 						ref={this.attachEditorRef}
 						editorState={editorState}

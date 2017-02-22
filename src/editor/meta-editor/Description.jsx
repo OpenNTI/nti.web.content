@@ -1,22 +1,35 @@
 import React from 'react';
 
-export default class ContentEditorDescription extends React.Component {
+import {saveContentPackageDescription} from '../Actions';
+
+import MetaEditor from './MetaEditor';
+
+export default class ContentEditorTitle extends React.Component {
 	static propTypes = {
-		contentPackages: React.PropTypes.object,
+		contentPackage: React.PropTypes.object,
 		course: React.PropTypes.object
 	}
 
 
-	onClick = () => {
+	onContentChange = (description) => {
+		const {contentPackage} = this.props;
 
+		saveContentPackageDescription(contentPackage, description);
 	}
 
 
 	render () {
+		const {contentPackage} = this.props;
+		const {description} = contentPackage || {};
+
 		return (
-			<div className="content-editor-content">
-				<span>Description</span>
-			</div>
+			<MetaEditor
+				className="content-description-editor"
+				fieldName="description"
+				contentPackage={contentPackage}
+				value={description}
+				onContentChange={this.onContentChange}
+			/>
 		);
 	}
 }

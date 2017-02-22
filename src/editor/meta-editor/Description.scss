@@ -1,0 +1,14 @@
+@import "~nti-style-common";
+
+.content-description-editor {
+	cursor: text;
+	min-height: 3.5rem;
+
+	.nti-draft-core {
+		min-height: 3.5rem;
+
+		.DraftEditor-root {
+			color: $secondary-grey;
+		}
+	}
+}

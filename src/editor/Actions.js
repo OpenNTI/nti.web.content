@@ -43,3 +43,28 @@ export function saveContentPackageTitle (contentPackage, title) {
 			dispatch(SAVE_ENDED);
 		});
 }
+
+
+export function saveContentPackageDescription (contentPackage, description) {
+	const {description:oldDescription} = contentPackage;
+
+	if (oldDescription === description) {
+		return Promise.resolve();
+	}
+
+	dispatch(SAVING, contentPackage);
+
+	contentPackage.save({description})
+		.then(() => {
+			dispatch(SAVE_ENDED);
+		})
+		.catch((reason) => {
+			dispatch(SET_ERROR, {
+				NTIID: contentPackage.NTIID,
+				field: 'description',
+				reason
+			});
+
+			dispatch(SAVE_ENDED);
+		});
+}
