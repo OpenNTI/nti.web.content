@@ -3,6 +3,8 @@ import cx from 'classnames';
 import {scoped} from 'nti-lib-locale';
 import {Flyout, PublishTrigger} from 'nti-web-commons';
 
+import {publishContentPackage, unpublishContentPackage} from '../Actions';
+
 const DEFAULT_TEXT = {
 	publish: {
 		trigger: 'Publish',
@@ -33,12 +35,20 @@ export default class ContentEditorPublish extends React.Component {
 
 
 	onPublish = () => {
-		debugger;
+		const {contentPackage} = this.props;
+
+		if (contentPackage) {
+			publishContentPackage(contentPackage);
+		}
 	}
 
 
 	onUnpublish = () => {
+		const {contentPackage} = this.props;
 
+		if (contentPackage) {
+			unpublishContentPackage(contentPackage);
+		}
 	}
 
 

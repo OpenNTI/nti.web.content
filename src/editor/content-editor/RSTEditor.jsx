@@ -63,7 +63,7 @@ export default class RSTEditor extends React.Component {
 		const newValue = editorStateToRST(editorState);
 
 		if (oldValue !== newValue) {
-			// onContentChange(newValue);
+			onContentChange(newValue);
 		}
 	}
 

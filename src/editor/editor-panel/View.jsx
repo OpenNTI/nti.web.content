@@ -6,6 +6,7 @@ import NavBar from '../nav-bar';
 
 import Content from './Content';
 import Options from './Options';
+import RenderingMask from './RenderingMask';
 
 
 EditorPanel.propTypes = {
@@ -19,10 +20,11 @@ export default function EditorPanel ({contentPackage, course, pageSource}) {
 
 	return (
 		<StickyContainer className="content-editor-panel">
-				<StickyElement>
-					<NavBar pageSource={pageSource} />
-				</StickyElement>
-				<ContentOptionSwitcher options={optionsCmp} content={contentCmp} />
-			</StickyContainer>
+			<StickyElement>
+				<NavBar pageSource={pageSource} />
+			</StickyElement>
+			<ContentOptionSwitcher options={optionsCmp} content={contentCmp} />
+			<RenderingMask contentPackage={contentPackage} />
+		</StickyContainer>
 	);
 }

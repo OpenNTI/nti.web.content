@@ -142,18 +142,21 @@ export default class ContentEditor extends React.Component {
 			<Selection.Component className={cls} id={selectableID} value={selectableValue}>
 				{error && (<ErrorCmp className="content-editing-editor-error" error={error} />)}
 
-				{rstContents === LOADING ?
-						(<Loading.Mask message={t('Loading')} />) :
-						rstContents instanceof Error ?
-							(<EmptyState header={t('failedHeader')}/>) :
-							(<RSTEditor
-								value={rstContents}
-								onFocus={this.onEditorFocus}
-								onBlur={this.onEditorBlur}
-								onChange={this.onEditorChange}
-								onContentChange={this.onEditorContentChange}
-							/>)
-				}
+				<div className="content">
+					{rstContents === LOADING ?
+							(<Loading.Mask message={t('Loading')} />) :
+							rstContents instanceof Error ?
+								(<EmptyState header={t('failedHeader')}/>) :
+								(<RSTEditor
+									value={rstContents}
+									onFocus={this.onEditorFocus}
+									onBlur={this.onEditorBlur}
+									onChange={this.onEditorChange}
+									onContentChange={this.onEditorContentChange}
+								/>)
+
+					}
+				</div>
 			</Selection.Component>
 		);
 	}

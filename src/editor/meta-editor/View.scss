@@ -4,7 +4,6 @@
 	background: $panel-background;
 	box-shadow: 0 1px 0 0 $border-grey-light;
 	padding: rem-calc(20px 32px 30px);
-	min-height: 200px;//TODO: get rid of the meta editor is filled out
 	display: flex;
 
 	.content-icon-editor {

@@ -5,7 +5,11 @@ import Logger from 'nti-util-logger';
 import {
 	SAVING,
 	SAVE_ENDED,
-	SET_ERROR
+	SET_ERROR,
+	PUBLISHING,
+	PUBLISH_ENDED,
+	UNPUBLISHING,
+	UNPUBLISH_ENDED
 } from './Constants';
 
 const logger = Logger.get('lib:content-editor:Store');
@@ -26,6 +30,12 @@ const SetMessage = Symbol('SetMessage');
 const GetMessage = Symbol('GetMessage');
 const RemoveMessage = Symbol('RemoveMessage');
 
+const SetPublishStart = Symbol('SetPublishStart');
+const SetPublishEnd = Symbol('SetPublishEnd');
+
+const SetUnpublishStart = Symbol('SetUnpublishStart');
+const SetUnpublishEnd = Symbol('SetUnpublishEnd');
+
 
 class Store extends StorePrototype {
 	constructor () {
@@ -33,13 +43,20 @@ class Store extends StorePrototype {
 
 		this[Protected] = {
 			savingCount: 0,
+			publishing: false,
+			unpublishing: false,
+			hasPublished: false,
 			[ErrorMessages]: []
 		};
 
 		this.registerHandlers({
 			[SAVING]: SetSaveStart,
 			[SAVE_ENDED]: SetSaveEnd,
-			[SET_ERROR]: SetError
+			[SET_ERROR]: SetError,
+			[PUBLISHING]: SetPublishStart,
+			[PUBLISH_ENDED]: SetPublishEnd,
+			[UNPUBLISHING]: SetUnpublishStart,
+			[UNPUBLISH_ENDED]: SetUnpublishEnd
 		});
 	}
 
@@ -140,6 +157,35 @@ class Store extends StorePrototype {
 	}
 
 
+	[SetPublishStart] () {
+		this[Protected].publishing = true;
+		this[Protected].hasPublished = true;
+
+		this.emitChange({type: PUBLISHING});
+	}
+
+
+	[SetPublishEnd] () {
+		this[Protected].publishing = false;
+
+		this.emitChange({type: PUBLISHING});
+	}
+
+
+	[SetUnpublishStart] () {
+		this[Protected].unpublishing = true;
+
+		this.emitChange({type: UNPUBLISHING});
+	}
+
+
+	[SetUnpublishEnd] () {
+		this[Protected].unpublishing = false;
+
+		this.emitChange({type: UNPUBLISHING});
+	}
+
+
 	get isSaving () {
 		return this[Protected].savingCount > 0;
 	}
@@ -147,6 +193,21 @@ class Store extends StorePrototype {
 
 	get errors () {
 		return this[Protected][ErrorMessages];
+	}
+
+
+	get isPublishing () {
+		return this[Protected].publishing;
+	}
+
+
+	get hasPublished () {
+		return this[Protected].hasPublished;
+	}
+
+
+	get isUnpublishing () {
+		return this[Protected].unpublishing;
 	}
 
 

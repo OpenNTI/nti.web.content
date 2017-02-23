@@ -1,5 +1,52 @@
 import {dispatch} from 'nti-lib-dispatcher';
-import {SAVING, SAVE_ENDED, SET_ERROR} from './Constants';
+import {
+	SAVING,
+	SAVE_ENDED,
+	SET_ERROR,
+	PUBLISHING,
+	PUBLISH_ENDED,
+	UNPUBLISHING,
+	UNPUBLISH_ENDED
+} from './Constants';
+
+
+export function publishContentPackage (contentPackage) {
+	dispatch(PUBLISHING);
+
+	contentPackage.publish()
+		.then(() => {
+			dispatch(PUBLISH_ENDED);
+		})
+		.catch((reason) => {
+			dispatch(PUBLISH_ENDED);
+
+			dispatch(SET_ERROR, {
+				NTIID: contentPackage.NTIID,
+				field: 'publish',
+				reason
+			});
+		});
+}
+
+
+export function unpublishContentPackage (contentPackage) {
+	dispatch(UNPUBLISHING);
+
+	contentPackage.unpublish()
+		.then(() => {
+			dispatch(UNPUBLISH_ENDED);
+		})
+		.catch((reason) => {
+			dispatch(UNPUBLISH_ENDED);
+
+			dispatch(SET_ERROR, {
+				NTIID: contentPackage.NTIID,
+				field: 'publish',
+				reason
+			});
+		});
+}
+
 
 export function saveContentPackageRST (contentPackage, rst) {
 	dispatch(SAVING, contentPackage);
