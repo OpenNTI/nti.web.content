@@ -119,7 +119,7 @@ export default class Header extends IndentedBlock {
 		const {level, char, textBlock} = this.parts;
 		const type = LEVEL_TO_TYPE[level];
 		const {output, context:newContext} = textBlock.getOutput(context, true);
-		const data = output.data ? {...output.data, char} : {char};
+		const data = output.data ? {...this.blockData, ...output.data, char} : {char};
 
 		return {output: {...output, type, data}, newContext};
 	}

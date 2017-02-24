@@ -1,6 +1,7 @@
 import {BLOCK_TYPE} from 'draft-js-utils';
 
 import parseText from '../text-parser';
+import {getDocIDStringFor} from '../utils';
 
 const BLOCK = Symbol('Block');
 
@@ -69,7 +70,7 @@ export default class Header {
 		const char = LEVEL_TO_CHAR[depth];
 		const indent = LEVEL_TO_INDENT[depth];
 
-		let output = [];
+		let output = [getDocIDStringFor(this[BLOCK])];
 
 		if (isTitle) {
 			output.push(buildStringForChar(char, lineLength));

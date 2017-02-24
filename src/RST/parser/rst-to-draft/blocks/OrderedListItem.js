@@ -145,6 +145,6 @@ export default class OrderedListItem extends UnorderedListItem {
 		const {text, listStyle} = this;
 		const {output, context:newContext} = text.getOutput(context);
 
-		return {output: {...output, depth: this.depth, type: BLOCK_TYPE.ORDERED_LIST_ITEM, data: {listStyle}}, newContext};
+		return {output: {...output, depth: this.depth, type: BLOCK_TYPE.ORDERED_LIST_ITEM, data: {...this.blockData, listStyle}}, newContext};
 	}
 }

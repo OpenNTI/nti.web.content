@@ -1,5 +1,6 @@
 import Comment from './Comment';
 import Directive from './Directive';
+import DocID from './DocID';
 import Empty from './Empty';
 import ExternalHyperLink from './ExternalHyperLink';
 import FieldList from './FieldList';
@@ -16,6 +17,7 @@ export default [
 	OrderedListItem,
 	ExternalHyperLink,
 	Figure,
+	DocID,
 	FieldList,
 	Directive,
 	Comment,

@@ -44,6 +44,6 @@ export default class UnorderedListItem extends IndentedBlock {
 		const {text} = this;
 		const {output, context:newContext} = text.getOutput(context);
 
-		return {output: {...output, depth: this.depth, type: BLOCK_TYPE.UNORDERED_LIST_ITEM}, newContext};
+		return {output: {...output, depth: this.depth, type: BLOCK_TYPE.UNORDERED_LIST_ITEM, data: this.blockData}, newContext};
 	}
 }

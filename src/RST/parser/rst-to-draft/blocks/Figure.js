@@ -17,6 +17,7 @@ export default class Figure extends Directive {
 			type: BLOCK_TYPE.ATOMIC,
 			text: '',
 			data: {
+				...this.blockData,
 				type: 'figure',
 				src: this.arguments,
 				options: this.options

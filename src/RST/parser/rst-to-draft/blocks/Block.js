@@ -1,6 +1,7 @@
 const BLOCK = Symbol('Block');
 const PARTS = Symbol('Parts');
 const IS_CONSUMED = Symbol('Is Consumed');
+const BLOCK_DATA = Symbol('BLOCK_DATA');
 
 export default class Block {
 	static isNextBlock () { return true; }
@@ -12,6 +13,8 @@ export default class Block {
 	constructor (block, parts) {
 		this[BLOCK] = block;
 		this[PARTS] = parts;
+
+		this[BLOCK_DATA] = {};
 	}
 
 
@@ -22,6 +25,16 @@ export default class Block {
 
 	get parts () {
 		return this[PARTS];
+	}
+
+
+	get blockData () {
+		return this[BLOCK_DATA];
+	}
+
+
+	setBlockData (key, value) {
+		this[BLOCK_DATA][key] = value;
 	}
 
 

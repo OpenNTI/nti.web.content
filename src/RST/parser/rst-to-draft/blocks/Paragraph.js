@@ -56,6 +56,6 @@ export default class Paragraph extends IndentedBlock {
 		const {output, context:newContext} = text.getOutput(context);
 		const type = this.depth === 0 ? BLOCK_TYPE.UNSTYLED : BLOCK_TYPE.BLOCKQUOTE;
 
-		return {output: {...output, depth: 0, type}, newContext};
+		return {output: {...output, depth: 0, type, data: this.blockData}, newContext};
 	}
 }
