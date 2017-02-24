@@ -76,11 +76,13 @@ export default class ContentEditorPublish extends React.Component {
 	renderTrigger () {
 		const {contentPackage} = this.props;
 		const {disabled} = this.state;
+		const {isPublished} = contentPackage || {};
 		const cls = cx('content-editor-publish-trigger', {disabled: disabled || !contentPackage});
+		const label = isPublished ? t('publishChanges.trigger') : t('publish.trigger');
 
 		return (
 			<div className={cls}>
-				<PublishTrigger label={t('publish.trigger')} />
+				<PublishTrigger label={label} />
 			</div>
 		);
 	}
