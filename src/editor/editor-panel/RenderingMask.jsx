@@ -69,7 +69,7 @@ export default class ContentEditorRenderingMask extends React.Component {
 	onRenderJobChange = (job) => {
 		const {publishing} = this.state;
 		let state = {
-			failed: job.isFailed,
+			failure: job.isFailed,
 			success: job.isSucess
 		};
 
@@ -158,16 +158,18 @@ export default class ContentEditorRenderingMask extends React.Component {
 		return (
 			<div className="publishing-indicator">
 				<Sequence.Timed>
-					<Sequence.Item showFor={9000}>
+					<Sequence.Item showFor={21000}>
 						<div className="spinner-message">
 							<Loading.Spinner className="spinner" size="120px" strokeWidth="1" />
-							<span className="spinner-message">{t('publishingMessageOne')}</span>
-						</div>
-					</Sequence.Item>
-					<Sequence.Item showFor={12000}>
-						<div className="spinner-message">
-							<Loading.Spinner className="spinner" size="120px" strokeWidth="1" />
-							<span className="spinner-message">{t('publishingMessageTwo')}</span>
+							<Sequence.Timed>
+								<Sequence.Item showFor={9000}>
+									<span className="spinner-message">{t('publishingMessageOne')}</span>
+								</Sequence.Item>
+								<Sequence.Item showFor={12000}>
+									<span className="spinner-message">{t('publishingMessageTwo')}</span>
+								</Sequence.Item>
+							</Sequence.Timed>
+
 						</div>
 					</Sequence.Item>
 					<Sequence.Item showFor={Infinity}>
