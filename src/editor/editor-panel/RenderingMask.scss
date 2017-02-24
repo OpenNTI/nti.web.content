@@ -8,12 +8,12 @@
 
 	background: rgba(255, 255, 255, 0.8);
 
-	&.publishing {
+	&.publishing, &.success, &.failure {
 		display: block;
 	}
 
 
-	.publishing-inidcator {
+	.publishing-indicator {
 		padding-top: rem-calc(130px);
 		text-align: center;
 
@@ -23,7 +23,7 @@
 
 		.spinner-message {
 			margin-top: 1rem;
-			display: inline-block;
+			display: block;
 			font-size: 0.875rem;
 			color: $primary-blue;
 		}
@@ -49,7 +49,52 @@
 				background-color: $primary-blue;
 				border-radius: 4px;
 				margin: 25px auto 0;
+				cursor: pointer;
 			}
+		}
+	}
+
+	.success-indicator, .failure-indicator{
+		padding-top: rem-calc(130px);
+		text-align: center;
+
+		i, .icon {
+			display: inline-block;
+			width: rem-calc(120px);
+			line-height: rem-calc(120px);
+			font-size: 3rem;
+			font-weight: 300;
+			border-radius: rem-calc(120px);
+		}
+
+		span {
+			display: block;
+			margin-top: 20px;
+			line-height: 1.25rem;
+			font-size: 0.875rem;
+		}
+	}
+
+	.success-indicator {
+		i {
+			color: $primary-green;
+			border: 2px solid $primary-green;
+		}
+
+
+		span {
+			color: $primary-green;
+		}
+	}
+
+	.failure-indicator {
+		.icon {
+			color: $primary-red;
+			border: 2px solid $primary-red;
+		}
+
+		span {
+			color: $primary-red;
 		}
 	}
 }
