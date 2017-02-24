@@ -2,13 +2,54 @@
 
 .content-editor-render-mask {
 	position: absolute;
-	top: 0; bottom: 0;
+	top: 51px; bottom: 0;
 	left: 0; right: 0;
 	display: none;
 
-	background: rgba(255, 255, 255, 0.7);
+	background: rgba(255, 255, 255, 0.8);
 
 	&.publishing {
 		display: block;
+	}
+
+
+	.publishing-inidcator {
+		padding-top: rem-calc(130px);
+		text-align: center;
+
+		.spinner {
+			display: inline-block;
+		}
+
+		.spinner-message {
+			margin-top: 1rem;
+			display: inline-block;
+			font-size: 0.875rem;
+			color: $primary-blue;
+		}
+
+		.too-long-message {
+			padding-top: rem-calc(20px);
+			max-width: rem-calc(330px);
+			margin: 0 auto;
+
+			.message {
+				font-size: 1.125rem;
+				line-height: 1.625rem;
+				color: $secondary-grey;
+				display: block;
+			}
+
+			.button {
+				display: block;
+				width: rem-calc(127px);
+				font-size: 1rem;
+				line-height: 2.625rem;
+				color: white;
+				background-color: $primary-blue;
+				border-radius: 4px;
+				margin: 25px auto 0;
+			}
+		}
 	}
 }
