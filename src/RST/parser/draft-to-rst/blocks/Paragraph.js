@@ -1,6 +1,5 @@
 import {BLOCK_TYPE} from 'draft-js-utils';
 
-import {getDocIDStringFor} from '../utils';
 import parseText from '../text-parser';
 
 const BLOCK = Symbol('Block');
@@ -26,6 +25,6 @@ export default class Paragraph {
 
 
 	getOutput (context) {
-		return {output: [getDocIDStringFor(this[BLOCK]), parseText(this[BLOCK], context)]};
+		return {output: parseText(this[BLOCK], context)};
 	}
 }
