@@ -1,5 +1,6 @@
 import {BLOCK_TYPE} from 'draft-js-utils';
 
+import {getUIDStringFor} from '../utils';
 import parseText from '../text-parser';
 
 const BLOCK = Symbol('Block');
@@ -60,6 +61,7 @@ export default class UnorderedListItem {
 
 			currentDepth = depth;
 
+			output.push(getUIDStringFor(block));
 			output.push(`${indent}- ${text}`);
 		}
 

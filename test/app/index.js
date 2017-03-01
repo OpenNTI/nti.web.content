@@ -38,18 +38,9 @@ function resolveObjects () {
 			return service.getObject(courseID);
 		})
 		.then((course) => {
-			const {ContentPackageBundle: {ContentPackages}} = course;
+			const content = course.getPackage(contentPackageID);
 
-			for (let pack of ContentPackages) {
-				if (pack.getID() === contentPackageID || pack.OID === contentPackageID) {
-					return {
-						content: pack,
-						course
-					};
-				}
-			}
-
-			return {course};
+			return {content, course};
 		});
 }
 

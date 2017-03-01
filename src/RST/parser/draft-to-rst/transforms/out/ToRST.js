@@ -9,7 +9,7 @@ export default function (parsed) {
 
 		if (Array.isArray(output)) {
 			acc.blocks = acc.blocks.concat(output);
-		} else {
+		} else if (output) {
 			acc.blocks.push(output);
 		}
 

@@ -1,10 +1,16 @@
 import uuid from 'node-uuid';
 
-function getDocIDForBlock (block) {
-	return (block && block.data && block.data.DocID) || uuid.v4();
+function generateUID () {
+	const id = uuid.v4();
+
+	return id.replace(/-/g, '');
+}
+
+function getUIDForBlock (block) {
+	return (block && block.data && block.data.UID) || generateUID();
 }
 
 
-export function getDocIDStringFor (block) {
-	return `.. docid:: ${getDocIDForBlock(block)}`;
+export function getUIDStringFor (block) {
+	return `.. uid:: ${getUIDForBlock(block)}\n.. UID applied to the block below for anchoring\n`;
 }

@@ -18,6 +18,9 @@ export default class Comment extends IndentedBlock {
 	}
 
 
+	isComment = true
+
+
 	shouldAppendBlock (block) {
 		//Any non-empty blocks that are indented get appended to the comment
 		return !block.isEmpty && (block.depth > this.depth || block.offset > this.offset);

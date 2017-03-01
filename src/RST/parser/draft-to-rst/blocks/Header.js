@@ -1,5 +1,6 @@
 import {BLOCK_TYPE} from 'draft-js-utils';
 
+import {getUIDStringFor} from '../utils';
 import parseText from '../text-parser';
 
 const BLOCK = Symbol('Block');
@@ -75,6 +76,7 @@ export default class Header {
 			output.push(buildStringForChar(char, lineLength));
 		}
 
+		output.push(getUIDStringFor(this[BLOCK]));
 		output.push(`${indent}${text}`);
 		output.push(buildStringForChar(char, lineLength));
 
