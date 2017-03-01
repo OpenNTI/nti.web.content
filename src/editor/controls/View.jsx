@@ -49,7 +49,7 @@ export default class ContentEditorControls extends React.Component {
 		const {selectionManager} = this.props;
 
 		if (selectionManager) {
-			selectionManager.removeListener('selection-changed', this.onSelectionChange);
+			selectionManager.removeListener('selection-changed', this.onSelectionChanged);
 		}
 	}
 
