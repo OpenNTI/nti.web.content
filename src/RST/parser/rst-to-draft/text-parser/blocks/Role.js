@@ -32,7 +32,7 @@ const ROLES = {
 		return buildOutput([INLINE_STYLE.CODE], block, context);
 	},
 
-	underlined: (block, context) => {
+	underline: (block, context) => {
 		return buildOutput([INLINE_STYLE.UNDERLINE], block, context);
 	},
 
@@ -40,15 +40,15 @@ const ROLES = {
 		return buildOutput([INLINE_STYLE.BOLD, INLINE_STYLE.ITALIC], block, context);
 	},
 
-	boldunderlined: (block, context) => {
+	boldunderline: (block, context) => {
 		return buildOutput([INLINE_STYLE.BOLD, INLINE_STYLE.UNDERLINE], block, context);
 	},
 
-	italicunderlined: (block, context) => {
+	italicunderline: (block, context) => {
 		return buildOutput([INLINE_STYLE.ITALIC, INLINE_STYLE.UNDERLINE], block, context);
 	},
 
-	bolditalicunderlined: (block, context) => {
+	bolditalicunderline: (block, context) => {
 		return buildOutput([INLINE_STYLE.BOLD, INLINE_STYLE.ITALIC, INLINE_STYLE.UNDERLINE], block, context);
 	}
 };
