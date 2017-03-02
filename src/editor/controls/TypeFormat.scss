@@ -3,15 +3,15 @@
 .content-editor-type-format {
 	.content-editor-active-type {
 		min-width: 200px;
-		min-height: rem-calc(32px);
+		min-height: rem-calc(40px);
 		background-color: $panel-background;
 		box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.2);
 		padding: 0 0.625rem;
-		margin: rem-calc(14px 20px 14px 0);
+		margin: rem-calc(10px 20px 10px 0);
 		position: relative;
 		cursor: pointer;
 
-		font: normal 300 0.875rem/2rem $body-font-family;
+		font: normal 300 0.875rem/2.5rem $body-font-family;
 
 		&::after {
 			content: '\25BC';
