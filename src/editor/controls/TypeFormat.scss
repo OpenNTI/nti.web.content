@@ -3,19 +3,15 @@
 .content-editor-type-format {
 	.content-editor-active-type {
 		min-width: 200px;
-		min-height: rem-calc(60px);
-		line-height: rem-calc(60px);
-	}
-
-	.content-editor-active-type {
-		min-width: 200px;
-		box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.2);
-		line-height: 3.75rem !important;
-		padding: 0 0.625rem;
-		margin-right: 20px;
-		position: relative;
+		min-height: rem-calc(32px);
 		background-color: $panel-background;
+		box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.2);
+		padding: 0 0.625rem;
+		margin: rem-calc(14px 20px 14px 0);
+		position: relative;
 		cursor: pointer;
+
+		font: normal 300 0.875rem/2rem $body-font-family;
 
 		&::after {
 			content: '\25BC';
@@ -37,6 +33,24 @@
 }
 
 .content-editor-type-format .content-editor-active-type,
+.content-editor-type-flyout .content-editor-type-button  {
+	&.ordered-list-item {
+		span::before {
+			content: '1.';
+			display: inline-block;
+			margin-right: 0.3rem;
+		}
+	}
+
+	&.unordered-list-item {
+		span::before {
+			content: '•';
+			display: inline-block;
+			margin-right: 0.5rem;
+		}
+	}
+}
+
 .content-editor-type-flyout .content-editor-type-button {
 	font: normal normal 0.875rem/1 $body-font-family;
 
@@ -60,22 +74,10 @@
 
 	&.ordered-list-item {
 		font-size: 1rem;
-
-		span::before {
-			content: '1.';
-			display: inline-block;
-			margin-right: 0.3rem;
-		}
 	}
 
 	&.unordered-list-item {
 		font-size: 1rem;
-
-		span::before {
-			content: '•';
-			display: inline-block;
-			margin-right: 0.5rem;
-		}
 	}
 }
 
