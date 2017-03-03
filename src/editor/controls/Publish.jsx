@@ -31,14 +31,23 @@ export default class ContentEditorPublish extends React.Component {
 		contentPackage: React.PropTypes.object
 	}
 
+
+	setFlyoutRef = x => this.flyoutRef = x
+
 	state = {}
 
+	closeMenu () {
+		if (this.flyoutRef) {
+			this.flyoutRef.dismiss();
+		}
+	}
 
 	onPublish = () => {
 		const {contentPackage} = this.props;
 
 		if (contentPackage) {
 			publishContentPackage(contentPackage);
+			this.closeMenu();
 		}
 	}
 
@@ -48,6 +57,7 @@ export default class ContentEditorPublish extends React.Component {
 
 		if (contentPackage) {
 			unpublishContentPackage(contentPackage);
+			this.closeMenu();
 		}
 	}
 
@@ -66,7 +76,7 @@ export default class ContentEditorPublish extends React.Component {
 		const trigger = this.renderTrigger();
 
 		return (
-			<Flyout trigger={trigger} className="content-editor-publish" arrow verticalAlign={Flyout.ALIGNMENTS.TOP} horizontalAlign={Flyout.ALIGNMENTS.RIGHT}>
+			<Flyout ref={this.setFlyoutRef} trigger={trigger} className="content-editor-publish" arrow verticalAlign={Flyout.ALIGNMENTS.TOP} horizontalAlign={Flyout.ALIGNMENTS.RIGHT}>
 				{this.renderFlyout()}
 			</Flyout>
 		);
