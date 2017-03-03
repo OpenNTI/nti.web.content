@@ -1,5 +1,7 @@
 import normalizeRanges from './normalizeRanges';
+import escapeRST from './escapeRST';
 import parseRange from './parseRange';
+
 
 export default function (block, context) {
 	const {inlineStyleRanges, entityRanges, text} = block;
@@ -12,10 +14,10 @@ export default function (block, context) {
 		let {offset, length} = range;
 
 		if (offset !== i) {
-			parsedText += text.substr(i, offset - i);
+			parsedText += escapeRST(text.substr(i, offset - i));
 		}
 
-		parsedText += parseRange(range, text.substr(offset, length), context);
+		parsedText += parseRange(range, escapeRST(text.substr(offset, length)), context);
 		i = offset + length;
 	}
 

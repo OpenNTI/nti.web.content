@@ -49,82 +49,31 @@ const ENTITY_HANDLERS = {
 	}
 };
 
+function getStyleBookends (styles) {
+	const key = getKeyForStyles(styles);
+	const styleHandler = STYLES_HANDLERS[key] || STYLES_HANDLERS[DEFAULT];
 
-function parseRangeForKeys (keys, text, context) {
+	return styleHandler(styles);
+}
+
+
+function getKeyBookends (keys, context) {
 	const key = keys[0];
 	const entity = context.entityMap[key];
 	const entityHandler = ENTITY_HANDLERS[entity.type] || ENTITY_HANDLERS[DEFAULT];
-	const {start, end} = entityHandler(entity);
 
-	return `${start}${text}${end}`;
+	return entityHandler(entity);
 }
 
-
-function parseRangeForStyles (styles, text) {
-	const key = getKeyForStyles(styles);
-	const styleHandler = STYLES_HANDLERS[key] || STYLES_HANDLERS[DEFAULT];
-	const {start, end} = styleHandler(styles);
-
-	return `${start}${text}${end}`;
-}
-
-const WHITESPACE = /\s/;
-
-
-
-function getTextParts (text) {
-	let leadingCount = 0;
-	let trailingCount = 0;
-
-	for (let i = 0; i < text.length; i++) {
-		let char = text.charAt(i);
-
-		if (WHITESPACE.test(char)) {
-			leadingCount += 1;
-		} else {
-			break;
-		}
-	}
-
-	if (leadingCount === text.length) {
-		return {
-			prefix: text,
-			subText: '',
-			suffix: ''
-		};
-	}
-
-	for (let i = text.length - 1; i >= 0; i++) {
-		let char = text.charAt(i);
-
-		if (WHITESPACE.test(char)) {
-			trailingCount += 1;
-		} else {
-			break;
-		}
-	}
-
-
-	return {
-		prefix: text.substr(0, leadingCount),
-		subText: text.substr(leadingCount, text.length - trailingCount - 1),
-		suffix: text.substr(text.length - trailingCount, text.length)
-	};
-}
-
-
-export default function parseRange (range, text, context) {
+export default function getRangeBookends (range, context) {
 	const {styles, keys} = range;
-	let {prefix, subText, suffix} = getTextParts(text);
+	let bookends;
 
-	if (!subText) { return prefix + suffix; }
-
-	//For now let styles override the keys
 	if (keys.length) {
-		subText = parseRangeForKeys(keys, subText, context);
+		bookends = getKeyBookends(keys, context);
 	} else if (styles.length) {
-		subText = parseRangeForStyles(styles, subText, context);
+		bookends = getStyleBookends(styles, context);
 	}
 
-	return prefix + subText + suffix;
+	return bookends;
 }
