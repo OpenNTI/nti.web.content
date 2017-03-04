@@ -12,7 +12,8 @@ const selectionManager = new Selection.Manager();
 export default class ContentEditor extends React.Component {
 	static propTypes = {
 		contentPackage: React.PropTypes.object,
-		course: React.PropTypes.object
+		course: React.PropTypes.object,
+		onDidChange: React.PropTypes.func
 	}
 
 	static childContextTypes = {
@@ -20,6 +21,15 @@ export default class ContentEditor extends React.Component {
 			select: React.PropTypes.func,
 			unselect: React.PropTypes.func
 		})
+	}
+
+
+	componentWillUnmount () {
+		const {onDidChange} = this.props;
+
+		if (onDidChange) {
+			onDidChange();
+		}
 	}
 
 
