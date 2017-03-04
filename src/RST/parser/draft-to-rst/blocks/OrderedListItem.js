@@ -1,6 +1,6 @@
 import {BLOCK_TYPE} from 'draft-js-utils';
 
-import {getUIDStringFor} from '../utils';
+// import {getUIDStringFor} from '../utils';
 import parseText from '../text-parser';
 import {LIST_STYLES} from '../../Constants';
 
@@ -86,7 +86,7 @@ export default class OrderedListItem extends UnorderedListItem {
 
 			currentDepth = depth;
 
-			output.push(getUIDStringFor(block));
+			// output.push(getUIDStringFor(block));
 			output.push(`${indent}${bullet}. ${text}`);
 		}
 

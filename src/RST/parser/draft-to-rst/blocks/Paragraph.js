@@ -1,6 +1,6 @@
 import {BLOCK_TYPE} from 'draft-js-utils';
 
-import {getUIDStringFor} from '../utils';
+// import {getUIDStringFor} from '../utils';
 import parseText from '../text-parser';
 
 const BLOCK = Symbol('Block');
@@ -31,7 +31,7 @@ export default class Paragraph {
 		}
 
 		const output = [
-			getUIDStringFor(this[BLOCK]),
+			// getUIDStringFor(this[BLOCK]),
 			parseText(this[BLOCK], context)
 		];
 
