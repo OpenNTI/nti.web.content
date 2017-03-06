@@ -21,7 +21,7 @@ export default function (block, context) {
 		i = offset + length;
 	}
 
-	parsedText += text.substr(i, text.length - i);
+	parsedText += escapeRST(text.substr(i, text.length - i));
 
 	return parsedText;
 }
