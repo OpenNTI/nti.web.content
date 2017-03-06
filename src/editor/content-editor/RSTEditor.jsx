@@ -5,9 +5,11 @@ import {Editor, Plugins} from '../../draft-core';
 import {Parser} from '../../RST';
 
 const externalLinks = Plugins.createExternalLinks();
+const pastedText = Plugins.createFormatPasted();
 
 const plugins = [
-	externalLinks
+	externalLinks,
+	pastedText
 ];
 
 function rstToEditorState (rst) {
