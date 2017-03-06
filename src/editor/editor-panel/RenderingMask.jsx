@@ -95,10 +95,12 @@ export default class ContentEditorRenderingMask extends React.Component {
 	onPublishEnded () {
 		this.renderJob = this.getRenderJob();
 
-		this.renderJob.addListener('change', this.onRenderJobChange);
-		this.renderJob.startMonitor();
+		if (this.renderJob) {
+			this.renderJob.addListener('change', this.onRenderJobChange);
+			this.renderJob.startMonitor();
 
-		this.onRenderJobChange(this.renderJob);
+			this.onRenderJobChange(this.renderJob);
+		}
 	}
 
 

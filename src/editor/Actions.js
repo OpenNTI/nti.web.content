@@ -118,7 +118,6 @@ export function saveContentPackageDescription (contentPackage, description) {
 
 
 export function saveContentPackageIcon (contentPackage, icon) {
-	debugger;
 	const {icon:oldIcon} = contentPackage;
 
 	if (oldIcon === icon) {

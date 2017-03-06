@@ -99,10 +99,12 @@ export default class ContentEditor extends React.Component {
 	onMessage () {
 		const {contentPackage} = this.props;
 		const {NTIID} = contentPackage || {};
-		const error = NTIID && Store.getErrorFor(NTIID, 'contents');
+		const contentError = NTIID && Store.getErrorFor(NTIID, 'contents');
+		const publishError = NTIID && Store.getErrorFor(NTIID, 'publish');
 
 		this.setState({
-			error
+			contentError,
+			publishError
 		});
 	}
 
@@ -135,7 +137,8 @@ export default class ContentEditor extends React.Component {
 
 
 	render () {
-		const {selectableID, selectableValue, rstContents, error} = this.state;
+		const {selectableID, selectableValue, rstContents, contentError, publishError} = this.state;
+		const error = contentError || publishError;
 		const cls = cx('content-editing-editor-container', {error});
 
 		return (
