@@ -68,25 +68,32 @@ function parseRangeForStyles (styles, text) {
 	return `${start}${text}${end}`;
 }
 
-const WHITESPACE = /\s/;
+const LEADING_WHITESPACE = /^(\s*)/;
+
+function getLeadingLength (text) {
+	const matches = text.match(LEADING_WHITESPACE);
+	const leading = matches[1];
+
+	return leading.length;
+}
+
+const TRAILING_WHITESPACE = /(\s*)$/;
+
+function getTrailingLength (text) {
+	const matches = text.match(TRAILING_WHITESPACE);
+	const trailing = matches[1];
+
+	return trailing.length;
+}
 
 
 
 function getTextParts (text) {
-	let leadingCount = 0;
-	let trailingCount = 0;
+	const leadingLength = getLeadingLength(text);
+	const trailingLength = getTrailingLength(text);
+	const subTextLength = text.length - leadingLength - trailingLength;
 
-	for (let i = 0; i < text.length; i++) {
-		let char = text.charAt(i);
-
-		if (WHITESPACE.test(char)) {
-			leadingCount += 1;
-		} else {
-			break;
-		}
-	}
-
-	if (leadingCount === text.length) {
+	if (leadingLength === text.length) {
 		return {
 			prefix: text,
 			subText: '',
@@ -94,21 +101,10 @@ function getTextParts (text) {
 		};
 	}
 
-	for (let i = text.length - 1; i >= 0; i++) {
-		let char = text.charAt(i);
-
-		if (WHITESPACE.test(char)) {
-			trailingCount += 1;
-		} else {
-			break;
-		}
-	}
-
-
 	return {
-		prefix: text.substr(0, leadingCount),
-		subText: text.substr(leadingCount, text.length - trailingCount - 1),
-		suffix: text.substr(text.length - trailingCount, text.length)
+		prefix: text.substr(0, leadingLength),
+		subText: text.substr(leadingLength, subTextLength),
+		suffix: text.substr(leadingLength + subTextLength, trailingLength)
 	};
 }
 
@@ -120,9 +116,9 @@ export default function parseRange (range, text, context) {
 	if (!subText) { return prefix + suffix; }
 
 	//For now let styles override the keys
-	if (keys.length) {
+	if (keys && keys.length) {
 		subText = parseRangeForKeys(keys, subText, context);
-	} else if (styles.length) {
+	} else if (styles && styles.length) {
 		subText = parseRangeForStyles(styles, subText, context);
 	}
 

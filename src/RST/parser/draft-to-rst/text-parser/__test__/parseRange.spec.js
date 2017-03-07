@@ -3,6 +3,27 @@ import parseRange from '../parseRange';
 import {INLINE_STYLE} from 'draft-js-utils';
 
 describe('parseRange', () => {
+	it('Multiple Leading Whitespaces', () => {
+		const ranges = {styles: [INLINE_STYLE.BOLD]};
+		const parsed = parseRange(ranges, '    bold');
+
+		expect(parsed).toEqual('    **bold**');
+	});
+
+	it('Multiple Trailing Whitespaces', () => {
+		const ranges = {styles: [INLINE_STYLE.BOLD]};
+		const parsed = parseRange(ranges, 'bold    ');
+
+		expect(parsed).toEqual('**bold**    ');
+	});
+
+	it('Multiple Leading and Trailing Whitespaces', () => {
+		const ranges = {styles: [INLINE_STYLE.BOLD]};
+		const parsed = parseRange(ranges, '    bold    ');
+
+		expect(parsed).toEqual('    **bold**    ');
+	});
+
 	describe('Bold', () => {
 		it('No leading or trailing whitespace', () => {
 			const ranges = {styles: [INLINE_STYLE.BOLD]};
