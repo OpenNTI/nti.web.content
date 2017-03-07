@@ -3,6 +3,7 @@ import DraftParser from './draft-to-rst';
 
 export default {
 	convertRSTToDraftState (rst) {
+		debugger;
 		const start = Date.now();
 		console.log('Parsing RST of length: ', rst.length);
 		const parsed = RSTParser.parse(rst);

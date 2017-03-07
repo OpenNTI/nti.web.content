@@ -17,6 +17,13 @@ describe('FieldList', () => {
 
 			expect(FieldList.isNextBlock(inputInterface)).toBeFalsy();
 		});
+
+		it('Does not match on roles', () => {
+			const rst = ':underline:`underlined`';
+			const inputInterface = getInterface(0, [rst]);
+
+			expect(FieldList.isNextBlock(inputInterface)).toBeFalsy();
+		});
 	});
 
 	describe('parse', () => {
