@@ -1,4 +1,5 @@
 import React from 'react';
+import {INLINE_STYLE} from 'draft-js-utils';
 import {EditorState, convertFromRaw, convertToRaw} from 'draft-js';
 
 import {Editor, Plugins} from '../../draft-core';
@@ -10,6 +11,14 @@ const pastedText = Plugins.createFormatPasted();
 const plugins = [
 	externalLinks,
 	pastedText
+];
+
+
+const ALLOWED_STYLES = [
+	INLINE_STYLE.BOLD,
+	INLINE_STYLE.CODE,
+	INLINE_STYLE.ITALIC,
+	INLINE_STYLE.UNDERLINE
 ];
 
 function rstToEditorState (rst) {
@@ -83,6 +92,7 @@ export default class RSTEditor extends React.Component {
 				editorState={editorState}
 				onContentChange={this.onContentChange}
 				plugins={plugins}
+				allowedInlineStyles={ALLOWED_STYLES}
 				{...otherProps}
 			/>
 		);
