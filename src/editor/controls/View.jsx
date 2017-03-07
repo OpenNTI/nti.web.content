@@ -3,6 +3,7 @@ import {ContextProvider} from '../../draft-core';
 
 import TypeFormat from './TypeFormat';
 import StyleFormat from './StyleFormat';
+// import InsertFormat from './InsertFormat';
 import Status from './Status';
 import Publish from './Publish';
 

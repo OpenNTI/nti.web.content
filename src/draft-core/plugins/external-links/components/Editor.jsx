@@ -7,6 +7,8 @@ const DEFAULT_TEXT = {
 
 const t = scoped('DRAFT_CORE_EXTERNAL_LINK_EDITOR', DEFAULT_TEXT);
 
+const stop = e => (e.preventDefault(), e.stopPropagation());
+
 export default class ExternalLinkEditor extends React.Component {
 	static propTypes = {
 		data: React.PropTypes.object,
@@ -38,7 +40,7 @@ export default class ExternalLinkEditor extends React.Component {
 		return (
 			<div className="draft-core-external-link-editor">
 				<label htmlFor="external-url">{t('url')}</label>
-				<input name="external-url" type="text" value={url} onChange={this.onURLChange} />
+				<input name="external-url" type="text" value={url} onChange={this.onURLChange} onFocus={stop} />
 			</div>
 		);
 	}

@@ -16,7 +16,7 @@ export default class ExternalLink extends React.Component {
 		})
 	}
 
-	state = {focused: false}
+	state = {focused: false, editing: false}
 
 
 	get entityData () {
@@ -74,26 +74,46 @@ export default class ExternalLink extends React.Component {
 
 	render () {
 		const {children} = this.props;
-		const {focused} = this.state;
+		const {focused, editing} = this.state;
 		const {url} = this.entityData;
 		const cls = cx('draft-core-external-link', {focused: true});
 
-				// {focused ? this.renderEditor() : null}
 		return (
 			<a href={url} className={cls}>
 				{children}
-				{this.renderEditor()}
+				{(focused || editing || !url) && this.renderTooltip()}
 			</a>
+		);
+	}
+
+
+	renderTooltip = () => {
+		const {editing} = this.state;
+		const {url} = this.entityData;
+		const shouldEdit = editing || !url;
+
+		return (
+			<div className="tooltip-container">
+				<div className="arrow" />
+				{shouldEdit && this.renderEditor()}
+				{!shouldEdit && this.renderDisplay()}
+			</div>
+		);
+	}
+
+
+	renderDisplay = () => {
+		return (
+			<div className="display">
+
+			</div>
 		);
 	}
 
 
 	renderEditor = () => {
 		return (
-			<div className="editor-container">
-				<div className="arrow" />
-				<Editor data={this.endityData} onChange={this.setPendingChange} onSave={this.onChange} onRemove={this.onRemove} />
-			</div>
+			<Editor data={this.endityData} onChange={this.setPendingChange} onSave={this.onChange} onRemove={this.onRemove} />
 		);
 	}
 }

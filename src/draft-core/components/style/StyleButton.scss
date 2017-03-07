@@ -20,18 +20,22 @@
 		repeat: no-repeat;
 		position: center center;
 	}
-	border-radius: 2px;
-	margin-right: 0.3rem;
 	border: 1px solid white;
+
+	&:first-of-type {
+		border-radius: 2px 0 0 2px;
+	}
+
+	&:last-of-type {
+		border-radius: 0 2px 2px 0;
+	}
 
 	&:hover,
 	&:focus,
 	&:active,
-	&.active,
 	.no-touch &:hover {
-		background-color: $panel-background;
-		border-color: $border-grey-light;
-		box-shadow: inset 0 0 1px 0 rgba(0, 0, 0, 0.2);
+		border-radius: 2px;
+		box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.21);
 	}
 
 	&:focus,
@@ -39,6 +43,8 @@
 	&.active,
 	.no-touch &:hover {
 		color: $primary-blue;
+		box-shadow: inset 0 1px 1px 0 rgba(0, 0, 0, 0.2);
+		border: solid 1px #f3f3f3;
 	}
 
 
