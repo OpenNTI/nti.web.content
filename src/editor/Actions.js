@@ -1,7 +1,13 @@
 import {dispatch} from 'nti-lib-dispatcher';
+import {Prompt} from 'nti-web-commons';
+import {wait} from 'nti-commons';
+
 import {
 	SAVING,
 	SAVE_ENDED,
+	DELETING,
+	DELETE_ENDED,
+	DELETED,
 	SET_ERROR,
 	PUBLISHING,
 	PUBLISH_ENDED,
@@ -44,6 +50,28 @@ export function unpublishContentPackage (contentPackage) {
 				field: 'publish',
 				reason
 			});
+		});
+}
+
+export function deleteContentPackage (contentPackage, message) {
+	Prompt.areYouSure(message)
+		.then(() => {
+			dispatch(DELETING);
+
+			contentPackage.delete()
+				.then(wait.min(wait.SHORT))
+				.then(() => {
+					dispatch(DELETED);
+				})
+				.catch((reason) => {
+					dispatch(SET_ERROR, {
+						NTIID: contentPackage.NTIID,
+						field: 'deleted',
+						reason
+					});
+
+					dispatch(DELETE_ENDED);
+				});
 		});
 }
 

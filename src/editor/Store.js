@@ -9,7 +9,10 @@ import {
 	PUBLISHING,
 	PUBLISH_ENDED,
 	UNPUBLISHING,
-	UNPUBLISH_ENDED
+	UNPUBLISH_ENDED,
+	DELETING,
+	DELETE_ENDED,
+	DELETED,
 } from './Constants';
 
 const logger = Logger.get('lib:content-editor:Store');
@@ -36,6 +39,10 @@ const SetPublishEnd = Symbol('SetPublishEnd');
 const SetUnpublishStart = Symbol('SetUnpublishStart');
 const SetUnpublishEnd = Symbol('SetUnpublishEnd');
 
+const SetDeleteStart = Symbol('SetDeleteStart');
+const SetDeleteEnd = Symbol('SetDeleteEnd');
+const SetDeleted = Symbol('SetDeleted');
+
 
 class Store extends StorePrototype {
 	constructor () {
@@ -56,7 +63,10 @@ class Store extends StorePrototype {
 			[PUBLISHING]: SetPublishStart,
 			[PUBLISH_ENDED]: SetPublishEnd,
 			[UNPUBLISHING]: SetUnpublishStart,
-			[UNPUBLISH_ENDED]: SetUnpublishEnd
+			[UNPUBLISH_ENDED]: SetUnpublishEnd,
+			[DELETING]: SetDeleteStart,
+			[DELETE_ENDED]: SetDeleteEnd,
+			[DELETED]: SetDeleted
 		});
 	}
 
@@ -186,6 +196,27 @@ class Store extends StorePrototype {
 	}
 
 
+	[SetDeleteStart] () {
+		this[Protected].deleting = true;
+
+		this.emitChange({type: DELETING});
+	}
+
+
+	[SetDeleteEnd] () {
+		this[Protected].deleting = false;
+
+		this.emitChange({type: DELETING});
+	}
+
+
+	[SetDeleted] () {
+		this[Protected].deleted = true;
+
+		this.emitChange({type: DELETED});
+	}
+
+
 	get isSaving () {
 		return this[Protected].savingCount > 0;
 	}
@@ -208,6 +239,16 @@ class Store extends StorePrototype {
 
 	get isUnpublishing () {
 		return this[Protected].unpublishing;
+	}
+
+
+	get isDeleting () {
+		return this[Protected].deleting;
+	}
+
+
+	get isDeleted () {
+		return this[Protected].deleted;
 	}
 
 

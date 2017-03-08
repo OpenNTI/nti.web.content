@@ -3,10 +3,11 @@ import cx from 'classnames';
 import {scoped} from 'nti-lib-locale';
 import {Sequence, Loading} from 'nti-web-commons';
 
-import {PUBLISHING} from '../Constants';
+import {PUBLISHING, DELETING} from '../Constants';
 import Store from '../Store';
 
 const DEFAULT_TEXT = {
+	deletingMessage: 'Deleting...',
 	publishingMessageOne: 'Publishing...',
 	publishingMessageTwo: 'This may take a moment...',
 	publishingMessageThree: {
@@ -62,6 +63,8 @@ export default class ContentEditorRenderingMask extends React.Component {
 
 		if (type === PUBLISHING) {
 			this.onPublish();
+		} else if (type === DELETING) {
+			this.onDeleting();
 		}
 	}
 
@@ -89,6 +92,16 @@ export default class ContentEditorRenderingMask extends React.Component {
 		} else {
 			this.onPublishEnded();
 		}
+	}
+
+
+	onDeleting () {
+		this.setState({
+			deleting: Store.isDeleting,
+			publishing: false,
+			success: false,
+			failure: false
+		});
 	}
 
 
@@ -144,14 +157,26 @@ export default class ContentEditorRenderingMask extends React.Component {
 
 
 	render () {
-		const {publishing, success, failure} = this.state;
-		const cls = cx('content-editor-render-mask', {publishing, success, failure});
+		const {publishing, success, failure, deleting} = this.state;
+		const cls = cx('content-editor-render-mask', {publishing, success, failure, deleting});
 
 		return (
 			<div className={cls}>
+				{deleting ? this.renderDeleting() : null}
 				{publishing ? this.renderPublishing() : null}
 				{success ? this.renderSuccess() : null}
 				{failure ? this.renderFailure() : null}
+			</div>
+		);
+	}
+
+	renderDeleting = () => {
+		return (
+			<div className="deleting-indicator">
+				<div className="deleting">
+					<Loading.Spinner className="spinner" size="120px" strokeWidth="1" />
+					<span className="spinner-message">{t('deletingMessage')}</span>
+				</div>
 			</div>
 		);
 	}

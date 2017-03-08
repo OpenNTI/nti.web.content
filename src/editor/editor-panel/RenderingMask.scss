@@ -8,12 +8,12 @@
 
 	background: rgba(255, 255, 255, 0.8);
 
-	&.publishing, &.success, &.failure {
+	&.publishing, &.success, &.failure, &.deleting {
 		display: block;
 	}
 
 
-	.publishing-indicator {
+	.publishing-indicator, .deleting-indicator {
 		padding-top: rem-calc(130px);
 		text-align: center;
 

@@ -3,7 +3,11 @@ import cx from 'classnames';
 import {scoped} from 'nti-lib-locale';
 import {Flyout, PublishTrigger} from 'nti-web-commons';
 
-import {publishContentPackage, unpublishContentPackage} from '../Actions';
+import {
+	publishContentPackage,
+	unpublishContentPackage,
+	deleteContentPackage
+} from '../Actions';
 
 const DEFAULT_TEXT = {
 	publish: {
@@ -21,7 +25,8 @@ const DEFAULT_TEXT = {
 		revert: 'Revert to Published Version',
 		delete: 'Delete',
 		save: 'Publish'
-	}
+	},
+	deleteMessage: 'Deleting this reading will remove it and all student activity.'
 };
 
 const t = scoped('CONTENT_EDITOR_PUBLISH', DEFAULT_TEXT);
@@ -63,7 +68,12 @@ export default class ContentEditorPublish extends React.Component {
 
 
 	onDelete = () => {
+		const {contentPackage} = this.props;
 
+		if (contentPackage) {
+			deleteContentPackage(contentPackage, t('deleteMessage'));
+			this.closeMenu();
+		}
 	}
 
 
@@ -117,7 +127,7 @@ export default class ContentEditorPublish extends React.Component {
 				<h3>{header}</h3>
 				<p>{message}</p>
 				{actions.map((action, index) => (<div key={index} className="action" onClick={action.handler}>{action.label}</div>))}
-				<div className="delete">
+				<div className="delete" onClick={this.onDelete}>
 					<i className="icon-delete" />
 					<span>{deleteText}</span>
 				</div>

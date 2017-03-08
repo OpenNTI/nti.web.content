@@ -3,6 +3,8 @@ import {Selection, ControlBar} from 'nti-web-commons';
 
 import {PanelSidebar} from '../common';
 
+import Store from './Store';
+import {DELETED} from './Constants';
 import Sidebar from './sidebar';
 import EditorPanel from './editor-panel';
 import Controls from './controls';
@@ -13,7 +15,8 @@ export default class ContentEditor extends React.Component {
 	static propTypes = {
 		contentPackage: React.PropTypes.object,
 		course: React.PropTypes.object,
-		onDidChange: React.PropTypes.func
+		onDidChange: React.PropTypes.func,
+		onDelete: React.PropTypes.func
 	}
 
 	static childContextTypes = {
@@ -24,11 +27,28 @@ export default class ContentEditor extends React.Component {
 	}
 
 
+	componentDidMount () {
+		Store.addChangeListener(this.onStoreChange);
+	}
+
+
 	componentWillUnmount () {
 		const {onDidChange} = this.props;
 
+		Store.removeChangeListener(this.onStoreChange);
+
 		if (onDidChange) {
 			onDidChange();
+		}
+	}
+
+
+	onStoreChange = (data) => {
+		const {onDelete} = this.props;
+		const {type} = data;
+
+		if (type === DELETED && onDelete) {
+			onDelete();
 		}
 	}
 
