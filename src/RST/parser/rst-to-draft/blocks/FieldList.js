@@ -1,7 +1,7 @@
 import IndentedBlock from './IndentedBlock';
 
 //TODO: account for listed items http://docutils.sourceforge.net/docs/ref/rst/restructuredtext.html#field-lists
-const FIELDLIST = /^\s*:(.*):[^`]\s*(.*)/;
+const FIELDLIST = /^\s*:([^:]*):[^`]\s*(.*)/;
 
 export default class FieldList extends IndentedBlock {
 	static isNextBlock (inputInterface) {
