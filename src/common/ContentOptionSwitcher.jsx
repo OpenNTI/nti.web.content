@@ -18,6 +18,7 @@ export default class ContentOptionSwitcher extends React.Component {
 		className: React.PropTypes.string,
 		content: React.PropTypes.node,
 		options: React.PropTypes.node,
+		hideOptions: React.PropTypes.bool,
 		active: React.PropTypes.oneOf([CONTENT, OPTIONS]),
 		getString: React.PropTypes.func
 	}
@@ -75,7 +76,7 @@ export default class ContentOptionSwitcher extends React.Component {
 
 		return (
 			<div className={cls}>
-				<ReactCSSTransitionGroup transitionName='fadeInOut' transitionEnterTimeout={400} transitionLeaveTimeout={400}>
+				<ReactCSSTransitionGroup transitionName="fadeInOut" transitionEnterTimeout={400} transitionLeaveTimeout={400}>
 					{active === CONTENT ?
 						this.renderContent() :
 						this.renderOptions()
@@ -87,14 +88,19 @@ export default class ContentOptionSwitcher extends React.Component {
 
 
 	renderContent () {
-		const {content} = this.props;
+		const {content, hideOptions} = this.props;
 
 		return (
 			<div className="content-container" key="content">
-				<div className="show-options toggle" onClick={this.showOptions}>
-					<i className="icon-settings small" />
-					<span>{this.getString('showOptions')}</span>
-				</div>
+				{hideOptions ?
+					null :
+					(
+						<div className="show-options toggle" onClick={this.showOptions}>
+							<i className="icon-settings small" />
+							<span>{this.getString('showOptions')}</span>
+						</div>
+					)
+				}
 				{content}
 			</div>
 		);
@@ -102,13 +108,18 @@ export default class ContentOptionSwitcher extends React.Component {
 
 
 	renderOptions () {
-		const {options} = this.props;
+		const {options, hideOptions} = this.props;
 
 		return (
 			<div className="options-container" key="options">
-				<div className="show-content toggle" onClick={this.showContent}>
-					<span>{this.getString('showContent')}</span>
-				</div>
+				{hideOptions ?
+					null :
+					(
+						<div className="show-content toggle" onClick={this.showContent}>
+							<span>{this.getString('showContent')}</span>
+						</div>
+					)
+				}
 				{options}
 			</div>
 		);

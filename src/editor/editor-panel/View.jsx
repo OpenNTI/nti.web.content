@@ -23,7 +23,7 @@ export default function EditorPanel ({contentPackage, course, pageSource}) {
 			<StickyElement>
 				<NavBar pageSource={pageSource} />
 			</StickyElement>
-			<ContentOptionSwitcher options={optionsCmp} content={contentCmp} />
+			<ContentOptionSwitcher options={optionsCmp} content={contentCmp} hideOptions />
 			<RenderingMask contentPackage={contentPackage} />
 		</StickyContainer>
 	);
