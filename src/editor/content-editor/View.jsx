@@ -137,6 +137,7 @@ export default class ContentEditor extends React.Component {
 
 
 	render () {
+		const {contentPackage} = this.props;
 		const {selectableID, selectableValue, rstContents, contentError, publishError} = this.state;
 		const error = contentError || publishError;
 		const cls = cx('content-editing-editor-container', {error});
@@ -151,6 +152,7 @@ export default class ContentEditor extends React.Component {
 							rstContents instanceof Error ?
 								(<EmptyState header={t('failedHeader')}/>) :
 								(<RSTEditor
+									contentPackage={contentPackage}
 									value={rstContents}
 									onFocus={this.onEditorFocus}
 									onBlur={this.onEditorBlur}

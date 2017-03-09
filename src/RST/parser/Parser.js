@@ -62,11 +62,12 @@ export default class Parser {
 	 * iterable item to run though the parser
 	 *
 	 * @param  {Mixed} input what to parse
+	 * @param {Object} options configuration options
 	 * @return {Array}       the blocks in the input
 	 */
-	formatInput (input) {
+	formatInput (input, options) {
 		return this[INPUT_TRANSFORMS].reduce((acc, transform) => {
-			return transform(acc);
+			return transform(acc, options);
 		}, input);
 	}
 
@@ -76,11 +77,12 @@ export default class Parser {
 	 * @param {Object} parsed the result of parsing
 	 * @param {Array} parsed.blocks the blocks that were parsed from the input
 	 * @param {Object} parsed.context the context set while parsing the blocks
+	 * @param {Object} options configuration options
 	 * @return {Object}        the formatted version to output
 	 */
-	formatParsed (parsed) {
+	formatParsed (parsed, options) {
 		return this[OUTPUT_TRANSFORMS].reduce((acc, transform) => {
-			return transform(acc);
+			return transform(acc, options);
 		}, parsed);
 	}
 
@@ -91,10 +93,11 @@ export default class Parser {
 	 * Return the parsedBlocks and the context of the parser
 	 *
 	 * @param  {Mixed} input what to parse
+	 * @param {Object} options options to configure the parser
 	 * @return {Object}       the result of parsing
 	 */
-	parse (input) {
-		const {input:parsedInputs, context:parsedContext} = this.formatInput({input, context: {}});
+	parse (input, options) {
+		const {input:parsedInputs, context:parsedContext} = this.formatInput({input, context: {}}, options);
 
 		let context = {...parsedContext};
 		let blocks = [];
@@ -120,7 +123,7 @@ export default class Parser {
 		return this.formatParsed({
 			blocks,
 			context
-		});
+		}, options);
 	}
 
 	/**

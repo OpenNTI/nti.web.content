@@ -7,9 +7,9 @@ import {ActiveType, TypeButton, ContextProvider} from '../../draft-core';
 const {Types} = TypeButton;
 
 const DEFAULT_TEXT = {
-	[Types.HEADER_ONE]: 'Title',
-	[Types.HEADER_TWO]: 'Section Title',
-	[Types.HEADER_THREE]: 'Paragraph Headline',
+	[Types.HEADER_TWO]: 'Title',
+	[Types.HEADER_THREE]: 'Section Title',
+	[Types.HEADER_FOUR]: 'Paragraph Headline',
 	[Types.UNSTYLED]: 'Body Text',
 	[Types.ORDERED_LIST_ITEM]: 'Numbered List',
 	[Types.UNORDERED_LIST_ITEM]: 'Bulleted List'
@@ -31,9 +31,9 @@ export default function ContentEditorTypeFormat ({editor}) {
 				<ContextProvider editor={editor}>
 					<div className="content-editor-type-flyout">
 						<ul className="plain">
-							<li><TypeButton className={typeClass} type={Types.HEADER_ONE} getString={t} plain checkmark /></li>
 							<li><TypeButton className={typeClass} type={Types.HEADER_TWO} getString={t} plain checkmark /></li>
 							<li><TypeButton className={typeClass} type={Types.HEADER_THREE} getString={t} plain checkmark /></li>
+							<li><TypeButton className={typeClass} type={Types.HEADER_FOUR} getString={t} plain checkmark /></li>
 							<li><TypeButton className={typeClass} type={Types.UNSTYLED} getString={t} plain checkmark /></li>
 						</ul>
 						<ul className="lists">

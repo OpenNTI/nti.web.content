@@ -21,21 +21,22 @@ const ALLOWED_STYLES = [
 	INLINE_STYLE.UNDERLINE
 ];
 
-function rstToEditorState (rst) {
-	const draftState = rst && Parser.convertRSTToDraftState(rst);
+function rstToEditorState (rst, options) {
+	const draftState = rst && Parser.convertRSTToDraftState(rst, options);
 
 	return draftState ? EditorState.createWithContent(convertFromRaw(draftState)) : EditorState.createEmpty();
 }
 
-function editorStateToRST (editorState) {
+function editorStateToRST (editorState, options) {
 	const currentContent = editorState && editorState.getCurrentContent();
 
-	return currentContent ? Parser.convertDraftStateToRST(convertToRaw(currentContent)) : '';
+	return currentContent ? Parser.convertDraftStateToRST(convertToRaw(currentContent), options) : '';
 }
 
 export default class RSTEditor extends React.Component {
 	static propTypes = {
 		value: React.PropTypes.string,
+		contentPackage: React.PropTypes.object,
 		onContentChange: React.PropTypes.func
 	}
 
@@ -43,6 +44,15 @@ export default class RSTEditor extends React.Component {
 	constructor (props) {
 		super(props);
 		this.setUpValue(props);
+	}
+
+
+	get parserOptions () {
+		const {contentPackage} = this.props;
+
+		return {
+			title: contentPackage && contentPackage.title
+		};
 	}
 
 
@@ -58,7 +68,7 @@ export default class RSTEditor extends React.Component {
 
 	setUpValue (props = this.props) {
 		const {value} = props;
-		const editorState = rstToEditorState(value);
+		const editorState = rstToEditorState(value, this.parserOptions);
 		const state = {editorState};
 
 		if (this.state) {
@@ -71,7 +81,7 @@ export default class RSTEditor extends React.Component {
 
 	onContentChange = (editorState) => {
 		const {value:oldValue, onContentChange} = this.props;
-		const newValue = editorStateToRST(editorState);
+		const newValue = editorStateToRST(editorState, this.parserOptions);
 
 		if (oldValue !== newValue) {
 			onContentChange(newValue);
