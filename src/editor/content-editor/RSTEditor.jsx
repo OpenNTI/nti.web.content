@@ -32,7 +32,7 @@ const ALLOWED_STYLES = [
 function rstToEditorState (rst, options) {
 	const draftState = rst && Parser.convertRSTToDraftState(rst, options);
 
-	return draftState ? EditorState.createWithContent(convertFromRaw(draftState)) : EditorState.createEmpty();
+	return draftState && draftState.blocks.length ? EditorState.createWithContent(convertFromRaw(draftState)) : EditorState.createEmpty();
 }
 
 function editorStateToRST (editorState, options) {
