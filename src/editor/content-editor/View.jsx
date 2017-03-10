@@ -77,7 +77,10 @@ export default class ContentEditor extends React.Component {
 
 		contentPackage.getRSTContents()
 			.then((rstContents) => {
-				this.setState({rstContents});
+				this.setState({
+					rstContents: rstContents.data,
+					version: rstContents.version
+				});
 			})
 			.catch(() => {
 				this.setState({
@@ -135,8 +138,9 @@ export default class ContentEditor extends React.Component {
 
 	onEditorContentChange = (rst) => {
 		const {contentPackage} = this.props;
+		const {version} = this.state;
 
-		saveContentPackageRST(contentPackage, rst);
+		saveContentPackageRST(contentPackage, rst, version);
 	}
 
 

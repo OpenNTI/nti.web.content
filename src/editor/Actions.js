@@ -85,10 +85,10 @@ export function deleteContentPackage (contentPackage, message) {
 }
 
 
-export function saveContentPackageRST (contentPackage, rst) {
+export function saveContentPackageRST (contentPackage, rst, prevVersion) {
 	dispatch(SAVING, contentPackage);
 
-	contentPackage.setRSTContents(rst)
+	contentPackage.setRSTContents(rst, prevVersion)
 		.then(() => {
 			dispatch(SAVE_ENDED);
 		})
