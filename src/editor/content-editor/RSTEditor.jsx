@@ -93,6 +93,7 @@ export default class RSTEditor extends React.Component {
 
 
 	onContentChange = (editorState) => {
+		debugger;
 		const {value:oldValue, onContentChange} = this.props;
 		const newValue = editorStateToRST(editorState, this.parserOptions);
 
