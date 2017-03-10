@@ -1,16 +1,18 @@
 import {ContentState, EditorState, Modifier, convertFromHTML} from 'draft-js';
 
+import {HANDLED} from '../Constants';
+
+function cleanText (text) {
+	return `<p>${text.replace('\n', ' ')}</p>`;
+}
+
 export default (/*config = {}*/) => {
 	return {
 		editorClass: 'single-line',
 
 		handlePastedText (text, html, {getEditorState, setEditorState}) {
 			const editorState = getEditorState();
-			const blocks = convertFromHTML(html || text);
-
-			if (blocks.length <= 1) { //let draft do its thing.
-				return;
-			}
+			const blocks = convertFromHTML(html || cleanText(text));
 
 			//insert only the first block. TODO: figure out how to join blocks together.
 
@@ -29,13 +31,13 @@ export default (/*config = {}*/) => {
 				'insert-fragment'
 			));
 
-			return true;
+			return HANDLED;
 		},
 
 		handleReturn () {
 			//Block enters from being types
 			//by telling the editor we handled the event
-			return true;
+			return HANDLED;
 		}
 	};
 };
