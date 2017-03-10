@@ -2,9 +2,12 @@ import React from 'react';
 import {INLINE_STYLE} from 'draft-js-utils';
 import {EditorState, convertFromRaw, convertToRaw} from 'draft-js';
 import {BLOCK_TYPE} from 'draft-js-utils';
+import {HOC} from 'nti-web-commons';
 
 import {Editor, Plugins} from '../../draft-core';
 import {Parser} from '../../RST';
+
+const {ItemChanges} = HOC;
 
 // const externalLinks = Plugins.createExternalLinks();
 const pastedText = Plugins.createFormatPasted({formatTypeChangeMap: {
@@ -48,6 +51,7 @@ export default class RSTEditor extends React.Component {
 		onContentChange: React.PropTypes.func
 	}
 
+	setEditorRef = x => this.editorRef = x
 
 	constructor (props) {
 		super(props);
@@ -76,8 +80,9 @@ export default class RSTEditor extends React.Component {
 
 	setUpValue (props = this.props) {
 		const {value} = props;
-		const editorState = rstToEditorState(value, this.parserOptions);
-		const state = {editorState};
+		const parserOptions = this.parserOptions;
+		const editorState = rstToEditorState(value, parserOptions);
+		const state = {editorState, parserOptions};
 
 		if (this.state) {
 			this.setState(state);
@@ -97,22 +102,35 @@ export default class RSTEditor extends React.Component {
 	}
 
 
+	onContentPackageChange = () => {
+		const {parserOptions:oldOptions} = this.state;
+		const newOptions = this.parserOptions;
+
+		if (newOptions.title !== oldOptions.title && this.editorRef) {
+			this.onContentChange(this.editorRef.editorState);
+		}
+	}
+
+
 	render () {
-		const otherProps = {...this.props};
+		const {contentPackage, ...otherProps} = this.props;
 		const {editorState} = this.state;
 
 		delete otherProps.onContentChange;
 		delete otherProps.value;
 
 		return (
-			<Editor
-				className="content-editing-rst-editor"
-				editorState={editorState}
-				onContentChange={this.onContentChange}
-				plugins={plugins}
-				allowedInlineStyles={ALLOWED_STYLES}
-				{...otherProps}
-			/>
+			<ItemChanges item={contentPackage} onItemChanged={this.onContentPackageChange}>
+				<Editor
+					ref={this.setEditorRef}
+					className="content-editing-rst-editor"
+					editorState={editorState}
+					onContentChange={this.onContentChange}
+					plugins={plugins}
+					allowedInlineStyles={ALLOWED_STYLES}
+					{...otherProps}
+				/>
+			</ItemChanges>
 		);
 	}
 }

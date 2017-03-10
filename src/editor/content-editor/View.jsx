@@ -121,10 +121,14 @@ export default class ContentEditor extends React.Component {
 
 
 	onEditorChange = () => {
-		const {error} = this.state;
+		const {contentError, publishError} = this.state;
 
-		if (error && error.clear) {
-			error.clear();
+		if (contentError && contentError.clear) {
+			contentError.clear();
+		}
+
+		if (publishError && publishError.clear) {
+			publishError.clear();
 		}
 	}
 
