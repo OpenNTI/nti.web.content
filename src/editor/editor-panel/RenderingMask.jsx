@@ -113,6 +113,13 @@ export default class ContentEditorRenderingMask extends React.Component {
 			this.renderJob.startMonitor();
 
 			this.onRenderJobChange(this.renderJob);
+		} else {
+			this.setState({
+				deleting: false,
+				publishing: false,
+				success: false,
+				failure: false
+			});
 		}
 	}
 
