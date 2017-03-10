@@ -70,7 +70,7 @@ const OUTPUT_TYPE_TO_OUTPUT = {
 		const text = parsePlainText(header[BLOCK]);
 		const output = [`.. ${FAKE_SECTION}:: ${text}`];
 
-		return {output};
+		return text.length ? {output} : {};
 	},
 
 
@@ -78,7 +78,7 @@ const OUTPUT_TYPE_TO_OUTPUT = {
 		const text = parsePlainText(header[BLOCK]);
 		const output = [`.. ${FAKE_SUB_SECTION}:: ${text}`];
 
-		return  {output};
+		return text.length ? {output} : {};
 	}
 };
 
