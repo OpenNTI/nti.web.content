@@ -1,9 +1,12 @@
 import {BLOCK_TYPE} from 'draft-js-utils';
 
 // import {getUIDStringFor} from '../utils';
-import parseText from '../text-parser';
+import {parsePlainText} from '../text-parser';
 
 const BLOCK = Symbol('Block');
+const SECTION = 'Section';
+const FAKE_SECTION = 'fakesection';
+const FAKE_SUB_SECTION = 'fakesubsection';
 
 export const TYPE_TO_LEVEL = {
 	[BLOCK_TYPE.HEADER_ONE]: 1,
@@ -30,6 +33,53 @@ const LEVEL_TO_INDENT = {
 	4: '',
 	5: '',
 	6: ''
+};
+
+const LEVEL_TO_OUTPUT_TYPE = {
+	1: SECTION,
+	2: SECTION,
+	3: FAKE_SECTION,
+	4: FAKE_SUB_SECTION,
+	5: FAKE_SUB_SECTION,
+	6: FAKE_SUB_SECTION
+};
+
+
+const OUTPUT_TYPE_TO_OUTPUT = {
+	[SECTION]: (header) => {
+		const {depth, isTitle} = header;
+		const text = parsePlainText(header[BLOCK]);
+		const lineLength = isTitle ? text.length + 2 : text.length;
+		const indent = LEVEL_TO_INDENT[depth];
+		const char = LEVEL_TO_CHAR[depth];
+
+		let output = [];
+
+		if (isTitle) {
+			output.push(buildStringForChar(char, lineLength));
+		}
+
+		output.push(`${indent}${text}`);
+		output.push(buildStringForChar(char, lineLength));
+
+		return {output};
+	},
+
+
+	[FAKE_SECTION]: (header) => {
+		const text = parsePlainText(header[BLOCK]);
+		const output = [`.. ${FAKE_SECTION}:: ${text}`];
+
+		return {output};
+	},
+
+
+	[FAKE_SUB_SECTION]: (header) => {
+		const text = parsePlainText(header[BLOCK]);
+		const output = [`.. ${FAKE_SUB_SECTION}:: ${text}`];
+
+		return  {output};
+	}
 };
 
 function buildStringForChar (char, length) {
@@ -64,23 +114,13 @@ export default class Header {
 	}
 
 	getOutput (context) {
-		const {depth, isTitle} = this;
-		const text = parseText(this[BLOCK], context);
-		const lineLength = isTitle ? text.length + 2 : text.length;
-		const char = LEVEL_TO_CHAR[depth];
-		const indent = LEVEL_TO_INDENT[depth];
+		const outputType = LEVEL_TO_OUTPUT_TYPE[this.depth];
+		const outputFn = OUTPUT_TYPE_TO_OUTPUT[outputType];
 
-		let output = [];
-
-		// output.push(getUIDStringFor(this[BLOCK]));
-
-		if (isTitle) {
-			output.push(buildStringForChar(char, lineLength));
+		if (!outputFn) {
+			throw new Error('Unknown output type for header');
 		}
 
-		output.push(`${indent}${text}`);
-		output.push(buildStringForChar(char, lineLength));
-
-		return {output};
+		return outputFn(this, context);
 	}
 }
