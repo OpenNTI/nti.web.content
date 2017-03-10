@@ -1,12 +1,20 @@
 import React from 'react';
 import {INLINE_STYLE} from 'draft-js-utils';
 import {EditorState, convertFromRaw, convertToRaw} from 'draft-js';
+import {BLOCK_TYPE} from 'draft-js-utils';
 
 import {Editor, Plugins} from '../../draft-core';
 import {Parser} from '../../RST';
 
 const externalLinks = Plugins.createExternalLinks();
-const pastedText = Plugins.createFormatPasted();
+const pastedText = Plugins.createFormatPasted({formatTypeChangeMap: {
+	[BLOCK_TYPE.HEADER_ONE]: BLOCK_TYPE.HEADER_TWO,
+	[BLOCK_TYPE.HEADER_TWO]: BLOCK_TYPE.HEADER_THREE,
+	[BLOCK_TYPE.HEADER_THREE]: BLOCK_TYPE.HEADER_FOUR,
+	[BLOCK_TYPE.HEADER_FOUR]: BLOCK_TYPE.HEADER_FOUR,
+	[BLOCK_TYPE.HEADER_FIVE]: BLOCK_TYPE.HEADER_FOUR,
+	[BLOCK_TYPE.HEADER_SIX]: BLOCK_TYPE.HEADER_FOUR
+}});
 
 const plugins = [
 	externalLinks,
