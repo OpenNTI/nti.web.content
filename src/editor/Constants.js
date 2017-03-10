@@ -12,3 +12,7 @@ export const UNPUBLISH_ENDED = 'content:editor:unpublishend';
 
 export const SET_ERROR = 'content:editor:seterroron';
 
+export const CLEAR_ALL_ERRORS = 'content:editor:clearallerrors';
+
+export const RESET_STORE = 'content:editor:resetstore';
+

@@ -9,11 +9,18 @@ import {
 	DELETE_ENDED,
 	DELETED,
 	SET_ERROR,
+	CLEAR_ALL_ERRORS,
 	PUBLISHING,
 	PUBLISH_ENDED,
 	UNPUBLISHING,
-	UNPUBLISH_ENDED
+	UNPUBLISH_ENDED,
+	RESET_STORE
 } from './Constants';
+
+
+export function resetStore () {
+	dispatch(RESET_STORE);
+}
 
 
 export function publishContentPackage (contentPackage) {
@@ -22,6 +29,7 @@ export function publishContentPackage (contentPackage) {
 	contentPackage.publish()
 		.then(() => {
 			dispatch(PUBLISH_ENDED);
+			dispatch(CLEAR_ALL_ERRORS);
 		})
 		.catch((reason) => {
 			dispatch(PUBLISH_ENDED);
@@ -41,6 +49,7 @@ export function unpublishContentPackage (contentPackage) {
 	contentPackage.unpublish()
 		.then(() => {
 			dispatch(UNPUBLISH_ENDED);
+			dispatch(CLEAR_ALL_ERRORS);
 		})
 		.catch((reason) => {
 			dispatch(UNPUBLISH_ENDED);

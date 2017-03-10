@@ -5,6 +5,7 @@ import {PanelSidebar} from '../common';
 
 import Store from './Store';
 import {DELETED} from './Constants';
+import {resetStore} from './Actions';
 import Sidebar from './sidebar';
 import EditorPanel from './editor-panel';
 import Controls from './controls';
@@ -35,6 +36,7 @@ export default class ContentEditor extends React.Component {
 	componentWillUnmount () {
 		const {onDidChange} = this.props;
 
+		resetStore();
 		Store.removeChangeListener(this.onStoreChange);
 
 		if (onDidChange) {

@@ -6,6 +6,7 @@ import {
 	SAVING,
 	SAVE_ENDED,
 	SET_ERROR,
+	CLEAR_ALL_ERRORS,
 	PUBLISHING,
 	PUBLISH_ENDED,
 	UNPUBLISHING,
@@ -13,6 +14,7 @@ import {
 	DELETING,
 	DELETE_ENDED,
 	DELETED,
+	RESET_STORE
 } from './Constants';
 
 const logger = Logger.get('lib:content-editor:Store');
@@ -27,7 +29,9 @@ const ErrorMessages = 'error-messages';
 
 const SetSaveStart = Symbol('SetSaveStart');
 const SetSaveEnd = Symbol('SetSaveEnd');
+
 const SetError = Symbol('SetError');
+const ClearAllErrors = Symbol('ClearAllErrors');
 
 const SetMessage = Symbol('SetMessage');
 const GetMessage = Symbol('GetMessage');
@@ -43,32 +47,46 @@ const SetDeleteStart = Symbol('SetDeleteStart');
 const SetDeleteEnd = Symbol('SetDeleteEnd');
 const SetDeleted = Symbol('SetDeleted');
 
+const Reset = Symbol('Reset');
+
+
+function init (store) {
+	store[Protected] = {
+		savingCount: 0,
+		publishing: false,
+		unpublishing: false,
+		hasPublished: false,
+		[ErrorMessages]: []
+	};
+}
+
 
 class Store extends StorePrototype {
 	constructor () {
 		super();
 
-		this[Protected] = {
-			savingCount: 0,
-			publishing: false,
-			unpublishing: false,
-			hasPublished: false,
-			[ErrorMessages]: []
-		};
+		init(this);
 
 		this.registerHandlers({
 			[SAVING]: SetSaveStart,
 			[SAVE_ENDED]: SetSaveEnd,
 			[SET_ERROR]: SetError,
+			[CLEAR_ALL_ERRORS]: ClearAllErrors,
 			[PUBLISHING]: SetPublishStart,
 			[PUBLISH_ENDED]: SetPublishEnd,
 			[UNPUBLISHING]: SetUnpublishStart,
 			[UNPUBLISH_ENDED]: SetUnpublishEnd,
 			[DELETING]: SetDeleteStart,
 			[DELETE_ENDED]: SetDeleteEnd,
-			[DELETED]: SetDeleted
+			[DELETED]: SetDeleted,
+			[RESET_STORE]: Reset
 		});
 	}
+
+	[Reset] () {
+		init(this);
+	}
+
 
 	[SetSaveStart] () {
 		const {savingCount:oldCount, endSavingTimeout} = this[Protected];
@@ -164,6 +182,13 @@ class Store extends StorePrototype {
 		if (!response || response.statusCode !== 409) {
 			this[SetMessage](ErrorMessages, response, type || SET_ERROR);
 		}
+	}
+
+
+	[ClearAllErrors] () {
+		this[Protected][ErrorMessages] = [];
+
+		this.emitChange({type: SET_ERROR});
 	}
 
 
