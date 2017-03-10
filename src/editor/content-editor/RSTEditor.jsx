@@ -6,7 +6,7 @@ import {BLOCK_TYPE} from 'draft-js-utils';
 import {Editor, Plugins} from '../../draft-core';
 import {Parser} from '../../RST';
 
-const externalLinks = Plugins.createExternalLinks();
+// const externalLinks = Plugins.createExternalLinks();
 const pastedText = Plugins.createFormatPasted({formatTypeChangeMap: {
 	[BLOCK_TYPE.HEADER_ONE]: BLOCK_TYPE.HEADER_TWO,
 	[BLOCK_TYPE.HEADER_TWO]: BLOCK_TYPE.HEADER_THREE,
@@ -17,7 +17,7 @@ const pastedText = Plugins.createFormatPasted({formatTypeChangeMap: {
 }});
 
 const plugins = [
-	externalLinks,
+	// externalLinks,
 	pastedText
 ];
 
