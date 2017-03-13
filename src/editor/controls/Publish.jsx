@@ -1,13 +1,16 @@
 import React from 'react';
 import cx from 'classnames';
 import {scoped} from 'nti-lib-locale';
-import {Flyout, PublishTrigger} from 'nti-web-commons';
+import {Flyout, Loading} from 'nti-web-commons';
 
+import Store from '../Store';
+import {PUBLISHING, RENDER_JOB_CHANGE} from '../Constants';
 import {
 	publishContentPackage,
 	unpublishContentPackage,
 	deleteContentPackage
 } from '../Actions';
+
 
 const DEFAULT_TEXT = {
 	publish: {
@@ -26,6 +29,8 @@ const DEFAULT_TEXT = {
 		delete: 'Delete',
 		save: 'Publish'
 	},
+	publishing: 'Publishing',
+	publishFailed: 'Publish Failed',
 	deleteMessage: 'Deleting this reading will remove it and all student activity.'
 };
 
@@ -40,6 +45,41 @@ export default class ContentEditorPublish extends React.Component {
 	setFlyoutRef = x => this.flyoutRef = x
 
 	state = {}
+
+	componentDidMount () {
+		Store.addChangeListener(this.onStoreChange);
+	}
+
+
+	componentWillUnmount () {
+		Store.removeChangeListener(this.onStoreChange);
+	}
+
+
+	onStoreChange = (data) => {
+		const {type} = data;
+
+		if (type === PUBLISHING) {
+			this.onPublishChanged();
+		} else if (type === RENDER_JOB_CHANGE) {
+			this.onRenderJobChanged();
+		}
+	}
+
+
+	onPublishChanged () {
+		this.setState({
+			publishing: Store.isPublishing
+		});
+	}
+
+
+	onRenderJobChanged () {
+		this.setState({
+			renderJob: Store.renderJob
+		});
+	}
+
 
 	closeMenu () {
 		if (this.flyoutRef) {
@@ -82,6 +122,11 @@ export default class ContentEditorPublish extends React.Component {
 	}
 
 
+	onContentPackageChanged = () => {
+		this.forceUpdate();
+	}
+
+
 	render () {
 		const trigger = this.renderTrigger();
 
@@ -95,14 +140,25 @@ export default class ContentEditorPublish extends React.Component {
 
 	renderTrigger () {
 		const {contentPackage} = this.props;
-		const {disabled} = this.state;
+		const {disabled, renderJob} = this.state;
 		const {isPublished} = contentPackage || {};
-		const cls = cx('content-editor-publish-trigger', {disabled: disabled || !contentPackage});
-		const label = isPublished ? t('publishChanges.trigger') : t('publish.trigger');
+
+		const cls = cx('content-editor-publish-trigger', {
+			disabled: disabled || !contentPackage,
+			publishing: renderJob && renderJob.isPending,
+			failed: renderJob && renderJob.isFailed
+		});
+		const label = renderJob && renderJob.isPending ?
+							t('publishing') :
+							renderJob && renderJob.isFailed ?
+								t('publishFailed') :
+								isPublished ? t('publishChanges.trigger') : t('publish.trigger');
 
 		return (
 			<div className={cls}>
-				<PublishTrigger label={label} />
+				{renderJob && renderJob.isPending ? <Loading.Spinner white size="18px" /> : null}
+				<span className="label">{label}</span>
+				<i className="icon-chevron-down" />
 			</div>
 		);
 	}
@@ -111,8 +167,8 @@ export default class ContentEditorPublish extends React.Component {
 	renderFlyout () {
 		const {contentPackage} = this.props;
 		const publishChangeActions = [
-			{handler: this.onUnpublish, label: t('publishChanges.unpublish')},
-			{handler: this.onRevert, label: t('publishChanges.revert')}
+			{handler: this.onUnpublish, label: t('publishChanges.unpublish')}
+			// {handler: this.onRevert, label: t('publishChanges.revert')}
 		];
 
 		return contentPackage && contentPackage.isPublished ?

@@ -1,9 +1,51 @@
 @import "~nti-style-common";
 
 .content-editor-publish-trigger {
+	border-radius: 4px;
+	background-color: $primary-blue;
+	padding: 0 0.75rem;
+	display: flex;
+	align-items: center;
+	color: white;
+	cursor: pointer;
+
+	.loading-spinner {
+		flex: 0 0 auto;
+		margin-right: rem-calc(5px);
+	}
+
+	.label {
+		display: inline-block;
+		min-width: 120px;
+		flex: 1 1 auto;
+		font-size: 0.875rem;
+		line-height: 2.4375rem;
+	}
+
+	i {
+		display: inline-block;
+		flex: 0 0 auto;
+
+		width: 1.125rem;
+		height: 1.125rem;
+		text-align: center;
+		font-weight: 600;
+		font-size: 0.625rem;
+		line-height: 1.1rem;
+
+		color: white;
+		border: 2px solid white;
+		border-radius: 1rem;
+	}
+
 	&.disabled {
 		pointer-events: none;
 		opacity: 0.8;
+	}
+
+	&.flyout-open {
+		background-color: $tertiary-grey;
+		box-shadow: inset 0 0 2px 0 rgba(0, 0, 0, 0.37);
 	}
 }
 

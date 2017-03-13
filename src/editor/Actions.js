@@ -14,7 +14,8 @@ import {
 	PUBLISH_ENDED,
 	UNPUBLISHING,
 	UNPUBLISH_ENDED,
-	RESET_STORE
+	RESET_STORE,
+	NEW_RENDER_JOB
 } from './Constants';
 
 
@@ -28,8 +29,11 @@ export function publishContentPackage (contentPackage) {
 
 	contentPackage.publish()
 		.then(() => {
-			dispatch(PUBLISH_ENDED);
+			const {LatestRenderJob} = contentPackage;
+
+			dispatch(NEW_RENDER_JOB, LatestRenderJob);
 			dispatch(CLEAR_ALL_ERRORS);
+			dispatch(PUBLISH_ENDED);
 		})
 		.catch((reason) => {
 			dispatch(PUBLISH_ENDED);

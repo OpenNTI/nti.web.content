@@ -14,7 +14,9 @@ import {
 	DELETING,
 	DELETE_ENDED,
 	DELETED,
-	RESET_STORE
+	RESET_STORE,
+	NEW_RENDER_JOB,
+	RENDER_JOB_CHANGE
 } from './Constants';
 
 const logger = Logger.get('lib:content-editor:Store');
@@ -49,6 +51,8 @@ const SetDeleted = Symbol('SetDeleted');
 
 const Reset = Symbol('Reset');
 
+const NewRenderJob = Symbol('NewRenderJob');
+const RenderJobChanged = Symbol('RenderJobChanged');
 
 function init (store) {
 	store[Protected] = {
@@ -79,7 +83,8 @@ class Store extends StorePrototype {
 			[DELETING]: SetDeleteStart,
 			[DELETE_ENDED]: SetDeleteEnd,
 			[DELETED]: SetDeleted,
-			[RESET_STORE]: Reset
+			[RESET_STORE]: Reset,
+			[NEW_RENDER_JOB]: NewRenderJob
 		});
 	}
 
@@ -242,6 +247,36 @@ class Store extends StorePrototype {
 	}
 
 
+	[RenderJobChanged] = (renderJob) => {
+		if (this[Protected].renderJob !== renderJob) {
+			logger.warn('Received render changed for an different render job, dropping it on the floor');
+			return;
+		}
+
+		this.emitChange({type: RENDER_JOB_CHANGE});
+	}
+
+
+	[NewRenderJob] (e) {
+		const {response:newRenderJob} = e.action;
+		const {renderJob:oldRenderJob} = this[Protected];
+
+		if (oldRenderJob) {
+			oldRenderJob.stopMonitor();
+			oldRenderJob.removeListener('change', this[RenderJobChanged]);
+		}
+
+		this[Protected].renderJob = newRenderJob;
+
+		if (newRenderJob) {
+			newRenderJob.addListener('change', this[RenderJobChanged]);
+			newRenderJob.startMonitor();
+		}
+
+		this.emitChange({type: RENDER_JOB_CHANGE});
+	}
+
+
 	get isSaving () {
 		return this[Protected].savingCount > 0;
 	}
@@ -274,6 +309,11 @@ class Store extends StorePrototype {
 
 	get isDeleted () {
 		return this[Protected].deleted;
+	}
+
+
+	get renderJob () {
+		return this[Protected].renderJob;
 	}
 
 
