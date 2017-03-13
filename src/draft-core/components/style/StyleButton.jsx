@@ -27,6 +27,11 @@ export default class StyleButton extends React.Component {
 		className: React.PropTypes.string,
 		children: React.PropTypes.any,
 		style: React.PropTypes.oneOf(Object.values(Styles)).isRequired,
+		shouldDisableForState: React.PropTypes.func
+	}
+
+	static defaultProps = {
+		shouldDisableForState: () => { return false; }
 	}
 
 	get editorContext () {
@@ -34,10 +39,10 @@ export default class StyleButton extends React.Component {
 	}
 
 	get isAllowed () {
-		const {style} = this.props;
-		const {allowedInlineStyles} = this.editorContext;
+		const {style, shouldDisableForState} = this.props;
+		const {allowedInlineStyles, editorState} = this.editorContext;
 
-		return allowedInlineStyles && allowedInlineStyles.has(style);
+		return allowedInlineStyles && allowedInlineStyles.has(style) && !shouldDisableForState(editorState);
 	}
 
 

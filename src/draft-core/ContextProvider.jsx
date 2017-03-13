@@ -70,6 +70,7 @@ export default class ContextProvider extends React.Component {
 		return {
 			editorContext: {
 				editor,
+				get editorState () { return editor && editor.editorState; },
 
 				toggleInlineStyle (x) { return toggleInlineStyle(x, editor); },
 				get allowedInlineStyles () { return getAllowedInlineStyles(editor); },
