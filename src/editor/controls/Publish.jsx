@@ -1,7 +1,7 @@
 import React from 'react';
 import cx from 'classnames';
 import {scoped} from 'nti-lib-locale';
-import {Flyout, Loading} from 'nti-web-commons';
+import {Flyout, Loading, HOC} from 'nti-web-commons';
 
 import Store from '../Store';
 import {PUBLISHING, RENDER_JOB_CHANGE, SET_ERROR} from '../Constants';
@@ -12,6 +12,8 @@ import {
 	cancelRenderJob
 } from '../Actions';
 
+
+const {ItemChanges} = HOC;
 
 const DEFAULT_TEXT = {
 	publish: {
@@ -143,13 +145,21 @@ export default class ContentEditorPublish extends React.Component {
 	}
 
 
+	onContentPackageChange = () => {
+		this.forceUpdate();
+	}
+
+
 	render () {
+		const {contentPackage} = this.props;
 		const trigger = this.renderTrigger();
 
 		return (
-			<Flyout ref={this.setFlyoutRef} trigger={trigger} className="content-editor-publish" arrow verticalAlign={Flyout.ALIGNMENTS.TOP} horizontalAlign={Flyout.ALIGNMENTS.RIGHT}>
-				{this.renderFlyout()}
-			</Flyout>
+			<ItemChanges item={contentPackage} onItemChanged={this.onContentPackageChange}>
+				<Flyout ref={this.setFlyoutRef} trigger={trigger} className="content-editor-publish" arrow verticalAlign={Flyout.ALIGNMENTS.TOP} horizontalAlign={Flyout.ALIGNMENTS.RIGHT}>
+					{this.renderFlyout()}
+				</Flyout>
+			</ItemChanges>
 		);
 	}
 
