@@ -8,7 +8,8 @@ import {PUBLISHING, RENDER_JOB_CHANGE} from '../Constants';
 import {
 	publishContentPackage,
 	unpublishContentPackage,
-	deleteContentPackage
+	deleteContentPackage,
+	cancelRenderJob
 } from '../Actions';
 
 
@@ -29,7 +30,9 @@ const DEFAULT_TEXT = {
 		delete: 'Delete',
 		save: 'Publish'
 	},
-	publishing: 'Publishing',
+	publishing: {
+		trigger: 'Publishing'
+	},
 	publishFailed: 'Publish Failed',
 	deleteMessage: 'Deleting this reading will remove it and all student activity.'
 };
@@ -117,13 +120,13 @@ export default class ContentEditorPublish extends React.Component {
 	}
 
 
-	onRevert = () => {
+	onCancelPublish = () => {
+		const {contentPackage} = this.props;
+		const {renderJob} = this.state;
 
-	}
-
-
-	onContentPackageChanged = () => {
-		this.forceUpdate();
+		if (renderJob) {
+			cancelRenderJob(renderJob, contentPackage);
+		}
 	}
 
 
@@ -140,23 +143,24 @@ export default class ContentEditorPublish extends React.Component {
 
 	renderTrigger () {
 		const {contentPackage} = this.props;
-		const {disabled, renderJob} = this.state;
+		const {disabled, renderJob, publishing} = this.state;
 		const {isPublished} = contentPackage || {};
+		const isPublishing = (renderJob && renderJob.isPending) || publishing;
 
 		const cls = cx('content-editor-publish-trigger', {
-			disabled: disabled || !contentPackage,
+			disabled: disabled || !contentPackage || isPublishing,
 			publishing: renderJob && renderJob.isPending,
 			failed: renderJob && renderJob.isFailed
 		});
-		const label = renderJob && renderJob.isPending ?
-							t('publishing') :
+		const label = isPublishing ?
+							t('publishing.trigger') :
 							renderJob && renderJob.isFailed ?
 								t('publishFailed') :
 								isPublished ? t('publishChanges.trigger') : t('publish.trigger');
 
 		return (
 			<div className={cls}>
-				{renderJob && renderJob.isPending ? <Loading.Spinner white size="18px" /> : null}
+				{isPublishing ? <Loading.Spinner white size="18px" /> : null}
 				<span className="label">{label}</span>
 				<i className="icon-chevron-down" />
 			</div>
@@ -166,29 +170,41 @@ export default class ContentEditorPublish extends React.Component {
 
 	renderFlyout () {
 		const {contentPackage} = this.props;
-		const publishChangeActions = [
-			{handler: this.onUnpublish, label: t('publishChanges.unpublish')}
-			// {handler: this.onRevert, label: t('publishChanges.revert')}
-		];
 
 		return contentPackage && contentPackage.isPublished ?
-					this.renderMenu(t('publishChanges.header'), t('publishChanges.message'), publishChangeActions, t('publishChanges.delete'), t('publishChanges.save')) :
-					this.renderMenu(t('publish.header'), t('publish.message'), [], t('publish.delete'), t('publish.save'));
+				this.renderPublished() :
+				this.renderDraft();
+	}
+
+	renderDraft () {
+		return (
+			<div className="content-editor-publish-menu not-published">
+				<h3>{t('publish.header')}</h3>
+				<p>{t('publish.message')}</p>
+				<div className="delete" onClick={this.onDelete}>
+					<i className="icon-delete" />
+					<span>{t('publish.delete')}</span>
+				</div>
+				<div className="publish" onClick={this.onPublish}>
+					<span>{t('publish.save')}</span>
+				</div>
+			</div>
+		);
 	}
 
 
-	renderMenu (header, message, actions, deleteText, save) {
+	renderPublished () {
 		return (
-			<div className="content-editor-publish-menu">
-				<h3>{header}</h3>
-				<p>{message}</p>
-				{actions.map((action, index) => (<div key={index} className="action" onClick={action.handler}>{action.label}</div>))}
+			<div className="content-editor-publish-menu published">
+				<h3>{t('publishChanges.header')}</h3>
+				<p>{t('publishChanges.message')}</p>
+				<div className="action" onClick={this.onUnpublish}>{t('publishChanges.unpublish')}</div>
 				<div className="delete" onClick={this.onDelete}>
 					<i className="icon-delete" />
-					<span>{deleteText}</span>
+					<span>{t('publishChanges.delete')}</span>
 				</div>
 				<div className="publish" onClick={this.onPublish}>
-					<span>{save}</span>
+					<span>{t('publishChanges.save')}</span>
 				</div>
 			</div>
 		);
