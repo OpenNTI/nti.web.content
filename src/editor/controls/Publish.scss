@@ -22,7 +22,17 @@
 		line-height: 2.4375rem;
 	}
 
-	i {
+	i.alert {
+		display: inline-block;
+		flex: 0 0 auto;
+		margin-right: rem-calc(5px);
+
+		font-size: 0.875rem;
+		color: white;
+	}
+
+
+	i.menu {
 		display: inline-block;
 		flex: 0 0 auto;
 
@@ -43,6 +53,10 @@
 		opacity: 0.8;
 	}
 
+	&.failed {
+		background-color: $primary-red;
+	}
+
 	&.flyout-open {
 		background-color: $tertiary-grey;
 		box-shadow: inset 0 0 2px 0 rgba(0, 0, 0, 0.37);
@@ -58,6 +72,10 @@
 	.content-editor-publish-menu {
 		max-width: 280px;
 		font: normal 400 0.875rem/1.25rem $body-font-family;
+
+		.error {
+			color: $primary-red;
+		}
 
 		h3 {
 			font: normal 400 1.125rem/1.5rem $body-font-family;
