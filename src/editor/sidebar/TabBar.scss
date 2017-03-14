@@ -1,0 +1,21 @@
+@import "~nti-style-common";
+
+.content-editor-sidebar-tabbar {
+	height: rem-calc(50px);
+	line-height: rem-calc(50px);
+	font-size: 0.625rem;
+	font-weight: bold;
+	text-transform: uppercase;
+	display: flex;
+
+	.tab {
+		flex: 0 1 50%;
+		box-shadow: inset 0 0 0 1px $border-grey-light;
+		text-align: center;
+		color: $primary-grey;
+
+		&.active {
+			box-shadow: none;
+		}
+	}
+}
