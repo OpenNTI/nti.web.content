@@ -1,6 +1,7 @@
 import normalizeRanges from './normalizeRanges';
 import escapeRST from './escapeRST';
 import parseRange from './parseRange';
+import trimInvalidWhitespace from './trimInvalidWhitespace';
 
 
 export default function (block, context) {
@@ -23,5 +24,5 @@ export default function (block, context) {
 
 	parsedText += escapeRST(text.substr(i, text.length - i));
 
-	return parsedText;
+	return trimInvalidWhitespace(parsedText);
 }
