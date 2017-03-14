@@ -86,7 +86,7 @@ describe('parseText', () => {
 		};
 		const parsed = parseText(block, {});
 
-		expect(parsed).toEqual('This is a block with \* rst chars \*\* \: \= \!');
+		expect(parsed).toEqual('This is a block with \\* rst chars \\*\\* \\: \\= \\!');
 	});
 
 	it('escapes rst thats in a range', () => {
@@ -101,7 +101,7 @@ describe('parseText', () => {
 		};
 		const parsed = parseText(block, {});
 
-		expect(parsed).toEqual('This is a block with \* \= \! plus **bold and \* rst chars \*\* \: \= \!**');
+		expect(parsed).toEqual('This is a block with \\* \\= \\! plus **bold and \\* rst chars \\*\\* \\: \\= \\!**');
 	});
 
 	//TODO: add more tests
