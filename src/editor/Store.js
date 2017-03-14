@@ -283,7 +283,9 @@ class Store extends StorePrototype {
 
 
 	get errors () {
-		return this[Protected][ErrorMessages];
+		const errors = this[Protected][ErrorMessages] || [];
+
+		return [...errors];
 	}
 
 
