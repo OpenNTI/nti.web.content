@@ -4,6 +4,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {decodeFromURI} from 'nti-lib-ntiids';
 import {getService} from 'nti-web-client';
+import {ConflictResolutionHandler} from 'nti-web-commons';
 
 import {Editor} from '../../src';
 // import RSTTest from '../../src/RST/test';
@@ -74,6 +75,7 @@ class Test extends React.Component {
 
 		return (
 			<div>
+				<ConflictResolutionHandler />
 				<Editor contentPackage={content} course={course} />
 			</div>
 		);
