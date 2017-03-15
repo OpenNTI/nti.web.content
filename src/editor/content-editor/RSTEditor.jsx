@@ -1,22 +1,20 @@
 import React from 'react';
-import {INLINE_STYLE} from 'draft-js-utils';
 import {EditorState, convertFromRaw, convertToRaw} from 'draft-js';
-import {BLOCK_TYPE} from 'draft-js-utils';
 import {HOC} from 'nti-web-commons';
 
-import {Editor, Plugins} from '../../draft-core';
+import {Editor, Plugins, BLOCKS, STYLES} from '../../draft-core';
 import {Parser} from '../../RST';
 
 const {ItemChanges} = HOC;
 
 // const externalLinks = Plugins.createExternalLinks();
 const pastedText = Plugins.createFormatPasted({formatTypeChangeMap: {
-	[BLOCK_TYPE.HEADER_ONE]: BLOCK_TYPE.HEADER_TWO,
-	[BLOCK_TYPE.HEADER_TWO]: BLOCK_TYPE.HEADER_THREE,
-	[BLOCK_TYPE.HEADER_THREE]: BLOCK_TYPE.HEADER_FOUR,
-	[BLOCK_TYPE.HEADER_FOUR]: BLOCK_TYPE.HEADER_FOUR,
-	[BLOCK_TYPE.HEADER_FIVE]: BLOCK_TYPE.HEADER_FOUR,
-	[BLOCK_TYPE.HEADER_SIX]: BLOCK_TYPE.HEADER_FOUR
+	[BLOCKS.HEADER_ONE]: BLOCKS.HEADER_TWO,
+	[BLOCKS.HEADER_TWO]: BLOCKS.HEADER_THREE,
+	[BLOCKS.HEADER_THREE]: BLOCKS.HEADER_FOUR,
+	[BLOCKS.HEADER_FOUR]: BLOCKS.HEADER_FOUR,
+	[BLOCKS.HEADER_FIVE]: BLOCKS.HEADER_FOUR,
+	[BLOCKS.HEADER_SIX]: BLOCKS.HEADER_FOUR
 }});
 
 const plugins = [
@@ -27,10 +25,24 @@ const plugins = [
 
 
 const ALLOWED_STYLES = [
-	INLINE_STYLE.BOLD,
-	INLINE_STYLE.CODE,
-	INLINE_STYLE.ITALIC,
-	INLINE_STYLE.UNDERLINE
+	STYLES.BOLD,
+	STYLES.CODE,
+	STYLES.ITALIC,
+	STYLES.UNDERLINE
+];
+
+
+const ALLOWED_BLOCKS = [
+	BLOCKS.ATOMIC,
+	BLOCKS.HEADER_FIVE,
+	BLOCKS.HEADER_FOUR,
+	BLOCKS.HEADER_ONE,
+	BLOCKS.HEADER_SIX,
+	BLOCKS.HEADER_THREE,
+	BLOCKS.HEADER_TWO,
+	BLOCKS.ORDERED_LIST_ITEM,
+	BLOCKS.UNORDERED_LIST_ITEM,
+	BLOCKS.UNSTYLED
 ];
 
 function rstToEditorState (rst, options) {
@@ -129,6 +141,8 @@ export default class RSTEditor extends React.Component {
 					onContentChange={this.onContentChange}
 					plugins={plugins}
 					allowedInlineStyles={ALLOWED_STYLES}
+					allowedBlockTypes={ALLOWED_BLOCKS}
+					allowLinks={false}
 					{...otherProps}
 				/>
 			</ItemChanges>
