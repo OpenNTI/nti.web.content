@@ -37,8 +37,7 @@ const DEFAULT_TEXT = {
 	},
 	publishFailed: {
 		trigger: 'Publish Failed'
-	},
-	deleteMessage: 'Deleting this reading will remove it and all student activity.'
+	}
 };
 
 const t = scoped('CONTENT_EDITOR_PUBLISH', DEFAULT_TEXT);
@@ -129,7 +128,7 @@ export default class ContentEditorPublish extends React.Component {
 		const {contentPackage} = this.props;
 
 		if (contentPackage) {
-			deleteContentPackage(contentPackage, t('deleteMessage'));
+			deleteContentPackage(contentPackage);
 			this.closeMenu();
 		}
 	}

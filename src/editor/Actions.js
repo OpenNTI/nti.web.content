@@ -1,5 +1,4 @@
 import {dispatch} from 'nti-lib-dispatcher';
-import {Prompt} from 'nti-web-commons';
 import {wait} from 'nti-commons';
 
 import {
@@ -66,25 +65,22 @@ export function unpublishContentPackage (contentPackage) {
 		});
 }
 
-export function deleteContentPackage (contentPackage, message) {
-	Prompt.areYouSure(message)
+export function deleteContentPackage (contentPackage) {
+	dispatch(DELETING);
+
+	contentPackage.delete()
+		.then(wait.min(wait.SHORT))
 		.then(() => {
-			dispatch(DELETING);
+			dispatch(DELETED);
+		})
+		.catch((reason) => {
+			dispatch(SET_ERROR, {
+				NTIID: contentPackage.NTIID,
+				field: 'deleted',
+				reason
+			});
 
-			contentPackage.delete()
-				.then(wait.min(wait.SHORT))
-				.then(() => {
-					dispatch(DELETED);
-				})
-				.catch((reason) => {
-					dispatch(SET_ERROR, {
-						NTIID: contentPackage.NTIID,
-						field: 'deleted',
-						reason
-					});
-
-					dispatch(DELETE_ENDED);
-				});
+			dispatch(DELETE_ENDED);
 		});
 }
 
