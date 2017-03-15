@@ -21,7 +21,8 @@ const pastedText = Plugins.createFormatPasted({formatTypeChangeMap: {
 
 const plugins = [
 	// externalLinks,
-	pastedText
+	pastedText,
+	Plugins.createKeepFocusInView()
 ];
 
 
