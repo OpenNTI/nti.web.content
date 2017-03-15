@@ -7,6 +7,7 @@ const BLOCK = Symbol('Block');
 const SECTION = 'Section';
 const FAKE_SECTION = 'fakesection';
 const FAKE_SUB_SECTION = 'fakesubsection';
+const FAKE_PARAGRAPH = 'fakeparagraph';
 
 export const TYPE_TO_LEVEL = {
 	[BLOCK_TYPE.HEADER_ONE]: 1,
@@ -38,10 +39,10 @@ const LEVEL_TO_INDENT = {
 const LEVEL_TO_OUTPUT_TYPE = {
 	1: SECTION,
 	2: SECTION,
-	3: FAKE_SECTION,
-	4: FAKE_SUB_SECTION,
-	5: FAKE_SUB_SECTION,
-	6: FAKE_SUB_SECTION
+	3: FAKE_SUB_SECTION,
+	4: FAKE_PARAGRAPH,
+	5: FAKE_PARAGRAPH,
+	6: FAKE_PARAGRAPH
 };
 
 
@@ -77,6 +78,14 @@ const OUTPUT_TYPE_TO_OUTPUT = {
 	[FAKE_SUB_SECTION]: (header) => {
 		const text = parsePlainText(header[BLOCK]);
 		const output = [`.. ${FAKE_SUB_SECTION}:: ${text}`];
+
+		return text.length ? {output} : {};
+	},
+
+
+	[FAKE_PARAGRAPH]: (header) => {
+		const text = parsePlainText(header[BLOCK]);
+		const output = [`.. ${FAKE_PARAGRAPH}:: ${text}`];
 
 		return text.length ? {output} : {};
 	}

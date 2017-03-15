@@ -17,6 +17,6 @@ export default class FakeSubSection extends Directive {
 		const text = new Text(this.arguments);
 		const {output, context:newContext} = text.getOutput(context);
 
-		return {output: {...output, type: BLOCK_TYPE.HEADER_THREE, depth: 0, data: this.blockData}, context: newContext};
+		return {output: {...output, type: BLOCK_TYPE.HEADER_FOUR, depth: 0, data: this.blockData}, context: newContext};
 	}
 }
