@@ -180,11 +180,11 @@ class Store extends StorePrototype {
 
 	[SetError] (e) {
 		const {response} = e.action;
-		const {type} = response || {};
+		const {type, reason} = response || {};
 
 		//Note: Do not show 409s.
 		//since the user deals with them directly through a modal dialog
-		if (!response || response.statusCode !== 409) {
+		if (!reason || reason.statusCode !== 409) {
 			this[SetMessage](ErrorMessages, response, type || SET_ERROR);
 		}
 	}
