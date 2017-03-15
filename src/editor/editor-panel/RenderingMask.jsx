@@ -1,7 +1,7 @@
 import React from 'react';
 import cx from 'classnames';
 import {scoped} from 'nti-lib-locale';
-import {Sequence, Loading} from 'nti-web-commons';
+import {Sequence, Loading, StickyElement} from 'nti-web-commons';
 
 import {PUBLISHING, DELETING} from '../Constants';
 import Store from '../Store';
@@ -27,9 +27,7 @@ export default class ContentEditorRenderingMask extends React.Component {
 		onFailureFinish: React.PropTypes.func
 	}
 
-	state = {
-		publising: true
-	}
+	state = {}
 
 	componentDidMount () {
 		Store.addChangeListener(this.onStoreChange);
@@ -165,6 +163,10 @@ export default class ContentEditorRenderingMask extends React.Component {
 
 	render () {
 		const {publishing, success, failure, deleting} = this.state;
+		// const publishing = false;
+		// const success = false;
+		// const failure = true;
+		// const deleting = false;
 		const cls = cx('content-editor-render-mask', {publishing, success, failure, deleting});
 
 		return (
@@ -179,73 +181,81 @@ export default class ContentEditorRenderingMask extends React.Component {
 
 	renderDeleting = () => {
 		return (
-			<div className="deleting-indicator">
-				<div className="deleting">
-					<Loading.Spinner className="spinner" size="120px" strokeWidth="1" />
-					<span className="spinner-message">{t('deletingMessage')}</span>
+			<StickyElement>
+				<div className="deleting-indicator">
+					<div className="deleting">
+						<Loading.Spinner className="spinner" size="120px" strokeWidth="1" />
+						<span className="spinner-message">{t('deletingMessage')}</span>
+					</div>
 				</div>
-			</div>
+			</StickyElement>
 		);
 	}
 
 	renderPublishing = () => {
 		return (
-			<div className="publishing-indicator">
-				<Sequence.Timed>
-					<Sequence.Item showFor={21000}>
-						<div className="spinner-message">
-							<Loading.Spinner className="spinner" size="120px" strokeWidth="1" />
-							<Sequence.Timed>
-								<Sequence.Item showFor={9000}>
-									<span className="spinner-message">{t('publishingMessageOne')}</span>
-								</Sequence.Item>
-								<Sequence.Item showFor={12000}>
-									<span className="spinner-message">{t('publishingMessageTwo')}</span>
-								</Sequence.Item>
-							</Sequence.Timed>
+			<StickyElement>
+				<div className="publishing-indicator">
+					<Sequence.Timed>
+						<Sequence.Item showFor={21000}>
+							<div className="spinner-message">
+								<Loading.Spinner className="spinner" size="120px" strokeWidth="1" />
+								<Sequence.Timed>
+									<Sequence.Item showFor={9000}>
+										<span className="spinner-message">{t('publishingMessageOne')}</span>
+									</Sequence.Item>
+									<Sequence.Item showFor={12000}>
+										<span className="spinner-message">{t('publishingMessageTwo')}</span>
+									</Sequence.Item>
+								</Sequence.Timed>
 
-						</div>
-					</Sequence.Item>
-					<Sequence.Item showFor={Infinity}>
-						<div className="too-long-message">
-							<span className="message">{t('publishingMessageThree.message')}</span>
-							<span className="button" onClick={this.onPublishDismiss}>{t('publishingMessageThree.button')}</span>
-						</div>
-					</Sequence.Item>
-				</Sequence.Timed>
-			</div>
+							</div>
+						</Sequence.Item>
+						<Sequence.Item showFor={Infinity}>
+							<div className="too-long-message">
+								<span className="message">{t('publishingMessageThree.message')}</span>
+								<span className="button" onClick={this.onPublishDismiss}>{t('publishingMessageThree.button')}</span>
+							</div>
+						</Sequence.Item>
+					</Sequence.Timed>
+				</div>
+			</StickyElement>
 		);
 	}
 
 
 	renderSuccess = () => {
 		return (
-			<div className="success-indicator">
-				<Sequence.Timed onFinish={this.onSuccessFinish}>
-					<Sequence.Item showFor={5000}>
-						<div className="success">
-							<i className="icon-check" />
-							<span>{t('successMessage')}</span>
-						</div>
-					</Sequence.Item>
-				</Sequence.Timed>
-			</div>
+			<StickyElement>
+				<div className="success-indicator">
+					<Sequence.Timed onFinish={this.onSuccessFinish}>
+						<Sequence.Item showFor={5000}>
+							<div className="success">
+								<i className="icon-check" />
+								<span>{t('successMessage')}</span>
+							</div>
+						</Sequence.Item>
+					</Sequence.Timed>
+				</div>
+			</StickyElement>
 		);
 	}
 
 
 	renderFailure = () => {
 		return (
-			<div className="failure-indicator">
-				<Sequence.Timed onFinish={this.onFailureFinish}>
-					<Sequence.Item showFor={5000}>
-						<div className="failure">
-							<span className="icon">!</span>
-							<span>{t('failureMessage')}</span>
-						</div>
-					</Sequence.Item>
-				</Sequence.Timed>
-			</div>
+			<StickyElement>
+				<div className="failure-indicator">
+					<Sequence.Timed onFinish={this.onFailureFinish}>
+						<Sequence.Item showFor={5000}>
+							<div className="failure">
+								<span className="icon">!</span>
+								<span>{t('failureMessage')}</span>
+							</div>
+						</Sequence.Item>
+					</Sequence.Timed>
+				</div>
+			</StickyElement>
 		);
 	}
 }

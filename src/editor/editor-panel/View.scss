@@ -2,4 +2,8 @@
 
 .content-editor-panel {
 	position: relative;
+
+	.sticky {
+		z-index: 10;
+	}
 }
