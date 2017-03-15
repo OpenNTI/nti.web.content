@@ -24,7 +24,6 @@
 
 		h2 {
 			font-size: 2rem;
-			font-weight: 200;
 			line-height: 1;
 			margin-top: 2rem;
 			margin-bottom: 0.5rem;
@@ -38,7 +37,6 @@
 
 		h3 {
 			font-size: 1.75rem;
-			font-weight: 200;
 			margin-top: 2.25rem;
 			margin-bottom: 0.875rem;
 
@@ -51,12 +49,11 @@
 
 		h4 {
 			font-size: 1.125rem;
-			font-weight: 700;
 			margin-top: 2rem;
 			margin-bottom: 0.5rem;
 
 			span {
-				font-weight: 700 !important;
+				font-weight: bold !important;
 				text-decoration: none !important;
 				font-style: normal !important;
 			}

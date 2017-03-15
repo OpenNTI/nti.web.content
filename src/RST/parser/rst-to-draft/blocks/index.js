@@ -3,6 +3,7 @@ import Directive from './Directive';
 import UID from './UID';
 import Empty from './Empty';
 import ExternalHyperLink from './ExternalHyperLink';
+import FakeParagraph from './FakeParagraph';
 import FakeSection from './FakeSection';
 import FakeSubSection from './FakeSubSection';
 import FieldList from './FieldList';
@@ -18,6 +19,7 @@ export default [
 	UnorderedListItem,
 	OrderedListItem,
 	ExternalHyperLink,
+	FakeParagraph,
 	FakeSection,
 	FakeSubSection,
 	Figure,

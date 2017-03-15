@@ -3,9 +3,9 @@ import {BLOCK_TYPE} from 'draft-js-utils';
 import Directive, {buildDirectiveRegex} from './Directive';
 import Text from './Text';
 
-const FAKE_SUB_SECTION = buildDirectiveRegex('fakesubsection');
+const FAKE_SUB_SECTION = buildDirectiveRegex('fakeparagraph');
 
-export default class FakeSubSection extends Directive {
+export default class FakeParagraph extends Directive {
 	static isNextBlock (inputInterface) {
 		const current = inputInterface.get(0);
 
