@@ -2,7 +2,7 @@ import {INLINE_STYLE} from 'draft-js-utils';
 
 import parseText from '../parseText';
 
-describe('parseText', () => {
+fdescribe('parseText', () => {
 	it('block with bold', () => {
 		const block = {
 			text: 'This is a block with bold and some plain',
@@ -102,6 +102,33 @@ describe('parseText', () => {
 		const parsed = parseText(block, {});
 
 		expect(parsed).toEqual('This is a block with \\* \\= \\! plus **bold and \\* rst chars \\*\\* \\: \\= \\!**');
+	});
+
+	it('Handles multiple ranges', () => {
+		const block = {
+			text: 'This is plain. This is bold. This is bold underline. This is bold underline italic.',
+			inlineStyleRanges: [
+				{
+					style: INLINE_STYLE.BOLD,
+					offset: 14,
+					length: 69
+				},
+				{
+					style: INLINE_STYLE.UNDERLINE,
+					offset: 29,
+					length: 54
+				},
+				{
+					style: INLINE_STYLE.ITALIC,
+					offset: 53,
+					length: 30
+				}
+			],
+			entityRanges: []
+		};
+		const parsed = parseText(block, {});
+
+		expect(parsed).toEqual('This is plain\\. **This is bold\\.** :boldunderline:`This is bold underline\\.` :bolditalicunderline:`This is bold underline italic\\.`');
 	});
 
 	//TODO: add more tests

@@ -6,7 +6,7 @@ import trimInvalidWhitespace from './trimInvalidWhitespace';
 
 export default function (block, context) {
 	const {inlineStyleRanges, entityRanges, text} = block;
-	const normalizedRanges = normalizeRanges(inlineStyleRanges.concat(entityRanges));
+	const normalizedRanges = normalizeRanges(inlineStyleRanges.concat(entityRanges), text.length);
 
 	let i = 0;
 	let parsedText = '';
