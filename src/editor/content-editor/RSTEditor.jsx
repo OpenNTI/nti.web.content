@@ -7,15 +7,35 @@ import {Parser} from '../../RST';
 
 const {ItemChanges} = HOC;
 
+function rstToEditorState (rst, options) {
+	const draftState = rst && Parser.convertRSTToDraftState(rst, options);
+
+	return draftState && draftState.blocks.length ? EditorState.createWithContent(convertFromRaw(draftState)) : EditorState.createEmpty();
+}
+
+function editorStateToRST (editorState, options) {
+	const currentContent = editorState && editorState.getCurrentContent();
+
+	return currentContent ? Parser.convertDraftStateToRST(convertToRaw(currentContent), options) : '';
+}
+
 // const externalLinks = Plugins.createExternalLinks();
-const pastedText = Plugins.createFormatPasted({formatTypeChangeMap: {
-	[BLOCKS.HEADER_ONE]: BLOCKS.HEADER_TWO,
-	[BLOCKS.HEADER_TWO]: BLOCKS.HEADER_THREE,
-	[BLOCKS.HEADER_THREE]: BLOCKS.HEADER_FOUR,
-	[BLOCKS.HEADER_FOUR]: BLOCKS.HEADER_FOUR,
-	[BLOCKS.HEADER_FIVE]: BLOCKS.HEADER_FOUR,
-	[BLOCKS.HEADER_SIX]: BLOCKS.HEADER_FOUR
-}});
+const pastedText = Plugins.createFormatPasted({
+	formatTypeChangeMap: {
+		[BLOCKS.HEADER_ONE]: BLOCKS.HEADER_TWO,
+		[BLOCKS.HEADER_TWO]: BLOCKS.HEADER_THREE,
+		[BLOCKS.HEADER_THREE]: BLOCKS.HEADER_FOUR,
+		[BLOCKS.HEADER_FOUR]: BLOCKS.HEADER_FOUR,
+		[BLOCKS.HEADER_FIVE]: BLOCKS.HEADER_FOUR,
+		[BLOCKS.HEADER_SIX]: BLOCKS.HEADER_FOUR
+	},
+	transformHTMLState (newContent) {
+		const rst = Parser.convertDraftStateToRST(convertToRaw(newContent));
+		const editorState = rstToEditorState(rst);
+
+		return editorState ? editorState.getCurrentContent() : newContent;
+	}
+});
 
 const plugins = [
 	// externalLinks,
@@ -44,18 +64,6 @@ const ALLOWED_BLOCKS = [
 	BLOCKS.UNORDERED_LIST_ITEM,
 	BLOCKS.UNSTYLED
 ];
-
-function rstToEditorState (rst, options) {
-	const draftState = rst && Parser.convertRSTToDraftState(rst, options);
-
-	return draftState && draftState.blocks.length ? EditorState.createWithContent(convertFromRaw(draftState)) : EditorState.createEmpty();
-}
-
-function editorStateToRST (editorState, options) {
-	const currentContent = editorState && editorState.getCurrentContent();
-
-	return currentContent ? Parser.convertDraftStateToRST(convertToRaw(currentContent), options) : '';
-}
 
 export default class RSTEditor extends React.Component {
 	static propTypes = {

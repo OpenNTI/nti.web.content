@@ -48,7 +48,8 @@ export default {
 
 		const fragment = ContentState.createFromBlockArray(formattedBlocks);
 
-		const newState = Modifier.replaceWithFragment(editorState.getCurrentContent(), editorState.getSelection(), fragment.blockMap);
+		const pastedState = Modifier.replaceWithFragment(editorState.getCurrentContent(), editorState.getSelection(), fragment.blockMap);
+		const newState = config.transformHTMLState ? config.transformHTMLState(pastedState) : pastedState;
 
 		return EditorState.push(editorState, newState, 'insert-fragment');
 	}
