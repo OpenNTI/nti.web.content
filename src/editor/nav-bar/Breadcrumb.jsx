@@ -7,10 +7,14 @@ const DEFAULT_TEXT = {
 
 const t = scoped('CONTENT-EDITOR-NAVBAR-BREADCRUMB', DEFAULT_TEXT);
 
-export default function Breadcrumb () {
+Breadcrumb.propTypes = {
+	gotoResources: React.PropTypes.func
+};
+
+export default function Breadcrumb ({gotoResources}) {
 	return (
 		<div className="editor-navbar-breadcrumb breadcrumb">
-			<span className="root">{t('root')}</span>
+			<span className="root" onClick={gotoResources}>{t('root')}</span>
 		</div>
 	);
 }

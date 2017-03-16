@@ -17,6 +17,7 @@ export default class ContentEditor extends React.Component {
 		contentPackage: React.PropTypes.object,
 		course: React.PropTypes.object,
 		onDidChange: React.PropTypes.func,
+		gotoResources: React.PropTypes.func,
 		onDelete: React.PropTypes.func
 	}
 
@@ -62,13 +63,13 @@ export default class ContentEditor extends React.Component {
 	}
 
 	render () {
-		const {contentPackage, course} = this.props;
+		const {contentPackage, course, gotoResources} = this.props;
 		const sidebar = (<Sidebar />);
 
 		return (
 			<div className="content-editor">
 				<PanelSidebar className="content-editor-panel-sidebar" sidebar={sidebar}>
-					<EditorPanel contentPackage={contentPackage} course={course} />
+					<EditorPanel contentPackage={contentPackage} course={course} gotoResources={gotoResources} />
 				</PanelSidebar>
 				<ControlBar visible>
 					<Controls selectionManager={selectionManager} contentPackage={contentPackage} course={course} />

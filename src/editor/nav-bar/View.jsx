@@ -5,12 +5,13 @@ import Breadcrumb from './Breadcrumb';
 
 NavBar.propTypes = {
 	gotoRoot: React.PropTypes.func,
-	pageSource: React.PropTypes.object
-}
-export default function NavBar ({pageSource}) {
+	pageSource: React.PropTypes.object,
+	gotoResources: React.PropTypes.func
+};
+export default function NavBar ({pageSource, gotoResources}) {
 	return (
 		<div className="editor-nav-bar">
-			<Breadcrumb />
+			<Breadcrumb gotoResources={gotoResources} />
 			{pageSource && <Pager pageSource={pageSource} />}
 		</div>
 	);

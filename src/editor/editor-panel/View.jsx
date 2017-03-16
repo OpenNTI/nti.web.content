@@ -12,16 +12,17 @@ import RenderingMask from './RenderingMask';
 EditorPanel.propTypes = {
 	contentPackage: React.PropTypes.object,
 	course: React.PropTypes.object,
-	pageSource: React.PropTypes.object
+	pageSource: React.PropTypes.object,
+	gotoResources: React.PropTypes.func
 };
-export default function EditorPanel ({contentPackage, course, pageSource}) {
+export default function EditorPanel ({contentPackage, course, pageSource, gotoResources}) {
 	const optionsCmp = (<Options contentPackage={contentPackage} course={course} />);
 	const contentCmp = (<Content contentPackage={contentPackage} course={course} />);
 
 	return (
 		<StickyContainer className="content-editor-panel">
 			<StickyElement>
-				<NavBar pageSource={pageSource} />
+				<NavBar pageSource={pageSource} gotoResources={gotoResources} />
 			</StickyElement>
 			<ContentOptionSwitcher options={optionsCmp} content={contentCmp} hideOptions />
 			<RenderingMask contentPackage={contentPackage} />
