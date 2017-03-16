@@ -57,7 +57,7 @@ const pastedText = Plugins.createFormatPasted({
 	},
 	transformHTMLState (newContent) {
 		const rst = Parser.convertDraftStateToRST(convertToRaw(newContent));
-		const editorState = rstToEditorState(rst);
+		const {editorState} = rstToEditorState(rst);
 
 		return editorState ? editorState.getCurrentContent() : newContent;
 	}

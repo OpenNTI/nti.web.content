@@ -1,7 +1,7 @@
 import {BLOCK_TYPE} from 'draft-js-utils';
 
 import {getLabelFor} from '../utils';
-import {parsePlainText} from '../text-parser';
+import {parseSingleLinePlainText} from '../text-parser';
 
 const BLOCK = Symbol('Block');
 const SECTION = 'Section';
@@ -49,7 +49,7 @@ const LEVEL_TO_OUTPUT_TYPE = {
 const OUTPUT_TYPE_TO_OUTPUT = {
 	[SECTION]: (header) => {
 		const {depth, isTitle} = header;
-		const text = parsePlainText(header[BLOCK]);
+		const text = parseSingleLinePlainText(header[BLOCK]);
 		const lineLength = isTitle ? text.length + 2 : text.length;
 		const indent = LEVEL_TO_INDENT[depth];
 		const char = LEVEL_TO_CHAR[depth];
@@ -70,7 +70,7 @@ const OUTPUT_TYPE_TO_OUTPUT = {
 
 
 	[FAKE_SECTION]: (header) => {
-		const text = parsePlainText(header[BLOCK]);
+		const text = parseSingleLinePlainText(header[BLOCK]);
 		const output = [`.. ${FAKE_SECTION}:: ${text}`];
 
 		return text.length ? {output} : {};
@@ -78,7 +78,7 @@ const OUTPUT_TYPE_TO_OUTPUT = {
 
 
 	[FAKE_SUB_SECTION]: (header) => {
-		const text = parsePlainText(header[BLOCK]);
+		const text = parseSingleLinePlainText(header[BLOCK]);
 		const output = [`.. ${FAKE_SUB_SECTION}:: ${text}`];
 
 		return text.length ? {output} : {};
@@ -86,7 +86,7 @@ const OUTPUT_TYPE_TO_OUTPUT = {
 
 
 	[FAKE_PARAGRAPH]: (header) => {
-		const text = parsePlainText(header[BLOCK]);
+		const text = parseSingleLinePlainText(header[BLOCK]);
 		const output = [`.. ${FAKE_PARAGRAPH}:: ${text}`];
 
 		return text.length ? {output} : {};

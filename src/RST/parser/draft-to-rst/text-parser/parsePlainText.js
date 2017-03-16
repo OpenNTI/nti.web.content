@@ -1,5 +1,6 @@
 import escapeRST from './escapeRST';
+import trimInvalidWhitespace from './trimInvalidWhitespace';
 
 export default function (block) {
-	return escapeRST(block.text);
+	return trimInvalidWhitespace(escapeRST(block.text));
 }
