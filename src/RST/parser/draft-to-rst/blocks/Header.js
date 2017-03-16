@@ -1,6 +1,6 @@
 import {BLOCK_TYPE} from 'draft-js-utils';
 
-// import {getUIDStringFor} from '../utils';
+import {getLabelFor} from '../utils';
 import {parsePlainText} from '../text-parser';
 
 const BLOCK = Symbol('Block');
@@ -62,6 +62,8 @@ const OUTPUT_TYPE_TO_OUTPUT = {
 
 		output.push(`${indent}${text}`);
 		output.push(buildStringForChar(char, lineLength));
+
+		output.push(getLabelFor(header[BLOCK]));
 
 		return {output};
 	},
