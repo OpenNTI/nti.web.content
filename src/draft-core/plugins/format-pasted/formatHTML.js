@@ -8,7 +8,9 @@ import {
 } from 'draft-js';
 
 
-const BlockRenderMap = DefaultDraftBlockRenderMap.set('p', {element: 'p'});
+const BlockRenderMap = DefaultDraftBlockRenderMap
+						.set('p', {element: 'p'})
+						.set('P', {element: 'P'});
 
 function formatBlocks (blocks, formatTypeChangeMap) {
 	return blocks.map(block => {
@@ -24,6 +26,10 @@ function getFormatTypeChangeMap (config) {
 
 	if (!map['p']) {
 		map['p'] = 'unstyled';
+	}
+
+	if (!map['P']) {
+		map['P'] = 'unstyled';
 	}
 
 	return map;
