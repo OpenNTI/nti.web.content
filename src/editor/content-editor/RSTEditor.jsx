@@ -47,6 +47,9 @@ function editorStateToRST (editorState, title, titleLabel) {
 
 // const externalLinks = Plugins.createExternalLinks();
 const pastedText = Plugins.createFormatPasted({
+	formatTypeChangeMap: {
+		[BLOCKS.CODE]: BLOCKS.UNSTYLED
+	},
 	transformHTMLState (newContent) {
 		const rst = Parser.convertDraftStateToRST(convertToRaw(newContent));
 		const {editorState} = rstToEditorState(rst, null, {startingHeaderLevel: 2});
