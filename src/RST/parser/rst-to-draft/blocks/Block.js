@@ -48,10 +48,10 @@ export default class Block {
 	}
 
 
-	toDraft (context, force)  {
-		if (this.isConsumed && !force) { return null; }
+	toDraft (context, options)  {
+		if (this.isConsumed) { return null; }
 
-		return this.getOutput(context);
+		return this.getOutput(context, options);
 	}
 
 

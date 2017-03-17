@@ -96,7 +96,7 @@ export default class Parser {
 	 * @param {Object} options options to configure the parser
 	 * @return {Object}       the result of parsing
 	 */
-	parse (input, options) {
+	parse (input, options = {}) {
 		const {input:parsedInputs, context:parsedContext} = this.formatInput({input, context: {}}, options);
 
 		let context = {...parsedContext};

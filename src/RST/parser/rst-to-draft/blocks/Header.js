@@ -15,6 +15,12 @@ function isValidOverlineLength (text, header) {
 	return isValid;
 }
 
+function fixLevel (level, options) {
+	const offset = (options && options.startingHeaderLevel) || 1;
+
+	return level + (offset - 1);
+}
+
 
 //Checks if the line is the same header character repeating
 //= - ` : . ' " ~ ^ _ * + #
@@ -117,9 +123,10 @@ export default class Header extends IndentedBlock {
 	isHeader = true
 
 
-	getOutput (context) {
+	getOutput (context, options) {
+		debugger;
 		const {level, char, textBlock} = this.parts;
-		const type = LEVEL_TO_TYPE[level];
+		const type = LEVEL_TO_TYPE[fixLevel(level, options)];
 		const {output, context:newContext} = textBlock.getOutput(context, true);
 		const data = output.data ? {...this.blockData, ...output.data, char} : {char};
 

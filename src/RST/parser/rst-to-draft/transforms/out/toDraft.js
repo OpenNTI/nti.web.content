@@ -1,8 +1,8 @@
-export default function (parsed) {
+export default function (parsed, options) {
 	const {blocks:parsedBlocks, context} = parsed;
 
 	const draftState = parsedBlocks.reduce((acc, block) => {
-		const draft = block.toDraft && block.toDraft(acc.context);
+		const draft = block.toDraft && block.toDraft(acc.context, options);
 		const {output:draftBlock, context:newContext} = draft || {};
 
 		acc.context = newContext || acc.context;

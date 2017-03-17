@@ -22,8 +22,8 @@ function buildTitle (title, label) {
 	};
 }
 
-function rstToEditorState (rst, title) {
-	const draftState = rst && Parser.convertRSTToDraftState(rst);
+function rstToEditorState (rst, title, options) {
+	const draftState = rst && Parser.convertRSTToDraftState(rst, options);
 	const {blocks, entityMap} = draftState;
 
 	const titleBlock = isTitleBlock(blocks[0], title) ? blocks[0] : null;
@@ -47,17 +47,9 @@ function editorStateToRST (editorState, title, titleLabel) {
 
 // const externalLinks = Plugins.createExternalLinks();
 const pastedText = Plugins.createFormatPasted({
-	formatTypeChangeMap: {
-		[BLOCKS.HEADER_ONE]: BLOCKS.HEADER_TWO,
-		[BLOCKS.HEADER_TWO]: BLOCKS.HEADER_THREE,
-		[BLOCKS.HEADER_THREE]: BLOCKS.HEADER_FOUR,
-		[BLOCKS.HEADER_FOUR]: BLOCKS.HEADER_FOUR,
-		[BLOCKS.HEADER_FIVE]: BLOCKS.HEADER_FOUR,
-		[BLOCKS.HEADER_SIX]: BLOCKS.HEADER_FOUR
-	},
 	transformHTMLState (newContent) {
 		const rst = Parser.convertDraftStateToRST(convertToRaw(newContent));
-		const {editorState} = rstToEditorState(rst);
+		const {editorState} = rstToEditorState(rst, null, {startingHeaderLevel: 2});
 
 		return editorState ? editorState.getCurrentContent() : newContent;
 	}
