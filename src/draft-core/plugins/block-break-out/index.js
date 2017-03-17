@@ -1,6 +1,11 @@
-import {BLOCKS} from '../../Constants';
+import {
+  RichUtils
+} from 'draft-js';
 
-import {HANDLED, NOT_HANDLED} from '../Constants';
+import {BLOCKS} from '../../Constants';
+import {NOT_HANDLED} from '../Constants';
+
+import handleBreak from './handleBreak';
 
 const DEFAULT_BREAK_TO = {
 	[BLOCKS.HEADER_ONE]: BLOCKS.UNSTYLED,
@@ -30,7 +35,23 @@ export default (config = {breakTo: DEFAULT_BREAK_TO, convertIfEmpty: DEFAULT_CON
 	const {breakTo, convertIfEmpty} = config;
 
 	return {
+		handleReturn (e, {getEditorState, setEditorState}) {
+			const editorState = getEditorState();
+			const selection = editorState.getSelection();
 
+			//If the selection isn't collapsed there's nothing to do
+			if (!selection.isCollapsed()) { return NOT_HANDLED; }
 
+			const currentBlockType = RichUtils.getCurrentBlockType(editorState);
+			let handled = NOT_HANDLED;
+
+			if (breakTo[currentBlockType]) {
+				handled = handleBreak(breakTo[currentBlockType], editorState, setEditorState);
+			} else {
+				handled = NOT_HANDLED;
+			}
+
+			return handled;
+		}
 	};
 };

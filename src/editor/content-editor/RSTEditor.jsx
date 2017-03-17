@@ -66,7 +66,8 @@ const pastedText = Plugins.createFormatPasted({
 const plugins = [
 	// externalLinks,
 	pastedText,
-	Plugins.createKeepFocusInView()
+	Plugins.createKeepFocusInView(),
+	Plugins.createBlockBreakOut()
 ];
 
 
