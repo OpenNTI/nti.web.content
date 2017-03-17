@@ -1,3 +1,5 @@
+import {BLOCK_TYPE} from 'draft-js-utils';
+
 import Header, {LEVEL_TO_TYPE} from '../Header';
 import Paragraph from '../Paragraph';
 import Text from '../Text';
@@ -198,7 +200,7 @@ describe('Header', () => {
 	});
 
 	describe('Instance Tests', () => {
-		it('Returns the correct type for the level', () => {
+		it('Returns the correct type for the level without starting HeaderLevel', () => {
 			const textBlock = new Paragraph('paragraph', '', {text: new Text('paragraph')});
 
 			for (let i = 0; i <= 6; i++) {
@@ -208,6 +210,27 @@ describe('Header', () => {
 				expect(output.type).toEqual(LEVEL_TO_TYPE[i]);
 			}
 		});
+
+		it('Returns the correct type for level with startingHeaderLevel', () => {
+			const textBlock = new Paragraph('paragraph', '', {text: new Text('paragraph')});
+			const expectedType = {
+				1: BLOCK_TYPE.HEADER_THREE,
+				2: BLOCK_TYPE.HEADER_FOUR,
+				3: BLOCK_TYPE.HEADER_FIVE,
+				4: BLOCK_TYPE.HEADER_SIX,
+				5: BLOCK_TYPE.HEADER_SIX,
+				6: BLOCK_TYPE.HEADER_SIX
+			};
+
+			for (let i = 1; i <= 6; i++) {
+				let block = new Header('++++', '', {level: i, char: '+', textBlock});
+				let {output} = block.getOutput({}, {startingHeaderLevel: 3});
+
+				expect(output.type).toEqual(expectedType[i]);
+			}
+		});
+
+
 
 		it('Returns the correct text', () => {
 			const text = 'paragraph';

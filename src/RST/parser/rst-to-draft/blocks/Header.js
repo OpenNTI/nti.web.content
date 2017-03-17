@@ -18,7 +18,7 @@ function isValidOverlineLength (text, header) {
 function fixLevel (level, options) {
 	const offset = (options && options.startingHeaderLevel) || 1;
 
-	return level + (offset - 1);
+	return Math.min(level + (offset - 1), 6);
 }
 
 
@@ -124,7 +124,6 @@ export default class Header extends IndentedBlock {
 
 
 	getOutput (context, options) {
-		debugger;
 		const {level, char, textBlock} = this.parts;
 		const type = LEVEL_TO_TYPE[fixLevel(level, options)];
 		const {output, context:newContext} = textBlock.getOutput(context, true);
