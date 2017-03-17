@@ -3,9 +3,10 @@ import {
 } from 'draft-js';
 
 import {BLOCKS} from '../../Constants';
-import {NOT_HANDLED} from '../Constants';
+import {HANDLED, NOT_HANDLED} from '../Constants';
 
 import handleBreak from './handleBreak';
+import handleConvertIfEmpty from './handleConvertIfEmpty';
 
 const DEFAULT_BREAK_TO = {
 	[BLOCKS.HEADER_ONE]: BLOCKS.UNSTYLED,
@@ -45,10 +46,12 @@ export default (config = {breakTo: DEFAULT_BREAK_TO, convertIfEmpty: DEFAULT_CON
 			const currentBlockType = RichUtils.getCurrentBlockType(editorState);
 			let handled = NOT_HANDLED;
 
-			if (breakTo[currentBlockType]) {
+			if (convertIfEmpty[currentBlockType]) {
+				handled = handleConvertIfEmpty(convertIfEmpty[currentBlockType], editorState, setEditorState);
+			}
+
+			if (handled !== HANDLED && breakTo[currentBlockType]) {
 				handled = handleBreak(breakTo[currentBlockType], editorState, setEditorState);
-			} else {
-				handled = NOT_HANDLED;
 			}
 
 			return handled;
