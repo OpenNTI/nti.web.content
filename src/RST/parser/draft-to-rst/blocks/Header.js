@@ -70,7 +70,7 @@ const OUTPUT_TYPE_TO_OUTPUT = {
 
 
 	[FAKE_SECTION]: (header) => {
-		const text = parseSingleLinePlainText(header[BLOCK]);
+		const text = parseSingleLinePlainText(header[BLOCK], true);
 		const output = [`.. ${FAKE_SECTION}:: ${text}`];
 
 		return text.length ? {output} : {};
@@ -78,7 +78,7 @@ const OUTPUT_TYPE_TO_OUTPUT = {
 
 
 	[FAKE_SUB_SECTION]: (header) => {
-		const text = parseSingleLinePlainText(header[BLOCK]);
+		const text = parseSingleLinePlainText(header[BLOCK], true);
 		const output = [`.. ${FAKE_SUB_SECTION}:: ${text}`];
 
 		return text.length ? {output} : {};
@@ -86,7 +86,7 @@ const OUTPUT_TYPE_TO_OUTPUT = {
 
 
 	[FAKE_PARAGRAPH]: (header) => {
-		const text = parseSingleLinePlainText(header[BLOCK]);
+		const text = parseSingleLinePlainText(header[BLOCK], true);
 		const output = [`.. ${FAKE_PARAGRAPH}:: ${text}`];
 
 		return text.length ? {output} : {};
