@@ -13,16 +13,17 @@ EditorPanel.propTypes = {
 	contentPackage: React.PropTypes.object,
 	course: React.PropTypes.object,
 	pageSource: React.PropTypes.object,
+	breadcrumb: React.PropTypes.array,
 	gotoResources: React.PropTypes.func
 };
-export default function EditorPanel ({contentPackage, course, pageSource, gotoResources}) {
+export default function EditorPanel ({contentPackage, course, pageSource, gotoResources, breadcrumb}) {
 	const optionsCmp = (<Options contentPackage={contentPackage} course={course} />);
 	const contentCmp = (<Content contentPackage={contentPackage} course={course} />);
 
 	return (
 		<StickyContainer className="content-editor-panel">
 			<StickyElement>
-				<NavBar pageSource={pageSource} gotoResources={gotoResources} />
+				<NavBar pageSource={pageSource} gotoResources={gotoResources} breadcrumb={breadcrumb} />
 			</StickyElement>
 			<ContentOptionSwitcher options={optionsCmp} content={contentCmp} hideOptions />
 			<RenderingMask contentPackage={contentPackage} />
