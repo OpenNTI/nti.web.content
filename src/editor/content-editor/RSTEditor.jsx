@@ -24,7 +24,7 @@ function buildTitle (title, label) {
 
 function rstToEditorState (rst, title, options) {
 	const draftState = rst && Parser.convertRSTToDraftState(rst, options);
-	const {blocks, entityMap} = draftState;
+	const {blocks, entityMap} = draftState || {blocks: []};
 
 	const titleBlock = isTitleBlock(blocks[0], title) ? blocks[0] : null;
 	const newBlocks = titleBlock ? blocks.slice(1) : blocks;
