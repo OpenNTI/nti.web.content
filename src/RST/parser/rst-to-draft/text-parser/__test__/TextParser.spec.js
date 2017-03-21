@@ -99,4 +99,62 @@ describe('TextParser', () => {
 		expect(range.offset).toEqual(0);
 		expect(range.length).toEqual(3);
 	});
+
+	const test8 = ':emphasis:`\,interpreted with escaped first char`';
+	it(test8, () => {
+		const {text, inlineStyleRanges, entityRanges, entityMap} = TextParser.parse(test8);
+		const range = inlineStyleRanges[0];
+
+		expect(text).toEqual(',interpreted with escaped first char');
+		expect(entityRanges.length).toEqual(0);
+		expect(Object.keys(entityMap).length).toEqual(0);
+		expect(inlineStyleRanges.length).toEqual(1);
+		expect(range.style).toEqual('ITALIC');
+		expect(range.offset).toEqual(0);
+		expect(range.length).toEqual(36);
+	});
+
+	const test9 = '*\\**';
+	it(test9, () => {
+		const {text, inlineStyleRanges, entityRanges, entityMap} = TextParser.parse(test9);
+		const range = inlineStyleRanges[0];
+
+		expect(text).toEqual('*');
+		expect(entityRanges.length).toEqual(0);
+		expect(Object.keys(entityMap).length).toEqual(0);
+		expect(inlineStyleRanges.length).toEqual(1);
+		expect(range.style).toEqual('ITALIC');
+		expect(range.offset).toEqual(0);
+		expect(range.length).toEqual(1);
+	});
+
+	const test10 = '**\\***';
+	it(test10, () => {
+		const {text, inlineStyleRanges, entityRanges, entityMap} = TextParser.parse(test10);
+		const range = inlineStyleRanges[0];
+
+		expect(text).toEqual('*');
+		expect(entityRanges.length).toEqual(0);
+		expect(Object.keys(entityMap).length).toEqual(0);
+		expect(inlineStyleRanges.length).toEqual(1);
+		expect(range.style).toEqual('BOLD');
+		expect(range.offset).toEqual(0);
+		expect(range.length).toEqual(1);
+	});
+
+	const test11 = ':strong:`strong`:math:`math`';
+	it(test11, () => {
+		const {text, inlineStyleRanges, entityRanges, entityMap} = TextParser.parse(test11);
+
+		expect(text).toEqual('strongmath');
+		expect(entityRanges.length).toEqual(0);
+		expect(Object.keys(entityMap).length).toEqual(0);
+		expect(inlineStyleRanges.length).toEqual(2);
+		expect(inlineStyleRanges[0].style).toEqual('BOLD');
+		expect(inlineStyleRanges[0].offset).toEqual(0);
+		expect(inlineStyleRanges[0].length).toEqual(6);
+		expect(inlineStyleRanges[1].style).toEqual('CODE');
+		expect(inlineStyleRanges[1].offset).toEqual(6);
+		expect(inlineStyleRanges[1].length).toEqual(4);
+	});
 });

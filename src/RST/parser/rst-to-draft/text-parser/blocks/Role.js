@@ -68,7 +68,7 @@ export default class Role extends Range {
 	static afterParse (block, inputInterface, context, parsedInterface) {
 		const currentBlock = parsedInterface.get();
 
-		if (currentBlock && currentBlock.isInterpreted) {
+		if (currentBlock && currentBlock.isInterpreted && !currentBlock.roleMarker) {
 			currentBlock.setRoleMarker(block);
 			block.setMarkerFor(currentBlock);
 		}

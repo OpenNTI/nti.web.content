@@ -38,14 +38,14 @@ describe('Emphasis', () => {
 	});
 
 	describe('Parse', () => {
-		it('Opening Range consumes 2 characters and opens a range', () => {
+		it('Opening Range consumes 1 character and opens a range', () => {
 			const chars = ['*', 'e', 'm', 'p'];
 			const inputInterface = getInterface(0, chars);
 			const {block, context, length} = Emphasis.parse(inputInterface, {});
 
 			expect(context.openRange).toEqual(Emphasis.rangeName);
-			expect(block.text).toEqual('e');
-			expect(length).toEqual(2);
+			expect(block.text).toEqual('');
+			expect(length).toEqual(1);
 		});
 
 		it('Closing Range consumes 1 character and closes the range', () => {

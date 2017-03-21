@@ -2,7 +2,7 @@ import {INLINE_STYLE} from 'draft-js-utils';
 
 import parseText from '../parseText';
 
-fdescribe('parseText', () => {
+describe('parseText', () => {
 	it('block with bold', () => {
 		const block = {
 			text: 'This is a block with bold and some plain',

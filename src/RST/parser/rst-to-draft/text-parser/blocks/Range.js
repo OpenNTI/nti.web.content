@@ -43,15 +43,12 @@ export default class Range {
 		const length = openedRange ? this.openChars.length : this.closeChars.length;
 		const newContext = {...context, isEscaped: false, openRange: this.rangeName};
 
-		//Ranges have to have at least one character between the start and end
-		//so go ahead and consume it here.
-		const char = inputInterface.get(length);
-		const block = new this(openedRange && char);
+		const block = new this();
 
 		return {
 			block: this.afterParse(block, inputInterface, context, parsedInterface),
 			context: newContext,
-			length: openedRange ? length + 1 : length
+			length: length
 		};
 	}
 
