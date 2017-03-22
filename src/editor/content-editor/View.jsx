@@ -26,6 +26,8 @@ export default class ContentEditor extends React.Component {
 		course: React.PropTypes.object
 	}
 
+	setEditorRef = x => this.editorRef = x
+
 	constructor (props) {
 		super(props);
 
@@ -59,12 +61,14 @@ export default class ContentEditor extends React.Component {
 
 		Store.removeChangeListener(this.onStoreChange);
 		Store.addChangeListener(this.onStoreChange);
+		Store.setEditorRef(this);
 		this.onMessage();
 	}
 
 
 	componentWillUnmount () {
 		Store.removeChangeListener(this.onStoreChange);
+		Store.removeEditorRef();
 		this.removeContentPackageListener();
 	}
 
@@ -110,6 +114,16 @@ export default class ContentEditor extends React.Component {
 					rstContents: new Error('Failed to load rst')
 				});
 			});
+	}
+
+
+	getRSTAndVersion () {
+		const {version} = this.state;
+
+		return {
+			rst: this.editorRef && this.editorRef.getRST(),
+			version
+		};
 	}
 
 
@@ -191,6 +205,7 @@ export default class ContentEditor extends React.Component {
 							rstContents instanceof Error ?
 								(<EmptyState header={t('failedHeader')}/>) :
 								(<RSTEditor
+									ref={this.setEditorRef}
 									contentPackage={contentPackage}
 									value={rstContents}
 									onFocus={this.onEditorFocus}

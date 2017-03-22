@@ -5,6 +5,7 @@ export const DELETING = 'content:editor:deleting';
 export const DELETE_ENDED = 'content:editor:deleteend';
 export const DELETED = 'content:editor:deleted';
 
+export const PRE_PUBLISH = 'content:editor:prepublish';
 export const PUBLISHING = 'content:editor:publishing';
 export const PUBLISH_ENDED = 'content:editor:publishend';
 export const UNPUBLISHING = 'content:editor:unpublishing';

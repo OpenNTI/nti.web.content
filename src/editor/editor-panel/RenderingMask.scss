@@ -8,7 +8,7 @@
 
 	background: rgba(255, 255, 255, 0.8);
 
-	&.publishing, &.success, &.failure, &.deleting {
+	&.prepublishing, &.publishing, &.success, &.failure, &.deleting {
 		display: block;
 	}
 

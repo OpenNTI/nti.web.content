@@ -131,6 +131,16 @@ export default class RSTEditor extends React.Component {
 	}
 
 
+	getRST () {
+		const {titleLabel} = this.state;
+		const editorState = this.editorRef && this.editorRef.editorState;
+
+		return editorState ?
+					editorStateToRST(editorState, this.title, titleLabel) :
+					'';
+	}
+
+
 	onContentChange = (editorState) => {
 		const {value:oldValue, onContentChange} = this.props;
 		const {titleLabel} = this.state;

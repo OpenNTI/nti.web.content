@@ -1,6 +1,7 @@
 import {dispatch} from 'nti-lib-dispatcher';
 import {wait} from 'nti-commons';
 
+import Store from './Store';
 import {
 	SAVING,
 	SAVE_ENDED,
@@ -9,6 +10,7 @@ import {
 	DELETED,
 	SET_ERROR,
 	CLEAR_ALL_ERRORS,
+	PRE_PUBLISH,
 	PUBLISHING,
 	PUBLISH_ENDED,
 	UNPUBLISHING,
@@ -24,24 +26,33 @@ export function resetStore () {
 
 
 export function publishContentPackage (contentPackage) {
-	dispatch(PUBLISHING);
+	const {rst, version} = Store.editorRef.getRSTAndVersion();
 
-	contentPackage.publish()
+	dispatch(PRE_PUBLISH);
+
+	return saveContentPackageRST(contentPackage, rst, version)
 		.then(() => {
-			const {LatestRenderJob} = contentPackage;
+			dispatch(PUBLISHING);
 
-			dispatch(NEW_RENDER_JOB, LatestRenderJob);
-			dispatch(CLEAR_ALL_ERRORS);
-			dispatch(PUBLISH_ENDED);
-		})
-		.catch((reason) => {
-			dispatch(PUBLISH_ENDED);
+			return contentPackage.publish()
+				.then(() => {
+					const {LatestRenderJob} = contentPackage;
 
-			dispatch(SET_ERROR, {
-				NTIID: contentPackage.NTIID,
-				field: 'publish',
-				reason
-			});
+					dispatch(NEW_RENDER_JOB, LatestRenderJob);
+					dispatch(CLEAR_ALL_ERRORS);
+					dispatch(PUBLISH_ENDED);
+				})
+				.catch((reason) => {
+					dispatch(PUBLISH_ENDED);
+
+					dispatch(SET_ERROR, {
+						NTIID: contentPackage.NTIID,
+						field: 'publish',
+						reason
+					});
+				});
+		}, () => {
+			dispatch(PUBLISH_ENDED);
 		});
 }
 
@@ -88,7 +99,7 @@ export function deleteContentPackage (contentPackage) {
 export function saveContentPackageRST (contentPackage, rst, prevVersion) {
 	dispatch(SAVING, contentPackage);
 
-	contentPackage.setRSTContents(rst, prevVersion)
+	return contentPackage.setRSTContents(rst, prevVersion)
 		.then(() => {
 			dispatch(SAVE_ENDED);
 		})

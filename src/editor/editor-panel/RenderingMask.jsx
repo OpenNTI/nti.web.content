@@ -76,6 +76,7 @@ export default class ContentEditorRenderingMask extends React.Component {
 
 		if (publishing !== job.isPending) {
 			state.publishing = job.isPending;
+			state.prepublishing = false;
 		}
 
 		this.setState(state);
@@ -83,9 +84,14 @@ export default class ContentEditorRenderingMask extends React.Component {
 
 
 	onPublish () {
-		if (Store.isPublishing) {
+		if (Store.isPrePublishing) {
 			this.setState({
-				publishing: true
+				prepublishing: true
+			});
+		} else if (Store.isPublishing) {
+			this.setState({
+				publishing: true,
+				prePublishing: false
 			});
 		} else {
 			this.onPublishEnded();
@@ -96,6 +102,7 @@ export default class ContentEditorRenderingMask extends React.Component {
 	onDeleting () {
 		this.setState({
 			deleting: Store.isDeleting,
+			prepublishing: false,
 			publishing: false,
 			success: false,
 			failure: false
@@ -106,7 +113,7 @@ export default class ContentEditorRenderingMask extends React.Component {
 	onPublishEnded () {
 		this.renderJob = this.getRenderJob();
 
-		if (this.renderJob) {
+		if (this.renderJob && this.renderJob.isPending) {
 			this.renderJob.addListener('change', this.onRenderJobChange);
 			this.renderJob.startMonitor();
 
@@ -114,6 +121,7 @@ export default class ContentEditorRenderingMask extends React.Component {
 		} else {
 			this.setState({
 				deleting: false,
+				prepublishing: false,
 				publishing: false,
 				success: false,
 				failure: false
@@ -162,12 +170,12 @@ export default class ContentEditorRenderingMask extends React.Component {
 
 
 	render () {
-		const {publishing, success, failure, deleting} = this.state;
+		const {prepublishing, publishing, success, failure, deleting} = this.state;
 		// const publishing = false;
 		// const success = false;
 		// const failure = true;
 		// const deleting = false;
-		const cls = cx('content-editor-render-mask', {publishing, success, failure, deleting});
+		const cls = cx('content-editor-render-mask', {prepublishing, publishing, success, failure, deleting});
 
 		return (
 			<div className={cls}>

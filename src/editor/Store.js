@@ -7,6 +7,7 @@ import {
 	SAVE_ENDED,
 	SET_ERROR,
 	CLEAR_ALL_ERRORS,
+	PRE_PUBLISH,
 	PUBLISHING,
 	PUBLISH_ENDED,
 	UNPUBLISHING,
@@ -39,6 +40,7 @@ const SetMessage = Symbol('SetMessage');
 const GetMessage = Symbol('GetMessage');
 const RemoveMessage = Symbol('RemoveMessage');
 
+const SetPrePublish = Symbol('SetPrePublish');
 const SetPublishStart = Symbol('SetPublishStart');
 const SetPublishEnd = Symbol('SetPublishEnd');
 
@@ -76,6 +78,7 @@ class Store extends StorePrototype {
 			[SAVE_ENDED]: SetSaveEnd,
 			[SET_ERROR]: SetError,
 			[CLEAR_ALL_ERRORS]: ClearAllErrors,
+			[PRE_PUBLISH]: SetPrePublish,
 			[PUBLISHING]: SetPublishStart,
 			[PUBLISH_ENDED]: SetPublishEnd,
 			[UNPUBLISHING]: SetUnpublishStart,
@@ -196,10 +199,18 @@ class Store extends StorePrototype {
 		this.emitChange({type: SET_ERROR});
 	}
 
+	[SetPrePublish] () {
+		this[Protected].prepublish = true;
+
+		this.emitChange({type: PUBLISHING});
+	}
+
 
 	[SetPublishStart] () {
 		this[Protected].publishing = true;
 		this[Protected].hasPublished = true;
+
+		delete this[Protected].prepublish;
 
 		this.emitChange({type: PUBLISHING});
 	}
@@ -207,6 +218,8 @@ class Store extends StorePrototype {
 
 	[SetPublishEnd] () {
 		this[Protected].publishing = false;
+
+		delete this[Protected].prepublish;
 
 		this.emitChange({type: PUBLISHING});
 	}
@@ -277,6 +290,21 @@ class Store extends StorePrototype {
 	}
 
 
+	setEditorRef (ref) {
+		this[Protected].editorRef = ref;
+	}
+
+
+	removeEditorRef () {
+		delete this[Protected].editorRef;
+	}
+
+
+	get editorRef () {
+		return this[Protected].editorRef;
+	}
+
+
 	get isSaving () {
 		return this[Protected].savingCount > 0;
 	}
@@ -286,6 +314,11 @@ class Store extends StorePrototype {
 		const errors = this[Protected][ErrorMessages] || [];
 
 		return [...errors];
+	}
+
+
+	get isPrePublishing () {
+		return this[Protected].prepublish;
 	}
 
 
