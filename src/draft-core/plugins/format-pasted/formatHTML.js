@@ -10,7 +10,9 @@ import {
 
 const BlockRenderMap = DefaultDraftBlockRenderMap
 						.set('p', {element: 'p'})
-						.set('P', {element: 'P'});
+						.set('P', {element: 'P'})
+						.set('blockquote', {element: 'blockquote'})
+						.set('BLOCKQUOTE', {element: 'BLOCKQUOTE'});
 
 function formatBlocks (blocks, formatTypeChangeMap) {
 	return blocks.map(block => {
@@ -30,6 +32,14 @@ function getFormatTypeChangeMap (config) {
 
 	if (!map['P']) {
 		map['P'] = 'unstyled';
+	}
+
+	if (!map['blockquote']) {
+		map['blockquote'] = 'unstyled';
+	}
+
+	if (!map['BLOCKQUOTE']) {
+		map['BLOCKQUOTE'] = 'unstyled';
 	}
 
 	return map;

@@ -1,4 +1,5 @@
 import formatHTML from './formatHTML';
+import transformNTIContent from './transformNTIContent';
 
 import {HANDLED, NOT_HANDLED} from '../Constants';
 
@@ -18,7 +19,8 @@ function getStateForPasted (text, html, editorState, config) {
 export default (config = {}) => {
 	return {
 		handlePastedText (text, html, {getEditorState, setEditorState}) {
-			const newState = getStateForPasted(text, html, getEditorState(), config);
+			const transformedHTML = transformNTIContent(html);
+			const newState = getStateForPasted(text, transformedHTML, getEditorState(), config);
 
 			if (!newState) { return NOT_HANDLED; }
 
