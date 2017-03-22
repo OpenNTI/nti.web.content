@@ -112,7 +112,7 @@ export default class RSTEditor extends React.Component {
 		const {value:nextValue} = nextProps;
 		const {value:oldValue} = this.props;
 
-		if (nextValue !== oldValue) {
+		if (nextValue !== oldValue && nextValue !== this.lastSavedContent) {
 			this.setUpValue(nextProps);
 		}
 	}
@@ -137,6 +137,7 @@ export default class RSTEditor extends React.Component {
 		const newValue = editorStateToRST(editorState, this.title, titleLabel);
 
 		if (oldValue !== newValue) {
+			this.lastSavedContent = newValue;
 			onContentChange(newValue);
 		}
 	}

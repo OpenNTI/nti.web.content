@@ -43,6 +43,7 @@ export default class ContentEditor extends React.Component {
 
 		if (oldPackage !== currentPackage) {
 			this.loadContentFromPackage(currentPackage);
+			this.addContentPackageListener();
 			this.onMessage();
 		}
 	}
@@ -53,6 +54,7 @@ export default class ContentEditor extends React.Component {
 
 		if (contentPackage) {
 			this.loadContentFromPackage(contentPackage);
+			this.addContentPackageListener();
 		}
 
 		Store.removeChangeListener(this.onStoreChange);
@@ -63,6 +65,27 @@ export default class ContentEditor extends React.Component {
 
 	componentWillUnmount () {
 		Store.removeChangeListener(this.onStoreChange);
+		this.removeContentPackageListener();
+	}
+
+
+	addContentPackageListener (props = this.props) {
+		const {contentPackage} = props;
+
+		this.removeContentPackageListener(props);
+
+		if (contentPackage) {
+			contentPackage.addListener('contents-changed', this.onContentsChanged);
+		}
+	}
+
+
+	removeContentPackageListener (props = this.props) {
+		const {contentPackage} = props;
+
+		if (contentPackage) {
+			contentPackage.removeListener('contents-changed', this.onContentsChanged);
+		}
 	}
 
 
@@ -96,6 +119,14 @@ export default class ContentEditor extends React.Component {
 		if (data.type === SET_ERROR && data.NTIID === contentPackage.NTIID) {
 			this.onMessage();
 		}
+	}
+
+
+	onContentsChanged = (newContents) => {
+		this.setState({
+			rstContents: newContents.data,
+			version: newContents.version
+		});
 	}
 
 
