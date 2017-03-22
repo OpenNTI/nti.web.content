@@ -7,8 +7,8 @@ import {Parser} from '../../RST';
 
 const {ItemChanges} = HOC;
 
-function isTitleBlock (block, title) {
-	return block && block.type === BLOCKS.HEADER_ONE && block.text === title;
+function isTitleBlock (block) {
+	return block && block.type === BLOCKS.HEADER_ONE;
 }
 
 function buildTitle (title, label) {
@@ -22,11 +22,11 @@ function buildTitle (title, label) {
 	};
 }
 
-function rstToEditorState (rst, title, options) {
+function rstToEditorState (rst, options) {
 	const draftState = rst && Parser.convertRSTToDraftState(rst, options);
 	const {blocks, entityMap} = draftState || {blocks: []};
 
-	const titleBlock = isTitleBlock(blocks[0], title) ? blocks[0] : null;
+	const titleBlock = isTitleBlock(blocks[0]) ? blocks[0] : null;
 	const newBlocks = titleBlock ? blocks.slice(1) : blocks;
 
 	const editorState = newBlocks && newBlocks.length ?
@@ -52,7 +52,7 @@ const pastedText = Plugins.createFormatPasted({
 	},
 	transformHTMLState (newContent) {
 		const rst = Parser.convertDraftStateToRST(convertToRaw(newContent));
-		const {editorState} = rstToEditorState(rst, null, {startingHeaderLevel: 2});
+		const {editorState} = rstToEditorState(rst, {startingHeaderLevel: 2});
 
 		return editorState ? editorState.getCurrentContent() : newContent;
 	}
@@ -120,7 +120,7 @@ export default class RSTEditor extends React.Component {
 
 	setUpValue (props = this.props) {
 		const {value} = props;
-		const {editorState, titleLabel} = rstToEditorState(value, this.title);
+		const {editorState, titleLabel} = rstToEditorState(value);
 		const state = {editorState, title: this.title, titleLabel};
 
 		if (this.state) {
