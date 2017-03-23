@@ -62,7 +62,7 @@ export default class ExternalLink extends React.Component {
 	}
 
 
-	onChange = (data) => {
+	onChange = () => {
 
 	}
 
@@ -104,9 +104,7 @@ export default class ExternalLink extends React.Component {
 
 	renderDisplay = () => {
 		return (
-			<div className="display">
-
-			</div>
+			<div className="display" />
 		);
 	}
 

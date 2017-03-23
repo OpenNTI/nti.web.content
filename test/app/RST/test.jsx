@@ -1,8 +1,9 @@
 import React from 'react';
 import {ENTITY_TYPE} from 'draft-js-utils';
 import {Editor, EditorState, convertFromRaw, convertToRaw, CompositeDecorator, Entity} from 'draft-js';
-import {TestRST} from './DraftStateFromRST';
-import Parser from './parser';
+import {Parser} from 'RST';
+
+const TestRST = '.. docid:: random-doc-id\nthis paragraph has that random doc id';
 
 function findLinkEntities (contentBlock, callback) {
 	contentBlock.findEntityRanges(

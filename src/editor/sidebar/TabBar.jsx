@@ -11,7 +11,7 @@ export default function TabBar () {
 	return (
 		<div className="content-editor-sidebar-tabbar">
 			<div className="tab active">{t('types')}</div>
-			<div className="tab"></div>
+			<div className="tab" />
 		</div>
 	);
 }

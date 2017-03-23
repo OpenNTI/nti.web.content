@@ -29,9 +29,7 @@ export default class ExternalLinkEditor extends React.Component {
 	}
 
 
-	onURLChange = () => {
-		debugger;
-	}
+	onURLChange = () => {}
 
 
 	render () {
