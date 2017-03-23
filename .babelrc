@@ -5,7 +5,7 @@
 			"presets": [
 				["env", {
 					"targets": {
-						"node": "current"
+						"browsers": ["> 1% in US", "last 2 versions", "safari >= 6"]
 					}
 				}],
 				"stage-1",
