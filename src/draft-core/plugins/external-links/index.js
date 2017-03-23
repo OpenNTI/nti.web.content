@@ -1,10 +1,11 @@
 import React from 'react';
 
+import {createStore} from '../Store';
+
 import strategy from './strategy';
 import {getSelectedEntityKey} from './utils';
 import Link from './components/Link';
 
-import {createStore} from '../Store';
 
 export default (config = {}) => {
 	const store = createStore(config.initialState);

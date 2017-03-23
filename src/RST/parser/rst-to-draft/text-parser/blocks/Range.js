@@ -1,5 +1,6 @@
-import Plaintext from './Plaintext';
 import Regex from '../Regex';
+
+import Plaintext from './Plaintext';
 
 const CLOSED = Symbol('Closed');
 const PLAIN_TEXT = Symbol('Text');

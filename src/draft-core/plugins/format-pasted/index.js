@@ -1,7 +1,8 @@
+import {HANDLED, NOT_HANDLED} from '../Constants';
+
 import formatHTML from './formatHTML';
 import transformNTIContent from './transformNTIContent';
 
-import {HANDLED, NOT_HANDLED} from '../Constants';
 
 const formatters = [
 	formatHTML

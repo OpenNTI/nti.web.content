@@ -1,5 +1,4 @@
 import FieldList from '../FieldList';
-
 import {getInterface} from '../../../Parser';
 
 describe('FieldList', () => {

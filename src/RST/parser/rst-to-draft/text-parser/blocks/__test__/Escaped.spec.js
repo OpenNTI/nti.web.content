@@ -1,5 +1,4 @@
 import Escaped from '../Escaped';
-
 import {getInterface} from '../../../../Parser';
 
 describe('Escaped', () => {

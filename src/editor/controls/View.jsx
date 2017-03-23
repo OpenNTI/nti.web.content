@@ -1,4 +1,5 @@
 import React from 'react';
+
 import {ContextProvider} from '../../draft-core';
 
 import TypeFormat from './TypeFormat';

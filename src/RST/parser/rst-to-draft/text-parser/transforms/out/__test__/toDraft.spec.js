@@ -1,4 +1,4 @@
-import toDraft from '../toDraft';
+import toDraft from '../ToDraft';
 
 function createBlock (text, styles = [], range = [], map = {}) {
 	return {

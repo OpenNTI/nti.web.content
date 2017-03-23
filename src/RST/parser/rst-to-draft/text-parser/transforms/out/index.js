@@ -1,4 +1,4 @@
-import toDraft from './toDraft';
+import toDraft from './ToDraft';
 
 export default [
 	toDraft

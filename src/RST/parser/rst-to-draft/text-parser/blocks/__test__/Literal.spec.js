@@ -2,7 +2,6 @@ import {INLINE_STYLE} from 'draft-js-utils';
 
 import Literal from '../Literal';
 import Plaintext from '../Plaintext';
-
 import {getInterface} from '../../../../Parser';
 
 describe('Literal', () => {

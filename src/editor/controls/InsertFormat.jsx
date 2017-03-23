@@ -1,4 +1,5 @@
 import React from 'react';
+
 import {LinkButton} from '../../draft-core';
 
 export default function InsertFormat () {

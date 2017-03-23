@@ -1,7 +1,6 @@
 import OrderedListItem from '../OrderedListItem';
 import Paragraph from '../Paragraph';
 import Text from '../Text';
-
 import {getInterface} from '../../../Parser';
 
 describe('OrderedListItem', () => {

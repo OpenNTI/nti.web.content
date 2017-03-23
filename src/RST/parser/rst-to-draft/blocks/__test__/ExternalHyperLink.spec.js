@@ -1,7 +1,5 @@
 import ExternalHyperLink from '../ExternalHyperLink';
-
 import {normalizeEntityName} from '../../utils';
-
 import {getInterface} from '../../../Parser';
 
 describe('External HyperLink', () => {

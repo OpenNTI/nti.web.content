@@ -1,7 +1,6 @@
 import {INLINE_STYLE} from 'draft-js-utils';
 
 import {getInterface} from '../../../../Parser';
-
 import Interpreted from '../Interpreted';
 import Plaintext from '../Plaintext';
 

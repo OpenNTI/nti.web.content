@@ -1,6 +1,5 @@
 import StrongEmphasis from '../StrongEmphasis';
 import Plaintext from '../Plaintext';
-
 import {getInterface} from '../../../../Parser';
 
 describe('StrongEmphasis', () => {

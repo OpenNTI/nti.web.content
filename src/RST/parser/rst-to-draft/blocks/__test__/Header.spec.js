@@ -3,7 +3,6 @@ import {BLOCK_TYPE} from 'draft-js-utils';
 import Header, {LEVEL_TO_TYPE} from '../Header';
 import Paragraph from '../Paragraph';
 import Text from '../Text';
-
 import {getInterface} from '../../../Parser';
 
 describe('Header', () => {

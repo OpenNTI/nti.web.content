@@ -1,4 +1,4 @@
-import split from '../split';
+import split from '../Split';
 
 describe('text-parser Split', () => {
 	it('Splits input as expected', () => {

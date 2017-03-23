@@ -1,6 +1,6 @@
-import parseRange from '../parseRange';
-
 import {INLINE_STYLE} from 'draft-js-utils';
+
+import parseRange from '../parseRange';
 
 describe('parseRange', () => {
 	it('Multiple Leading Whitespaces', () => {

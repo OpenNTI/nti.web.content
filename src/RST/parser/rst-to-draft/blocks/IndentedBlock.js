@@ -1,6 +1,6 @@
-import Block from './Block';
-
 import {getIndention} from '../utils';
+
+import Block from './Block';
 
 const INDENTION = Symbol('Indention');
 

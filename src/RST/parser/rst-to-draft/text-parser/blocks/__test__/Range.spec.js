@@ -1,6 +1,5 @@
 import Range from '../Range';
 import Plaintext from '../Plaintext';
-
 import {getInterface} from '../../../../Parser';
 
 

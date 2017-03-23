@@ -2,7 +2,6 @@ import Directive from '../Directive';
 import Paragraph from '../Paragraph';
 import Empty from '../Empty';
 import FieldList from '../FieldList';
-
 import {getInterface} from '../../../Parser';
 
 

@@ -1,7 +1,6 @@
 import UnorderedListItem from '../UnorderedListItem';
 import Paragraph from '../Paragraph';
 import Text from '../Text';
-
 import {getInterface} from '../../../Parser';
 
 describe('Unordered List Item', () => {

@@ -1,8 +1,8 @@
 import {ENTITY_TYPE} from 'draft-js-utils';
 
-import IndentedBlock from './IndentedBlock';
-
 import {normalizeEntityName} from '../utils';
+
+import IndentedBlock from './IndentedBlock';
 
 const EXTERNAL_TARGET = /^.. _([^:|^_]+):\s?(.*)/;
 

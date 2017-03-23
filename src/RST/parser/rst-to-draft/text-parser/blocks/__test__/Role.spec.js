@@ -1,6 +1,5 @@
 import Role from '../Role';
 import Plaintext from '../Plaintext';
-
 import {getInterface} from '../../../../Parser';
 
 describe('Role', () => {

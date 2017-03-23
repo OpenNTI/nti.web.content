@@ -1,7 +1,6 @@
 import {BLOCK_TYPE} from 'draft-js-utils';
 
 import Paragraph from '../Paragraph';
-
 import {getInterface} from '../../../Parser';
 
 describe('Paragraph', () => {

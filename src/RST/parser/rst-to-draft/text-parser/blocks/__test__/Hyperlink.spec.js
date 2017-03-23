@@ -1,5 +1,4 @@
 import Hyperlink from '../Hyperlink';
-
 import {getInterface} from '../../../../Parser';
 
 describe('Hyperlink', () => {

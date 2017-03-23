@@ -1,5 +1,4 @@
 import TextParser from '../TextParser';
-
 import {normalizeEntityName} from '../../utils';
 
 describe('TextParser', () => {

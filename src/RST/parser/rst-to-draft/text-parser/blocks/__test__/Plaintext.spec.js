@@ -1,5 +1,4 @@
 import Plaintext from '../Plaintext';
-
 import {getInterface} from '../../../../Parser';
 
 describe('Plaintext', () => {
