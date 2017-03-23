@@ -44,7 +44,7 @@ describe('FieldList', () => {
 			expect(block.value).toEqual(value);
 		});
 
-		it('Parses value without space', () => {
+		xit('Parses value without space', () => {
 			const value = 'value';
 			const rst = `:name:${value}`;
 			const inputInterface = getInterface(0, [rst]);

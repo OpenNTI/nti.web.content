@@ -1,8 +1,29 @@
 {
-	"presets": [
-		"es2015",
-		"stage-1",
-		"react"
-	],
+	"compact": false,
+	"env": {
+		"development": {
+			"presets": [
+				["env", {
+					"targets": {
+						"node": "current"
+					}
+				}],
+				"stage-1",
+				"react"
+			]
+		},
+		"test": {
+			"presets": [
+				["env", {
+					"targets": {
+						"node": "current"
+					}
+				}],
+				"stage-1",
+				"react"
+			]
+		}
+	},
 	"sourceMaps": "both"
 }
+
