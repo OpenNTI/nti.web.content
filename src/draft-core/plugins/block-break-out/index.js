@@ -37,7 +37,6 @@ export default (config = {breakTo: DEFAULT_BREAK_TO, convertIfEmpty: DEFAULT_CON
 
 	return {
 		handleReturn (e, {getEditorState, setEditorState}) {
-			debugger;
 			const editorState = getEditorState();
 			const selection = editorState.getSelection();
 
