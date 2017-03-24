@@ -1,5 +1,6 @@
 import React from 'react';
-import {Selection, ControlBar} from 'nti-web-commons';
+import {scoped} from 'nti-lib-locale';
+import {Selection, ControlBar, Prompt} from 'nti-web-commons';
 
 import {PanelSidebar} from '../common';
 
@@ -9,6 +10,15 @@ import {resetStore} from './Actions';
 import Sidebar from './sidebar';
 import EditorPanel from './editor-panel';
 import Controls from './controls';
+
+const DEFAULT_TEXT = {
+	wasDeleted: {
+		title: 'Reading Deleted',
+		message: 'This reading has been deleted.'
+	}
+};
+
+const t = scoped('NTI_CONTENT_EDITOR', DEFAULT_TEXT);
 
 const selectionManager = new Selection.Manager();
 
@@ -48,11 +58,24 @@ export default class ContentEditor extends React.Component {
 
 
 	onStoreChange = (data) => {
-		const {onDelete} = this.props;
 		const {type} = data;
 
-		if (type === DELETED && onDelete) {
+		if (type === DELETED) {
+			this.onDelete();
+		}
+	}
+
+
+	onDelete () {
+		const {onDelete} = this.props;
+
+		if (Store.hasDeleted) {
 			onDelete();
+		} else {
+			Prompt.alert(t('wasDeleted.message'), t('wasDeleted.title'))
+				.then(() => {
+					onDelete();
+				});
 		}
 	}
 

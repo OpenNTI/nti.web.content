@@ -3,7 +3,7 @@ import {
 } from 'draft-js';
 
 import {BLOCKS} from '../../Constants';
-import {HANDLED, NOT_HANDLED} from '../Constants';
+import {EVENT_HANDLED, EVENT_NOT_HANDLED} from '../Constants';
 
 import handleBreak from './handleBreak';
 import handleConvertIfEmpty from './handleConvertIfEmpty';
@@ -41,16 +41,16 @@ export default (config = {breakTo: DEFAULT_BREAK_TO, convertIfEmpty: DEFAULT_CON
 			const selection = editorState.getSelection();
 
 			//If the selection isn't collapsed there's nothing to do
-			if (!selection.isCollapsed()) { return NOT_HANDLED; }
+			if (!selection.isCollapsed()) { return EVENT_NOT_HANDLED; }
 
 			const currentBlockType = RichUtils.getCurrentBlockType(editorState);
-			let handled = NOT_HANDLED;
+			let handled = EVENT_NOT_HANDLED;
 
 			if (convertIfEmpty[currentBlockType]) {
 				handled = handleConvertIfEmpty(convertIfEmpty[currentBlockType], editorState, setEditorState);
 			}
 
-			if (handled !== HANDLED && breakTo[currentBlockType]) {
+			if (handled !== EVENT_HANDLED && breakTo[currentBlockType]) {
 				handled = handleBreak(breakTo[currentBlockType], editorState, setEditorState);
 			}
 
