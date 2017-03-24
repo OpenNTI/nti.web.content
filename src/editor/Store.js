@@ -185,6 +185,10 @@ class Store extends StorePrototype {
 		const {response} = e.action;
 		const {type, reason} = response || {};
 
+		if (reason && reason.statusCode === 404) {
+			return this[SetDeleted]();
+		}
+
 		//Note: Do not show 409s.
 		//since the user deals with them directly through a modal dialog
 		if (!reason || reason.statusCode !== 409) {
@@ -241,6 +245,7 @@ class Store extends StorePrototype {
 
 	[SetDeleteStart] () {
 		this[Protected].deleting = true;
+		this[Protected].hasDeleted = true;
 
 		this.emitChange({type: DELETING});
 	}
@@ -334,6 +339,11 @@ class Store extends StorePrototype {
 
 	get isUnpublishing () {
 		return this[Protected].unpublishing;
+	}
+
+
+	get hasDeleted () {
+		return this[Protected].hasDeleted;
 	}
 
 
