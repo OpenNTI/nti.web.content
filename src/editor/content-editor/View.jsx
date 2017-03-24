@@ -136,10 +136,10 @@ export default class ContentEditor extends React.Component {
 	}
 
 
-	onContentsChanged = (newContents) => {
+	onContentsChanged = (newContents = {}) => {
 		this.setState({
-			rstContents: newContents.data,
-			version: newContents.version
+			rstContents: newContents.data || '',
+			version: newContents.version || ''
 		});
 	}
 

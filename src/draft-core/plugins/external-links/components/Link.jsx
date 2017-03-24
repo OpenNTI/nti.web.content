@@ -2,8 +2,6 @@ import React from 'react';
 import cx from 'classnames';
 import {Entity} from 'draft-js';
 
-import Editor from './Editor';
-
 const eventName = 'selectedEntityKey-changed';
 
 export default class ExternalLink extends React.Component {
@@ -26,6 +24,7 @@ export default class ExternalLink extends React.Component {
 	}
 
 	componentDidMount () {
+		debugger;
 		const {store} = this.props;
 
 		if (store) {
@@ -57,61 +56,15 @@ export default class ExternalLink extends React.Component {
 	}
 
 
-	setPendingData = (data) => {
-		this.pendingData = data;
-	}
-
-
-	onChange = () => {
-
-	}
-
-
-	onRemove = () => {
-
-	}
-
-
 	render () {
 		const {children} = this.props;
-		const {focused, editing} = this.state;
 		const {url} = this.entityData;
 		const cls = cx('draft-core-external-link', {focused: true});
 
 		return (
 			<a href={url} className={cls}>
 				{children}
-				{(focused || editing || !url) && this.renderTooltip()}
 			</a>
-		);
-	}
-
-
-	renderTooltip = () => {
-		const {editing} = this.state;
-		const {url} = this.entityData;
-		const shouldEdit = editing || !url;
-
-		return (
-			<div className="tooltip-container">
-				<div className="arrow" />
-				{shouldEdit && this.renderEditor()}
-				{!shouldEdit && this.renderDisplay()}
-			</div>
-		);
-	}
-
-
-	renderDisplay = () => {
-		return (
-			<div className="display" />
-		);
-	}
-
-
-	renderEditor = () => {
-		return (
-			<Editor data={this.endityData} onChange={this.setPendingChange} onSave={this.onChange} onRemove={this.onRemove} />
 		);
 	}
 }
