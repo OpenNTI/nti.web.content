@@ -59,7 +59,7 @@ const pastedText = Plugins.createFormatPasted({
 });
 
 const plugins = [
-	// externalLinks,
+	Plugins.createExternalLinks(),
 	pastedText,
 	Plugins.createKeepFocusInView(),
 	Plugins.createBlockBreakOut()
@@ -180,7 +180,6 @@ export default class RSTEditor extends React.Component {
 					plugins={plugins}
 					allowedInlineStyles={ALLOWED_STYLES}
 					allowedBlockTypes={ALLOWED_BLOCKS}
-					allowLinks={false}
 					{...otherProps}
 				/>
 			</ItemChanges>

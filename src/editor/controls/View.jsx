@@ -3,8 +3,7 @@ import React from 'react';
 import {ContextProvider} from '../../draft-core';
 
 import TypeFormat from './TypeFormat';
-import StyleFormat from './StyleFormat';
-// import InsertFormat from './InsertFormat';
+import StyleInsertFormat from './StyleInsertFormat';
 import Status from './Status';
 import Publish from './Publish';
 
@@ -70,7 +69,7 @@ export default class ContentEditorControls extends React.Component {
 			<ContextProvider editor={getEditorForSelection(selection)}>
 				<div className="content-editor-controls">
 					<TypeFormat  editor={editor} />
-					<StyleFormat editor={editor} />
+					<StyleInsertFormat editor={editor} />
 					<div className="spacer" />
 					<Status />
 					<Publish contentPackage={contentPackage} />
