@@ -1,13 +1,10 @@
 import React from 'react';
 import {scoped} from 'nti-lib-locale';
-import {HOC} from 'nti-web-commons';
 
 import {Plugins} from '../../draft-core';
 import {saveContentPackageTitle} from '../Actions';
 
 import MetaEditor from './MetaEditor';
-
-const {ItemChanges} = HOC;
 
 const DEFAULT_TEXT = {
 	placeholder: 'Title'
@@ -32,27 +29,20 @@ export default class ContentEditorTitle extends React.Component {
 	}
 
 
-	onContentPackageChanged = () => {
-		this.forceUpdate();
-	}
-
-
 	render () {
 		const {contentPackage} = this.props;
 		const {title} = contentPackage || {};
 
 		return (
-			<ItemChanges item={contentPackage} onItemChanged={this.onContentPackageChanged}>
-				<MetaEditor
-					className="content-title-editor"
-					fieldName="title"
-					contentPackage={contentPackage}
-					value={title}
-					onContentChange={this.onContentChange}
-					plugins={plugins}
-					placeholder={t('placeholder')}
-				/>
-			</ItemChanges>
+			<MetaEditor
+				className="content-title-editor"
+				fieldName="title"
+				contentPackage={contentPackage}
+				value={title}
+				onContentChange={this.onContentChange}
+				plugins={plugins}
+				placeholder={t('placeholder')}
+			/>
 		);
 	}
 }
