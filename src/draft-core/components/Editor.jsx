@@ -47,6 +47,7 @@ export default class DraftCoreEditor extends React.Component {
 
 	attachContextRef = (r) => this.editorContext = r
 	attachEditorRef = (r) => this.draftEditor = r
+	attachContainerRef = (r) => this.editorContainer = r
 
 	constructor (props) {
 		super(props);
@@ -59,6 +60,13 @@ export default class DraftCoreEditor extends React.Component {
 			currentEditorState: editorState,
 			currentPlugins: plugins
 		};
+	}
+
+
+	getBoundingClientRect () {
+		return this.editorContainer && this.editorContainer.getBoundingClientRect ?
+				this.editorContainer.getBoundingClientRect() :
+				{top: 0, left: 0, right: 0, bottom: 0, width: 0, height: 0};
 	}
 
 
@@ -102,6 +110,28 @@ export default class DraftCoreEditor extends React.Component {
 		const {editorState} = this;
 
 		return getCurrentLink(editorState);
+	}
+
+
+	componentDidMount () {
+		const {plugins} = this.props;
+
+		for (let plugin of plugins) {
+			if (plugin.setEditor) {
+				plugin.setEditor(this);
+			}
+		}
+	}
+
+
+	componentWillUnmount () {
+		const {plugins} = this.props;
+
+		for (let plugin of plugins) {
+			if (plugin.setEditor) {
+				plugin.setEditor(null);
+			}
+		}
 	}
 
 
@@ -254,6 +284,7 @@ export default class DraftCoreEditor extends React.Component {
 		const contentState = editorState && editorState.getCurrentContent();
 		const hidePlaceholder = contentState && !contentState.hasText() && contentState.getBlockMap().first().getType() !== 'unstyled';
 		const pluginClasses = plugins.map(x => x.editorClass);
+		const pluginOverlays = plugins.map(x => x.overlayComponent).filter(x => x);
 
 		const cls = cx(
 			'nti-draft-core',
@@ -267,19 +298,25 @@ export default class DraftCoreEditor extends React.Component {
 		);
 
 		return (
-			<ContextProvider editor={this} ref={this.attachContextRef} internal>
-				<div className={cls} onClick={this.focus}>
-					<Editor
-						ref={this.attachEditorRef}
-						editorState={editorState}
-						plugins={plugins}
-						onChange={this.onChange}
-						onFocus={this.onFocus}
-						handleKeyCommand={this.handleKeyCommand}
-						placeholder={placeholder}
-					/>
-				</div>
-			</ContextProvider>
+			<div ref={this.attachContainerRef} className="nti-draft-core-container">
+				<ContextProvider editor={this} ref={this.attachContextRef} internal>
+					<div className={cls} onClick={this.focus}>
+						<Editor
+							ref={this.attachEditorRef}
+							editorState={editorState}
+							plugins={plugins}
+							onChange={this.onChange}
+							onFocus={this.onFocus}
+							handleKeyCommand={this.handleKeyCommand}
+							placeholder={placeholder}
+						/>
+					</div>
+				</ContextProvider>
+				{pluginOverlays.length ?
+						pluginOverlays.map((x, index) => React.createElement(x, {key: index})) :
+						null
+				}
+			</div>
 		);
 	}
 }
