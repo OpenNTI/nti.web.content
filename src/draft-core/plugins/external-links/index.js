@@ -2,22 +2,29 @@ import React from 'react';
 
 import {createStore} from '../Store';
 
+import {SelectedEntityKey, Editor} from './Constants';
 import strategy from './strategy';
 import {getSelectedEntityKey} from './utils';
 import Link from './components/Link';
+import Overlay from './components/Overlay';
 
 
 export default (config = {}) => {
 	const store = createStore(config.initialState);
 
 	return {
+		setEditor (editor) {
+			store.setItem(Editor, editor);
+		},
+
 		onChange (editorState) {
 			const entityKey = getSelectedEntityKey(editorState);
 
-			store.setItem('selectedEntityKey', entityKey);
+			store.setItem(SelectedEntityKey, entityKey);
 
 			return editorState;
 		},
+
 		decorators: [
 			{
 				strategy,
@@ -27,6 +34,12 @@ export default (config = {}) => {
 					);
 				}
 			}
-		]
+		],
+
+		overlayComponent: function OverlayWrapper (props) {
+			return (
+				<Overlay {...props} store={store} />
+			);
+		}
 	};
 };

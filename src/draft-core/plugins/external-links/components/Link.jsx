@@ -2,7 +2,10 @@ import React from 'react';
 import cx from 'classnames';
 import {Entity} from 'draft-js';
 
-const eventName = 'selectedEntityKey-changed';
+import {SelectedEntityKey} from '../Constants';
+import {getEventFor} from '../../Store';
+
+const eventName = getEventFor(SelectedEntityKey);
 
 export default class ExternalLink extends React.Component {
 	static propTypes = {
@@ -16,6 +19,7 @@ export default class ExternalLink extends React.Component {
 
 	state = {focused: false, editing: false}
 
+	setAnchorRef = (x) => { this.anchorRef = x; }
 
 	get entityData () {
 		const {entityKey} = this.props;
@@ -23,22 +27,33 @@ export default class ExternalLink extends React.Component {
 		return Entity.get(entityKey).getData();
 	}
 
+
+	getBoundingClientRect () {
+		return this.anchorRef && this.anchorRef.getBoundingClientRect ?
+				this.anchorRef.getBoundingClientRect() :
+				{top: 0, left: 0, right: 0, bottom: 0, width: 0, height: 0};
+	}
+
+
 	componentDidMount () {
-		debugger;
-		const {store} = this.props;
+		const {store, entityKey} = this.props;
 
 		if (store) {
 			store.removeListener(eventName, this.onSelectedEntityKeyChanged);
 			store.addListener(eventName, this.onSelectedEntityKeyChanged);
+
+			store.setItem(entityKey, this);
 		}
 	}
 
 
 	componentWillUnmount () {
-		const {store} = this.props;
+		const {store, entityKey} = this.props;
 
 		if (store) {
 			store.removeListener(eventName, this.onSelectedEntityKeyChanged);
+
+			store.clearItem(entityKey);
 		}
 	}
 
@@ -62,7 +77,7 @@ export default class ExternalLink extends React.Component {
 		const cls = cx('draft-core-external-link', {focused: true});
 
 		return (
-			<a href={url} className={cls}>
+			<a href={url} className={cls} ref={this.setAnchorRef}>
 				{children}
 			</a>
 		);
