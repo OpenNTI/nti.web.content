@@ -63,10 +63,8 @@ export default class DraftCoreEditor extends React.Component {
 	}
 
 
-	getBoundingClientRect () {
-		return this.editorContainer && this.editorContainer.getBoundingClientRect ?
-				this.editorContainer.getBoundingClientRect() :
-				{top: 0, left: 0, right: 0, bottom: 0, width: 0, height: 0};
+	get container () {
+		return this.editorContainer;
 	}
 
 
