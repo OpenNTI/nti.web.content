@@ -1,6 +1,6 @@
 import React from 'react';
 import {Entity} from 'draft-js';
-import  cx from 'classnames';
+import {Flyout} from 'nti-web-commons';
 
 import {getEventFor} from '../../Store';
 import {SelectedEntityKey, Editor} from '../Constants';
@@ -8,16 +8,6 @@ import {SelectedEntityKey, Editor} from '../Constants';
 const selectedEntityKeyEvent = getEventFor(SelectedEntityKey);
 const editorEvent = getEventFor(Editor);
 
-
-function getPosition (entityCmp, editor) {
-	const entityRect = entityCmp.getBoundingClientRect();
-	const editorRect = editor.getBoundingClientRect();
-
-	return {
-		top: `${entityRect.top - editorRect.top}px`,
-		left: `${entityRect.left - editorRect.left}px`
-	};
-}
 
 export default class ExternalLinkOverlay extends React.Component {
 	static propTypes = {
@@ -56,38 +46,45 @@ export default class ExternalLinkOverlay extends React.Component {
 
 	onSelectedEntityKeyChanged = (entityKey) => {
 		const {store} = this.props;
-		const {editor} = this.state;
 		const entity = entityKey && Entity.get(entityKey);
 		const entityCmp = entityKey && store.getItem(entityKey);
-		const position = editor && entityCmp ? getPosition(entityCmp, editor) : null;
 
 		this.setState({
 			entity,
 			entityCmp,
-			position
 		});
 	}
 
 
 	onEditorChanged = (editor) => {
-		const {entityCmp} = this.state;
-		const position = entityCmp && editor ? getPosition(entityCmp, editor) : null;
-
 		this.setState({
-			editor,
-			position
+			editor
 		});
 	}
 
 
 	render () {
-		const {position, entity} = this.state;
-		const cls = cx('external-link-overlay', {hidden: !position || !entity});
+		const {entityCmp, editor} = this.state;
+
+		if (!entityCmp) {
+			return null;
+		}
 
 		return (
-			<div className={cls} style={position}>
+			<Flyout.Aligned
+				className="external-link-overlay"
+				alignTo={entityCmp}
+				parent={editor && editor.container}
+
+				visible={entityCmp && editor}
+				arrow
+				constrain
+
+				verticalAlign={Flyout.ALIGNMENTS.BOTTOM}
+				horizontalAlign={Flyout.ALIGNMENTS.LEFT}
+			>
 				<span>External Link Overlay</span>
-			</div>
+			</Flyout.Aligned>
 		);
 	}
 }
