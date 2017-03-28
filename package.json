@@ -100,6 +100,7 @@
       "!**/*.spec.js"
     ],
     "coverageDirectory": "reports/coverage",
+    "coverageReporters": ["text", "lcov", "cobertura"],
     "testResultsProcessor": "./node_modules/jest-junit",
     "testMatch": [
       "**/__test__/**/*.(spec).js?(x)"
