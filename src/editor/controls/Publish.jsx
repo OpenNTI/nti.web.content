@@ -155,9 +155,9 @@ export default class ContentEditorPublish extends React.Component {
 
 		return (
 			<ItemChanges item={contentPackage} onItemChanged={this.onContentPackageChange}>
-				<Flyout ref={this.setFlyoutRef} trigger={trigger} className="content-editor-publish" arrow verticalAlign={Flyout.ALIGNMENTS.TOP} horizontalAlign={Flyout.ALIGNMENTS.RIGHT}>
+				<Flyout.Triggered ref={this.setFlyoutRef} trigger={trigger} className="content-editor-publish" arrow verticalAlign={Flyout.ALIGNMENTS.TOP} horizontalAlign={Flyout.ALIGNMENTS.RIGHT}>
 					{this.renderFlyout()}
-				</Flyout>
+				</Flyout.Triggered>
 			</ItemChanges>
 		);
 	}

@@ -27,7 +27,7 @@ export default function ContentEditorTypeFormat ({editor}) {
 
 	return (
 		<div className="content-editor-type-format">
-			<Flyout className="content-editor-type-formats" trigger={trigger} verticalAlign={Flyout.ALIGNMENTS.TOP} horizontalAlign={Flyout.ALIGNMENTS.LEFT}>
+			<Flyout.Triggered className="content-editor-type-formats" trigger={trigger} verticalAlign={Flyout.ALIGNMENTS.TOP} horizontalAlign={Flyout.ALIGNMENTS.LEFT}>
 				<ContextProvider editor={editor}>
 					<div className="content-editor-type-flyout">
 						<ul className="plain">
@@ -42,7 +42,7 @@ export default function ContentEditorTypeFormat ({editor}) {
 						</ul>
 					</div>
 				</ContextProvider>
-			</Flyout>
+			</Flyout.Triggered>
 		</div>
 	);
 }
