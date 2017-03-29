@@ -20,7 +20,7 @@ function pushStyleToRange (range, style) {
 function pushKeyToRange (range, key) {
 	//draft numbers the keys so the first one is going to be 0
 	if (key || key === 0) {
-		range.styles.push(key);
+		range.keys.push(key);
 	}
 }
 

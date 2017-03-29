@@ -93,4 +93,21 @@ describe('normalizeRange', () => {
 		expect(normalized[2].styles.length).toEqual(3);
 		expect(normalized[2].styles).toEqual(jasmine.arrayContaining(['bold', 'underline', 'italic']));
 	});
+
+	fit('Entity and no styles', () => {
+		const key = 'key';
+		const testRanges = [
+			buildRange(0, 5, null, key)
+		];
+
+		const normalized = normalizeRanges(testRanges);
+
+		expect(normalized.length).toEqual(1);
+
+		expect(normalized[0].offset).toEqual(0);
+		expect(normalized[0].length).toEqual(5);
+		expect(normalized[0].styles.length).toEqual(0);
+		expect(normalized[0].keys.length).toEqual(1);
+		expect(normalized[0].keys[0]).toEqual(key);
+	});
 });
