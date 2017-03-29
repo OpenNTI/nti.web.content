@@ -85,6 +85,15 @@ describe('Hyperlink', () => {
 			expect(currentBlock.setRoleMarker).toHaveBeenCalledWith(block);
 			expect(block.markerFor).toEqual(currentBlock);
 		});
+
+		fit('Consumes following _', () => {
+			const test = ['_', '_'];
+			const inputInterface = getInterface(0, test);
+			const parsedInterface = getInterface(0, []);
+			const {length} = Hyperlink.parse(inputInterface, {}, parsedInterface);
+
+			expect(length).toEqual(2);
+		});
 	});
 
 	it('Mutability', () => {
