@@ -2,7 +2,7 @@ import React from 'react';
 
 import {createStore} from '../Store';
 
-import {SelectedEntityKey, Editor} from './Constants';
+import {SelectedEntityKey, EditorComponent} from './Constants';
 import strategy from './strategy';
 import {getSelectedEntityKey} from './utils';
 import Link from './components/Link';
@@ -14,7 +14,7 @@ export default (config = {}) => {
 
 	return {
 		setEditor (editor) {
-			store.setItem(Editor, editor);
+			store.setItem(EditorComponent, editor);
 		},
 
 		onChange (editorState) {

@@ -51,7 +51,7 @@ export default class ContextProvider extends React.Component {
 
 			toggleLink: React.PropTypes.func,
 			allowLinks: React.PropTypes.bool,
-			currentLink: React.PropTypes.object
+			currentLink: React.PropTypes.string
 		})
 	}
 

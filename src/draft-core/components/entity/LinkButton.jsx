@@ -8,7 +8,7 @@ export default class LinkButton extends React.Component {
 	static contextTypes = {
 		editorContext: React.PropTypes.shape({
 			toggleLink: React.PropTypes.func.isRequired,
-			currentLink: React.PropTypes.object,
+			currentLink: React.PropTypes.string,
 			allowLinks: React.PropTypes.bool
 		})
 	}
