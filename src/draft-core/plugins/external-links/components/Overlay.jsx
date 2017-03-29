@@ -10,8 +10,6 @@ import Editor from './Editor';
 
 const selectedEntityKeyEvent = getEventFor(SelectedEntityKey);
 const editorEvent = getEventFor(EditorComponent);
-const editingEvent = getEventFor(EditingEntityKey);
-
 
 export default class ExternalLinkOverlay extends React.Component {
 	static propTypes = {
@@ -28,8 +26,7 @@ export default class ExternalLinkOverlay extends React.Component {
 
 	events = {
 		[selectedEntityKeyEvent]: (x) => this.onSelectedEntityKeyChanged(x),
-		[editorEvent]: (x) => this.onEditorChanged(x),
-		[editingEvent]: (x) => this.onEditingEntityKeyChanged(x)
+		[editorEvent]: (x) => this.onEditorChanged(x)
 	}
 
 
@@ -76,18 +73,6 @@ export default class ExternalLinkOverlay extends React.Component {
 					entityKey: key
 				});
 			});
-	}
-
-
-	onEditingEntityKeyChanged = (entityKey) => {
-		const {store} = this.props;
-		const key = entityKey || store.getItem(SelectedEntityKey);
-		const entityCmp = key && getCmpForSelection(store.getItem(key) || [], this.editorSelection);
-
-		this.setState({
-			entityCmp,
-			entityKey: key
-		});
 	}
 
 
