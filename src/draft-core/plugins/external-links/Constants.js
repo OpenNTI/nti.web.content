@@ -1,2 +1,3 @@
-export const SelectionEntityKey = 'selectedEntityKey';
-export const Editor = 'editorRef';
+export const SelectedEntityKey = 'selectedEntityKey';
+export const EditingEntityKey = 'editingEntityKey';
+export const EditorComponent = 'editorRef';

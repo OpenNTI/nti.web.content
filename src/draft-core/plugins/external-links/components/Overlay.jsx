@@ -3,10 +3,12 @@ import {Entity} from 'draft-js';
 import {Flyout} from 'nti-web-commons';
 
 import {getEventFor} from '../../Store';
-import {SelectedEntityKey, Editor} from '../Constants';
+import {SelectedEntityKey, EditorComponent} from '../Constants';
+
+import Editor from './Editor';
 
 const selectedEntityKeyEvent = getEventFor(SelectedEntityKey);
-const editorEvent = getEventFor(Editor);
+const editorEvent = getEventFor(EditorComponent);
 
 
 export default class ExternalLinkOverlay extends React.Component {
@@ -64,11 +66,14 @@ export default class ExternalLinkOverlay extends React.Component {
 
 
 	render () {
-		const {entityCmp, editor} = this.state;
+		const {store} = this.props;
+		const {entityCmp, editor, entity} = this.state;
 
-		if (!entityCmp) {
+		if (!entityCmp || !editor) {
 			return null;
 		}
+
+		debugger;
 
 		return (
 			<Flyout.Aligned
@@ -76,14 +81,14 @@ export default class ExternalLinkOverlay extends React.Component {
 				alignTo={entityCmp}
 				parent={editor && editor.container}
 
-				visible={entityCmp && editor}
+				visible={entityCmp && editor ? true : false}
 				arrow
 				constrain
 
 				verticalAlign={Flyout.ALIGNMENTS.BOTTOM}
 				horizontalAlign={Flyout.ALIGNMENTS.LEFT}
 			>
-				<span>External Link Overlay</span>
+				<Editor entity={entity} store={store} />
 			</Flyout.Aligned>
 		);
 	}
