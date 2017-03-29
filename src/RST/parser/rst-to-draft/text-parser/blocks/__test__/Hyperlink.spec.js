@@ -86,7 +86,7 @@ describe('Hyperlink', () => {
 			expect(block.markerFor).toEqual(currentBlock);
 		});
 
-		fit('Consumes following _', () => {
+		it('Consumes following _', () => {
 			const test = ['_', '_'];
 			const inputInterface = getInterface(0, test);
 			const parsedInterface = getInterface(0, []);
