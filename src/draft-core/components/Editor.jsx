@@ -111,6 +111,16 @@ export default class DraftCoreEditor extends React.Component {
 	}
 
 
+	getEditorState = () => {
+		return this.editorState;
+	}
+
+
+	setEditorState = (state) => {
+		this.onChange(state);
+	}
+
+
 	componentDidMount () {
 		const {plugins} = this.props;
 
@@ -311,7 +321,7 @@ export default class DraftCoreEditor extends React.Component {
 					</div>
 				</ContextProvider>
 				{pluginOverlays.length ?
-						pluginOverlays.map((x, index) => React.createElement(x, {key: index, editorState})) :
+						pluginOverlays.map((x, index) => React.createElement(x, {key: index, getEditorState: this.getEditorState, setEditorState: this.setEditorState})) :
 						null
 				}
 			</div>
