@@ -10,6 +10,7 @@ import Editor from './Editor';
 
 const selectedEntityKeyEvent = getEventFor(SelectedEntityKey);
 const editorEvent = getEventFor(EditorComponent);
+const editingEvent = getEventFor(EditingEntityKey);
 
 
 export default class ExternalLinkOverlay extends React.Component {
@@ -27,7 +28,16 @@ export default class ExternalLinkOverlay extends React.Component {
 
 	events = {
 		[selectedEntityKeyEvent]: (x) => this.onSelectedEntityKeyChanged(x),
-		[editorEvent]: (x) => this.onEditorChanged(x)
+		[editorEvent]: (x) => this.onEditorChanged(x),
+		[editingEvent]: (x) => this.onEditingEntityKeyChanged(x)
+	}
+
+
+	get editorSelection () {
+		const {getEditorState} = this.props;
+		const editorState = getEditorState && getEditorState();
+
+		return editorState && editorState.getSelection();
 	}
 
 
@@ -50,9 +60,8 @@ export default class ExternalLinkOverlay extends React.Component {
 
 
 	onSelectedEntityKeyChanged = (entityKey) => {
-		const {store, getEditorState} = this.props;
-		const editorState = getEditorState();
-		const selection = editorState.getSelection();
+		const {store} = this.props;
+		const selection = this.editorSelection;
 
 		//The blur event on the editor from clicking the input in the editor is un-setting the
 		//selected entity key. So wait and look if the editing entity key gets set by the inputs
@@ -67,6 +76,18 @@ export default class ExternalLinkOverlay extends React.Component {
 					entityKey: key
 				});
 			});
+	}
+
+
+	onEditingEntityKeyChanged = (entityKey) => {
+		const {store} = this.props;
+		const key = entityKey || store.getItem(SelectedEntityKey);
+		const entityCmp = key && getCmpForSelection(store.getItem(key) || [], this.editorSelection);
+
+		this.setState({
+			entityCmp,
+			entityKey: key
+		});
 	}
 
 

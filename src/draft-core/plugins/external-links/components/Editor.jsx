@@ -1,8 +1,20 @@
 import React from 'react';
+import cx from 'classnames';
 import {Entity} from 'draft-js';
 import {focusElement} from 'nti-lib-dom';
+import {scoped} from 'nti-lib-locale';
+import {Button} from 'nti-web-commons';
 
 import {EditingEntityKey} from '../Constants';
+import {getFullHref} from '../utils';
+
+const DEFAULT_TEXT = {
+	urlLabel: 'Link',
+	save: 'Save',
+	invalid: 'Please enter a valid url.'
+};
+
+const t = scoped('EXTERNAL_LINK_EDITOR', DEFAULT_TEXT);
 
 export default class ExternalLinkEditor extends React.Component {
 	static propTypes = {
@@ -14,6 +26,9 @@ export default class ExternalLinkEditor extends React.Component {
 		})
 	}
 
+
+	attachValidatorRef = x => this.validator = x
+
 	constructor (props) {
 		super(props);
 
@@ -24,7 +39,8 @@ export default class ExternalLinkEditor extends React.Component {
 		this.state = {
 			entity,
 			editing: !data.href,
-			href: data.href || ''
+			href: data.href || '',
+			fullHref: getFullHref(data.href || '')
 		};
 	}
 
@@ -43,8 +59,26 @@ export default class ExternalLinkEditor extends React.Component {
 	}
 
 
-	onHrefChange = () => {
-		debugger;
+	onHrefChange = (e) => {
+		this.setState({
+			href: e.target.value,
+			fullHref: getFullHref(e.target.value),
+			error: null
+		});
+	}
+
+
+	saveHref = () => {
+		const {entityKey} = this.props;
+		const {fullHref} = this.state;
+
+		if (this.validator && this.validator.validity && this.validator.validity.isValid) {
+			this.setState({
+				error: t('invalid')
+			});
+		} else {
+			Entity.mergeData(entityKey, {href: fullHref});
+		}
 	}
 
 
@@ -64,11 +98,18 @@ export default class ExternalLinkEditor extends React.Component {
 
 
 	renderEditor = () => {
-		const {href} = this.state;
+		const {href, fullHref, error} = this.state;
+		const cls = cx('editor', {error});
 
 		return (
-			<div className="editor">
-				<input type="text" onFocus={this.onHrefFocus} onBlur={this.onHrefBlur} onChange={this.onHrefChange} value={href} ref={focusElement} />
+			<div className={cls}>
+				{error && (<div className="error">{error}</div>)}
+				<label>
+					<span>{t('urlLabel')}</span>
+					<input type="url" value={fullHref} ref={this.attachValidatorRef}/>
+					<input type="text" onFocus={this.onHrefFocus} onBlur={this.onHrefBlur} onChange={this.onHrefChange} value={href} ref={focusElement} />
+				</label>
+				<Button onClick={this.saveHref}>{t('save')}</Button>
 			</div>
 		);
 	}
