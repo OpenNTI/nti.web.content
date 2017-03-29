@@ -311,7 +311,7 @@ export default class DraftCoreEditor extends React.Component {
 					</div>
 				</ContextProvider>
 				{pluginOverlays.length ?
-						pluginOverlays.map((x, index) => React.createElement(x, {key: index})) :
+						pluginOverlays.map((x, index) => React.createElement(x, {key: index, editorState})) :
 						null
 				}
 			</div>
