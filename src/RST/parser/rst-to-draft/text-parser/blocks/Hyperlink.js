@@ -37,6 +37,7 @@ export default class Target {
 
 	static parse (inputInterface, context, parsedInterface) {
 		const currentBlock = parsedInterface.get(0);
+		const nextInput = inputInterface.get(1);
 		const block = new this();
 
 		if (currentBlock && (currentBlock.isInterpreted || currentBlock.isPlaintext)) {
@@ -44,7 +45,7 @@ export default class Target {
 			block.setMarkerFor(currentBlock);
 		}
 
-		return {block};
+		return {block, length: nextInput === '_' ? 2 : 1};
 	}
 
 
