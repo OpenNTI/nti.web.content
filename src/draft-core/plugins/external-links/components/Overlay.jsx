@@ -1,9 +1,9 @@
 import React from 'react';
-import {Entity} from 'draft-js';
+import {wait} from 'nti-commons';
 import {Flyout} from 'nti-web-commons';
 
 import {getEventFor} from '../../Store';
-import {SelectedEntityKey, EditorComponent} from '../Constants';
+import {SelectedEntityKey, EditorComponent, EditingEntityKey} from '../Constants';
 
 import Editor from './Editor';
 
@@ -48,13 +48,17 @@ export default class ExternalLinkOverlay extends React.Component {
 
 	onSelectedEntityKeyChanged = (entityKey) => {
 		const {store} = this.props;
-		const entity = entityKey && Entity.get(entityKey);
-		const entityCmp = entityKey && store.getItem(entityKey);
 
-		this.setState({
-			entity,
-			entityCmp,
-		});
+		wait()
+			.then(() => {
+				const key = store.getItem(EditingEntityKey) || entityKey;
+				const entityCmp = key && store.getItem(key);
+
+				this.setState({
+					entityCmp,
+					entityKey: key
+				});
+			});
 	}
 
 
@@ -67,13 +71,11 @@ export default class ExternalLinkOverlay extends React.Component {
 
 	render () {
 		const {store} = this.props;
-		const {entityCmp, editor, entity} = this.state;
+		const {entityCmp, editor, entityKey} = this.state;
 
 		if (!entityCmp || !editor) {
 			return null;
 		}
-
-		debugger;
 
 		return (
 			<Flyout.Aligned
@@ -88,7 +90,7 @@ export default class ExternalLinkOverlay extends React.Component {
 				verticalAlign={Flyout.ALIGNMENTS.BOTTOM}
 				horizontalAlign={Flyout.ALIGNMENTS.LEFT}
 			>
-				<Editor entity={entity} store={store} />
+				<Editor entityKey={entityKey} store={store} />
 			</Flyout.Aligned>
 		);
 	}
