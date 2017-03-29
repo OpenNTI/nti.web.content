@@ -8,7 +8,7 @@ function getStartAndEnd (selection) {
 	return {start, end};
 }
 
-export function getSelectedEntityKey (editorState) {
+export default function getSelectedEntityKey (editorState) {
 	const selection = editorState.getSelection();
 
 	if (!selection.getHasFocus()) { return void 0; }

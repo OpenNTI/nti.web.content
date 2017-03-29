@@ -42,7 +42,9 @@ export default class ExternalLink extends React.Component {
 			store.removeListener(eventName, this.onSelectedEntityKeyChanged);
 			store.addListener(eventName, this.onSelectedEntityKeyChanged);
 
-			store.setItem(entityKey, this);
+			const cmps = store.getItem(entityKey) || [];
+
+			store.setItem(entityKey, [...cmps, this]);
 		}
 	}
 
@@ -53,7 +55,9 @@ export default class ExternalLink extends React.Component {
 		if (store) {
 			store.removeListener(eventName, this.onSelectedEntityKeyChanged);
 
-			store.clearItem(entityKey);
+			const cmps = store.getItem(entityKey) || [];
+
+			store.clearItem(entityKey, cmps.filter(x => x !== this));
 		}
 	}
 
