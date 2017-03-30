@@ -11,6 +11,7 @@ export default class ExternalLink extends React.Component {
 	static propTypes = {
 		entityKey: React.PropTypes.string,
 		children: React.PropTypes.any,
+		offsetKey: React.PropTypes.string,
 		store: React.PropTypes.shape({
 			addListener: React.PropTypes.func,
 			removeListener: React.PropTypes.func
@@ -25,6 +26,11 @@ export default class ExternalLink extends React.Component {
 		const {entityKey} = this.props;
 
 		return Entity.get(entityKey).getData();
+	}
+
+
+	get offsetKey () {
+		return this.props.offsetKey;
 	}
 
 

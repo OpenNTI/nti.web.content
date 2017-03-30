@@ -2,7 +2,7 @@ import React from 'react';
 import {Flyout} from 'nti-web-commons';
 
 import {getEventFor} from '../../Store';
-import {getCmpForSelection} from '../utils';
+import {getCmpForState} from '../utils';
 import {SelectedEntityKey, EditorComponent, EditingEntityKey} from '../Constants';
 
 import Editor from './Editor';
@@ -31,11 +31,10 @@ export default class ExternalLinkOverlay extends React.Component {
 	}
 
 
-	get editorSelection () {
+	get editorState () {
 		const {getEditorState} = this.props;
-		const editorState = getEditorState && getEditorState();
 
-		return editorState && editorState.getSelection();
+		return getEditorState && getEditorState();
 	}
 
 
@@ -60,7 +59,7 @@ export default class ExternalLinkOverlay extends React.Component {
 	onSelectedEntityKeyChanged = (entityKey) => {
 		const {store} = this.props;
 		const key = store.getItem(EditingEntityKey) || entityKey;
-		const entityCmp = key && getCmpForSelection(store.getItem(key) || [], this.selection);
+		const entityCmp = key && getCmpForState(store.getItem(key) || [], this.editorState);
 
 		this.setState({
 			entityCmp,
@@ -72,7 +71,7 @@ export default class ExternalLinkOverlay extends React.Component {
 	onEditingEntityKeyChanged = (entityKey) => {
 		const {store} = this.props;
 		const key = entityKey || store.getItem(SelectedEntityKey);
-		const entityCmp = key && getCmpForSelection(store.getItem(key) || [], this.selection);
+		const entityCmp = key && getCmpForState(store.getItem(key) || [], this.editorState);
 
 		this.setState({
 			entityCmp,
@@ -89,8 +88,8 @@ export default class ExternalLinkOverlay extends React.Component {
 
 
 	render () {
-		const {store} = this.props;
-		const {entityCmp, editor, entityKey} = this.state;
+		const {store, getEditorState, setEditorState} = this.props;
+		const {entityCmp, editor, entityKey, selection} = this.state;
 
 		if (!entityCmp || !editor) {
 			return null;
@@ -109,7 +108,7 @@ export default class ExternalLinkOverlay extends React.Component {
 				verticalAlign={Flyout.ALIGNMENTS.BOTTOM}
 				horizontalAlign={Flyout.ALIGNMENTS.LEFT}
 			>
-				<Editor entityKey={entityKey} store={store} />
+				<Editor entityKey={entityKey} offsetKey={entityCmp.offsetKey} store={store} selection={selection} getEditorState={getEditorState} setEditorState={setEditorState} />
 			</Flyout.Aligned>
 		);
 	}

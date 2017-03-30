@@ -7,11 +7,13 @@ import {Button} from 'nti-web-commons';
 
 import {EditingEntityKey} from '../Constants';
 import {getEventFor} from '../../Store';
-import {getFullHref} from '../utils';
+import {getFullHref, removeEntityKeyAtOffset} from '../utils';
+
 
 const DEFAULT_TEXT = {
 	urlLabel: 'Link',
 	save: 'Save',
+	remove: 'Remove',
 	edit: 'Change',
 	invalid: 'Please enter a valid url.'
 };
@@ -25,11 +27,14 @@ const editingEntityKeyEvent = getEventFor(EditingEntityKey);
 export default class ExternalLinkEditor extends React.Component {
 	static propTypes = {
 		entityKey: React.PropTypes.string,
+		offsetKey: React.PropTypes.string,
 		store: React.PropTypes.shape({
 			setItem: React.PropTypes.func,
 			addListener: React.PropTypes.func,
 			removeListener: React.PropTypes.func
-		})
+		}),
+		getEditorState: React.PropTypes.func,
+		setEditorState: React.PropTypes.func
 	}
 
 
@@ -132,6 +137,15 @@ export default class ExternalLinkEditor extends React.Component {
 	}
 
 
+	removeEntity = () => {
+		const {getEditorState, setEditorState, entityKey, offsetKey} = this.props;
+		const newState = removeEntityKeyAtOffset(entityKey, offsetKey, getEditorState());
+
+		setEditorState(newState);
+		this.setNotEditing();
+	}
+
+
 	render () {
 		const {editing} = this.state;
 
@@ -161,6 +175,7 @@ export default class ExternalLinkEditor extends React.Component {
 				</label>
 				<div className="buttons" onMouseDown={stop}>
 					<Button onClick={this.saveHref}>{t('save')}</Button>
+					<Button onClick={this.removeEntity}>{t('remove')}</Button>
 				</div>
 			</div>
 		);
