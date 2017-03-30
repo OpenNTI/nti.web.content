@@ -1,4 +1,5 @@
 import React from 'react';
+import {wait} from 'nti-commons';
 
 import {createStore} from '../Store';
 
@@ -20,7 +21,13 @@ export default (config = {}) => {
 		onChange (editorState) {
 			const entityKey = getSelectedEntityKey(editorState);
 
-			store.setItem(SelectedEntityKey, entityKey);
+			//Wait an event pump to give subsequent events a chance
+			//to fire and set up the store appropriately
+			wait()
+				.then(() => {
+					store.setItem(SelectedEntityKey, entityKey);
+				});
+
 
 			return editorState;
 		},

@@ -11,10 +11,13 @@ import {getFullHref} from '../utils';
 const DEFAULT_TEXT = {
 	urlLabel: 'Link',
 	save: 'Save',
+	edit: 'Change',
 	invalid: 'Please enter a valid url.'
 };
 
 const t = scoped('EXTERNAL_LINK_EDITOR', DEFAULT_TEXT);
+
+const stop = e => e.preventDefault();
 
 export default class ExternalLinkEditor extends React.Component {
 	static propTypes = {
@@ -45,17 +48,27 @@ export default class ExternalLinkEditor extends React.Component {
 	}
 
 
-	onHrefFocus = () => {
+	setEditing () {
 		const {store, entityKey} = this.props;
 
 		store.setItem(EditingEntityKey, entityKey);
 	}
 
 
-	onHrefBlur = () => {
+	setNotEditing () {
 		const {store} = this.props;
 
 		store.setItem(EditingEntityKey, null);
+	}
+
+
+	onHrefFocus = () => {
+		this.setEditing();
+	}
+
+
+	onHrefBlur = () => {
+		this.setNotEditing();
 	}
 
 
@@ -72,13 +85,23 @@ export default class ExternalLinkEditor extends React.Component {
 		const {entityKey} = this.props;
 		const {fullHref} = this.state;
 
-		if (this.validator && this.validator.validity && this.validator.validity.isValid) {
+		if (this.validator && this.validator.validity && !this.validator.validity.valid) {
 			this.setState({
 				error: t('invalid')
 			});
 		} else {
 			Entity.mergeData(entityKey, {href: fullHref});
+			this.setNotEditing();
 		}
+	}
+
+
+	onEdit = () => {
+		this.setEditing();
+
+		this.setState({
+			editing: true
+		});
 	}
 
 
@@ -106,19 +129,24 @@ export default class ExternalLinkEditor extends React.Component {
 				{error && (<div className="error">{error}</div>)}
 				<label>
 					<span>{t('urlLabel')}</span>
-					<input type="url" value={fullHref} ref={this.attachValidatorRef}/>
+					<input type="url" value={fullHref} ref={this.attachValidatorRef} readOnly/>
 					<input type="text" onFocus={this.onHrefFocus} onBlur={this.onHrefBlur} onChange={this.onHrefChange} value={href} ref={focusElement} />
 				</label>
-				<Button onClick={this.saveHref}>{t('save')}</Button>
+				<div className="buttons" onMouseDown={stop}>
+					<Button onClick={this.saveHref}>{t('save')}</Button>
+				</div>
 			</div>
 		);
 	}
 
 
-	renderDisplay = () => {
+	renderInfo = () => {
+		const {href} = this.state;
+
 		return (
-			<div>
-				<span>Display</span>
+			<div onMouseDown={stop}>
+				<span>{href}</span>
+				<span onClick={this.onEdit}>{t('edit')}</span>
 			</div>
 		);
 	}
