@@ -1,5 +1,4 @@
 import React from 'react';
-import {wait} from 'nti-commons';
 import {Flyout} from 'nti-web-commons';
 
 import {getEventFor} from '../../Store';
@@ -9,6 +8,7 @@ import {SelectedEntityKey, EditorComponent, EditingEntityKey} from '../Constants
 import Editor from './Editor';
 
 const selectedEntityKeyEvent = getEventFor(SelectedEntityKey);
+const editingEntityKeyEvent = getEventFor(EditingEntityKey);
 const editorEvent = getEventFor(EditorComponent);
 
 export default class ExternalLinkOverlay extends React.Component {
@@ -26,6 +26,7 @@ export default class ExternalLinkOverlay extends React.Component {
 
 	events = {
 		[selectedEntityKeyEvent]: (x) => this.onSelectedEntityKeyChanged(x),
+		[editingEntityKeyEvent]: (x) => this.onEditingEntityKeyChanged(x),
 		[editorEvent]: (x) => this.onEditorChanged(x)
 	}
 
@@ -58,21 +59,25 @@ export default class ExternalLinkOverlay extends React.Component {
 
 	onSelectedEntityKeyChanged = (entityKey) => {
 		const {store} = this.props;
-		const selection = this.editorSelection;
+		const key = store.getItem(EditingEntityKey) || entityKey;
+		const entityCmp = key && getCmpForSelection(store.getItem(key) || [], this.selection);
 
-		//The blur event on the editor from clicking the input in the editor is un-setting the
-		//selected entity key. So wait and look if the editing entity key gets set by the inputs
-		//focus event.
-		wait()
-			.then(() => {
-				const key = store.getItem(EditingEntityKey) || entityKey;
-				const entityCmp = key && getCmpForSelection(store.getItem(key) || [], selection);
+		this.setState({
+			entityCmp,
+			entityKey: key
+		});
+	}
 
-				this.setState({
-					entityCmp,
-					entityKey: key
-				});
-			});
+
+	onEditingEntityKeyChanged = (entityKey) => {
+		const {store} = this.props;
+		const key = entityKey || store.getItem(SelectedEntityKey);
+		const entityCmp = key && getCmpForSelection(store.getItem(key) || [], this.selection);
+
+		this.setState({
+			entityCmp,
+			entityKey: key
+		});
 	}
 
 
