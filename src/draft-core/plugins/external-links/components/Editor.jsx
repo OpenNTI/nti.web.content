@@ -6,6 +6,7 @@ import {scoped} from 'nti-lib-locale';
 import {Button} from 'nti-web-commons';
 
 import {EditingEntityKey} from '../Constants';
+import {getEventFor} from '../../Store';
 import {getFullHref} from '../utils';
 
 const DEFAULT_TEXT = {
@@ -18,6 +19,8 @@ const DEFAULT_TEXT = {
 const t = scoped('EXTERNAL_LINK_EDITOR', DEFAULT_TEXT);
 
 const stop = e => e.preventDefault();
+
+const editingEntityKeyEvent = getEventFor(EditingEntityKey);
 
 export default class ExternalLinkEditor extends React.Component {
 	static propTypes = {
@@ -45,6 +48,34 @@ export default class ExternalLinkEditor extends React.Component {
 			href: data.href || '',
 			fullHref: getFullHref(data.href || '')
 		};
+	}
+
+
+	componentDidMount () {
+		const {store} = this.props;
+
+		if (store) {
+			store.removeListener(editingEntityKeyEvent, this.onEditingEntityKeyChange);
+			store.addListener(editingEntityKeyEvent, this.onEditingEntityKeyChange);
+		}
+	}
+
+
+	componentWillUnmount () {
+		const {store} = this.props;
+
+		if (store) {
+			store.removeListener(editingEntityKeyEvent, this.onEditingEntityKeyChange);
+		}
+	}
+
+
+	onEditingEntityKeyChange = (key) => {
+		const {entityKey} = this.props;
+
+		this.setState({
+			editing: entityKey === key
+		});
 	}
 
 
@@ -98,10 +129,6 @@ export default class ExternalLinkEditor extends React.Component {
 
 	onEdit = () => {
 		this.setEditing();
-
-		this.setState({
-			editing: true
-		});
 	}
 
 
