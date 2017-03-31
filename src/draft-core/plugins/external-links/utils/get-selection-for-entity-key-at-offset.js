@@ -3,13 +3,14 @@ import DraftOffsetKey from 'draft-js/lib/DraftOffsetKey';
 import getRangesForDraftEntity from 'draft-js/lib/getRangesForDraftEntity';
 
 
-function getRangeForBlock (block, entityKey) {
+function findRangeForBlock (block, entityKey, predicate) {
 	const ranges = getRangesForDraftEntity(block, entityKey);
 
-	//TODO: look into how we need handle more than one range for the
-	//for a given entity
-
-	return ranges[0];
+	for (let range of ranges) {
+		if (predicate(range)) {
+			return range;
+		}
+	}
 }
 
 
@@ -21,9 +22,9 @@ function getStartOfSelection (range, block, entityKey, content) {
 	}
 
 	const prevBlock = content.getBlockBefore(block.key);
-	const prevRange = prevBlock && getRangeForBlock(prevBlock, entityKey);
+	const prevRange = prevBlock && findRangeForBlock(prevBlock, entityKey, r => r.end === prevBlock.text.length - 1);
 
-	if (prevRange && prevRange.end === (prevBlock.text.length - 1)) {
+	if (prevRange) {
 		return getStartOfSelection(prevRange, prevBlock, entityKey, content);
 	}
 
@@ -39,9 +40,9 @@ function getEndOfSelection (range, block, entityKey, content) {
 	}
 
 	const nextBlock = content.getBlockAfter(block.key);
-	const nextRange = nextBlock && getRangeForBlock(nextBlock, entityKey);
+	const nextRange = nextBlock && findRangeForBlock(nextBlock, entityKey, r => r.start === 0);
 
-	if (nextRange && nextRange.start === 0) {
+	if (nextRange) {
 		return getEndOfSelection(nextRange, nextBlock, entityKey, content);
 	}
 
@@ -49,12 +50,24 @@ function getEndOfSelection (range, block, entityKey, content) {
 }
 
 
+function getInfoForOffsetKey (offsetKey, editorState) {
+	const {blockKey, decoratorKey, leafKey} = DraftOffsetKey.decode(offsetKey);
+	const {start, end} = editorState
+							.getBlockTree(blockKey)
+							.getIn([decoratorKey, 'leaves', leafKey]);
+
+	return {
+		blockKey,
+		range: {start, end}
+	};
+}
+
+
 export default function getSelectionForEntityKeyAtOffset (entityKey, offsetKey, editorState) {
-	const {blockKey} = DraftOffsetKey.decode(offsetKey);
+	const {blockKey, range} = getInfoForOffsetKey(offsetKey, editorState);
 	const content = editorState.getCurrentContent();
 	const selection = editorState.getSelection();
 	const block = content.getBlockForKey(blockKey);
-	const range = getRangeForBlock(block, entityKey);
 
 	const start = getStartOfSelection(range, block, entityKey, content);
 	const end = getEndOfSelection(range, block, entityKey, content);

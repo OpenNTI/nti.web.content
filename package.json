@@ -72,6 +72,7 @@
     "babel-preset-stage-1": "^6.1.0",
     "baggage-loader": "^0.2.4",
     "css-loader": "^0.25.0",
+    "enzyme": "^2.8.0",
     "eslint-config-nti-codestyle-js": "^1.1.0",
     "eslint-config-nti-codestyle-jsx": "^1.0.0",
     "extract-text-webpack-plugin": "^1.0.1",
@@ -85,7 +86,8 @@
     "nti-style-common": "^1.0.0",
     "postcss-loader": "^0.13.0",
     "react": "^15.0.1",
-    "react-dom": "^15.0.1",
+    "react-addons-test-utils": "^15.4.2",
+    "react-dom": "^15.4.2",
     "resolve-url-loader": "^1.6.0",
     "sass-loader": "^4.0.0",
     "style-loader": "^0.13.1",
@@ -94,7 +96,7 @@
     "webpack-dev-server": "^1.8.0"
   },
   "jest": {
-    "collectCoverage": true,
+    "collectCoverage": false,
     "collectCoverageFrom": [
       "src/**/*.{js,jsx}",
       "!**/*.spec.js"
