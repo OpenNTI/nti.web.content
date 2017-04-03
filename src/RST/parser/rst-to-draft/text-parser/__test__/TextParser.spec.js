@@ -54,7 +54,7 @@ describe('TextParser', () => {
 		expect(entity.type).toEqual('LINK');
 		expect(entity.mutability).toEqual('MUTABLE');
 		expect(entity.data.href).toEqual('http://www.google.com');
-		expect(entity.data.name).toEqual(range.key);
+		expect(entity.data.name).toEqual('entire text is inline-link');
 	});
 
 	const test5 = 'text has a named link_';

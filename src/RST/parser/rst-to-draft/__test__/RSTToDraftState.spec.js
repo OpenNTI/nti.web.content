@@ -67,7 +67,7 @@ describe('RSTToDraftState', () => {
 	it('entityMap has all the entities', () => {
 		const links = entityMap['links'];
 		const multiple = entityMap['one with multiple words'];
-		const inline = entityMap['inline links'];
+		const inline = entityMap['http://www.google.com#inline'];
 
 		expect(Object.keys(entityMap).length).toEqual(3);
 
@@ -420,7 +420,7 @@ describe('RSTToDraftState', () => {
 
 			expect(entityRanges.length).toEqual(1);
 
-			expect(entityRanges[0].key).toEqual('inline links');
+			expect(entityRanges[0].key).toEqual('http://www.google.com#inline');
 			expect(entityRanges[0].offset).toEqual(19);
 			expect(entityRanges[0].length).toEqual(12);
 		});

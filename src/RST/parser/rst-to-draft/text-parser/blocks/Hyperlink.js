@@ -17,7 +17,7 @@ function parseTargetFrom (text) {
 	return {
 		name,
 		href,
-		key: normalizeEntityName(name)
+		key: href ? normalizeEntityName(href) : normalizeEntityName(name)
 	};
 }
 
