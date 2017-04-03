@@ -4,28 +4,27 @@ import getRangesForDraftEntity from 'draft-js/lib/getRangesForDraftEntity';
 
 
 function findRangeForBlock (block, entityKey, predicate) {
-	const ranges = getRangesForDraftEntity(block, entityKey);
+	try {
+		const ranges = getRangesForDraftEntity(block, entityKey);
 
-	for (let range of ranges) {
-		if (predicate(range)) {
-			return range;
+		for (let range of ranges) {
+			if (predicate(range)) {
+				return range;
+			}
 		}
+	} catch (e) {
+		return null;
 	}
+
 }
 
 
 function getStartOfSelection (range, block, entityKey, content) {
 	const start = {key: block.key, offset: range.start};
-
-	if (range.start !== 0) {
-		return start;
-	}
-
-	const prevBlock = content.getBlockBefore(block.key);
-	const prevRange = prevBlock && findRangeForBlock(prevBlock, entityKey, r => r.end === prevBlock.text.length - 1);
+	const prevRange = block && findRangeForBlock(block, entityKey, r => r.end === range.start);
 
 	if (prevRange) {
-		return getStartOfSelection(prevRange, prevBlock, entityKey, content);
+		return getStartOfSelection(prevRange, block, entityKey, content);
 	}
 
 	return start;
@@ -34,16 +33,10 @@ function getStartOfSelection (range, block, entityKey, content) {
 
 function getEndOfSelection (range, block, entityKey, content) {
 	const end = {key: block.key, offset: range.end};
-
-	if (range.end !== (block.text.length - 1)) {
-		return end;
-	}
-
-	const nextBlock = content.getBlockAfter(block.key);
-	const nextRange = nextBlock && findRangeForBlock(nextBlock, entityKey, r => r.start === 0);
+	const nextRange = block && findRangeForBlock(block, entityKey, r => r.start === range.end);
 
 	if (nextRange) {
-		return getEndOfSelection(nextRange, nextBlock, entityKey, content);
+		return getEndOfSelection(nextRange, block, entityKey, content);
 	}
 
 	return end;

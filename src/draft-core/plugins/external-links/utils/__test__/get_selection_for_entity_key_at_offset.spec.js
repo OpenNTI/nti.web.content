@@ -60,7 +60,7 @@ function getStateAndOffsetKey (raw) {
 
 
 describe('get-selection-for-entity-key-at-offset', () => {
-	describe('Single Block Single Entity', () => {
+	describe('Single Entity Range', () => {
 		it('Start of block', () => {
 			const {state, offsetKeys, blockKeys} = getStateAndOffsetKey({
 				blocks: [
@@ -149,7 +149,7 @@ describe('get-selection-for-entity-key-at-offset', () => {
 		});
 	});
 
-	describe('Single Block Multiple Entities', () => {
+	describe('Single Entity, Multiple Non-consecutive Entity Ranges', () => {
 		let state = null;
 		let offsetKeys = null;
 		let blockKeys = null;
@@ -212,6 +212,56 @@ describe('get-selection-for-entity-key-at-offset', () => {
 
 			expect(selection.getEndKey()).toEqual(blockKeys[0]);
 			expect(selection.getEndOffset()).toEqual(77);
+		});
+	});
+
+
+	describe('Single Entity, Multiple Consecutive Entity Ranges', () => {
+		let state = null;
+		let offsetKeys = null;
+		let blockKeys = null;
+
+		beforeEach(() => {
+			const {state:s, offsetKeys:o, blockKeys:b} = getStateAndOffsetKey({
+				blocks: [
+					{
+						type: BLOCKS.UNSTYLED,
+						depth: 0,
+						text: 'This has a link that is more than one range',
+						inlineStyleRanges: [],
+						entityRanges: [
+							{offset: 11, length: 10, key: 0},
+							{offset: 21, length: 12, key: 0},
+							{offset: 33, length: 10, key: 0}
+						]
+					}
+				],
+				entityMap: {
+					0: {
+						type: ENTITIES.LINK,
+						mutability: MUTABILITY.MUTABLE,
+						data: {name: 0, href: 'http://www.google.com'}
+					}
+				}
+			});
+
+			state = s;
+			offsetKeys = o;
+			blockKeys = b;
+		});
+
+		it('Fist Range', () => {
+			const selection = getSelectionForEntityKeyAtOffset(0, offsetKeys[0], state);
+
+			expect(selection.getStartKey()).toEqual(blockKeys[0]);
+			expect(selection.getStartOffset()).toEqual(11);
+
+			expect(selection.getEndKey()).toEqual(blockKeys[0]);
+			expect(selection.getEndOffset()).toEqual(43);
+		});
+
+		it('Draft collapses the ranges into one', () => {
+			expect(offsetKeys.length).toEqual(1);
 		});
 	});
 });
