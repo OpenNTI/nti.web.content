@@ -1,68 +1,13 @@
-import React from 'react';
-import {Editor, EditorState, Entity, convertFromRaw, CompositeDecorator} from 'draft-js';
-import {mount} from 'enzyme';
-
 import {BLOCKS, ENTITIES, MUTABILITY} from '../../../../Constants';
 import getSelectionForEntityKeyAtOffset from '../get-selection-for-entity-key-at-offset';
 
-const LINK_CLS = 'link-component';
-
-function findLinkEntities (contentBlock, callback) {
-	contentBlock.findEntityRanges(
-		(character) => {
-			const entityKey = character.getEntity();
-
-			return (
-				entityKey !== null &&
-				Entity.get(entityKey).getType() === 'LINK'
-			);
-		},
-		callback
-	);
-}
-
-Link.propTypes = {
-	offsetKey: React.PropTypes.string,
-	children: React.PropTypes.any
-};
-function Link ({offsetKey, children}) {
-	return (
-		<div className={LINK_CLS} data-offset-key={offsetKey}>
-			{children}
-		</div>
-	);
-}
-
-
-const decorator = new CompositeDecorator([
-	{
-		strategy: findLinkEntities,
-		component: Link
-	}
-]);
-
-
-function getEditorState (raw) {
-	return raw ? EditorState.createWithContent(convertFromRaw(raw), decorator) : EditorState.createEmpty(decorator);
-}
-
-
-function getStateAndOffsetKey (raw) {
-	const state = getEditorState(raw);
-	const wrapper = mount((<Editor editorState={state} />));
-	const link = wrapper.find(`.${LINK_CLS}`);
-	const offsetKeys = link.map(x => x.prop('data-offset-key'));
-	const blockKeys = state.getCurrentContent().getBlocksAsArray().map(x => x.key);
-
-	return {state, offsetKeys, blockKeys};
-}
-
+import {getStateAndOffsetKeys} from './utils';
 
 
 describe('get-selection-for-entity-key-at-offset', () => {
 	describe('Single Entity Range', () => {
 		it('Start of block', () => {
-			const {state, offsetKeys, blockKeys} = getStateAndOffsetKey({
+			const {state, offsetKeys, blockKeys} = getStateAndOffsetKeys({
 				blocks: [
 					{
 						type: BLOCKS.UNSTYLED,
@@ -91,7 +36,7 @@ describe('get-selection-for-entity-key-at-offset', () => {
 		});
 
 		it('Middle of block', () => {
-			const {state, offsetKeys, blockKeys} = getStateAndOffsetKey({
+			const {state, offsetKeys, blockKeys} = getStateAndOffsetKeys({
 				blocks: [
 					{
 						type: BLOCKS.UNSTYLED,
@@ -120,7 +65,7 @@ describe('get-selection-for-entity-key-at-offset', () => {
 		});
 
 		it('End of block', () => {
-			const {state, offsetKeys, blockKeys} = getStateAndOffsetKey({
+			const {state, offsetKeys, blockKeys} = getStateAndOffsetKeys({
 				blocks: [
 					{
 						type: BLOCKS.UNSTYLED,
@@ -155,7 +100,7 @@ describe('get-selection-for-entity-key-at-offset', () => {
 		let blockKeys = null;
 
 		beforeEach(() => {
-			const {state:s, offsetKeys:o, blockKeys:b} = getStateAndOffsetKey({
+			const {state:s, offsetKeys:o, blockKeys:b} = getStateAndOffsetKeys({
 				blocks: [
 					{
 						type: BLOCKS.UNSTYLED,
@@ -222,7 +167,7 @@ describe('get-selection-for-entity-key-at-offset', () => {
 		let blockKeys = null;
 
 		beforeEach(() => {
-			const {state:s, offsetKeys:o, blockKeys:b} = getStateAndOffsetKey({
+			const {state:s, offsetKeys:o, blockKeys:b} = getStateAndOffsetKeys({
 				blocks: [
 					{
 						type: BLOCKS.UNSTYLED,
