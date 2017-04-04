@@ -108,7 +108,14 @@ export default class ExternalLinkOverlay extends React.Component {
 				verticalAlign={Flyout.ALIGNMENTS.BOTTOM}
 				horizontalAlign={Flyout.ALIGNMENTS.LEFT}
 			>
-				<Editor entityKey={entityKey} offsetKey={entityCmp.offsetKey} store={store} selection={selection} getEditorState={getEditorState} setEditorState={setEditorState} />
+				<Editor
+					entityKey={entityKey}
+					offsetKey={entityCmp.offsetKey}
+					decoratedText={entityCmp.decoratedText}
+					store={store} selection={selection}
+					getEditorState={getEditorState}
+					setEditorState={setEditorState}
+				/>
 			</Flyout.Aligned>
 		);
 	}

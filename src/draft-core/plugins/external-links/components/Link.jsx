@@ -12,6 +12,7 @@ export default class ExternalLink extends React.Component {
 		entityKey: React.PropTypes.string,
 		children: React.PropTypes.any,
 		offsetKey: React.PropTypes.string,
+		decoratedText: React.PropTypes.string,
 		store: React.PropTypes.shape({
 			addListener: React.PropTypes.func,
 			removeListener: React.PropTypes.func
@@ -31,6 +32,11 @@ export default class ExternalLink extends React.Component {
 
 	get offsetKey () {
 		return this.props.offsetKey;
+	}
+
+
+	get decoratedText () {
+		return this.props.decoratedText;
 	}
 
 

@@ -7,11 +7,12 @@ import {Button} from 'nti-web-commons';
 
 import {EditingEntityKey} from '../Constants';
 import {getEventFor} from '../../Store';
-import {getFullHref, removeEntityKeyAtOffset} from '../utils';
+import {getFullHref, removeEntityKeyAtOffset, replaceEntityTextAtOffset} from '../utils';
 
 
 const DEFAULT_TEXT = {
-	urlLabel: 'Link',
+	urlLabel: 'URL',
+	displayLabel: 'Display Text',
 	save: 'Save',
 	remove: 'Remove',
 	edit: 'Change',
@@ -28,6 +29,7 @@ export default class ExternalLinkEditor extends React.Component {
 	static propTypes = {
 		entityKey: React.PropTypes.string,
 		offsetKey: React.PropTypes.string,
+		decoratedText: React.PropTypes.string,
 		store: React.PropTypes.shape({
 			setItem: React.PropTypes.func,
 			addListener: React.PropTypes.func,
@@ -43,15 +45,16 @@ export default class ExternalLinkEditor extends React.Component {
 	constructor (props) {
 		super(props);
 
-		const {entityKey} = this.props;
+		const {entityKey, decoratedText} = this.props;
 		const entity = Entity.get(entityKey);
 		const {data} = entity;
 
 		this.state = {
 			entity,
+			decoratedText,
 			editing: !data.href,
 			href: data.href || '',
-			fullHref: getFullHref(data.href || '')
+			fullHref: getFullHref(data.href || ''),
 		};
 	}
 
@@ -98,17 +101,26 @@ export default class ExternalLinkEditor extends React.Component {
 	}
 
 
-	onHrefFocus = () => {
+	onInputFocus = () => {
 		this.setEditing();
+
+		this.isFocused = true;
 	}
 
 
-	onHrefBlur = () => {
-		this.setNotEditing();
+	onInputBlur = () => {
+		this.isFocused = false;
+
+		//Wait to see if we can focus
+		setTimeout(() => {
+			if (!this.isFocused) {
+				this.setNotEditing();
+			}
+		});
 	}
 
 
-	onHrefChange = (e) => {
+	onURLChange = (e) => {
 		this.setState({
 			href: e.target.value,
 			fullHref: getFullHref(e.target.value),
@@ -117,9 +129,19 @@ export default class ExternalLinkEditor extends React.Component {
 	}
 
 
-	saveHref = () => {
-		const {entityKey} = this.props;
-		const {fullHref} = this.state;
+	onDecoratedTextChange = (e) => {
+		this.setState({
+			decoratedText: e.target.value
+		});
+	}
+
+
+	onSave = () => {
+		const {entityKey, decoratedText:oldText} = this.props;
+		const {fullHref, decoratedText:newText} = this.state;
+
+		//Set this to true so we keep focus until we are done saving
+		this.isFocused = true;
 
 		if (this.validator && this.validator.validity && !this.validator.validity.valid) {
 			this.setState({
@@ -127,8 +149,21 @@ export default class ExternalLinkEditor extends React.Component {
 			});
 		} else {
 			Entity.mergeData(entityKey, {href: fullHref});
+
+			if (newText !== oldText) {
+				this.replaceText(newText || fullHref);
+			}
+
 			this.setNotEditing();
 		}
+	}
+
+
+	replaceText (text) {
+		const {getEditorState, setEditorState, entityKey, offsetKey} = this.props;
+		const newState = replaceEntityTextAtOffset(text, entityKey, offsetKey, getEditorState());
+
+		setEditorState(newState);
 	}
 
 
@@ -140,6 +175,9 @@ export default class ExternalLinkEditor extends React.Component {
 	removeEntity = () => {
 		const {getEditorState, setEditorState, entityKey, offsetKey} = this.props;
 		const newState = removeEntityKeyAtOffset(entityKey, offsetKey, getEditorState());
+
+		//Set this to true so we can keep focus until we are done saving
+		this.isFocused = true;
 
 		setEditorState(newState);
 		this.setNotEditing();
@@ -162,7 +200,7 @@ export default class ExternalLinkEditor extends React.Component {
 
 
 	renderEditor = () => {
-		const {href, fullHref, error} = this.state;
+		const {href, fullHref, decoratedText, error} = this.state;
 		const cls = cx('editor', {error});
 
 		return (
@@ -171,10 +209,14 @@ export default class ExternalLinkEditor extends React.Component {
 				<label>
 					<span>{t('urlLabel')}</span>
 					<input type="url" value={fullHref} ref={this.attachValidatorRef} readOnly/>
-					<input type="text" onFocus={this.onHrefFocus} onBlur={this.onHrefBlur} onChange={this.onHrefChange} value={href} ref={focusElement} />
+					<input type="text" onFocus={this.onInputFocus} onBlur={this.onInputBlur} onChange={this.onURLChange} value={href} ref={focusElement} />
+				</label>
+				<label>
+					<span>{t('displayLabel')}</span>
+					<input type="text" value={decoratedText} onFocus={this.onInputFocus} onBlur={this.onInputBlur} onChange={this.onDecoratedTextChange} />
 				</label>
 				<div className="buttons" onMouseDown={stop}>
-					<Button onClick={this.saveHref}>{t('save')}</Button>
+					<Button onClick={this.onSave} disabled={!href}>{t('save')}</Button>
 					<Button onClick={this.removeEntity}>{t('remove')}</Button>
 				</div>
 			</div>
