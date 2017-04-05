@@ -21,10 +21,16 @@ function findRangeForBlock (block, entityKey, predicate) {
 
 function getStartOfSelection (range, block, entityKey, content) {
 	const start = {key: block.key, offset: range.start};
-	const prevRange = block && findRangeForBlock(block, entityKey, r => r.end === range.start);
+
+	if (range.start !== 0) {
+		return start;
+	}
+
+	const prevBlock = content.getBlockBefore(block.key);
+	const prevRange = prevBlock && findRangeForBlock(prevBlock, entityKey, r => r.end === prevBlock.text.length);
 
 	if (prevRange) {
-		return getStartOfSelection(prevRange, block, entityKey, content);
+		return getStartOfSelection(prevRange, prevBlock, entityKey, content);
 	}
 
 	return start;
@@ -33,10 +39,16 @@ function getStartOfSelection (range, block, entityKey, content) {
 
 function getEndOfSelection (range, block, entityKey, content) {
 	const end = {key: block.key, offset: range.end};
-	const nextRange = block && findRangeForBlock(block, entityKey, r => r.start === range.end);
+
+	if (range.end !== block.text.length) {
+		return end;
+	}
+
+	const nextBlock = content.getBlockAfter(block.key);
+	const nextRange = nextBlock && findRangeForBlock(nextBlock, entityKey, r => r.start === range.end);
 
 	if (nextRange) {
-		return getEndOfSelection(nextRange, block, entityKey, content);
+		return getEndOfSelection(nextRange, nextBlock, entityKey, content);
 	}
 
 	return end;

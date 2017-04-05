@@ -4,21 +4,7 @@
 	color: $primary-blue;
 	text-decoration: none;
 
-	&.focused {
-		position: relative;
-
-		.tooltip-container {
-			position: absolute;
-			top: 100%;
-			left: 0;
-			width: 200px;
-			background: white;
-			border: 1px solid black;
-
-			//TODO: figure out how not to have to fight specificity here
-			.content-editing-editor-container .content-editing-rst-editor .DraftEditor-root & {
-				margin: 0;
-			}
-		}
+	&.editing {
+		background-color: $border-grey;
 	}
 }

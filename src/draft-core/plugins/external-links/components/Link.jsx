@@ -2,10 +2,11 @@ import React from 'react';
 import cx from 'classnames';
 import {Entity} from 'draft-js';
 
-import {SelectedEntityKey} from '../Constants';
+import {SelectedEntityKey, EditingEntityKey} from '../Constants';
 import {getEventFor} from '../../Store';
 
-const eventName = getEventFor(SelectedEntityKey);
+const selectedEntityKeyEvent = getEventFor(SelectedEntityKey);
+const editingEntityKeyEvent = getEventFor(EditingEntityKey);
 
 export default class ExternalLink extends React.Component {
 	static propTypes = {
@@ -47,12 +48,17 @@ export default class ExternalLink extends React.Component {
 	}
 
 
+	events = {
+		[selectedEntityKeyEvent]: x => this.onSelectedEntityKeyChanged(x),
+		[editingEntityKeyEvent]: x => this.onEditingEntityKeyChanged(x)
+	}
+
+
 	componentDidMount () {
 		const {store, entityKey} = this.props;
 
 		if (store) {
-			store.removeListener(eventName, this.onSelectedEntityKeyChanged);
-			store.addListener(eventName, this.onSelectedEntityKeyChanged);
+			store.addListeners(this.events);
 
 			const cmps = store.getItem(entityKey) || [];
 
@@ -65,7 +71,7 @@ export default class ExternalLink extends React.Component {
 		const {store, entityKey} = this.props;
 
 		if (store) {
-			store.removeListener(eventName, this.onSelectedEntityKeyChanged);
+			store.removeListeners(this.events);
 
 			const cmps = store.getItem(entityKey) || [];
 
@@ -87,10 +93,20 @@ export default class ExternalLink extends React.Component {
 	}
 
 
+	onEditingEntityKeyChanged = (editingKey) => {
+		const {entityKey} = this.props;
+
+		this.setState({
+			editing: entityKey === editingKey
+		});
+	}
+
+
 	render () {
 		const {children} = this.props;
+		const {focused, editing} = this.state;
 		const {url} = this.entityData;
-		const cls = cx('draft-core-external-link', {focused: true});
+		const cls = cx('draft-core-external-link', {focused, editing});
 
 		return (
 			<a href={url} className={cls} ref={this.setAnchorRef}>
