@@ -112,8 +112,13 @@ export default class ExternalLinkEditor extends React.Component {
 
 	setNotEditing () {
 		const {store} = this.props;
+		const {fullHref, newLink} = this.state;
 
 		store.setItem(EditingEntityKey, null);
+
+		if (newLink && !fullHref) {
+			this.doRemove();
+		}
 	}
 
 
@@ -152,18 +157,19 @@ export default class ExternalLinkEditor extends React.Component {
 	}
 
 
-	onSave = () => {
+	doRemove () {
+		const {getEditorState, setEditorState, entityKey, offsetKey} = this.props;
+		const newState = removeEntityKeyAtOffset(entityKey, offsetKey, getEditorState());
+
+		setEditorState(newState);
+	}
+
+
+	doSave () {
 		const {entityKey, decoratedText:oldText} = this.props;
 		const {fullHref, decoratedText:newText, newLink} = this.state;
 
-		//Set this to true so we keep focus until we are done saving
-		this.isFocused = true;
-
-		if (this.validator && this.validator.validity && !this.validator.validity.valid) {
-			this.setState({
-				error: t('invalid')
-			});
-		} else if (newLink) {
+		if (newLink) {
 			this.createNewLink(fullHref);
 
 			this.setNotEditing();
@@ -173,6 +179,20 @@ export default class ExternalLinkEditor extends React.Component {
 			if (newText !== oldText) {
 				this.replaceText(newText || fullHref);
 			}
+		}
+	}
+
+
+	onSave = () => {
+		//Set this to true so we keep focus until we are done saving
+		this.isFocused = true;
+
+		if (this.validator && this.validator.validity && !this.validator.validity.valid) {
+			this.setState({
+				error: t('invalid')
+			});
+		} else {
+			this.doSave();
 
 			this.setNotEditing();
 		}
@@ -201,13 +221,11 @@ export default class ExternalLinkEditor extends React.Component {
 
 
 	removeEntity = () => {
-		const {getEditorState, setEditorState, entityKey, offsetKey} = this.props;
-		const newState = removeEntityKeyAtOffset(entityKey, offsetKey, getEditorState());
-
 		//Set this to true so we can keep focus until we are done saving
 		this.isFocused = true;
 
-		setEditorState(newState);
+		this.doRemove();
+
 		this.setNotEditing();
 	}
 
