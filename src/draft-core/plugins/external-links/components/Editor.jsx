@@ -273,8 +273,8 @@ export default class ExternalLinkEditor extends React.Component {
 					)
 				}
 				<div className="buttons" onMouseDown={stop}>
-					<Button onClick={this.onSave} disabled={!href}>{t('save')}</Button>
 					<Button onClick={this.onCancel}>{t('cancel')}</Button>
+					<Button onClick={this.onSave} disabled={!href}>{t('save')}</Button>
 				</div>
 			</div>
 		);
@@ -285,10 +285,10 @@ export default class ExternalLinkEditor extends React.Component {
 		const {href} = this.state;
 
 		return (
-			<div onMouseDown={stop}>
-				<span>{href}</span>
-				<span onClick={this.onEdit}>{t('edit')}</span>
-				<span onClick={this.onRemove}>{t('remove')}</span>
+			<div className="info" onMouseDown={stop}>
+				<span className="link">{href}</span>
+				<span className="edit" onClick={this.onEdit}>{t('edit')}</span>
+				<span className="remove" onClick={this.onRemove}>{t('remove')}</span>
 			</div>
 		);
 	}

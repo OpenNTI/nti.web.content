@@ -4,4 +4,25 @@
 	input[type=url] {
 		display: none;
 	}
+
+	.info {
+		padding: rem-calc(14px 20px);
+		font: normal 400 0.875rem/1 $body-font-family;
+
+		.link {
+			color: $secondary-grey;
+		}
+
+		.link, .edit {
+			margin-right: 1rem;
+		}
+
+		.edit, .remove {
+			color: $primary-blue;
+			cursor: pointer;
+			font-size: 0.625rem;
+			font-weight: bold;
+			text-transform: uppercase;
+		}
+	}
 }
