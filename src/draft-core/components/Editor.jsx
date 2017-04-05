@@ -11,6 +11,8 @@ import {getCurrentLink, getCurrentBlockType, createLink} from '../utils';
 
 const CONTENT_CHANGE_BUFFER = 1000;
 
+//TODO: move the allowed(InlineStyle, BlockTypes, Links) to plugins instead of props
+
 export default class DraftCoreEditor extends React.Component {
 	static propTypes = {
 		className: React.PropTypes.string,

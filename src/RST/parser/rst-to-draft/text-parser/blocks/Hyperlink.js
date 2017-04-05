@@ -14,12 +14,17 @@ function parseTargetFrom (text) {
 	const name = matches ? matches[1] : text;
 	const href = matches && matches[2];
 
+	parseTargetFrom.idGen += 1;
+
 	return {
 		name,
 		href,
-		key: href ? normalizeEntityName(href) : normalizeEntityName(name)
+		key: href ? parseTargetFrom.idGen : normalizeEntityName(name)
 	};
 }
+
+
+parseTargetFrom.idGen = 0;
 
 
 export default class Target {

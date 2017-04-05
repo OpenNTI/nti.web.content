@@ -1,13 +1,17 @@
 import React from 'react';
 import cx from 'classnames';
 import {Entity} from 'draft-js';
-import {focusElement} from 'nti-lib-dom';
 import {scoped} from 'nti-lib-locale';
 import {Button} from 'nti-web-commons';
 
 import {EditingEntityKey} from '../Constants';
 import {getEventFor} from '../../Store';
-import {getFullHref, removeEntityKeyAtOffset, replaceEntityTextAtOffset} from '../utils';
+import {
+	getFullHref,
+	removeEntityKeyAtOffset,
+	replaceEntityTextAtOffset,
+	createNewLinkAtOffset
+} from '../utils';
 
 
 const DEFAULT_TEXT = {
@@ -40,6 +44,7 @@ export default class ExternalLinkEditor extends React.Component {
 	}
 
 
+	attachURLInputRef = x => this.urlInput = x
 	attachValidatorRef = x => this.validator = x
 
 	constructor (props) {
@@ -52,6 +57,7 @@ export default class ExternalLinkEditor extends React.Component {
 		this.state = {
 			entity,
 			decoratedText,
+			newLink: !data.href,
 			editing: !data.href,
 			href: data.href || '',
 			fullHref: getFullHref(data.href || ''),
@@ -61,10 +67,15 @@ export default class ExternalLinkEditor extends React.Component {
 
 	componentDidMount () {
 		const {store} = this.props;
+		const {editing} = this.state;
 
 		if (store) {
 			store.removeListener(editingEntityKeyEvent, this.onEditingEntityKeyChange);
 			store.addListener(editingEntityKeyEvent, this.onEditingEntityKeyChange);
+		}
+
+		if (editing) {
+			this.setEditing();
 		}
 	}
 
@@ -80,9 +91,14 @@ export default class ExternalLinkEditor extends React.Component {
 
 	onEditingEntityKeyChange = (key) => {
 		const {entityKey} = this.props;
+		const editing = entityKey === key;
 
 		this.setState({
-			editing: entityKey === key
+			editing
+		}, () => {
+			if (this.urlInput) {
+				this.urlInput.focus();
+			}
 		});
 	}
 
@@ -138,7 +154,7 @@ export default class ExternalLinkEditor extends React.Component {
 
 	onSave = () => {
 		const {entityKey, decoratedText:oldText} = this.props;
-		const {fullHref, decoratedText:newText} = this.state;
+		const {fullHref, decoratedText:newText, newLink} = this.state;
 
 		//Set this to true so we keep focus until we are done saving
 		this.isFocused = true;
@@ -147,6 +163,11 @@ export default class ExternalLinkEditor extends React.Component {
 			this.setState({
 				error: t('invalid')
 			});
+		} else if (newLink) {
+			debugger;
+			this.createNewLink(fullHref);
+
+			this.setNotEditing();
 		} else {
 			Entity.mergeData(entityKey, {href: fullHref});
 
@@ -156,6 +177,14 @@ export default class ExternalLinkEditor extends React.Component {
 
 			this.setNotEditing();
 		}
+	}
+
+
+	createNewLink (link) {
+		const {getEditorState, setEditorState, entityKey, offsetKey} = this.props;
+		const newState = createNewLinkAtOffset(link, entityKey, offsetKey, getEditorState());
+
+		setEditorState(newState);
 	}
 
 
@@ -200,7 +229,7 @@ export default class ExternalLinkEditor extends React.Component {
 
 
 	renderEditor = () => {
-		const {href, fullHref, decoratedText, error} = this.state;
+		const {href, fullHref, decoratedText, error, newLink} = this.state;
 		const cls = cx('editor', {error});
 
 		return (
@@ -209,12 +238,17 @@ export default class ExternalLinkEditor extends React.Component {
 				<label>
 					<span>{t('urlLabel')}</span>
 					<input type="url" value={fullHref} ref={this.attachValidatorRef} readOnly/>
-					<input type="text" onFocus={this.onInputFocus} onBlur={this.onInputBlur} onChange={this.onURLChange} value={href} ref={focusElement} />
+					<input type="text" onFocus={this.onInputFocus} onBlur={this.onInputBlur} onChange={this.onURLChange} value={href} ref={this.attachURLInputRef} />
 				</label>
-				<label>
-					<span>{t('displayLabel')}</span>
-					<input type="text" value={decoratedText} onFocus={this.onInputFocus} onBlur={this.onInputBlur} onChange={this.onDecoratedTextChange} />
-				</label>
+				{newLink ?
+					null :
+					(
+						<label>
+							<span>{t('displayLabel')}</span>
+							<input type="text" value={decoratedText} onFocus={this.onInputFocus} onBlur={this.onInputBlur} onChange={this.onDecoratedTextChange} />
+						</label>
+					)
+				}
 				<div className="buttons" onMouseDown={stop}>
 					<Button onClick={this.onSave} disabled={!href}>{t('save')}</Button>
 					<Button onClick={this.removeEntity}>{t('remove')}</Button>
@@ -235,10 +269,3 @@ export default class ExternalLinkEditor extends React.Component {
 		);
 	}
 }
-
-
-//To delete get the block for the offset, find the range
-//for the entity, if its at the start or end look at the next
-//and previous blocks to see if they start or end with a entity
-//range for the same entity, build a selection and use RichUtils.toggleLink
-//to remove the ranges
