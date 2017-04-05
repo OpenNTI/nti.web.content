@@ -4,7 +4,7 @@ import {Entity} from 'draft-js';
 import {scoped} from 'nti-lib-locale';
 import {Button} from 'nti-web-commons';
 
-import {EditingEntityKey} from '../Constants';
+import {EditingEntityKey, SelectedEntityKey} from '../Constants';
 import {getEventFor} from '../../Store';
 import {
 	getFullHref,
@@ -18,8 +18,9 @@ const DEFAULT_TEXT = {
 	urlLabel: 'URL',
 	displayLabel: 'Display Text',
 	save: 'Save',
-	remove: 'Remove',
+	cancel: 'Cancel',
 	edit: 'Change',
+	remove: 'Remove',
 	invalid: 'Please enter a valid url.'
 };
 
@@ -115,6 +116,7 @@ export default class ExternalLinkEditor extends React.Component {
 		const {fullHref, newLink} = this.state;
 
 		store.setItem(EditingEntityKey, null);
+		store.setItem(SelectedEntityKey, null);
 
 		if (newLink && !fullHref) {
 			this.doRemove();
@@ -182,6 +184,21 @@ export default class ExternalLinkEditor extends React.Component {
 		}
 	}
 
+	createNewLink (link) {
+		const {getEditorState, setEditorState, entityKey, offsetKey} = this.props;
+		const newState = createNewLinkAtOffset(link, entityKey, offsetKey, getEditorState());
+
+		setEditorState(newState);
+	}
+
+
+	replaceText (text) {
+		const {getEditorState, setEditorState, entityKey, offsetKey} = this.props;
+		const newState = replaceEntityTextAtOffset(text, entityKey, offsetKey, getEditorState());
+
+		setEditorState(newState);
+	}
+
 
 	onSave = () => {
 		//Set this to true so we keep focus until we are done saving
@@ -199,19 +216,8 @@ export default class ExternalLinkEditor extends React.Component {
 	}
 
 
-	createNewLink (link) {
-		const {getEditorState, setEditorState, entityKey, offsetKey} = this.props;
-		const newState = createNewLinkAtOffset(link, entityKey, offsetKey, getEditorState());
-
-		setEditorState(newState);
-	}
-
-
-	replaceText (text) {
-		const {getEditorState, setEditorState, entityKey, offsetKey} = this.props;
-		const newState = replaceEntityTextAtOffset(text, entityKey, offsetKey, getEditorState());
-
-		setEditorState(newState);
+	onCancel = () => {
+		this.setNotEditing();
 	}
 
 
@@ -220,7 +226,7 @@ export default class ExternalLinkEditor extends React.Component {
 	}
 
 
-	removeEntity = () => {
+	onRemove = () => {
 		//Set this to true so we can keep focus until we are done saving
 		this.isFocused = true;
 
@@ -268,7 +274,7 @@ export default class ExternalLinkEditor extends React.Component {
 				}
 				<div className="buttons" onMouseDown={stop}>
 					<Button onClick={this.onSave} disabled={!href}>{t('save')}</Button>
-					<Button onClick={this.removeEntity}>{t('remove')}</Button>
+					<Button onClick={this.onCancel}>{t('cancel')}</Button>
 				</div>
 			</div>
 		);
@@ -282,6 +288,7 @@ export default class ExternalLinkEditor extends React.Component {
 			<div onMouseDown={stop}>
 				<span>{href}</span>
 				<span onClick={this.onEdit}>{t('edit')}</span>
+				<span onClick={this.onRemove}>{t('remove')}</span>
 			</div>
 		);
 	}
