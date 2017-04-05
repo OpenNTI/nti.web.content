@@ -164,7 +164,6 @@ export default class ExternalLinkEditor extends React.Component {
 				error: t('invalid')
 			});
 		} else if (newLink) {
-			debugger;
 			this.createNewLink(fullHref);
 
 			this.setNotEditing();

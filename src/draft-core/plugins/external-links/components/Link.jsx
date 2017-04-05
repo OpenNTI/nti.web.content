@@ -54,11 +54,44 @@ export default class ExternalLink extends React.Component {
 	}
 
 
+	componentWillReceiveProps (nextProps) {
+		const {entityKey:oldKey} = this.props;
+		const {entityKey:newKey} = nextProps;
+
+		if (newKey !== oldKey) {
+			this.unregisterCmp(this.props);
+			this.registerCmp(nextProps);
+		}
+	}
+
+
 	componentDidMount () {
-		const {store, entityKey} = this.props;
+		const {store} = this.props;
 
 		if (store) {
 			store.addListeners(this.events);
+
+			this.registerCmp();
+		}
+	}
+
+
+	componentWillUnmount () {
+		const {store} = this.props;
+
+		if (store) {
+			store.removeListeners(this.events);
+
+			this.unregisterCmp();
+		}
+	}
+
+
+	registerCmp (props = this.props) {
+		const {store, entityKey} = props;
+
+		if (store) {
+			this.unregisterCmp();
 
 			const cmps = store.getItem(entityKey) || [];
 
@@ -67,15 +100,18 @@ export default class ExternalLink extends React.Component {
 	}
 
 
-	componentWillUnmount () {
-		const {store, entityKey} = this.props;
+	unregisterCmp (props = this.props) {
+		const {store, entityKey} = props;
 
 		if (store) {
-			store.removeListeners(this.events);
-
 			const cmps = store.getItem(entityKey) || [];
+			const newCmps = cmps.filter(x => x !== this);
 
-			store.clearItem(entityKey, cmps.filter(x => x !== this));
+			if (newCmps.length) {
+				store.setItem(entityKey, newCmps);
+			} else {
+				store.clearItem(entityKey);
+			}
 		}
 	}
 
