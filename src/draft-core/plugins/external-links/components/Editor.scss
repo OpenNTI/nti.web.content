@@ -25,4 +25,16 @@
 			text-transform: uppercase;
 		}
 	}
+
+	.editor {
+		padding: rem-calc(10px);
+
+		.url-input, .display-input {
+			margin-bottom: rem-calc(10px);
+
+			input {
+				width: 280px;
+			}
+		}
+	}
 }

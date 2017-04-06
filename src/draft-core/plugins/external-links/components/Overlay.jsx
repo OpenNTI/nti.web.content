@@ -103,6 +103,7 @@ export default class ExternalLinkOverlay extends React.Component {
 
 				visible={entityCmp && editor ? true : false}
 				arrow
+				alignToArrow
 				constrain
 
 				verticalAlign={Flyout.ALIGNMENTS.BOTTOM}

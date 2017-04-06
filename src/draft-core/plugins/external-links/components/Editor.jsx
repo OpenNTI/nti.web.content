@@ -2,7 +2,7 @@ import React from 'react';
 import cx from 'classnames';
 import {Entity} from 'draft-js';
 import {scoped} from 'nti-lib-locale';
-import {Button} from 'nti-web-commons';
+import {Button, Input} from 'nti-web-commons';
 
 import {EditingEntityKey, SelectedEntityKey} from '../Constants';
 import {getEventFor} from '../../Store';
@@ -46,7 +46,6 @@ export default class ExternalLinkEditor extends React.Component {
 
 
 	attachURLInputRef = x => this.urlInput = x
-	attachValidatorRef = x => this.validator = x
 
 	constructor (props) {
 		super(props);
@@ -143,22 +142,6 @@ export default class ExternalLinkEditor extends React.Component {
 	}
 
 
-	onURLChange = (e) => {
-		this.setState({
-			href: e.target.value,
-			fullHref: getFullHref(e.target.value),
-			error: null
-		});
-	}
-
-
-	onDecoratedTextChange = (e) => {
-		this.setState({
-			decoratedText: e.target.value
-		});
-	}
-
-
 	doRemove () {
 		const {getEditorState, setEditorState, entityKey, offsetKey} = this.props;
 		const newState = removeEntityKeyAtOffset(entityKey, offsetKey, getEditorState());
@@ -200,11 +183,27 @@ export default class ExternalLinkEditor extends React.Component {
 	}
 
 
+	onURLChange = (href, fullHref) => {
+		this.setState({
+			href,
+			fullHref,
+			error: null
+		});
+	}
+
+
+	onDecoratedTextChange = (decoratedText) => {
+		this.setState({
+			decoratedText
+		});
+	}
+
+
 	onSave = () => {
 		//Set this to true so we keep focus until we are done saving
 		this.isFocused = true;
 
-		if (this.validator && this.validator.validity && !this.validator.validity.valid) {
+		if (this.urlInput && !this.urlInput.validity.valid) {
 			this.setState({
 				error: t('invalid')
 			});
@@ -252,26 +251,14 @@ export default class ExternalLinkEditor extends React.Component {
 
 
 	renderEditor = () => {
-		const {href, fullHref, decoratedText, error, newLink} = this.state;
+		const {href, decoratedText, error, newLink} = this.state;
 		const cls = cx('editor', {error});
 
 		return (
 			<div className={cls}>
 				{error && (<div className="error">{error}</div>)}
-				<label>
-					<span>{t('urlLabel')}</span>
-					<input type="url" value={fullHref} ref={this.attachValidatorRef} readOnly/>
-					<input type="text" onFocus={this.onInputFocus} onBlur={this.onInputBlur} onChange={this.onURLChange} value={href} ref={this.attachURLInputRef} />
-				</label>
-				{newLink ?
-					null :
-					(
-						<label>
-							<span>{t('displayLabel')}</span>
-							<input type="text" value={decoratedText} onFocus={this.onInputFocus} onBlur={this.onInputBlur} onChange={this.onDecoratedTextChange} />
-						</label>
-					)
-				}
+				<Input.URL className="url-input" label={t('urlLabel')} value={href} onChange={this.onURLChange} onFocus={this.onInputFocus} onBlur={this.onInputBlur} ref={this.attachURLInputRef} />
+				{!newLink && (<Input.Text className="display-input" label={t('displayLabel')} value={decoratedText} onFocus={this.onInputFocus} onBlur={this.onInputBlur} onChange={this.onDecoratedTextChange} />)}
 				<div className="buttons" onMouseDown={stop}>
 					<Button onClick={this.onCancel}>{t('cancel')}</Button>
 					<Button onClick={this.onSave} disabled={!href}>{t('save')}</Button>
