@@ -1,14 +1,9 @@
-import {SelectionState, Entity, RichUtils} from 'draft-js';
-
-import {ENTITIES} from '../../../Constants';
+import {SelectionState, RichUtils} from 'draft-js';
 
 import replaceEntityTextAtSelection from './replace-entity-text-at-selection';
 import getSelectionForEntityKeyAtOffset from './get-selection-for-entity-key-at-offset';
+import createLink from './create-entity';
 
-
-function createLink (href) {
-	return Entity.create(ENTITIES.LINK, 'MUTABLE', {href});
-}
 
 function createLinkAtSelection (link, text, editorState, selection) {
 	const entity = createLink(link);
