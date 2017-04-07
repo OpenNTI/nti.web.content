@@ -1,3 +1,4 @@
+export createEntity from './create-entity';
 export createNewLinkAtOffset from './create-new-link-at-offset';
 export getCmpForState from './get-cmp-for-state';
 export getFullHref from './get-full-href';

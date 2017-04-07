@@ -1,27 +1,31 @@
 import React from 'react';
+import {RichUtils} from 'draft-js';
 import {wait} from 'nti-commons';
 
 import {createStore} from '../Store';
 
 import {SelectedEntityKey, EditingEntityKey} from './Constants';
 import strategy from './strategy';
-import {getSelectedEntityKey} from './utils';
+import {getSelectedEntityKey, createEntity} from './utils';
 import Link from './components/Link';
 import Overlay from './components/Overlay';
 
 
 export default (config = {}) => {
 	const store = createStore(config.initialState);
+	let createdEntity;
 
 	return {
 		onChange (editorState) {
 			const entityKey = getSelectedEntityKey(editorState);
 
+
 			//Wait an event pump to give subsequent events a chance
 			//to fire and set up the store appropriately
 			wait()
 				.then(() => {
-					store.setItem(SelectedEntityKey, entityKey);
+					store.setItem(SelectedEntityKey, entityKey || createdEntity);
+					createdEntity = null;
 				});
 
 
@@ -57,13 +61,18 @@ export default (config = {}) => {
 				get currentLink () {
 					return getSelectedEntityKey(getEditorState());
 				},
-				toggleLink: () => {
-					const selectedEntity = getSelectedEntityKey(getEditorState());
+				toggleLink: (link) => {
+					const editorState = getEditorState();
+					const selectedEntity = getSelectedEntityKey(editorState);
 
 					if (selectedEntity) {
 						store.setItem(EditingEntityKey, selectedEntity);
 					} else {
-						// setEditorState(createOrExpandEntity(getEditorState()));
+						const entity = createEntity(link);
+
+						createdEntity = entity;
+
+						setEditorState(RichUtils.toggleLink(editorState, editorState.getSelection(), entity));
 					}
 				}
 			};

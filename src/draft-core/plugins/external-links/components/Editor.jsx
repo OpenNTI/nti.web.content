@@ -61,7 +61,6 @@ export default class ExternalLinkEditor extends React.Component {
 			newLink: !data.href,
 			editing: !data.href,
 			href: data.href || '',
-			fullHref: getFullHref(data.href || ''),
 			isSingleBlock: isEntityAtOffsetInSingleBlock(entityKey, offsetKey, getEditorState())
 		};
 	}
