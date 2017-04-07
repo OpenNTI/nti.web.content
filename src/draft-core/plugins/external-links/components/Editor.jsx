@@ -10,7 +10,8 @@ import {
 	getFullHref,
 	removeEntityKeyAtOffset,
 	replaceEntityTextAtOffset,
-	createNewLinkAtOffset
+	createNewLinkAtOffset,
+	isEntityAtOffsetInSingleBlock
 } from '../utils';
 
 
@@ -50,7 +51,7 @@ export default class ExternalLinkEditor extends React.Component {
 	constructor (props) {
 		super(props);
 
-		const {entityKey, decoratedText} = this.props;
+		const {entityKey, decoratedText, offsetKey, getEditorState} = this.props;
 		const entity = Entity.get(entityKey);
 		const {data} = entity;
 
@@ -61,6 +62,7 @@ export default class ExternalLinkEditor extends React.Component {
 			editing: !data.href,
 			href: data.href || '',
 			fullHref: getFullHref(data.href || ''),
+			isSingleBlock: isEntityAtOffsetInSingleBlock(entityKey, offsetKey, getEditorState())
 		};
 	}
 
@@ -260,14 +262,14 @@ export default class ExternalLinkEditor extends React.Component {
 
 
 	renderEditor = () => {
-		const {href, decoratedText, error, newLink} = this.state;
+		const {href, decoratedText, error, isSingleBlock} = this.state;
 		const cls = cx('editor', {error});
 
 		return (
 			<div className={cls}>
 				{error && (<div className="error">{error}</div>)}
 				<Input.URL className="url-input" label={t('urlLabel')} value={href} onChange={this.onURLChange} onFocus={this.onInputFocus} onBlur={this.onInputBlur} ref={this.attachURLInputRef} />
-				{!newLink && (<Input.Text className="display-input" label={t('displayLabel')} value={decoratedText} onFocus={this.onInputFocus} onBlur={this.onInputBlur} onChange={this.onDecoratedTextChange} />)}
+				{isSingleBlock && (<Input.Text className="display-input" label={t('displayLabel')} value={decoratedText} onFocus={this.onInputFocus} onBlur={this.onInputBlur} onChange={this.onDecoratedTextChange} />)}
 				<div className="buttons" onMouseDown={stop}>
 					<Button className="cancel" onClick={this.onCancel} rounded secondary>{t('cancel')}</Button>
 					<Button className="save" onClick={this.onSave} rounded disabled={!href}>{t('save')}</Button>
