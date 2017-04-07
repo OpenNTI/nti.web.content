@@ -1,7 +1,25 @@
-import {SelectionState} from 'draft-js';
+import {SelectionState, Entity, RichUtils} from 'draft-js';
 
-import createLinkAtSelection from './create-link-at-selection';
+import {ENTITIES} from '../../../Constants';
+
+import replaceEntityTextAtSelection from './replace-entity-text-at-selection';
 import getSelectionForEntityKeyAtOffset from './get-selection-for-entity-key-at-offset';
+
+
+function createLink (href) {
+	return Entity.create(ENTITIES.LINK, 'MUTABLE', {href});
+}
+
+function createLinkAtSelection (link, text, editorState, selection) {
+	const entity = createLink(link);
+	const newState = RichUtils.toggleLink(editorState, selection, entity);
+
+	if (!text) {
+		return newState;
+	}
+
+	return replaceEntityTextAtSelection(text, entity, selection, editorState);
+}
 
 
 function createSelectionForBlock (block, start, end) {

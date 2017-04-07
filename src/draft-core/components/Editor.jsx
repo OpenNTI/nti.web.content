@@ -7,7 +7,7 @@ import {buffer} from 'nti-commons';
 
 import ContextProvider from '../ContextProvider';
 import fixStateForAllowed, {STYLE_SET, BLOCK_SET} from '../fixStateForAllowed';
-import {getCurrentLink, getCurrentBlockType, createLink} from '../utils';
+import {getCurrentBlockType} from '../utils';
 
 const CONTENT_CHANGE_BUFFER = 1000;
 
@@ -85,14 +85,6 @@ export default class DraftCoreEditor extends React.Component {
 		return new Set(this.props.allowedBlockTypes);
 	}
 
-	get allowLinks () {
-		const {allowLinks} = this.props;
-		const {editorState} = this;
-		const selection = editorState.getSelection();
-
-		return allowLinks && !selection.isCollapsed();
-	}
-
 
 	get currentInlineStyles () {
 		const {editorState} = this;
@@ -108,10 +100,18 @@ export default class DraftCoreEditor extends React.Component {
 	}
 
 
-	get currentLink () {
-		const {editorState} = this;
+	getPluginContext = () => {
+		const {plugins} = this.props;
+		let context = {};
 
-		return getCurrentLink(editorState);
+		for (let plugin of plugins) {
+			if (plugin.getContext) {
+				let pluginContext = plugin.getContext(() => this.getEditorState(), x => this.setEditorState(x), () => this.focus());
+				context = {...context, ...pluginContext};
+			}
+		}
+
+		return context;
 	}
 
 
@@ -205,18 +205,6 @@ export default class DraftCoreEditor extends React.Component {
 		});
 	}
 
-
-	toggleLink (link, reclaimFocus) {
-		const {editorState} = this;
-		const selection = editorState.getSelection();
-		const newState = RichUtils.toggleLink(editorState, selection, createLink(''));
-
-		this[INTERNAL_CHANGE](newState, () => {
-			if (reclaimFocus) {
-				this.focus();
-			}
-		});
-	}
 
 	[INTERNAL_CHANGE] (editorState, cb) {
 		const {plugins} = this.props;
@@ -338,7 +326,7 @@ export default class DraftCoreEditor extends React.Component {
 					</div>
 				</ContextProvider>
 				{pluginOverlays.length ?
-						pluginOverlays.map((x, index) => React.createElement(x, {key: index, getEditorState: this.getEditorState, setEditorState: this.setEditorState})) :
+						pluginOverlays.map((x, index) => React.createElement(x, {key: index, getEditorState: this.getEditorState, setEditorState: this.setEditorState, editor: this})) :
 						null
 				}
 			</div>
