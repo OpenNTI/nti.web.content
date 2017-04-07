@@ -163,12 +163,10 @@ export default class ExternalLinkEditor extends React.Component {
 
 	doSave () {
 		const {entityKey, decoratedText:oldText} = this.props;
-		const {fullHref, decoratedText:newText, newLink} = this.state;
+		const {fullHref, decoratedText:newText, newLink,} = this.state;
 
 		if (newLink) {
-			this.createNewLink(fullHref);
-
-			this.setNotEditing();
+			this.createNewLink(fullHref, oldText === newText ? null : newText || fullHref);
 		} else {
 			Entity.mergeData(entityKey, {href: fullHref});
 
@@ -176,11 +174,13 @@ export default class ExternalLinkEditor extends React.Component {
 				this.replaceText(newText || fullHref);
 			}
 		}
+
+		this.setNotEditing();
 	}
 
-	createNewLink (link) {
+	createNewLink (link, newText) {
 		const {getEditorState, setEditorState, entityKey, offsetKey} = this.props;
-		const newState = createNewLinkAtOffset(link, entityKey, offsetKey, getEditorState());
+		const newState = createNewLinkAtOffset(link, newText, entityKey, offsetKey, getEditorState());
 
 		setEditorState(newState);
 	}
