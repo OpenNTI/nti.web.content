@@ -18,27 +18,27 @@ function createSelectionForBlock (block, start, end) {
 	});
 }
 
-export default function createNewLinkAtOffset (link, entityKey, offsetKey, editorState) {
+export default function createNewLinkAtOffset (link, text, entityKey, offsetKey, editorState) {
 	const selection = getSelectionForEntityKeyAtOffset(entityKey, offsetKey, editorState);
 	const start = selection.getStartKey();
 	const end = selection.getEndKey();
 
 	if (start === end) {
-		return createLinkAtSelection(link, editorState, selection);
+		return createLinkAtSelection(link, text, editorState, selection);
 	}
 
 	const content = editorState.getCurrentContent();
 
-	let newState = createLinkAtSelection(link, editorState, createSelectionForBlock(content.getBlockForKey(start), selection.getStartOffset()));
+	let newState = createLinkAtSelection(link, void 0, editorState, createSelectionForBlock(content.getBlockForKey(start), selection.getStartOffset()));
 
 	let nextBlock = content.getBlockAfter(start);
 
 	while (nextBlock.key !== end) {
-		newState = createLinkAtSelection(link, newState, createSelectionForBlock(nextBlock));
+		newState = createLinkAtSelection(link, void 0, newState, createSelectionForBlock(nextBlock));
 		nextBlock = content.getBlockAfter(nextBlock.key);
 	}
 
-	newState = createLinkAtSelection(link, newState, createSelectionForBlock(content.getBlockForKey(end), 0, selection.getEndOffset()));
+	newState = createLinkAtSelection(link, void 0, newState, createSelectionForBlock(content.getBlockForKey(end), 0, selection.getEndOffset()));
 
 	return newState;
 }
