@@ -83,6 +83,11 @@ export default class ExternalLinkEditor extends React.Component {
 	componentWillUnmount () {
 		const {store} = this.props;
 
+		//There's apparently a race condition where the event fires before we remove
+		//the listener, but the component is unmounted so the set state in the handler
+		//is generating a warning.
+		this.didUnmount = true;
+
 		if (store) {
 			store.removeListener(editingEntityKeyEvent, this.onEditingEntityKeyChange);
 		}
@@ -90,6 +95,10 @@ export default class ExternalLinkEditor extends React.Component {
 
 
 	onEditingEntityKeyChange = (key) => {
+		if (this.didUnmount) {
+			return;
+		}
+
 		const {entityKey} = this.props;
 		const editing = entityKey === key;
 
