@@ -11,6 +11,8 @@ import {getCurrentLink, getCurrentBlockType, createLink} from '../utils';
 
 const CONTENT_CHANGE_BUFFER = 1000;
 
+const INTERNAL_CHANGE = Symbol('Internal Change');
+
 //TODO: move the allowed(InlineStyle, BlockTypes, Links) to plugins instead of props
 
 export default class DraftCoreEditor extends React.Component {
@@ -119,7 +121,7 @@ export default class DraftCoreEditor extends React.Component {
 
 
 	setEditorState = (state) => {
-		this.onChange(state);
+		this[INTERNAL_CHANGE](state);
 	}
 
 
@@ -184,7 +186,7 @@ export default class DraftCoreEditor extends React.Component {
 		const {editorState} = this;
 		const newState = RichUtils.toggleInlineStyle(editorState, style);
 
-		this.onChange(newState, () => {
+		this[INTERNAL_CHANGE](newState, () => {
 			if (reclaimFocus) {
 				this.focus();
 			}
@@ -196,7 +198,7 @@ export default class DraftCoreEditor extends React.Component {
 		const {editorState} = this;
 		const newState = RichUtils.toggleBlockType(editorState, type);
 
-		this.onChange(newState, () => {
+		this[INTERNAL_CHANGE](newState, () => {
 			if (reclaimFocus) {
 				this.focus();
 			}
@@ -209,11 +211,24 @@ export default class DraftCoreEditor extends React.Component {
 		const selection = editorState.getSelection();
 		const newState = RichUtils.toggleLink(editorState, selection, createLink(''));
 
-		this.onChange(newState, () => {
+		this[INTERNAL_CHANGE](newState, () => {
 			if (reclaimFocus) {
 				this.focus();
 			}
 		});
+	}
+
+	[INTERNAL_CHANGE] (editorState, cb) {
+		const {plugins} = this.props;
+		const pluginMethods = this.draftEditor && this.draftEditor.getPluginMethods();
+
+		for (let plugin of plugins) {
+			if (plugin.onChange) {
+				plugin.onChange(editorState, pluginMethods);
+			}
+		}
+
+		this.onChange(editorState, cb);
 	}
 
 
