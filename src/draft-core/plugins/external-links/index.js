@@ -3,7 +3,7 @@ import {wait} from 'nti-commons';
 
 import {createStore} from '../Store';
 
-import {SelectedEntityKey, EditorComponent} from './Constants';
+import {SelectedEntityKey, EditingEntityKey} from './Constants';
 import strategy from './strategy';
 import {getSelectedEntityKey} from './utils';
 import Link from './components/Link';
@@ -14,10 +14,6 @@ export default (config = {}) => {
 	const store = createStore(config.initialState);
 
 	return {
-		setEditor (editor) {
-			store.setItem(EditorComponent, editor);
-		},
-
 		onChange (editorState) {
 			const entityKey = getSelectedEntityKey(editorState);
 
@@ -47,6 +43,30 @@ export default (config = {}) => {
 			return (
 				<Overlay {...props} store={store} />
 			);
+		},
+
+
+		getContext (getEditorState, setEditorState) {
+			return {
+				get allowLinks () {
+					const editorState = getEditorState();
+					const selection = editorState.getSelection();
+
+					return selection && !selection.isCollapsed();
+				},
+				get currentLink () {
+					return getSelectedEntityKey(getEditorState());
+				},
+				toggleLink: () => {
+					const selectedEntity = getSelectedEntityKey(getEditorState());
+
+					if (selectedEntity) {
+						store.setItem(EditingEntityKey, selectedEntity);
+					} else {
+						// setEditorState(createOrExpandEntity(getEditorState()));
+					}
+				}
+			};
 		}
 	};
 };

@@ -8,25 +8,18 @@ const toggleBlockType = (x, editor) => editor && editor.toggleBlockType && edito
 const getAllowedBlockTypes = (editor) => (editor && editor.allowedBlockTypes) || null;
 const getCurrentBlockType = (editor) => (editor && editor.currentBlockType) || null;
 
-const toggleLink = (x, editor) => editor && editor.toggleLink && editor.toggleLink(x, true);
-const getAllowLinks = (editor) => (editor && editor.allowLinks) || null;
-const getCurrentLink = (editor) => (editor && editor.currentLink) || null;
-
-
 export default class ContextProvider extends React.Component {
 	static propTypes = {
 		editor: React.PropTypes.shape({
+			getPluginContext: React.PropTypes.func,
+
 			toggleInlineStyle: React.PropTypes.func,
 			getAllowedInlineStyles: React.PropTypes.func,
 			getCurrentInlineStyles: React.PropTypes.func,
 
 			toggleBlockType: React.PropTypes.func,
 			getAllowedBlockTypes: React.PropTypes.func,
-			getCurrentBlockType: React.PropTypes.string,
-
-			toggleLink: React.PropTypes.func,
-			getAllowLink: React.PropTypes.func,
-			getCurrentLink: React.PropTypes.func
+			getCurrentBlockType: React.PropTypes.string
 		}),
 		children: React.PropTypes.element,
 
@@ -41,17 +34,15 @@ export default class ContextProvider extends React.Component {
 		editorContext: React.PropTypes.shape({
 			editor: React.PropTypes.any,
 
+			plugins: React.PropTypes.object,
+
 			toggleInlineStyle: React.PropTypes.func,
 			allowedInlineStyles: React.PropTypes.object,
 			currentInlineStyles: React.PropTypes.object,
 
 			toggleBlockType: React.PropTypes.func,
 			allowedBlockTypes: React.PropTypes.object,
-			currentBlockType: React.PropTypes.string,
-
-			toggleLink: React.PropTypes.func,
-			allowLinks: React.PropTypes.bool,
-			currentLink: React.PropTypes.string
+			currentBlockType: React.PropTypes.string
 		})
 	}
 
@@ -66,10 +57,12 @@ export default class ContextProvider extends React.Component {
 
 	getChildContext () {
 		const editor = this.getEditor();
+		const pluginContext = editor && editor.getPluginContext();
 
 		return {
 			editorContext: {
 				editor,
+				plugins: pluginContext,
 				get editorState () { return editor && editor.editorState; },
 
 				toggleInlineStyle (x) { return toggleInlineStyle(x, editor); },
@@ -78,11 +71,7 @@ export default class ContextProvider extends React.Component {
 
 				toggleBlockType (x) { return toggleBlockType(x, editor); },
 				get allowedBlockTypes () { return getAllowedBlockTypes(editor); },
-				get currentBlockType () { return getCurrentBlockType(editor); },
-
-				toggleLink (x) { return toggleLink(x, editor); },
-				get allowLinks () { return getAllowLinks(editor); },
-				get currentLink () { return getCurrentLink(editor); }
+				get currentBlockType () { return getCurrentBlockType(editor); }
 			}
 		};
 	}

@@ -3,13 +3,12 @@ import {Flyout} from 'nti-web-commons';
 
 import {getEventFor} from '../../Store';
 import {getCmpForState} from '../utils';
-import {SelectedEntityKey, EditorComponent, EditingEntityKey} from '../Constants';
+import {SelectedEntityKey, EditingEntityKey} from '../Constants';
 
 import Editor from './Editor';
 
 const selectedEntityKeyEvent = getEventFor(SelectedEntityKey);
 const editingEntityKeyEvent = getEventFor(EditingEntityKey);
-const editorEvent = getEventFor(EditorComponent);
 
 export default class ExternalLinkOverlay extends React.Component {
 	static propTypes = {
@@ -18,7 +17,8 @@ export default class ExternalLinkOverlay extends React.Component {
 			removeListener: React.PropTypes.func
 		}),
 		getEditorState: React.PropTypes.func,
-		setEditorState: React.PropTypes.func
+		setEditorState: React.PropTypes.func,
+		editor: React.PropTypes.any
 	}
 
 
@@ -26,8 +26,7 @@ export default class ExternalLinkOverlay extends React.Component {
 
 	events = {
 		[selectedEntityKeyEvent]: (x) => this.onSelectedEntityKeyChanged(x),
-		[editingEntityKeyEvent]: (x) => this.onEditingEntityKeyChanged(x),
-		[editorEvent]: (x) => this.onEditorChanged(x)
+		[editingEntityKeyEvent]: (x) => this.onEditingEntityKeyChanged(x)
 	}
 
 
@@ -80,16 +79,9 @@ export default class ExternalLinkOverlay extends React.Component {
 	}
 
 
-	onEditorChanged = (editor) => {
-		this.setState({
-			editor
-		});
-	}
-
-
 	render () {
-		const {store, getEditorState, setEditorState} = this.props;
-		const {entityCmp, editor, entityKey, selection} = this.state;
+		const {store, getEditorState, setEditorState, editor} = this.props;
+		const {entityCmp, entityKey, selection} = this.state;
 
 		if (!entityCmp || !editor) {
 			return null;

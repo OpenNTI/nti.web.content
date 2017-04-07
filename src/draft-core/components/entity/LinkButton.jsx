@@ -7,9 +7,11 @@ const stop = e => (e.preventDefault(), e.stopPropagation());
 export default class LinkButton extends React.Component {
 	static contextTypes = {
 		editorContext: React.PropTypes.shape({
-			toggleLink: React.PropTypes.func.isRequired,
-			currentLink: React.PropTypes.string,
-			allowLinks: React.PropTypes.bool
+			plugins: React.PropTypes.shape({
+				toggleLink: React.PropTypes.func.isRequired,
+				currentLink: React.PropTypes.string,
+				allowLinks: React.PropTypes.bool
+			})
 		})
 	}
 
@@ -24,22 +26,27 @@ export default class LinkButton extends React.Component {
 	}
 
 
+	get pluginContext () {
+		return this.editorContext.plugins || {};
+	}
+
+
 	get isAllowed () {
-		const {allowLinks} = this.editorContext;
+		const {allowLinks} = this.pluginContext;
 
 		return allowLinks;
 	}
 
 
 	get isCurrent () {
-		const {currentLink} = this.editorContext;
+		const {currentLink} = this.pluginContext;
 
 		return !!currentLink;
 	}
 
 
 	onMouseDown = (e) => {
-		const {toggleLink} = this.editorContext;
+		const {toggleLink} = this.pluginContext;
 
 		if (e) {
 			e.preventDefault();
@@ -78,7 +85,7 @@ export default class LinkButton extends React.Component {
 		}
 
 		return (
-			<i className="icon-link" />
+			<i className="icon-hyperlink" />
 		);
 	}
 }
