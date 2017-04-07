@@ -1,20 +1,19 @@
 function getStartAndEnd (selection) {
-	let start = selection.getStartOffset();
-	let end = selection.getEndOffset();
+	const start = selection.getStartOffset();
+	const end = selection.getEndOffset();
 
-	//TODO: adjust the start and end indexes we look
-	//at to feel more natural
-
-	return {start, end};
+	return {start, end: end - 1};
 }
 
-export default function getSelectedEntityKey (editorState) {
-	const selection = editorState.getSelection();
 
-	if (!selection.getHasFocus()) { return void 0; }
+function getCollapsedSelectedEntityKey (selection, currentBlock) {
+	const start = selection.getStartOffset();
 
-	const content = editorState.getCurrentContent();
-	const currentBlock = content.getBlockForKey(selection.getStartKey());
+	return currentBlock.getEntityAt(start) || currentBlock.getEntityAt(start - 1);
+}
+
+
+function getExpandedSelectionEntityKey (selection, currentBlock) {
 	const {start, end} = getStartAndEnd(selection);
 
 	let entityKey = void 0;
@@ -40,4 +39,17 @@ export default function getSelectedEntityKey (editorState) {
 	}
 
 	return entityKey;
+}
+
+export default function getSelectedEntityKey (editorState) {
+	const selection = editorState.getSelection();
+
+	if (!selection.getHasFocus() || selection.getStartKey() !== selection.getEndKey()) { return void 0; }
+
+	const content = editorState.getCurrentContent();
+	const currentBlock = content.getBlockForKey(selection.getStartKey());
+
+	return selection.isCollapsed() ?
+			getCollapsedSelectedEntityKey(selection, currentBlock) :
+			getExpandedSelectionEntityKey(selection, currentBlock);
 }
