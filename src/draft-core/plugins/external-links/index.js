@@ -6,7 +6,7 @@ import {createStore} from '../Store';
 
 import {SelectedEntityKey, EditingEntityKey} from './Constants';
 import strategy from './strategy';
-import {getSelectedEntityKey, createEntity} from './utils';
+import {getSelectedEntityKey, createEntity, getFirstSelectedEntityHref} from './utils';
 import Link from './components/Link';
 import Overlay from './components/Overlay';
 
@@ -68,7 +68,7 @@ export default (config = {}) => {
 					if (selectedEntity) {
 						store.setItem(EditingEntityKey, selectedEntity);
 					} else {
-						const entity = createEntity(link);
+						const entity = createEntity(link || getFirstSelectedEntityHref(editorState));
 
 						createdEntity = entity;
 
