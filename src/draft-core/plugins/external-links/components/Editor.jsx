@@ -260,8 +260,8 @@ export default class ExternalLinkEditor extends React.Component {
 				<Input.URL className="url-input" label={t('urlLabel')} value={href} onChange={this.onURLChange} onFocus={this.onInputFocus} onBlur={this.onInputBlur} ref={this.attachURLInputRef} />
 				{!newLink && (<Input.Text className="display-input" label={t('displayLabel')} value={decoratedText} onFocus={this.onInputFocus} onBlur={this.onInputBlur} onChange={this.onDecoratedTextChange} />)}
 				<div className="buttons" onMouseDown={stop}>
-					<Button onClick={this.onCancel}>{t('cancel')}</Button>
-					<Button onClick={this.onSave} disabled={!href}>{t('save')}</Button>
+					<Button className="cancel" onClick={this.onCancel} rounded secondary>{t('cancel')}</Button>
+					<Button className="save" onClick={this.onSave} rounded disabled={!href}>{t('save')}</Button>
 				</div>
 			</div>
 		);
