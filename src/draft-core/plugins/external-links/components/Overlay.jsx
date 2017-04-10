@@ -98,7 +98,6 @@ export default class ExternalLinkOverlay extends React.Component {
 				alignToArrow
 				constrain
 
-				verticalAlign={Flyout.ALIGNMENTS.BOTTOM}
 				horizontalAlign={Flyout.ALIGNMENTS.LEFT}
 			>
 				<Editor
