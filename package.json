@@ -43,7 +43,6 @@
     "html-reactifier": "^1.0.1",
     "invariant": "^2.1.1",
     "linkify-it": "^2.0.0",
-    "node-uuid": "^1.4.7",
     "nti-commons": "^2.0.0",
     "nti-lib-content-processing": "^1.0.1",
     "nti-lib-dispatcher": "^1.0.0",
@@ -58,7 +57,8 @@
     "nti-web-whiteboard": "0.0.1",
     "object-hash": "^1.1.5",
     "punycode": "^1.4.1",
-    "react-transition-group": "^1.1.0"
+    "react-transition-group": "^1.1.0",
+    "uuid": "^3.0.0"
   },
   "devDependencies": {
     "autoprefixer": "^6.3.6",

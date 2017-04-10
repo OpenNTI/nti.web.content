@@ -1,4 +1,4 @@
-import uuid from 'node-uuid';
+import uuid from 'uuid';
 
 function generateUID () {
 	const id = uuid.v4();
