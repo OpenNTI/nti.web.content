@@ -7,7 +7,6 @@ import {Button, Input} from 'nti-web-commons';
 import {EditingEntityKey, SelectedEntityKey} from '../Constants';
 import {getEventFor} from '../../Store';
 import {
-	getFullHref,
 	removeEntityKeyAtOffset,
 	replaceEntityTextAtOffset,
 	createNewLinkAtOffset,
@@ -249,7 +248,7 @@ export default class ExternalLinkEditor extends React.Component {
 		const {editing} = this.state;
 
 		return (
-			<div className="external-link-editor">
+			<div className="external-link-editor-container">
 				{
 					editing ?
 						this.renderEditor() :
@@ -262,7 +261,7 @@ export default class ExternalLinkEditor extends React.Component {
 
 	renderEditor = () => {
 		const {href, decoratedText, error, isSingleBlock} = this.state;
-		const cls = cx('editor', {error});
+		const cls = cx('external-link-editor', {error});
 
 		return (
 			<div className={cls}>
@@ -282,7 +281,7 @@ export default class ExternalLinkEditor extends React.Component {
 		const {href} = this.state;
 
 		return (
-			<div className="info" onMouseDown={stop}>
+			<div className="external-link-info" onMouseDown={stop}>
 				<span className="link">{href}</span>
 				<span className="edit" onClick={this.onEdit}>{t('edit')}</span>
 				<span className="remove" onClick={this.onRemove}>{t('remove')}</span>
