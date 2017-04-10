@@ -1,11 +1,11 @@
 @import '~nti-style-common';
 
-.external-link-editor {
+.external-link-editor-container {
 	input[type=url] {
 		display: none;
 	}
 
-	.info {
+	.external-link-info {
 		padding: rem-calc(14px 20px);
 		font: normal 400 0.875rem/1 $body-font-family;
 
@@ -26,7 +26,7 @@
 		}
 	}
 
-	.editor {
+	.external-link-editor {
 		padding: rem-calc(10px);
 
 		.url-input, .display-input {
