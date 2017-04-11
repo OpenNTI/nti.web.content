@@ -136,12 +136,12 @@ export default class ExternalLinkEditor extends React.Component {
 
 	setNotEditing () {
 		const {store} = this.props;
-		const {fullHref, newLink} = this.state;
+		const {newLink} = this.state;
 
 		store.setItem(EditingEntityKey, null);
 		store.setItem(SelectedEntityKey, null);
 
-		if (newLink && !fullHref) {
+		if (newLink && !this.hasSaved) {
 			this.doRemove();
 		}
 	}
@@ -188,6 +188,7 @@ export default class ExternalLinkEditor extends React.Component {
 			}
 		}
 
+		this.hasSaved = true;
 		this.setNotEditing();
 	}
 
@@ -233,7 +234,6 @@ export default class ExternalLinkEditor extends React.Component {
 			});
 		} else {
 			this.doSave();
-
 			this.setNotEditing();
 		}
 	}
