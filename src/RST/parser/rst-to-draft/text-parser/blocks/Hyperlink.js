@@ -81,7 +81,7 @@ export default class Target {
 		const {text} = block;
 		const {name, key, href} = parseTargetFrom(text);
 		const range = key && {key, offset: context.charCount, length: name.length};
-		const entity = key && href && {type: ENTITY_TYPE.LINK, mutability: this.mutability, data: {name, href}};
+		const entity = key && href && {type: ENTITY_TYPE.LINK, mutability: this.mutability, data: {name, href, contiguous: false}};
 
 		const plainText = new Plaintext(name);
 		const {output, context:newContext} = plainText.getOutput(context);
