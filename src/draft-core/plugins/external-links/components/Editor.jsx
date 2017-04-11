@@ -46,11 +46,16 @@ export default class ExternalLinkEditor extends React.Component {
 
 
 	attachURLInputRef = x => this.urlInput = x
+	state = {}
 
 	constructor (props) {
 		super(props);
 
-		const {entityKey, decoratedText, offsetKey, getEditorState} = this.props;
+		this.setup(props);
+	}
+
+	setup (props = this.props) {
+		const {entityKey, decoratedText, offsetKey, getEditorState} = props;
 		const entity = Entity.get(entityKey);
 		const {data} = entity;
 
@@ -62,6 +67,16 @@ export default class ExternalLinkEditor extends React.Component {
 			href: data.href || '',
 			isSingleBlock: isEntityAtOffsetInSingleBlock(entityKey, offsetKey, getEditorState())
 		};
+	}
+
+
+	componentWillReceiveProps (nextProps) {
+		const {entityKey:oldKey} = this.props;
+		const {entityKey:newKey} = nextProps;
+
+		if (oldKey !== newKey) {
+			this.setup(nextProps);
+		}
 	}
 
 
