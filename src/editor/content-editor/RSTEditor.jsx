@@ -62,7 +62,8 @@ const plugins = [
 	Plugins.createExternalLinks(),
 	pastedText,
 	Plugins.createKeepFocusInView(),
-	Plugins.createBlockBreakOut()
+	Plugins.createBlockBreakOut(),
+	Plugins.createContiguousEntities()
 ];
 
 
