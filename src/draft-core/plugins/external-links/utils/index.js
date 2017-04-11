@@ -6,6 +6,7 @@ export getFullHref from './get-full-href';
 export getSelectedEntityKey from './get-selected-entity-key';
 export getSelectionForEntity from './get-selection-for-entity-key-at-offset';
 export isEntityAtOffsetInSingleBlock from './is-entity-at-offset-in-single-block';
+export isValidSelectionForLink from './is-valid-selection-for-link';
 export removeEntityKeyAtOffset from './remove-entity-key-at-offset';
 export replaceEntityTextAtOffset from './replace-entity-text-at-offset';
 export replaceEntityTextAtSelection from './replace-entity-text-at-selection';
