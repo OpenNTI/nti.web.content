@@ -1,5 +1,5 @@
 import React from 'react';
-import {Editor, EditorState, Entity, convertFromRaw, CompositeDecorator} from 'draft-js';
+import {Editor, EditorState, Entity, convertFromRaw, convertToRaw, CompositeDecorator} from 'draft-js';
 import {mount} from 'enzyme';
 
 const LINK_CLS = 'link-component';
@@ -50,6 +50,14 @@ export function getStateAndOffsetKeys (raw) {
 	const link = wrapper.find(`.${LINK_CLS}`);
 	const offsetKeys = link.map(x => x.prop('data-offset-key'));
 	const blockKeys = state.getCurrentContent().getBlocksAsArray().map(x => x.key);
+	const entityKeys = Object.keys(convertToRaw(state.getCurrentContent()).entityMap);
 
-	return {state, offsetKeys, blockKeys};
+	return {state, offsetKeys, blockKeys, entityKeys};
+}
+
+export function getOffsetKeys (state) {
+	const wrapper = mount(<Editor editorState={state} />);
+	const links = wrapper.find(`.${LINK_CLS}`);
+
+	return links.map(x => x.prop('data-offset-key'));
 }
