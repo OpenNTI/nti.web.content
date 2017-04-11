@@ -1,7 +1,7 @@
 import {Entity} from 'draft-js';
 
-import {ENTITIES} from '../../../Constants';
+import {ENTITIES, MUTABILITY} from '../../../Constants';
 
 export default function createLink (href) {
-	return Entity.create(ENTITIES.LINK, 'MUTABLE', {href});
+	return Entity.create(ENTITIES.LINK, MUTABILITY.MUTABLE, {href});
 }
