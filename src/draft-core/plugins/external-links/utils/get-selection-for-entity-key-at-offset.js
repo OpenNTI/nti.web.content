@@ -45,7 +45,7 @@ function getEndOfSelection (range, block, entityKey, content) {
 	}
 
 	const nextBlock = content.getBlockAfter(block.key);
-	const nextRange = nextBlock && findRangeForBlock(nextBlock, entityKey, r => r.start === range.end);
+	const nextRange = nextBlock && findRangeForBlock(nextBlock, entityKey, r => r.start === 0);
 
 	if (nextRange) {
 		return getEndOfSelection(nextRange, nextBlock, entityKey, content);
