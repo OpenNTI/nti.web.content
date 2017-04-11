@@ -6,12 +6,13 @@ import {createStore} from '../Store';
 
 import {SelectedEntityKey, EditingEntityKey} from './Constants';
 import strategy from './strategy';
-import {getSelectedEntityKey, createEntity, getFirstSelectedEntityHref} from './utils';
+import {getSelectedEntityKey, createEntity, getFirstSelectedEntityHref, isValidSelectionForLink} from './utils';
 import Link from './components/Link';
 import Overlay from './components/Overlay';
 
 
 export default (config = {}) => {
+	const {allowedInBlockTypes} = config;
 	const store = createStore(config.initialState);
 	let createdEntity;
 
@@ -54,9 +55,8 @@ export default (config = {}) => {
 			return {
 				get allowLinks () {
 					const editorState = getEditorState();
-					const selection = editorState.getSelection();
 
-					return selection && !selection.isCollapsed();
+					return isValidSelectionForLink(editorState, allowedInBlockTypes);
 				},
 				get currentLink () {
 					return getSelectedEntityKey(getEditorState());
