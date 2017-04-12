@@ -42,7 +42,6 @@ describe('create-new-link-at-offset', () => {
 	});
 
 	it('Creates a link per block', () => {
-		debugger;
 		const {state, blockKeys} = getStateAndOffsetKeys({
 			blocks: [
 				{
