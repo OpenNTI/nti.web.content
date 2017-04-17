@@ -281,8 +281,18 @@ export default class ExternalLinkEditor extends React.Component {
 		return (
 			<div className={cls}>
 				{error && (<div className="error">{error}</div>)}
-				<Input.URL className="url-input" label={t('urlLabel')} value={href} onChange={this.onURLChange} onFocus={this.onInputFocus} onBlur={this.onInputBlur} ref={this.attachURLInputRef} />
-				{isSingleBlock && (<Input.Text className="display-input" label={t('displayLabel')} value={decoratedText} onFocus={this.onInputFocus} onBlur={this.onInputBlur} onChange={this.onDecoratedTextChange} />)}
+				<Input.Label className="url-input" label={t('urlLabel')}>
+					<Input.Clearable>
+						<Input.URL  value={href} onChange={this.onURLChange} onFocus={this.onInputFocus} onBlur={this.onInputBlur} ref={this.attachURLInputRef} />
+					</Input.Clearable>
+				</Input.Label>
+				{isSingleBlock && (
+					<Input.Label className="display-input" label={t('displayLabel')}>
+						<Input.Clearable>
+							<Input.Text value={decoratedText} onFocus={this.onInputFocus} onBlur={this.onInputBlur} onChange={this.onDecoratedTextChange} />
+						</Input.Clearable>
+					</Input.Label>
+				)}
 				<div className="buttons" onMouseDown={stop}>
 					<Button className="cancel" onClick={this.onCancel} rounded secondary>{t('cancel')}</Button>
 					<Button className="save" onClick={this.onSave} rounded disabled={!href}>{t('save')}</Button>
