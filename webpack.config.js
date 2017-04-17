@@ -18,7 +18,7 @@ exports = module.exports = {
 		libraryTarget: 'commonjs2'
 	},
 
-	devtool: 'source-map',
+	devtool: 'cheap-module-source-map',
 
 	node: {
 		global: false
