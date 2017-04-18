@@ -176,15 +176,16 @@ export default class ExternalLinkEditor extends React.Component {
 
 	doSave () {
 		const {entityKey, decoratedText:oldText} = this.props;
-		const {fullHref, decoratedText:newText, newLink,} = this.state;
+		const {fullHref, href, decoratedText:newText, newLink,} = this.state;
+		const newHref = fullHref || href;
 
 		if (newLink) {
-			this.createNewLink(fullHref, oldText === newText ? null : newText || fullHref);
+			this.createNewLink(newHref, oldText === newText ? null : newText || newHref);
 		} else {
-			Entity.mergeData(entityKey, {href: fullHref});
+			Entity.mergeData(entityKey, {href: newHref});
 
 			if (newText !== oldText) {
-				this.replaceText(newText || fullHref);
+				this.replaceText(newText || newHref);
 			}
 		}
 
