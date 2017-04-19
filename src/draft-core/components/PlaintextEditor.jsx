@@ -46,15 +46,11 @@ export default class PlaintextEditor extends React.Component {
 
 
 	onContentChange = (editorState) => {
-		const {value:oldValue, onContentChange} = this.props;
+		const {onContentChange} = this.props;
 		const newValue = getValueForEditorState(editorState);
 
-		//If the editor state is still empty newValue will be an empty string
-		//so check if they aren't equal and they are both not false
-		if (newValue !== oldValue && (newValue || oldValue)) {
-			if (onContentChange) {
-				onContentChange(newValue);
-			}
+		if (onContentChange) {
+			onContentChange(newValue);
 		}
 	}
 
