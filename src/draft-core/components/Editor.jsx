@@ -158,7 +158,7 @@ export default class DraftCoreEditor extends React.Component {
 
 		if (newEditorState !== oldEditorState) {
 			newState = newState || {};
-			newState.currentEditorState = newEditorState;
+			newState.currentEditorState = this.getNewState(newEditorState);
 		}
 
 		if (newPlugins !== oldPlugins) {
@@ -169,6 +169,13 @@ export default class DraftCoreEditor extends React.Component {
 		if (newState) {
 			this.setState(newState);
 		}
+	}
+
+
+	getNewState (state) {
+		const {editorState} = this;
+
+		return EditorState.push(editorState, state.getCurrentContent(), 'insert-fragment');
 	}
 
 
