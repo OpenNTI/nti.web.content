@@ -6,7 +6,7 @@ import {createStore} from '../Store';
 
 import {SelectedEntityKey, EditingEntityKey} from './Constants';
 import strategy from './strategy';
-import {getSelectedEntityKey, createEntity, getFirstSelectedEntityHref, isValidSelectionForLink} from './utils';
+import {getSelectedEntityKey, createEntity, getFirstSelectedEntityHref, isValidSelectionForLink, fixStateForAllowed} from './utils';
 import Link from './components/Link';
 import Overlay from './components/Overlay';
 
@@ -14,12 +14,12 @@ import Overlay from './components/Overlay';
 export default (config = {}) => {
 	const {allowedInBlockTypes} = config;
 	const store = createStore(config.initialState);
+
 	let createdEntity;
 
 	return {
 		onChange (editorState) {
 			const entityKey = getSelectedEntityKey(editorState);
-
 
 			//Wait an event pump to give subsequent events a chance
 			//to fire and set up the store appropriately
@@ -30,7 +30,7 @@ export default (config = {}) => {
 				});
 
 
-			return editorState;
+			return fixStateForAllowed(editorState, allowedInBlockTypes);
 		},
 
 		decorators: [

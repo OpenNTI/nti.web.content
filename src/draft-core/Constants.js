@@ -35,15 +35,15 @@ export const MUTABILITY = {
 };
 
 
-export const STYLE_SET = [
+export const STYLE_SET = new Set([
 	STYLES.BOLD,
 	STYLES.CODE,
 	STYLES.ITALIC,
 	STYLES.STRIKETHROUGH,
 	STYLES.UNDERLINE
-];
+]);
 
-export const BLOCK_SET = [
+export const BLOCK_SET = new Set([
 	BLOCKS.ATOMIC,
 	BLOCKS.BLOCKQUOTE,
 	BLOCKS.CODE,
@@ -57,7 +57,7 @@ export const BLOCK_SET = [
 	BLOCKS.PULLQUOTE,
 	BLOCKS.UNORDERED_LIST_ITEM,
 	BLOCKS.UNSTYLED
-];
+]);
 
 
 //TODO: point all the references to draft-js-utils to constants in here,

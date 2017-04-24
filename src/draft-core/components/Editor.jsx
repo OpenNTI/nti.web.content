@@ -6,8 +6,9 @@ import {EditorState, RichUtils} from 'draft-js';
 import {buffer} from 'nti-commons';
 
 import ContextProvider from '../ContextProvider';
-import fixStateForAllowed, {STYLE_SET, BLOCK_SET} from '../fixStateForAllowed';
+// import fixStateForAllowed, {STYLE_SET, BLOCK_SET} from '../fixStateForAllowed';
 import {getCurrentBlockType} from '../utils';
+import {STYLE_SET, BLOCK_SET} from '../Constants';
 
 const CONTENT_CHANGE_BUFFER = 1000;
 
@@ -238,17 +239,17 @@ export default class DraftCoreEditor extends React.Component {
 
 
 	onChange = (editorState, cb) => {
-		const {onChange, allowedInlineStyles, allowedBlockTypes, allowLinks} = this.props;
+		const {onChange} = this.props;
 		const {currentEditorState} = this.state;
-		const state = fixStateForAllowed(editorState, allowedInlineStyles, allowedBlockTypes, allowLinks);
+		// const state = fixStateForAllowed(editorState, allowedInlineStyles, allowedBlockTypes, allowLinks);
 
-		this.setState({currentEditorState: state}, () => {
+		this.setState({currentEditorState: editorState}, () => {
 			if (typeof cb === 'function') {
 				cb();
 			}
 
 			if (onChange) {
-				onChange(state);
+				onChange(editorState);
 			}
 
 			if (currentEditorState.getCurrentContent() !== editorState.getCurrentContent()) {

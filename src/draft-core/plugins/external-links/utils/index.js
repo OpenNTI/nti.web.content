@@ -1,5 +1,6 @@
 export createEntity from './create-entity';
 export createNewLinkAtOffset from './create-new-link-at-offset';
+export fixStateForAllowed from './fix-state-for-allowed';
 export getCmpForState from './get-cmp-for-state';
 export getFirstSelectedEntityHref from './get-first-selected-entity-href';
 export getFullHref from './get-full-href';
