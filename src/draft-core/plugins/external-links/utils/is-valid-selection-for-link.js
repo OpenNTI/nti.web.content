@@ -1,5 +1,5 @@
 function validBlock (block, allowedSet) {
-	return allowedSet.has(block.getType());
+	return block && allowedSet.has(block.getType());
 }
 
 function containsOnlyAllowedTypes (selection, content, allowedSet) {
