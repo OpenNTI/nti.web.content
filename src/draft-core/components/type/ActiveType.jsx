@@ -12,8 +12,9 @@ export default class ActiveType extends React.Component {
 
 	static contextTypes = {
 		editorContext: React.PropTypes.shape({
-			editor: React.PropTypes.object,
-			currentBlockType: React.PropTypes.string
+			plugins: React.PropTypes.shape({
+				currentBlockType: React.PropTypes.string
+			})
 		})
 	}
 
@@ -28,8 +29,12 @@ export default class ActiveType extends React.Component {
 		return this.context.editorContext || {};
 	}
 
+	get pluginContext () {
+		return this.editorContext.plugins || {};
+	}
+
 	get activeType () {
-		const {currentBlockType} = this.editorContext;
+		const {currentBlockType} = this.pluginContext;
 
 		return currentBlockType;
 	}

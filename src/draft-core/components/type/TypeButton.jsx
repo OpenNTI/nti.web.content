@@ -28,9 +28,11 @@ export default class TypeButton extends React.Component {
 
 	static contextTypes = {
 		editorContext: React.PropTypes.shape({
-			toggleBlockType: React.PropTypes.func.isRequired,
-			currentBlockType: React.PropTypes.string,
-			allowedBlockTypes: React.PropTypes.object
+			plugins: React.PropTypes.shape({
+				toggleBlockType: React.PropTypes.func.isRequired,
+				currentBlockType: React.PropTypes.string,
+				allowedBlockTypes: React.PropTypes.object
+			})
 		})
 	}
 
@@ -44,6 +46,16 @@ export default class TypeButton extends React.Component {
 		checkmark: React.PropTypes.bool
 	}
 
+	get editorContext () {
+		return this.context.editorContext || {};
+	}
+
+
+	get pluginContext () {
+		return this.editorContext.plugins || {};
+	}
+
+
 	get getString () {
 		const {getString} = this.props;
 
@@ -52,16 +64,14 @@ export default class TypeButton extends React.Component {
 
 	get isAllowed () {
 		const {type} = this.props;
-		const {editorContext} = this.context;
-		const {allowedBlockTypes} = editorContext || {};
+		const {allowedBlockTypes} = this.pluginContext;
 
 		return allowedBlockTypes && allowedBlockTypes.has(type);
 	}
 
 	get isCurrent () {
 		const {type} = this.props;
-		const {editorContext} = this.context;
-		const {currentBlockType} = editorContext || {};
+		const {currentBlockType} = this.pluginContext;
 
 		return type === currentBlockType;
 	}
@@ -69,8 +79,7 @@ export default class TypeButton extends React.Component {
 
 	onMouseDown = (e) => {
 		const {type} = this.props;
-		const {editorContext} = this.context;
-		const {toggleBlockType} = editorContext || {};
+		const {toggleBlockType} = this.pluginContext;
 
 		if (e) {
 			e.preventDefault();

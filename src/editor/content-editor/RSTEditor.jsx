@@ -45,6 +45,20 @@ function editorStateToRST (editorState, title, titleLabel) {
 	return currentContent ? Parser.convertDraftStateToRST({blocks: newBlocks, entityMap}) : '';
 }
 
+
+const ALLOWED_BLOCKS = new Set([
+	BLOCKS.ATOMIC,
+	BLOCKS.HEADER_FIVE,
+	BLOCKS.HEADER_FOUR,
+	BLOCKS.HEADER_ONE,
+	BLOCKS.HEADER_SIX,
+	BLOCKS.HEADER_THREE,
+	BLOCKS.HEADER_TWO,
+	BLOCKS.ORDERED_LIST_ITEM,
+	BLOCKS.UNORDERED_LIST_ITEM,
+	BLOCKS.UNSTYLED
+]);
+
 // const externalLinks = Plugins.createExternalLinks();
 const pastedText = Plugins.createFormatPasted({
 	formatTypeChangeMap: {
@@ -59,6 +73,7 @@ const pastedText = Plugins.createFormatPasted({
 });
 
 const plugins = [
+	Plugins.createLimitBlockTypes({allowed: ALLOWED_BLOCKS}),
 	Plugins.createExternalLinks({allowedInBlockTypes: new Set([BLOCKS.UNSTYLED, BLOCKS.ORDERED_LIST_ITEM, BLOCKS.UNORDERED_LIST_ITEM])}),
 	pastedText,
 	Plugins.createKeepFocusInView(),
@@ -75,18 +90,6 @@ const ALLOWED_STYLES = [
 ];
 
 
-const ALLOWED_BLOCKS = [
-	BLOCKS.ATOMIC,
-	BLOCKS.HEADER_FIVE,
-	BLOCKS.HEADER_FOUR,
-	BLOCKS.HEADER_ONE,
-	BLOCKS.HEADER_SIX,
-	BLOCKS.HEADER_THREE,
-	BLOCKS.HEADER_TWO,
-	BLOCKS.ORDERED_LIST_ITEM,
-	BLOCKS.UNORDERED_LIST_ITEM,
-	BLOCKS.UNSTYLED
-];
 
 export default class RSTEditor extends React.Component {
 	static propTypes = {
@@ -180,7 +183,6 @@ export default class RSTEditor extends React.Component {
 					onContentChange={this.onContentChange}
 					plugins={plugins}
 					allowedInlineStyles={ALLOWED_STYLES}
-					allowedBlockTypes={ALLOWED_BLOCKS}
 					{...otherProps}
 				/>
 			</ItemChanges>

@@ -1,15 +1,6 @@
-import {EditorState, Modifier, SelectionState} from 'draft-js';
+import {EditorState, Modifier} from 'draft-js';
 
-function getRangeForBlock (block) {
-	const key = block.getKey();
-
-	return new SelectionState({
-		anchorKey: key,
-		anchorOffset: 0,
-		focusKey: key,
-		focusOffset: block.getLength()
-	});
-}
+import {getRangeForBlock} from '../../../utils';
 
 
 function removeLinkFromBlock (block, content) {
