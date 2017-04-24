@@ -59,7 +59,7 @@ const pastedText = Plugins.createFormatPasted({
 });
 
 const plugins = [
-	Plugins.createExternalLinks({allowedInBlockTypes: [BLOCKS.UNSTYLED, BLOCKS.ORDERED_LIST_ITEM, BLOCKS.UNORDERED_LIST_ITEM]}),
+	Plugins.createExternalLinks({allowedInBlockTypes: new Set([BLOCKS.UNSTYLED, BLOCKS.ORDERED_LIST_ITEM, BLOCKS.UNORDERED_LIST_ITEM])}),
 	pastedText,
 	Plugins.createKeepFocusInView(),
 	Plugins.createBlockBreakOut(),
