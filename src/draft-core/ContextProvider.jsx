@@ -1,21 +1,11 @@
 import React from 'react';
 
-const toggleInlineStyle = (x, editor) => editor && editor.toggleInlineStyle && editor.toggleInlineStyle(x, true);
-const getAllowedInlineStyles = (editor) => (editor && editor.allowedInlineStyles) || null;
-const getCurrentInlineStyles = (editor) => (editor && editor.currentInlineStyles) || null;
 
 export default class ContextProvider extends React.Component {
 	static propTypes = {
 		editor: React.PropTypes.shape({
 			getPluginContext: React.PropTypes.func,
 
-			toggleInlineStyle: React.PropTypes.func,
-			getAllowedInlineStyles: React.PropTypes.func,
-			getCurrentInlineStyles: React.PropTypes.func,
-
-			toggleBlockType: React.PropTypes.func,
-			getAllowedBlockTypes: React.PropTypes.func,
-			getCurrentBlockType: React.PropTypes.string
 		}),
 		children: React.PropTypes.element,
 
@@ -29,16 +19,7 @@ export default class ContextProvider extends React.Component {
 	static childContextTypes = {
 		editorContext: React.PropTypes.shape({
 			editor: React.PropTypes.any,
-
-			plugins: React.PropTypes.object,
-
-			toggleInlineStyle: React.PropTypes.func,
-			allowedInlineStyles: React.PropTypes.object,
-			currentInlineStyles: React.PropTypes.object,
-
-			toggleBlockType: React.PropTypes.func,
-			allowedBlockTypes: React.PropTypes.object,
-			currentBlockType: React.PropTypes.string
+			plugins: React.PropTypes.object
 		})
 	}
 
@@ -59,11 +40,7 @@ export default class ContextProvider extends React.Component {
 			editorContext: {
 				editor,
 				plugins: pluginContext,
-				get editorState () { return editor && editor.editorState; },
-
-				toggleInlineStyle (x) { return toggleInlineStyle(x, editor); },
-				get allowedInlineStyles () { return getAllowedInlineStyles(editor); },
-				get currentInlineStyles () { return getCurrentInlineStyles(editor); }
+				get editorState () { return editor && editor.editorState; }
 			}
 		};
 	}

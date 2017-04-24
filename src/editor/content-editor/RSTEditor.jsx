@@ -59,6 +59,14 @@ const ALLOWED_BLOCKS = new Set([
 	BLOCKS.UNSTYLED
 ]);
 
+const ALLOWED_STYLES = new Set([
+	STYLES.BOLD,
+	STYLES.CODE,
+	STYLES.ITALIC,
+	STYLES.UNDERLINE
+]);
+
+
 // const externalLinks = Plugins.createExternalLinks();
 const pastedText = Plugins.createFormatPasted({
 	formatTypeChangeMap: {
@@ -74,19 +82,12 @@ const pastedText = Plugins.createFormatPasted({
 
 const plugins = [
 	Plugins.createLimitBlockTypes({allowed: ALLOWED_BLOCKS}),
+	Plugins.createLimitStyles({allowd: ALLOWED_STYLES}),
 	Plugins.createExternalLinks({allowedInBlockTypes: new Set([BLOCKS.UNSTYLED, BLOCKS.ORDERED_LIST_ITEM, BLOCKS.UNORDERED_LIST_ITEM])}),
 	pastedText,
 	Plugins.createKeepFocusInView(),
 	Plugins.createBlockBreakOut(),
 	Plugins.createContiguousEntities()
-];
-
-
-const ALLOWED_STYLES = [
-	STYLES.BOLD,
-	STYLES.CODE,
-	STYLES.ITALIC,
-	STYLES.UNDERLINE
 ];
 
 
@@ -182,7 +183,6 @@ export default class RSTEditor extends React.Component {
 					editorState={editorState}
 					onContentChange={this.onContentChange}
 					plugins={plugins}
-					allowedInlineStyles={ALLOWED_STYLES}
 					{...otherProps}
 				/>
 			</ItemChanges>
