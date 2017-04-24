@@ -3,6 +3,7 @@ import {RichUtils} from 'draft-js';
 import {getAllowedSet} from './utils';
 
 export default (config = {}) => {
+	//TODO: add block type specific allowed or not
 	const {allowed, disallowed} = config;
 
 	const allow = getAllowedSet(allowed, disallowed);
