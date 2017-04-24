@@ -5,5 +5,5 @@ export default function getCurrentBlockType (editorState) {
 	const end = selection.getEndKey();
 	const block = content.getBlockForKey(start);
 
-	return start === end ? block.getType() : '';
+	return start === end && block ? block.getType() : '';
 }

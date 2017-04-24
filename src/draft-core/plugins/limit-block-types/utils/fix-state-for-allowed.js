@@ -23,10 +23,7 @@ export default function fixStateForAllowed (editorState, allowed, defaultType) {
 
 	if (content === originalContent) { return editorState; }
 
-	return EditorState.create({
-		currentContent: content,
-		allowUndo: editorState.getAllowUndo(),
-		decorator: editorState.getDecorator(),
-		selection: editorState.getSelection()
+	return EditorState.set(editorState, {
+		currentContent: content
 	});
 }
