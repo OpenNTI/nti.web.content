@@ -46,7 +46,8 @@ export default class StyleButton extends React.Component {
 
 	get isAllowed () {
 		const {style, shouldDisableForState} = this.props;
-		const {allowedInlineStyles, editorState} = this.pluginContext;
+		const {editorState} = this.editorContext;
+		const {allowedInlineStyles} = this.pluginContext;
 
 		return allowedInlineStyles && allowedInlineStyles.has(style) && !shouldDisableForState(editorState);
 	}
