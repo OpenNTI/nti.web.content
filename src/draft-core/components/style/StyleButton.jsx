@@ -17,9 +17,11 @@ export default class StyleButton extends React.Component {
 
 	static contextTypes = {
 		editorContext: React.PropTypes.shape({
-			toggleInlineStyle: React.PropTypes.func.isRequired,
-			currentInlineStyles: React.PropTypes.object,
-			allowedInlineStyles: React.PropTypes.object
+			plugins: React.PropTypes.shape({
+				toggleInlineStyle: React.PropTypes.func.isRequired,
+				currentInlineStyles: React.PropTypes.object,
+				allowedInlineStyles: React.PropTypes.object
+			})
 		})
 	}
 
@@ -38,9 +40,13 @@ export default class StyleButton extends React.Component {
 		return this.context.editorContext || {};
 	}
 
+	get pluginContext () {
+		return this.editorContext.plugins || {};
+	}
+
 	get isAllowed () {
 		const {style, shouldDisableForState} = this.props;
-		const {allowedInlineStyles, editorState} = this.editorContext;
+		const {allowedInlineStyles, editorState} = this.pluginContext;
 
 		return allowedInlineStyles && allowedInlineStyles.has(style) && !shouldDisableForState(editorState);
 	}
@@ -48,7 +54,7 @@ export default class StyleButton extends React.Component {
 
 	get isCurrent () {
 		const {style} = this.props;
-		const {currentInlineStyles} = this.editorContext;
+		const {currentInlineStyles} = this.pluginContext;
 
 		return currentInlineStyles && currentInlineStyles.has(style);
 	}
@@ -56,7 +62,7 @@ export default class StyleButton extends React.Component {
 
 	onMouseDown = (e) => {
 		const {style} = this.props;
-		const {toggleInlineStyle} = this.editorContext;
+		const {toggleInlineStyle} = this.pluginContext;
 
 		if (e) {
 			e.preventDefault();

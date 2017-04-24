@@ -6,7 +6,6 @@ import {EditorState, RichUtils} from 'draft-js';
 import {buffer} from 'nti-commons';
 
 import ContextProvider from '../ContextProvider';
-import {STYLE_SET} from '../Constants';
 
 const CONTENT_CHANGE_BUFFER = 1000;
 
@@ -20,8 +19,6 @@ export default class DraftCoreEditor extends React.Component {
 		editorState: React.PropTypes.object.isRequired,
 		plugins: React.PropTypes.array,
 		placeholder: React.PropTypes.string,
-
-		allowedInlineStyles: React.PropTypes.array,
 
 		contentChangeBuffer: React.PropTypes.number,
 
@@ -37,7 +34,6 @@ export default class DraftCoreEditor extends React.Component {
 		editorState: EditorState.createEmpty(),
 		plugins: [],
 
-		allowedInlineStyles: STYLE_SET,
 		allowKeyBoardShortcuts: true,
 
 		contentChangeBuffer: CONTENT_CHANGE_BUFFER
@@ -72,18 +68,6 @@ export default class DraftCoreEditor extends React.Component {
 	}
 
 
-	get allowedInlineStyles () {
-		return new Set(this.props.allowedInlineStyles);
-	}
-
-
-	get currentInlineStyles () {
-		const {editorState} = this;
-
-		return editorState && editorState.getCurrentInlineStyle();
-	}
-
-
 	getPluginContext = () => {
 		const {plugins} = this.props;
 		let context = {};
@@ -108,6 +92,18 @@ export default class DraftCoreEditor extends React.Component {
 		this[INTERNAL_CHANGE](state, focus);
 	}
 
+	[INTERNAL_CHANGE] (editorState, cb) {
+		const {plugins} = this.props;
+		const pluginMethods = this.draftEditor && this.draftEditor.getPluginMethods();
+
+		for (let plugin of plugins) {
+			if (plugin.onChange) {
+				plugin.onChange(editorState, pluginMethods);
+			}
+		}
+
+		this.onChange(editorState, cb);
+	}
 
 	componentDidMount () {
 		const {plugins} = this.props;
@@ -173,30 +169,6 @@ export default class DraftCoreEditor extends React.Component {
 	}
 
 
-	toggleInlineStyle (style, reclaimFocus) {
-		const {editorState} = this;
-		const newState = RichUtils.toggleInlineStyle(editorState, style);
-
-		this[INTERNAL_CHANGE](newState, () => {
-			if (reclaimFocus) {
-				this.focus();
-			}
-		});
-	}
-
-
-	[INTERNAL_CHANGE] (editorState, cb) {
-		const {plugins} = this.props;
-		const pluginMethods = this.draftEditor && this.draftEditor.getPluginMethods();
-
-		for (let plugin of plugins) {
-			if (plugin.onChange) {
-				plugin.onChange(editorState, pluginMethods);
-			}
-		}
-
-		this.onChange(editorState, cb);
-	}
 
 
 	onContentChange = () => {

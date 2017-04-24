@@ -23,11 +23,11 @@ export default (config = {}) => {
 					return getCurrentBlockType(getEditorState());
 				},
 
-				toggleBlockType (type, reclaimFocus) {
+				toggleBlockType (type) {
 					const editorState = getEditorState();
 					const newState = RichUtils.toggleBlockType(editorState, type);
 
-					setEditorState(newState, reclaimFocus);
+					setEditorState(newState, true);
 				}
 			};
 		},
