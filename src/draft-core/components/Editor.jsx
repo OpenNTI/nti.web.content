@@ -6,9 +6,7 @@ import {EditorState, RichUtils} from 'draft-js';
 import {buffer} from 'nti-commons';
 
 import ContextProvider from '../ContextProvider';
-// import fixStateForAllowed, {STYLE_SET, BLOCK_SET} from '../fixStateForAllowed';
-import {getCurrentBlockType} from '../utils';
-import {STYLE_SET, BLOCK_SET} from '../Constants';
+import {STYLE_SET} from '../Constants';
 
 const CONTENT_CHANGE_BUFFER = 1000;
 
@@ -24,8 +22,6 @@ export default class DraftCoreEditor extends React.Component {
 		placeholder: React.PropTypes.string,
 
 		allowedInlineStyles: React.PropTypes.array,
-		allowedBlockTypes: React.PropTypes.array,
-		allowLinks: React.PropTypes.bool,
 
 		contentChangeBuffer: React.PropTypes.number,
 
@@ -42,8 +38,6 @@ export default class DraftCoreEditor extends React.Component {
 		plugins: [],
 
 		allowedInlineStyles: STYLE_SET,
-		allowedBlockTypes: BLOCK_SET,
-		allowLinks: true,
 		allowKeyBoardShortcuts: true,
 
 		contentChangeBuffer: CONTENT_CHANGE_BUFFER
@@ -82,22 +76,11 @@ export default class DraftCoreEditor extends React.Component {
 		return new Set(this.props.allowedInlineStyles);
 	}
 
-	get allowedBlockTypes () {
-		return new Set(this.props.allowedBlockTypes);
-	}
-
 
 	get currentInlineStyles () {
 		const {editorState} = this;
 
 		return editorState && editorState.getCurrentInlineStyle();
-	}
-
-
-	get currentBlockType () {
-		const {editorState} = this;
-
-		return getCurrentBlockType(editorState);
 	}
 
 
@@ -107,7 +90,7 @@ export default class DraftCoreEditor extends React.Component {
 
 		for (let plugin of plugins) {
 			if (plugin.getContext) {
-				let pluginContext = plugin.getContext(() => this.getEditorState(), x => this.setEditorState(x), () => this.focus());
+				let pluginContext = plugin.getContext(() => this.getEditorState(), (state, focus) => this.setEditorState(state, focus), () => this.focus());
 				context = {...context, ...pluginContext};
 			}
 		}
@@ -121,8 +104,8 @@ export default class DraftCoreEditor extends React.Component {
 	}
 
 
-	setEditorState = (state) => {
-		this[INTERNAL_CHANGE](state);
+	setEditorState = (state, focus) => {
+		this[INTERNAL_CHANGE](state, focus);
 	}
 
 
@@ -193,18 +176,6 @@ export default class DraftCoreEditor extends React.Component {
 	toggleInlineStyle (style, reclaimFocus) {
 		const {editorState} = this;
 		const newState = RichUtils.toggleInlineStyle(editorState, style);
-
-		this[INTERNAL_CHANGE](newState, () => {
-			if (reclaimFocus) {
-				this.focus();
-			}
-		});
-	}
-
-
-	toggleBlockType (type, reclaimFocus) {
-		const {editorState} = this;
-		const newState = RichUtils.toggleBlockType(editorState, type);
 
 		this[INTERNAL_CHANGE](newState, () => {
 			if (reclaimFocus) {

@@ -4,10 +4,6 @@ const toggleInlineStyle = (x, editor) => editor && editor.toggleInlineStyle && e
 const getAllowedInlineStyles = (editor) => (editor && editor.allowedInlineStyles) || null;
 const getCurrentInlineStyles = (editor) => (editor && editor.currentInlineStyles) || null;
 
-const toggleBlockType = (x, editor) => editor && editor.toggleBlockType && editor.toggleBlockType(x, true);
-const getAllowedBlockTypes = (editor) => (editor && editor.allowedBlockTypes) || null;
-const getCurrentBlockType = (editor) => (editor && editor.currentBlockType) || null;
-
 export default class ContextProvider extends React.Component {
 	static propTypes = {
 		editor: React.PropTypes.shape({
@@ -67,11 +63,7 @@ export default class ContextProvider extends React.Component {
 
 				toggleInlineStyle (x) { return toggleInlineStyle(x, editor); },
 				get allowedInlineStyles () { return getAllowedInlineStyles(editor); },
-				get currentInlineStyles () { return getCurrentInlineStyles(editor); },
-
-				toggleBlockType (x) { return toggleBlockType(x, editor); },
-				get allowedBlockTypes () { return getAllowedBlockTypes(editor); },
-				get currentBlockType () { return getCurrentBlockType(editor); }
+				get currentInlineStyles () { return getCurrentInlineStyles(editor); }
 			}
 		};
 	}
