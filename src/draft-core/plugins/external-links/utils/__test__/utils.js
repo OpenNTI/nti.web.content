@@ -43,6 +43,10 @@ export function getEditorState (raw) {
 	return raw ? EditorState.createWithContent(convertFromRaw(raw), decorator) : EditorState.createEmpty(decorator);
 }
 
+export function getRawFromState (editorState) {
+	return convertToRaw(editorState.getCurrentContent());
+}
+
 
 export function getStateAndOffsetKeys (raw) {
 	const state = getEditorState(raw);
