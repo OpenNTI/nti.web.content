@@ -51,15 +51,15 @@ export default class ExternalLinkEditor extends React.Component {
 	constructor (props) {
 		super(props);
 
-		this.setup(props);
+		this.state = this.getStateFor(props);
 	}
 
-	setup (props = this.props) {
+	getStateFor (props = this.props) {
 		const {entityKey, decoratedText, offsetKey, getEditorState} = props;
 		const entity = Entity.get(entityKey);
 		const {data} = entity;
 
-		this.state = {
+		return {
 			entity,
 			decoratedText,
 			newLink: !data.href,
@@ -71,11 +71,11 @@ export default class ExternalLinkEditor extends React.Component {
 
 
 	componentWillReceiveProps (nextProps) {
-		const {entityKey:oldKey} = this.props;
-		const {entityKey:newKey} = nextProps;
+		const {entityKey:oldKey, decoratedText:oldText} = this.props;
+		const {entityKey:newKey, decoratedText:newText} = nextProps;
 
-		if (oldKey !== newKey) {
-			this.setup(nextProps);
+		if (oldKey !== newKey || oldText !== newText) {
+			this.setState(this.getStateFor(nextProps));
 		}
 	}
 
