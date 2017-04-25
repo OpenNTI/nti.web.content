@@ -1,6 +1,6 @@
 {
   "name": "nti-content",
-  "version": "1.1.0-alpha",
+  "version": "1.1.0",
   "author": "nextthought",
   "description": "ReactJS Editor and Renderer for content",
   "license": "UNLICENSED",
@@ -102,7 +102,11 @@
       "!**/*.spec.js"
     ],
     "coverageDirectory": "reports/coverage",
-    "coverageReporters": ["text", "lcov", "cobertura"],
+    "coverageReporters": [
+      "text",
+      "lcov",
+      "cobertura"
+    ],
     "testResultsProcessor": "./node_modules/jest-junit",
     "testMatch": [
       "**/__test__/**/*.(spec).js?(x)"
