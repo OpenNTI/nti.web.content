@@ -12,7 +12,9 @@ export default function getFullHref (href) {
 		parts.host = href;
 		parts.pathname = '';
 		parts.path = '';
+
+		return Url.format(parts);
 	}
 
-	return Url.format(parts);
+	return href;
 }
