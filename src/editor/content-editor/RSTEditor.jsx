@@ -103,6 +103,9 @@ export default class RSTEditor extends React.Component {
 
 	constructor (props) {
 		super(props);
+
+		this.pendingSaves = [];
+
 		this.setUpValue(props);
 	}
 
@@ -113,13 +116,31 @@ export default class RSTEditor extends React.Component {
 		return contentPackage && contentPackage.title;
 	}
 
+	isPendingSave (value) {
+		for (let save of this.pendingSaves) {
+			if (save === value) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+
+	cleanUpPending (value) {
+		this.pendingSaves = this.pendingSaves.filter(save => save !== value);
+	}
+
+
 	componentWillReceiveProps (nextProps) {
 		const {value:nextValue} = nextProps;
 		const {value:oldValue} = this.props;
 
-		if (nextValue !== oldValue && nextValue !== this.lastSavedContent) {
+		if (nextValue !== oldValue && !this.isPendingSave(nextValue)) {
 			this.setUpValue(nextProps);
 		}
+
+		this.cleanUpPending(nextValue);
 	}
 
 
@@ -152,7 +173,7 @@ export default class RSTEditor extends React.Component {
 		const newValue = editorStateToRST(editorState, this.title, titleLabel);
 
 		if (oldValue !== newValue) {
-			this.lastSavedContent = newValue;
+			this.pendingSaves.push(newValue);
 			onContentChange(newValue);
 		}
 	}

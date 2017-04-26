@@ -4,7 +4,7 @@ import {scoped} from 'nti-lib-locale';
 import {Selection, Loading, EmptyState, Errors} from 'nti-web-commons';
 
 import Store from '../Store';
-import {SET_ERROR} from '../Constants';
+import {SET_ERROR, SAVING} from '../Constants';
 import {saveContentPackageRST} from '../Actions';
 
 import RSTEditor from './RSTEditor';
@@ -132,6 +132,9 @@ export default class ContentEditor extends React.Component {
 
 		if (data.type === SET_ERROR && data.NTIID === contentPackage.NTIID) {
 			this.onMessage();
+		} else if (data.type === SAVING && !Store.isSaving && this.pendingRST) {
+			this.onEditorContentChange(this.pendingRST);
+			delete this.pendingRST;
 		}
 	}
 
@@ -185,7 +188,12 @@ export default class ContentEditor extends React.Component {
 		const {contentPackage} = this.props;
 		const {version} = this.state;
 
-		saveContentPackageRST(contentPackage, rst, version);
+		if (Store.isSaving) {
+			this.pendingRST = rst;
+		} else {
+			saveContentPackageRST(contentPackage, rst, version);
+		}
+
 	}
 
 
