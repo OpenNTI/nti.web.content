@@ -1,3 +1,5 @@
+import Regex from '../Regex';
+
 import Plaintext from './Plaintext';
 
 const ESCAPED_CHAR = '\\';
@@ -13,7 +15,7 @@ export default {
 		const next = inputInterface.get(1);
 
 		return {
-			block: next ? new Plaintext(next) : {},
+			block: next && !Regex.isWhitespaceChar(next) ? new Plaintext(next) : {},
 			length: 2
 		};
 	}

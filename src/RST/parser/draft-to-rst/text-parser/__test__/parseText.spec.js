@@ -128,7 +128,39 @@ describe('parseText', () => {
 		};
 		const parsed = parseText(block, {});
 
-		expect(parsed).toEqual('This is plain\\. **This is bold\\.** :boldunderline:`This is bold underline\\.` :bolditalicunderline:`This is bold underline italic\\.`');
+		expect(parsed).toEqual('This is plain\\. **This is bold\\.** :boldunderline:`This is bold underline\\.` \\ :bolditalicunderline:`This is bold underline italic\\.`');
+	});
+
+	it('Handles touching ranges', () => {
+		const block = {
+			text: 'This block has underline, bolditalic, and italicunderline',
+			inlineStyleRanges: [
+				{
+					style: INLINE_STYLE.UNDERLINE,
+					offset: 15,
+					length: 9
+				},
+				{
+					style: INLINE_STYLE.BOLD,
+					offset: 24,
+					length: 12
+				},
+				{
+					style: INLINE_STYLE.ITALIC,
+					offset: 24,
+					length: 33
+				},
+				{
+					style: INLINE_STYLE.UNDERLINE,
+					offset: 36,
+					length: 21
+				}
+			],
+			entityRanges: []
+		};
+		const parsed = parseText(block, {});
+
+		expect(parsed).toEqual('This block has :underline:`underline`\\ :bolditalic:`\\, bolditalic`\\ :italicunderline:`\\, and italicunderline`');
 	});
 
 	//TODO: add more tests
