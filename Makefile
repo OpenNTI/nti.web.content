@@ -3,7 +3,7 @@
 REPORTS = reports
 LIB = lib
 
-MAKE_PACKAGE=webpack --progress --cache --bail
+MAKE_PACKAGE=webpack --progress --cache --bail --hide-modules=true --display-chunks=false
 
 all: node_modules bundle
 

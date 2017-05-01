@@ -8,8 +8,7 @@ import {PUBLISHING, RENDER_JOB_CHANGE, SET_ERROR} from '../Constants';
 import {
 	publishContentPackage,
 	unpublishContentPackage,
-	deleteContentPackage,
-	cancelRenderJob
+	deleteContentPackage
 } from '../Actions';
 
 
@@ -130,16 +129,6 @@ export default class ContentEditorPublish extends React.Component {
 		if (contentPackage) {
 			deleteContentPackage(contentPackage);
 			this.closeMenu();
-		}
-	}
-
-
-	onCancelPublish = () => {
-		const {contentPackage} = this.props;
-		const {renderJob} = this.state;
-
-		if (renderJob) {
-			cancelRenderJob(renderJob, contentPackage);
 		}
 	}
 
