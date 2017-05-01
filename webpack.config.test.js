@@ -5,6 +5,9 @@ exports = module.exports = Object.assign(require('./webpack.config'), {
 		path: '/',
 		filename: 'index.js'
 		// publicPath: '/'
+	},
+	devServer: {
+		public: 'janux.dev'
 	}
 });
 
