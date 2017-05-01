@@ -1,4 +1,8 @@
+import Button from './components/Button';
+
 export default {
+	components: {Button},
+
 	create: (config = {}) => {
 		return {
 			getContext (getEditorState, setEditorState) {
