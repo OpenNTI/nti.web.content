@@ -1,6 +1,7 @@
 import {getVisibleSelectionRect} from 'draft-js';
 import {getViewportHeight, getViewportWidth} from 'nti-lib-dom';
 
+//TODO: move this out into utility files
 function getScrollPosition (parent) {
 	if (parent === global) {
 		return {
@@ -68,36 +69,38 @@ function ensureRectIsVisible (rect, parent, {padding}) {
 }
 
 
-export default (config = {padding: 80}) => {
-	const getScrollParent = config.getScrollParent || (() => global);
+export default {
+	create: (config = {padding: 80}) => {
+		const getScrollParent = config.getScrollParent || (() => global);
 
-	let lastSelection;
+		let lastSelection;
 
 
-	function isPotentialScroll (editorState) {
-		const selection = editorState.getSelection();
+		function isPotentialScroll (editorState) {
+			const selection = editorState.getSelection();
 
-		if (lastSelection && selection.equals(lastSelection)) {
-			return false;
+			if (lastSelection && selection.equals(lastSelection)) {
+				return false;
+			}
+
+			lastSelection = selection;
+			return true;
 		}
 
-		lastSelection = selection;
-		return true;
-	}
+		return {
+			onChange (editorState) {
+				if (!isPotentialScroll(editorState)) {
+					return editorState;
+				}
 
-	return {
-		onChange (editorState) {
-			if (!isPotentialScroll(editorState)) {
+				const selectionRect = getVisibleSelectionRect(global);
+
+				if (selectionRect) {
+					ensureRectIsVisible(selectionRect, getScrollParent(), config);
+				}
+
 				return editorState;
 			}
-
-			const selectionRect = getVisibleSelectionRect(global);
-
-			if (selectionRect) {
-				ensureRectIsVisible(selectionRect, getScrollParent(), config);
-			}
-
-			return editorState;
-		}
-	};
+		};
+	}
 };

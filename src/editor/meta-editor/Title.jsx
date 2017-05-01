@@ -13,7 +13,7 @@ const DEFAULT_TEXT = {
 const t = scoped('CONTENT_TITLE_EDITOR', DEFAULT_TEXT);
 
 const plugins = [
-	Plugins.createSingleLine()
+	Plugins.SingleLine.create()
 ];
 
 export default class ContentEditorTitle extends React.Component {

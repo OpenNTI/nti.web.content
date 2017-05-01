@@ -32,29 +32,31 @@ const DEFAULT_CONVERT_IF_EMPTY = {
  * @param {Object} config.convertIfEmpty a map of types to convert the current type to if its empty on enter
  * @return {Object}        the config
  */
-export default (config = {breakTo: DEFAULT_BREAK_TO, convertIfEmpty: DEFAULT_CONVERT_IF_EMPTY}) => {
-	const {breakTo, convertIfEmpty} = config;
+export default {
+	create: (config = {breakTo: DEFAULT_BREAK_TO, convertIfEmpty: DEFAULT_CONVERT_IF_EMPTY}) => {
+		const {breakTo, convertIfEmpty} = config;
 
-	return {
-		handleReturn (e, {getEditorState, setEditorState}) {
-			const editorState = getEditorState();
-			const selection = editorState.getSelection();
+		return {
+			handleReturn (e, {getEditorState, setEditorState}) {
+				const editorState = getEditorState();
+				const selection = editorState.getSelection();
 
-			//If the selection isn't collapsed there's nothing to do
-			if (!selection.isCollapsed()) { return EVENT_NOT_HANDLED; }
+				//If the selection isn't collapsed there's nothing to do
+				if (!selection.isCollapsed()) { return EVENT_NOT_HANDLED; }
 
-			const currentBlockType = RichUtils.getCurrentBlockType(editorState);
-			let handled = EVENT_NOT_HANDLED;
+				const currentBlockType = RichUtils.getCurrentBlockType(editorState);
+				let handled = EVENT_NOT_HANDLED;
 
-			if (convertIfEmpty[currentBlockType]) {
-				handled = handleConvertIfEmpty(convertIfEmpty[currentBlockType], editorState, setEditorState);
+				if (convertIfEmpty[currentBlockType]) {
+					handled = handleConvertIfEmpty(convertIfEmpty[currentBlockType], editorState, setEditorState);
+				}
+
+				if (handled !== EVENT_HANDLED && breakTo[currentBlockType]) {
+					handled = handleBreak(breakTo[currentBlockType], editorState, setEditorState);
+				}
+
+				return handled;
 			}
-
-			if (handled !== EVENT_HANDLED && breakTo[currentBlockType]) {
-				handled = handleBreak(breakTo[currentBlockType], editorState, setEditorState);
-			}
-
-			return handled;
-		}
-	};
+		};
+	}
 };

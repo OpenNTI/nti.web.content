@@ -2,34 +2,35 @@ import {RichUtils} from 'draft-js';
 
 import {getAllowedSet} from './utils';
 
-export default (config = {}) => {
-	//TODO: add block type specific allowed or not
-	const {allowed, disallowed} = config;
+export default {
+	create: (config = {}) => {
+		//TODO: add block type specific allowed or not
+		const {allowed, disallowed} = config;
 
-	const allow = getAllowedSet(allowed, disallowed);
+		const allow = getAllowedSet(allowed, disallowed);
 
-	return {
-
-		getContext (getEditorState, setEditorState) {
-			return {
-				get allowedInlineStyles () {
-					return allow;
-				},
-
-
-				get currentInlineStyles () {
-					const editorState = getEditorState();
-
-					return editorState.getCurrentInlineStyle();
-				},
+		return {
+			getContext (getEditorState, setEditorState) {
+				return {
+					get allowedInlineStyles () {
+						return allow;
+					},
 
 
-				toggleInlineStyle (style) {
-					const newState = RichUtils.toggleInlineStyle(getEditorState(), style);
+					get currentInlineStyles () {
+						const editorState = getEditorState();
 
-					setEditorState(newState, true);
-				}
-			};
-		}
-	};
+						return editorState.getCurrentInlineStyle();
+					},
+
+
+					toggleInlineStyle (style) {
+						const newState = RichUtils.toggleInlineStyle(getEditorState(), style);
+
+						setEditorState(newState, true);
+					}
+				};
+			}
+		};
+	}
 };

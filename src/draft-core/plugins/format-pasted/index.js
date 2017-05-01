@@ -17,17 +17,19 @@ function getStateForPasted (text, html, editorState, config) {
 }
 
 //https://github.com/facebook/draft-js/issues/416#issuecomment-221639163
-export default (config = {}) => {
-	return {
-		handlePastedText (text, html, {getEditorState, setEditorState}) {
-			const transformedHTML = transformNTIContent(html);
-			const newState = getStateForPasted(text, transformedHTML, getEditorState(), config);
+export default {
+	create: (config = {}) => {
+		return {
+			handlePastedText (text, html, {getEditorState, setEditorState}) {
+				const transformedHTML = transformNTIContent(html);
+				const newState = getStateForPasted(text, transformedHTML, getEditorState(), config);
 
-			if (!newState) { return NOT_HANDLED; }
+				if (!newState) { return NOT_HANDLED; }
 
-			setEditorState(newState);
+				setEditorState(newState);
 
-			return HANDLED;
-		}
-	};
+				return HANDLED;
+			}
+		};
+	}
 };
