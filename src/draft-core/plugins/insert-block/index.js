@@ -1,7 +1,8 @@
 import Button from './components/Button';
+import BlockCount from './components/BlockCount';
 
 export default {
-	components: {Button},
+	components: {Button, BlockCount},
 
 	create: (config = {}) => {
 		return {
@@ -10,6 +11,11 @@ export default {
 					allowInsertBlock: () => {
 						//TODO: add a config for disabling inserting blocks given certain selections
 						return true;
+					},
+
+					getInsertBlockCount: (predicate) => {
+						//TODO: fill this out
+						return 0;
 					},
 
 					insertBlock: () => {

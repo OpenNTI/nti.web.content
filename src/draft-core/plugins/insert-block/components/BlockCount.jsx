@@ -1,0 +1,50 @@
+import React from 'react';
+import PropTypes from 'prop-types';
+import cx from 'classnames';
+
+
+export default class BlockCount extends React.Component {
+	static propTypes = {
+		predicate: PropTypes.func,
+		className: PropTypes.string
+	}
+
+
+	static contextTypes = {
+		editorContext: React.PropTypes.shape({
+			plugins: React.PropTypes.shape({
+				getInsertBlockCount: React.PropTypes.func.isRequired
+			})
+		})
+	}
+
+
+	get editorContext () {
+		return this.context.editorContext || {};
+	}
+
+
+	get pluginContext () {
+		return this.editorContext.plugins || {getInsertBlockCount: () => 0};
+	}
+
+
+	get blockCount () {
+		const {predicate} = this.props;
+
+		return this.pluginContext.getInsertBlockCount(predicate);
+	}
+
+
+	render () {
+		const {className} = this.props;
+		const {blockCount} = this;
+		const cls = cx('insert-block-count', className, {isUsed: blockCount > 0});
+
+		return (
+			<div className={cls}>
+				{blockCount}
+			</div>
+		);
+	}
+}
