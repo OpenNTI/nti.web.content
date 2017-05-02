@@ -88,7 +88,7 @@ export default class ContentEditor extends React.Component {
 
 	render () {
 		const {contentPackage, course, gotoResources, breadcrumb} = this.props;
-		const sidebar = (<Sidebar contentPackage={contentPackage} course={course} />);
+		const sidebar = (<Sidebar contentPackage={contentPackage} course={course} selectionManager={selectionManager} />);
 
 		return (
 			<div className="content-editor">
