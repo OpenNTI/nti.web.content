@@ -1,11 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import PreventStealingFocus from '../../../components/PreventStealingFocus';
+
 export default class Button extends React.Component {
 	static propTypes = {
 		className: PropTypes.string,
 		createBlock: PropTypes.func,
-		isBlockFor: PropTypes.func
+		children: PropTypes.node
 	}
 
 	static contextTypes = {
@@ -34,15 +36,24 @@ export default class Button extends React.Component {
 
 
 	onClick = () => {
-		debugger;
+		const {insertBlock} = this.pluginContext;
+		const {createBlock} = this.props;
+
+		if (insertBlock && createBlock) {
+			createBlock(insertBlock);
+		}
 	}
 
 
 	render () {
+		const {children} = this.props;
+
 		return (
-			<div onClick={this.onClick}>
-				<span>Insert Block</span>
-			</div>
+			<PreventStealingFocus>
+				<div onClick={this.onClick}>
+					{children}
+				</div>
+			</PreventStealingFocus>
 		);
 	}
 }
