@@ -1,6 +1,8 @@
 import Button from './components/Button';
 import BlockCount from './components/BlockCount';
 
+//https://github.com/facebook/draft-js/issues/442
+
 export default {
 	components: {Button, BlockCount},
 
@@ -8,7 +10,7 @@ export default {
 		return {
 			getContext (getEditorState, setEditorState) {
 				return {
-					allowInsertBlock: () => {
+					get allowInsertBlock () {
 						//TODO: add a config for disabling inserting blocks given certain selections
 						return true;
 					},

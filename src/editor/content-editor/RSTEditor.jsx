@@ -84,10 +84,11 @@ const plugins = [
 	Plugins.LimitBlockTypes.create({allowed: ALLOWED_BLOCKS}),
 	Plugins.LimitStyles.create({allowd: ALLOWED_STYLES}),
 	Plugins.ExternalLinks.create({allowedInBlockTypes: new Set([BLOCKS.UNSTYLED, BLOCKS.ORDERED_LIST_ITEM, BLOCKS.UNORDERED_LIST_ITEM])}),
+	Plugins.InsertBlock.create(),
 	pastedText,
 	Plugins.KeepFocusInView.create(),
 	Plugins.BlockBreakOut.create(),
-	Plugins.ContiguousEntities.create()
+	Plugins.ContiguousEntities.create(),
 ];
 
 
