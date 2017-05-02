@@ -4,6 +4,7 @@ import {HOC} from 'nti-web-commons';
 
 import {Editor, Plugins, BLOCKS, STYLES} from '../../draft-core';
 import {Parser} from '../../RST';
+import {CustomRenders} from '../block-types';
 
 const {ItemChanges} = HOC;
 
@@ -85,6 +86,7 @@ const plugins = [
 	Plugins.LimitStyles.create({allowd: ALLOWED_STYLES}),
 	Plugins.ExternalLinks.create({allowedInBlockTypes: new Set([BLOCKS.UNSTYLED, BLOCKS.ORDERED_LIST_ITEM, BLOCKS.UNORDERED_LIST_ITEM])}),
 	Plugins.InsertBlock.create(),
+	Plugins.CustomBlockRendering.create({customRenders: CustomRenders}),
 	pastedText,
 	Plugins.KeepFocusInView.create(),
 	Plugins.BlockBreakOut.create(),
