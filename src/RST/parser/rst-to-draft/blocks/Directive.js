@@ -1,3 +1,5 @@
+import {BLOCKS} from '../../../../draft-core';
+
 import IndentedBlock from './IndentedBlock';
 
 const OPTIONS = Symbol('Options');
@@ -82,8 +84,29 @@ export default class Directive extends IndentedBlock {
 	}
 
 
-	getOutput () {
-		//TODO: warn that there is an unknown directive;
-		return {};
+	getOutput (context, options) {
+		const {bodyContext, output:body} = this.body.reduce((acc, block) => {
+			const draft = block.toDraft && block.toDraft(acc.context, options);
+			const {output, context:newContext} = draft || {};
+
+			acc.context = newContext || acc.context;
+
+			if (output)	{
+				acc.output.push(output);
+			}
+
+			return acc;
+		}, {context, output: []});
+
+		const output = {
+			type: BLOCKS.ATOMIC,
+			depth: 0,
+			data: {name: this.name, options: this.options, arguments: this.arguments, body},
+			inlineStyleRanges: [],
+			entityRanges: [],
+			text: ''
+		};
+
+		return {output, context: bodyContext};
 	}
 }
