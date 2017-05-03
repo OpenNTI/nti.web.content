@@ -9,6 +9,10 @@ function isConsecutive (prevRange, range) {
 
 
 export default function (block, context) {
+	if (block.toJS) {
+		block = block.toJS();
+	}
+
 	const {inlineStyleRanges, entityRanges, text} = block;
 	const normalizedRanges = normalizeRanges(inlineStyleRanges.concat(entityRanges), text.length);
 
