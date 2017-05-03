@@ -33,6 +33,10 @@ export default class Paragraph extends IndentedBlock {
 		return this.parts.text;
 	}
 
+	get raw () {
+		return this.parts.text.text;
+	}
+
 	get isOneLine () {
 		return this.lineCount === 1;
 	}

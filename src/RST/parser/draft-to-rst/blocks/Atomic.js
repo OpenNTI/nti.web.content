@@ -1,5 +1,4 @@
 import {BLOCKS} from '../../../../draft-core';
-import parseText from '../text-parser';
 
 const BLOCK = Symbol('Block');
 
@@ -49,13 +48,10 @@ export default class Atomic {
 	}
 
 
-	getBodyOutput (context) {
+	getBodyOutput () {
 		const {data} = this;
-		const {body} = data;
 
-		return body.map((part) => {
-			return parseText(part, context);
-		});
+		return data.body;
 	}
 
 
