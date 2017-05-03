@@ -30,10 +30,12 @@ export default class CourseFigureEditor extends React.Component {
 		const {block} = props;
 		const data = block.getData();
 		const body = data.get('body');
-		const title = body[0] && body[0].text;
+		const file = data.get('arguments');
+		const title = body[0];
 
 		return {
-			title
+			title,
+			file
 		};
 	}
 
@@ -43,12 +45,9 @@ export default class CourseFigureEditor extends React.Component {
 		const data = block.getData();
 		const body = data.get('body');
 
-		const newBody = [{...body[0], text: e.target.value}, body[1]];
+		const newBody = [e.target.value, body[1]];
 
 		setBlockData({
-			name: data.get('name'),
-			arguments: data.get('arguments'),
-			options: data.get('options'),
 			body: newBody
 		});
 	}
@@ -73,11 +72,12 @@ export default class CourseFigureEditor extends React.Component {
 
 
 	render () {
-		const {title} = this.state;
+		const {title, file} = this.state;
 
 		return (
 			<div>
-				<span>{title}</span>
+				<span>{title || ''}</span>
+				<img src={file} />
 				<input
 					type="text"
 					value={title}

@@ -1,25 +1,40 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import {ContentResources} from 'nti-web-commons';
 
 import {Plugins, BLOCKS} from '../../../draft-core';
 
 const {Button, BlockCount} = Plugins.InsertBlock.components;
 
-function createBlock (insertBlock) {
-	insertBlock({
-		type: BLOCKS.ATOMIC,
-		text: '',
-		data: {
-			name: 'course-figure',
-			arguments: '',
-			body: [],
-			options: {}
-		}
-	});
+function fileIsImage (file) {
+	return /image\//i.test(file.FileMimeType);
 }
 
-export default function CourseFigureButton () {
+function createBlock (insertBlock, {course}) {
+	const accept = x => !x.isFolder && fileIsImage(x);
+
+	ContentResources.selectFrom(course.getID(), accept)
+		.then((file) => {
+			insertBlock({
+				type: BLOCKS.ATOMIC,
+				text: '',
+				data: {
+					name: 'course-figure',
+					arguments: file.url,
+					body: [],
+					options: {}
+				}
+			});
+		});
+
+}
+
+CourseFigureButton.propTypes = {
+	course: PropTypes.object
+};
+export default function CourseFigureButton ({course}) {
 	return (
-		<Button createBlock={createBlock}>
+		<Button createBlock={createBlock} createBlockProps={{course}}>
 			<BlockCount />
 			<span>Course Figure Button</span>
 		</Button>

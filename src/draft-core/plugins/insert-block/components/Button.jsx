@@ -7,6 +7,7 @@ export default class Button extends React.Component {
 	static propTypes = {
 		className: PropTypes.string,
 		createBlock: PropTypes.func,
+		createBlockProps: PropTypes.object,
 		children: PropTypes.node
 	}
 
@@ -37,10 +38,10 @@ export default class Button extends React.Component {
 
 	onClick = () => {
 		const {insertBlock} = this.pluginContext;
-		const {createBlock} = this.props;
+		const {createBlock, createBlockProps} = this.props;
 
 		if (insertBlock && createBlock) {
-			createBlock(insertBlock);
+			createBlock(insertBlock, createBlockProps);
 		}
 	}
 

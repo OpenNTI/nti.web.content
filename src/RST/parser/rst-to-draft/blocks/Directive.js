@@ -84,19 +84,9 @@ export default class Directive extends IndentedBlock {
 	}
 
 
-	getOutput (context, options) {
-		const {bodyContext, output:body} = this.body.reduce((acc, block) => {
-			const draft = block.toDraft && block.toDraft(acc.context, options);
-			const {output, context:newContext} = draft || {};
-
-			acc.context = newContext || acc.context;
-
-			if (output)	{
-				acc.output.push(output);
-			}
-
-			return acc;
-		}, {context, output: []});
+	getOutput () {
+		debugger;
+		const body = this.body.map((x) => x.raw);
 
 		const output = {
 			type: BLOCKS.ATOMIC,
@@ -107,6 +97,6 @@ export default class Directive extends IndentedBlock {
 			text: ''
 		};
 
-		return {output, context: bodyContext};
+		return {output};
 	}
 }
