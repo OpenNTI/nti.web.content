@@ -1,6 +1,6 @@
 export BlockBreakOut from './block-break-out';
 export ContiguousEntities from './contiguous-entities';
-export CustomBlockRendering from './custom-block-rendering';
+export CustomBlocks from './custom-blocks';
 export ExternalLinks from './external-links';
 export FormatPasted from './format-pasted';
 export InsertBlock from './insert-block';
