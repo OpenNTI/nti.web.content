@@ -16,6 +16,16 @@ export default class CourseFigureEditor extends React.Component {
 		this.state = this.getStateFor(props);
 	}
 
+	componentWillReceiveProps (nextProps) {
+		const {block:newBlock} = nextProps;
+		const {block:oldBlock} = this.props;
+
+		if (newBlock !== oldBlock) {
+			this.setState(this.getStateFor(nextProps));
+		}
+	}
+
+
 	getStateFor (props = this.props) {
 		const {block} = props;
 		const data = block.getData();
@@ -32,8 +42,6 @@ export default class CourseFigureEditor extends React.Component {
 		const {blockProps: {setBlockData}, block} = this.props;
 		const data = block.getData();
 		const body = data.get('body');
-
-		debugger;
 
 		const newBody = [{...body[0], text: e.target.value}, body[1]];
 
