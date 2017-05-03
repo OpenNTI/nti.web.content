@@ -1,11 +1,20 @@
 import React from 'react';
 
-import {Plugins} from '../../../draft-core';
+import {Plugins, BLOCKS} from '../../../draft-core';
 
 const {Button, BlockCount} = Plugins.InsertBlock.components;
 
 function createBlock (insertBlock) {
-	debugger;
+	insertBlock({
+		type: BLOCKS.ATOMIC,
+		text: '',
+		data: {
+			name: 'course-figure',
+			arguments: '',
+			body: [],
+			options: {}
+		}
+	});
 }
 
 export default function CourseFigureButton () {

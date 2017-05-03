@@ -1,5 +1,6 @@
 import Button from './components/Button';
 import BlockCount from './components/BlockCount';
+import {insertBlock} from './utils';
 
 //https://github.com/facebook/draft-js/issues/442
 
@@ -20,8 +21,10 @@ export default {
 						return 0;
 					},
 
-					insertBlock: () => {
-						debugger;
+					insertBlock: (block, replaceRange) => {
+						const newState = insertBlock(block, replaceRange, getEditorState());
+
+						setEditorState(newState);
 					}
 				};
 			}
