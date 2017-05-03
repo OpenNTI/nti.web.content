@@ -101,7 +101,7 @@ export default class Directive extends IndentedBlock {
 		const output = {
 			type: BLOCKS.ATOMIC,
 			depth: 0,
-			data: {name: this.name, options: this.options, arguments: this.arguments, body},
+			data: {name: this.name, options: {...this.options}, arguments: this.arguments, body},
 			inlineStyleRanges: [],
 			entityRanges: [],
 			text: ''
