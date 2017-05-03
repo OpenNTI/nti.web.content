@@ -1,6 +1,6 @@
 export default {
 	create: (config = {}) => {
-		const {customRenderers = []} = config;
+		const {customRenderers = [], customStyles = []} = config;
 
 		return {
 			blockRendererFn: (contentBlock, pluginProps) => {
@@ -14,6 +14,14 @@ export default {
 								...(pluginProps || {})
 							}
 						};
+					}
+				}
+			},
+
+			blockStyleFn: (contentBlock) => {
+				for (let style of customStyles) {
+					if (style.handlesBlock(contentBlock)) {
+						return style.className;
 					}
 				}
 			}

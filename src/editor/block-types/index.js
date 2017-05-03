@@ -19,3 +19,11 @@ export const CustomRenders = TYPES.reduce((acc, type) => {
 
 	return acc;
 }, []);
+
+export const CustomStyles = TYPES.reduce((acc, type) => {
+	if (type.className) {
+		acc.push(type);
+	}
+
+	return acc;
+}, []);

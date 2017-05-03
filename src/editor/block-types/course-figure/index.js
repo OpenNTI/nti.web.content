@@ -13,6 +13,8 @@ export default {
 		return type === BLOCKS.ATOMIC && data.get('name') === NAME;
 	},
 
+	className: 'nti-course-figure-block',
+
 	button: Button,
 
 	component: Editor,
