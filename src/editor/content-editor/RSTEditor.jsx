@@ -86,7 +86,7 @@ const plugins = [
 	Plugins.LimitStyles.create({allowd: ALLOWED_STYLES}),
 	Plugins.ExternalLinks.create({allowedInBlockTypes: new Set([BLOCKS.UNSTYLED, BLOCKS.ORDERED_LIST_ITEM, BLOCKS.UNORDERED_LIST_ITEM])}),
 	Plugins.InsertBlock.create(),
-	Plugins.CustomBlockRendering.create({customRenders: CustomRenders}),
+	Plugins.CustomBlockRendering.create({customRenderers: CustomRenders}),
 	pastedText,
 	Plugins.KeepFocusInView.create(),
 	Plugins.BlockBreakOut.create(),

@@ -1,16 +1,16 @@
 export default {
 	create: (config = {}) => {
-		const {customRenders = []} = config;
+		const {customRenderers = []} = config;
 
 		return {
 			blockRendererFn: (contentBlock, pluginProps) => {
-				for (let render of customRenders) {
-					if (render.handlesBlock(contentBlock)) {
+				for (let renderer of customRenderers) {
+					if (renderer.handlesBlock(contentBlock)) {
 						return {
-							component: render.component,
-							editable: render.component,
+							component: renderer.component,
+							editable: renderer.editable,
 							props: {
-								...(render.props || {}),
+								...(renderer.props || {}),
 								...(pluginProps || {})
 							}
 						};
