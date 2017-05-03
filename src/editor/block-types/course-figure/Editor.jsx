@@ -1,6 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import FigureEditor from './FigureEditor';
+import CaptionEditor from './CaptionEditor';
+
 export default class CourseFigureEditor extends React.Component {
 	static propTypes = {
 		block: PropTypes.object,
@@ -29,13 +32,10 @@ export default class CourseFigureEditor extends React.Component {
 	getStateFor (props = this.props) {
 		const {block} = props;
 		const data = block.getData();
-		const body = data.get('body');
-		const file = data.get('arguments');
-		const title = body[0];
 
 		return {
-			title,
-			file
+			url: data.get('arguments'),
+			body: data.get('body')
 		};
 	}
 
@@ -72,19 +72,12 @@ export default class CourseFigureEditor extends React.Component {
 
 
 	render () {
-		const {title, file} = this.state;
+		const {url, body} = this.state;
 
 		return (
-			<div>
-				<span>{title || ''}</span>
-				<img src={file} />
-				<input
-					type="text"
-					value={title}
-					onChange={this.onTitleChange}
-					onFocus={this.onTitleFocus}
-					onBlur={this.onTitleBlur}
-				/>
+			<div className="course-figure-editor">
+				<FigureEditor url={url} />
+				<CaptionEditor body={body} />
 			</div>
 		);
 	}
