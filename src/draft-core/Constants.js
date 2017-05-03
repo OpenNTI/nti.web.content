@@ -60,5 +60,24 @@ export const BLOCK_SET = new Set([
 ]);
 
 
+export const CHANGE_TYPES = {
+	ADJUST_DEPTH: 'adjust-depth',
+	APPLY_ENTITY: 'apply-entity',
+	BACKAPCE_CHARACTER: 'backspace-character',
+	CHANGE_BLOCK_DATA: 'change-block-data',
+	CHANGE_BLOCK_TYPE: 'change-block-type',
+	CHANGE_INLINE_STYLE: 'change-inline-style',
+	MOVE_BLOCK: 'move-block',
+	DELETE_CHARACTER: 'delete-character',
+	INSERT_CHARACTERS: 'insert-characters',
+	INSERT_FRAGMENT: 'insert-fragment',
+	REDO: 'redo',
+	REMOVE_RANGE: 'remove-range',
+	SPELLCHECK_CHANGE: 'spellcheck-change',
+	SPLIT_BLOCK: 'split-block',
+	UNDO: 'undo'
+};
+
+
 //TODO: point all the references to draft-js-utils to constants in here,
 //then remove the dependency on draft-js-utils

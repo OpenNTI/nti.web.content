@@ -1,9 +1,13 @@
+import {setBlockData} from './utils';
+
 export default {
 	create: (config = {}) => {
 		const {customRenderers = [], customStyles = []} = config;
 
 		return {
 			blockRendererFn: (contentBlock, pluginProps) => {
+				const {getEditorState, setEditorState} = pluginProps;
+
 				for (let renderer of customRenderers) {
 					if (renderer.handlesBlock(contentBlock)) {
 						return {
@@ -11,7 +15,12 @@ export default {
 							editable: renderer.editable,
 							props: {
 								...(renderer.props || {}),
-								...(pluginProps || {})
+								...(pluginProps || {}),
+								setBlockData: (data) => {
+									const newState = setBlockData(contentBlock, data, getEditorState());
+
+									setEditorState(newState);
+								}
 							}
 						};
 					}
