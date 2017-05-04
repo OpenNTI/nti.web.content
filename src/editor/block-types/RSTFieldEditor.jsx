@@ -135,7 +135,7 @@ export default class RSTFieldEditor extends React.Component {
 
 		return (
 			<Selection.Component className={cls} value={selectableValue} id={fieldId}>
-				<NestedEditorWrapper>
+				<NestedEditorWrapper className="rst-field-nested-wrapper">
 					<Editor
 						editorState={editorState}
 						plugins={plugins}
