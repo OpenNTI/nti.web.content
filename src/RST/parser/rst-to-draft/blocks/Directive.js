@@ -85,7 +85,6 @@ export default class Directive extends IndentedBlock {
 
 
 	getOutput () {
-		debugger;
 		const body = this.body.map((x) => x.raw);
 
 		const output = {

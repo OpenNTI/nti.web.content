@@ -1,10 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import RSTFieldEditor from '../RSTFieldEditor';
+
 export default class CaptionEditor extends React.Component {
 	static propTypes = {
 		body: PropTypes.array,
-		onChange: PropTypes.func
+		blockId: PropTypes.string,
+		onChange: PropTypes.func,
+		onFocus: PropTypes.func,
+		onBlur: PropTypes.func
 	}
 
 
@@ -13,13 +18,43 @@ export default class CaptionEditor extends React.Component {
 	}
 
 
+	onFocus = () => {
+		const {onFocus} = this.props;
+
+		if (onFocus) {
+			onFocus();
+		}
+	}
+
+
+	onBlur = () => {
+		const {onBlur} = this.props;
+
+		if (onBlur) {
+			onBlur();
+		}
+	}
+
+
 	render () {
-		const {body} = this.props;
+		const {body, blockId} = this.props;
 
 		return (
 			<div className="caption-editor">
-				<div className="title">{body[0] || ''}</div>
-				<div className="description">{body[1] || ''}</div>
+				<RSTFieldEditor
+					className="title"
+					value={body[0] || ''}
+					fieldId={`${blockId}-title`}
+					onFocus={this.onFocus}
+					onBlur={this.onBlur}
+				/>
+				<RSTFieldEditor
+					className="description"
+					value={body[1] || ''}
+					fieldId={`${blockId}-description`}
+					onFocus={this.onFocus}
+					onBlur={this.onBlur}
+				/>
 			</div>
 		);
 	}

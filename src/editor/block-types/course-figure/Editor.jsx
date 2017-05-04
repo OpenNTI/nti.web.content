@@ -40,20 +40,7 @@ export default class CourseFigureEditor extends React.Component {
 	}
 
 
-	onTitleChange = (e) => {
-		const {blockProps: {setBlockData}, block} = this.props;
-		const data = block.getData();
-		const body = data.get('body');
-
-		const newBody = [e.target.value, body[1]];
-
-		setBlockData({
-			body: newBody
-		});
-	}
-
-
-	onTitleFocus = () => {
+	onFocus = () => {
 		const {blockProps: {setReadOnly}} = this.props;
 
 		if (setReadOnly) {
@@ -62,7 +49,7 @@ export default class CourseFigureEditor extends React.Component {
 	}
 
 
-	onTitleBlur = () => {
+	onBlur = () => {
 		const {blockProps: {setReadOnly}} = this.props;
 
 		if (setReadOnly) {
@@ -72,12 +59,14 @@ export default class CourseFigureEditor extends React.Component {
 
 
 	render () {
+		const {block} = this.props;
 		const {url, body} = this.state;
+		const blockId = block.getKey();
 
 		return (
 			<div className="course-figure-editor">
-				<FigureEditor url={url} />
-				<CaptionEditor body={body} />
+				<FigureEditor url={url} blockId={blockId} onFocus={this.onFocus} onBlur={this.onBlur} />
+				<CaptionEditor body={body} blockId={blockId} onFocus={this.onFocus} onBlur={this.onBlur} />
 			</div>
 		);
 	}
