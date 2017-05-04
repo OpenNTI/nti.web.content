@@ -169,8 +169,6 @@ export default class DraftCoreEditor extends React.Component {
 	}
 
 
-
-
 	onContentChange = () => {
 		const {onContentChange} = this.props;
 		const {currentEditorState} = this.state;
@@ -271,6 +269,7 @@ export default class DraftCoreEditor extends React.Component {
 							plugins={plugins}
 							onChange={this.onChange}
 							onFocus={this.onFocus}
+							onBlur={this.onBlur}
 							handleKeyCommand={this.handleKeyCommand}
 							placeholder={placeholder}
 						/>
