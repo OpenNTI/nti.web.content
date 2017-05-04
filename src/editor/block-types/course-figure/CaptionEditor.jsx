@@ -36,6 +36,24 @@ export default class CaptionEditor extends React.Component {
 	}
 
 
+	onTitleChange = (title) => {
+		const {body, onChange} = this.props;
+
+		if (onChange) {
+			onChange([title, body[1]]);
+		}
+	}
+
+
+	onDescriptionChange = (description) => {
+		const {body, onChange} = this.props;
+
+		if (onChange) {
+			onChange([body[0], description]);
+		}
+	}
+
+
 	render () {
 		const {body, blockId} = this.props;
 
@@ -47,6 +65,7 @@ export default class CaptionEditor extends React.Component {
 					fieldId={`${blockId}-title`}
 					onFocus={this.onFocus}
 					onBlur={this.onBlur}
+					onChange={this.onTitleChange}
 				/>
 				<RSTFieldEditor
 					className="description"
@@ -54,6 +73,7 @@ export default class CaptionEditor extends React.Component {
 					fieldId={`${blockId}-description`}
 					onFocus={this.onFocus}
 					onBlur={this.onBlur}
+					onChange={this.onDescriptionChange}
 				/>
 			</div>
 		);

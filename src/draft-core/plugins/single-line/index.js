@@ -1,6 +1,6 @@
 import {ContentState, EditorState, Modifier, convertFromHTML} from 'draft-js';
 
-import {HANDLED} from '../Constants';
+import {EVENT_HANDLED, HANDLED} from '../Constants';
 
 function cleanText (text) {
 	return `<p>${text.replace('\n', ' ')}</p>`;
@@ -38,7 +38,7 @@ export default {
 			handleReturn () {
 				//Block enters from being types
 				//by telling the editor we handled the event
-				return HANDLED;
+				return EVENT_HANDLED;
 			}
 		};
 	}

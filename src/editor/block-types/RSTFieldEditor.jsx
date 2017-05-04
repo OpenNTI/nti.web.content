@@ -1,11 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
-import {Selection} from 'nti-web-commons';
 import {EditorState, convertFromRaw, convertToRaw} from 'draft-js';
 
+import {Selection} from 'nti-web-commons';
+
 import {Parser} from '../../RST';
-import {Editor, Plugins, BLOCKS, STYLES} from '../../draft-core';
+import {Editor, Plugins, BLOCKS, STYLES, NestedEditorWrapper} from '../../draft-core';
 
 function rstToDraft (rst) {
 	const draftState = rst && Parser.convertRSTToDraftState(rst);
@@ -14,6 +15,12 @@ function rstToDraft (rst) {
 	return blocks && blocks.length ?
 				EditorState.createWithContent(convertFromRaw(draftState)) :
 				EditorState.createEmpty();
+}
+
+function draftToRST (editorState) {
+	const currentContent = editorState && editorState.getCurrentContent();
+
+	return currentContent ? Parser.convertDraftStateToRST(convertToRaw(currentContent)) : '';
 }
 
 const plugins = [
@@ -40,7 +47,25 @@ export default class RSTFieldEditor extends React.Component {
 	constructor (props) {
 		super(props);
 
+		this.pendingSaves = [];
+
 		this.state = this.getStateFor(props);
+	}
+
+
+	isPendingSave (value) {
+		for (let save of this.pendingSaves) {
+			if (save === value) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+
+	cleanUpPending (value) {
+		this.pendingSaves = this.pendingSaves.filter(save => save !== value);
 	}
 
 
@@ -49,8 +74,8 @@ export default class RSTFieldEditor extends React.Component {
 		const {value:oldValue} = this.props;
 
 
-		if (newValue !== oldValue) {
-			this.setState(this.setStateFor(nextProps));
+		if (newValue !== oldValue && !this.isPendingSave(newValue)) {
+			this.setState(this.getStateFor(nextProps));
 		}
 	}
 
@@ -89,6 +114,16 @@ export default class RSTFieldEditor extends React.Component {
 		}
 	}
 
+	onContentChange = (editorState) => {
+		const {onChange, value:oldValue} = this.props;
+		const newValue = draftToRST(editorState);
+
+		if (onChange && newValue !== oldValue) {
+			this.pendingSaves.push(newValue);
+			onChange(newValue);
+		}
+	}
+
 
 	render () {
 		const {className, fieldId, ...otherProps} = this.props;
@@ -100,13 +135,17 @@ export default class RSTFieldEditor extends React.Component {
 
 		return (
 			<Selection.Component className={cls} value={selectableValue} id={fieldId}>
-				<Editor
-					editorState={editorState}
-					plugins={plugins}
-					onFocus={this.onEditorFocus}
-					onBlur={this.onEditorBlur}
-					{...otherProps}
-				/>
+				<NestedEditorWrapper>
+					<Editor
+						editorState={editorState}
+						plugins={plugins}
+						onFocus={this.onEditorFocus}
+						onBlur={this.onEditorBlur}
+						onContentChange={this.onContentChange}
+						contentChangeBuffer={0}
+						{...otherProps}
+					/>
+				</NestedEditorWrapper>
 			</Selection.Component>
 		);
 	}

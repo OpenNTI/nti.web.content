@@ -58,15 +58,30 @@ export default class CourseFigureEditor extends React.Component {
 	}
 
 
+	onCaptionChange = (body) => {
+		const {blockProps: {setBlockData}} = this.props;
+
+		if (setBlockData) {
+			setBlockData({body});
+		}
+	}
+
+
 	render () {
 		const {block} = this.props;
 		const {url, body} = this.state;
 		const blockId = block.getKey();
 
 		return (
-			<div className="course-figure-editor">
+			<div className="course-figure-editor" onMouseDown={this.onMouseDown}>
 				<FigureEditor url={url} blockId={blockId} onFocus={this.onFocus} onBlur={this.onBlur} />
-				<CaptionEditor body={body} blockId={blockId} onFocus={this.onFocus} onBlur={this.onBlur} />
+				<CaptionEditor
+					body={body}
+					blockId={blockId}
+					onFocus={this.onFocus}
+					onBlur={this.onBlur}
+					onChange={this.onCaptionChange}
+				/>
 			</div>
 		);
 	}
