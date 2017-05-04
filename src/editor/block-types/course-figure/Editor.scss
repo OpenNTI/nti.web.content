@@ -1,13 +1,33 @@
 @import "~nti-style-common";
 
-.nti-course-figure-block {
-	margin: 0;
+//Add these selectors to help with specificity
+.content-editing-editor-container .content-editing-rst-editor .nti-course-figure-block {
+	margin: 0.875rem 0;
 	box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.15);
+
+	.DraftEditor-root {
+		min-height: 0;
+
+		.public-DraftEditor-content {
+			padding: 0;
+
+			& > div, & > div > div {
+				margin: 0;
+			}
+		}
+	}
 
 	.course-figure-editor {
 		.figure-editor {
+			margin: 0;
 			height: 400px;
 			background-size: cover;
 		}
+
+		.caption-editor {
+			padding: 0.875rem;
+			margin: 0;
+		}
+
 	}
 }
