@@ -1,4 +1,4 @@
-import {setBlockData} from './utils';
+import {setBlockData, removeBlock} from './utils';
 
 export default {
 	create: (config = {}) => {
@@ -18,6 +18,11 @@ export default {
 								...(pluginProps || {}),
 								setBlockData: (data) => {
 									const newState = setBlockData(contentBlock, data, getEditorState());
+
+									setEditorState(newState);
+								},
+								removeBlock: () => {
+									const newState = removeBlock(contentBlock, getEditorState());
 
 									setEditorState(newState);
 								}

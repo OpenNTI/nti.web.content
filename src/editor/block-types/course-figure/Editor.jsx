@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import Controls from '../Controls';
+
 import FigureEditor from './FigureEditor';
 import CaptionEditor from './CaptionEditor';
 
@@ -9,6 +11,7 @@ export default class CourseFigureEditor extends React.Component {
 		block: PropTypes.object,
 		blockProps: PropTypes.shape({
 			setBlockData: PropTypes.func,
+			removeBlock: PropTypes.func,
 			setReadOnly: PropTypes.func
 		})
 	}
@@ -37,6 +40,15 @@ export default class CourseFigureEditor extends React.Component {
 			url: data.get('arguments'),
 			body: data.get('body')
 		};
+	}
+
+
+	onRemove = () => {
+		const {blockProps: {removeBlock}} = this.props;
+
+		if (removeBlock) {
+			removeBlock();
+		}
 	}
 
 
@@ -74,6 +86,7 @@ export default class CourseFigureEditor extends React.Component {
 
 		return (
 			<div className="course-figure-editor" onMouseDown={this.onMouseDown}>
+				<Controls onRemove={this.onRemove} />
 				<FigureEditor url={url} blockId={blockId} onFocus={this.onFocus} onBlur={this.onBlur} />
 				<CaptionEditor
 					body={body}
