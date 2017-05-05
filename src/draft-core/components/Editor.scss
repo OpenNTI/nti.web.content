@@ -15,6 +15,11 @@
 			y: auto;
 		}
 
+		.public-DraftEditorPlaceholder-root {
+			color: $tertiary-grey;
+			font-style: italic;
+		}
+
 		&.hide-placeholder {
 			.public-DraftEditorPlaceholder-root {
 				display: none;
