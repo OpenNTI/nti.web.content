@@ -38,7 +38,12 @@ export default class Atomic {
 
 	getOptionsOutput () {
 		const {data} = this;
-		const {options} = data;
+		let {options} = data;
+
+		//TODO: figure out why we are getting a map here
+		if (options.toJS) {
+			options = options.toJS();
+		}
 
 		return (Object.keys(options) || []).map((key) => {
 			const value = options[key];
