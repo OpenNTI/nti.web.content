@@ -58,7 +58,7 @@ export default class BlockTypes extends React.Component {
 
 		return (
 			<ContextProvider editor={getEditorForSelection(selection)}>
-				<div className="block-types">
+				<div className="content-editor-block-types">
 					{Buttons.map((button, key) => {
 						return React.createElement(button, {key, contentPackage, course});
 					})}

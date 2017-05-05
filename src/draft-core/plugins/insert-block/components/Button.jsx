@@ -5,7 +5,6 @@ import PreventStealingFocus from '../../../components/PreventStealingFocus';
 
 export default class Button extends React.Component {
 	static propTypes = {
-		className: PropTypes.string,
 		createBlock: PropTypes.func,
 		createBlockProps: PropTypes.object,
 		children: PropTypes.node
@@ -47,13 +46,14 @@ export default class Button extends React.Component {
 
 
 	render () {
-		const {children} = this.props;
+		const {children, ...otherProps} = this.props;
+
+		delete otherProps.createBlock;
+		delete otherProps.createBlockProps;
 
 		return (
-			<PreventStealingFocus>
-				<div onClick={this.onClick}>
-					{children}
-				</div>
+			<PreventStealingFocus onClick={this.onClick} {...otherProps}>
+				{children}
 			</PreventStealingFocus>
 		);
 	}
