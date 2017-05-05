@@ -1,7 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import {scoped} from 'nti-lib-locale';
 
 import RSTFieldEditor from '../RSTFieldEditor';
+
+const DEFAULT_TEXT = {
+	titlePlaceholder: 'Title',
+	descriptionPlaceholder: 'Write a caption...'
+};
+
+const t = scoped('COURSE_FIGURE_CAPTION_EDITOR', DEFAULT_TEXT);
 
 export default class CaptionEditor extends React.Component {
 	static propTypes = {
@@ -66,6 +74,7 @@ export default class CaptionEditor extends React.Component {
 					onFocus={this.onFocus}
 					onBlur={this.onBlur}
 					onChange={this.onTitleChange}
+					placeholder={t('titlePlaceholder')}
 				/>
 				<RSTFieldEditor
 					className="description"
@@ -74,6 +83,7 @@ export default class CaptionEditor extends React.Component {
 					onFocus={this.onFocus}
 					onBlur={this.onBlur}
 					onChange={this.onDescriptionChange}
+					placeholder={t('descriptionPlaceholder')}
 				/>
 			</div>
 		);

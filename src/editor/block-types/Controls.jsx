@@ -26,7 +26,7 @@ export default class BlockTypeControls extends React.Component {
 			<div className={cls}>
 				<div className="spacer" />
 				<div className="remove" onClick={this.onRemove}>
-					<i className="icon-remove" />
+					<i className="icon-bold-x" />
 				</div>
 			</div>
 		);
