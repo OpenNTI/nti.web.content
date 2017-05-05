@@ -25,10 +25,24 @@
 		}
 
 		.caption-editor {
-			padding: 0.875rem;
+			padding: rem-calc(10px 12px);
 			margin: 0;
 			background: $panel-background;
 		}
 
+
+		.rst-field-editor.title {
+			.DraftEditor-root {
+				font-weight: 600;
+				line-height: 19px;
+			}
+		}
+
+		.rst-field-editor.description {
+			.DraftEditor-root {
+				color: $secondary-grey;
+				line-height: 1.43;
+			}
+		}
 	}
 }
