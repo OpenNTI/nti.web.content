@@ -23,7 +23,7 @@ function createBlock (insertBlock, {course}) {
 					name: 'course-figure',
 					arguments: file.url,
 					body: [],
-					options: {}
+					options: {local: true}
 				}
 			});
 		});
