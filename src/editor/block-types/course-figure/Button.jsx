@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+
 import {ContentResources} from 'nti-web-commons';
 
 import {Plugins, BLOCKS} from '../../../draft-core';
@@ -34,9 +35,9 @@ CourseFigureButton.propTypes = {
 };
 export default function CourseFigureButton ({course}) {
 	return (
-		<Button createBlock={createBlock} createBlockProps={{course}}>
+		<Button className="course-figure-button" createBlock={createBlock} createBlockProps={{course}}>
 			<BlockCount />
-			<span>Course Figure Button</span>
+			<span className="label">Photo</span>
 		</Button>
 	);
 }

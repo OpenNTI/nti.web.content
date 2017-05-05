@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="70px" height="70px" viewBox="0 0 70 70" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 43.2 (39069) - http://www.bohemiancoding.com/sketch -->
+    <title>-icon-video</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <circle id="path-1" cx="35" cy="35" r="23"></circle>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="-icon-video">
+            <g id="Oval-11">
+                <use fill="#E2F4FE" fill-rule="evenodd" xlink:href="#path-1"></use>
+                <circle stroke="#C5C5C5" stroke-width="1" cx="35" cy="35" r="22.5"></circle>
+            </g>
+            <circle id="Oval" stroke="#E2E2E2" cx="35" cy="35" r="26.5"></circle>
+            <polygon id="Rectangle-6" fill="#3FB3F6" transform="translate(32.000000, 35.000000) rotate(-45.000000) translate(-32.000000, -35.000000) " points="36.9497475 25.8076118 41.1923882 44.1923882 22.8076118 39.9497475"></polygon>
+            <rect id="bounding-box" x="0" y="0" width="70" height="70"></rect>
+        </g>
+    </g>
+</svg>

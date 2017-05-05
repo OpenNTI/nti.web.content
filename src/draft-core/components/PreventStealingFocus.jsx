@@ -4,12 +4,11 @@ import PropTypes from 'prop-types';
 const stop = e => e.preventDefault();
 
 PreventStealingFocus.propTypes = {
-	className: PropTypes.string,
 	children: PropTypes.node
 };
-export default function PreventStealingFocus ({className, children}) {
+export default function PreventStealingFocus ({children, ...otherProps}) {
 	return (
-		<div className={className || ''} onMouseDown={stop}>
+		<div onMouseDown={stop} {...otherProps} >
 			{children}
 		</div>
 	);

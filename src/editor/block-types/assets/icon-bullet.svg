@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="70px" height="70px" viewBox="0 0 70 70" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 43.2 (39069) - http://www.bohemiancoding.com/sketch -->
+    <title>-icon-bullet</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="-icon-bullet">
+            <rect id="Rectangle" fill="#E6E6E6" x="25" y="43" width="24" height="2" rx="1"></rect>
+            <rect id="Rectangle" fill="#E6E6E6" x="25" y="34" width="18" height="2" rx="1"></rect>
+            <rect id="Rectangle" fill="#938DB0" x="25" y="25" width="29" height="2" rx="1"></rect>
+            <path d="M18,28 C19.1045695,28 20,27.1045695 20,26 C20,24.8954305 19.1045695,24 18,24 C16.8954305,24 16,24.8954305 16,26 C16,27.1045695 16.8954305,28 18,28 Z" id="Oval-1" fill="#938DB0"></path>
+            <path d="M18,37 C19.1045695,37 20,36.1045695 20,35 C20,33.8954305 19.1045695,33 18,33 C16.8954305,33 16,33.8954305 16,35 C16,36.1045695 16.8954305,37 18,37 Z" id="Oval-1" fill="#E6E6E6"></path>
+            <path d="M18,46 C19.1045695,46 20,45.1045695 20,44 C20,42.8954305 19.1045695,42 18,42 C16.8954305,42 16,42.8954305 16,44 C16,45.1045695 16.8954305,46 18,46 Z" id="Oval-1" fill="#E6E6E6"></path>
+            <rect id="bounding-box" x="0" y="0" width="70" height="70"></rect>
+        </g>
+    </g>
+</svg>
