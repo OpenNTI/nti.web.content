@@ -4,7 +4,6 @@ import Logger from 'nti-util-logger';
 import {Errors} from 'nti-web-commons';
 
 import {
-	SET_CONTENT_EDITOR,
 	SAVING,
 	SAVE_ENDED,
 	SET_ERROR,
@@ -79,7 +78,6 @@ class Store extends StorePrototype {
 		init(this);
 
 		this.registerHandlers({
-			[SET_CONTENT_EDITOR]: SetContentEditor,
 			[SAVING]: SetSaveStart,
 			[SAVE_ENDED]: SetSaveEnd,
 			[SET_ERROR]: SetError,
@@ -99,12 +97,6 @@ class Store extends StorePrototype {
 
 	[Reset] () {
 		init(this);
-	}
-
-
-	[SetContentEditor] (e) {
-		this[Protected].contentEditor = e.action && e.action.response;
-		this.emitChange({type: SET_CONTENT_EDITOR});
 	}
 
 
@@ -319,11 +311,6 @@ class Store extends StorePrototype {
 
 	get editorRef () {
 		return this[Protected].editorRef;
-	}
-
-
-	get contentEditor () {
-		return this[Protected].contentEditor;
 	}
 
 

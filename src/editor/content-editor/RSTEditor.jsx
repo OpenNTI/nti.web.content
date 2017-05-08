@@ -1,11 +1,11 @@
 import React from 'react';
 import {EditorState, convertFromRaw, convertToRaw} from 'draft-js';
+
 import {HOC} from 'nti-web-commons';
 
 import {Editor, Plugins, BLOCKS, STYLES} from '../../draft-core';
 import {Parser} from '../../RST';
 import {CustomRenders, CustomStyles} from '../block-types';
-import {setContentEditorRef} from '../Actions';
 
 const {ItemChanges} = HOC;
 
@@ -103,10 +103,7 @@ export default class RSTEditor extends React.Component {
 		onContentChange: React.PropTypes.func
 	}
 
-	setEditorRef = x => {
-		this.editorRef = x;
-		setContentEditorRef(x);
-	}
+	setEditorRef = x => this.editorRef = x
 
 	constructor (props) {
 		super(props);
@@ -207,6 +204,7 @@ export default class RSTEditor extends React.Component {
 			<ItemChanges item={contentPackage} onItemChanged={this.onContentPackageChange}>
 				<Editor
 					ref={this.setEditorRef}
+					id="content-editor"
 					className="content-editing-rst-editor"
 					editorState={editorState}
 					onContentChange={this.onContentChange}

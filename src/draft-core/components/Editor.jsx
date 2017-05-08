@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import cx from 'classnames';
 import UserAgent from 'fbjs/lib/UserAgent';
 import Editor from 'draft-js-plugins-editor';
@@ -15,18 +16,20 @@ const INTERNAL_CHANGE = Symbol('Internal Change');
 
 export default class DraftCoreEditor extends React.Component {
 	static propTypes = {
-		className: React.PropTypes.string,
-		editorState: React.PropTypes.object.isRequired,
-		plugins: React.PropTypes.array,
-		placeholder: React.PropTypes.string,
+		className: PropTypes.string,
+		id: PropTypes.string,
 
-		contentChangeBuffer: React.PropTypes.number,
+		editorState: PropTypes.object.isRequired,
+		plugins: PropTypes.array,
+		placeholder: PropTypes.string,
 
-		onChange: React.PropTypes.func,
-		onContentChange: React.PropTypes.func,
-		onBlur: React.PropTypes.func,
-		onFocus: React.PropTypes.func,
-		handleKeyCommand: React.PropTypes.func
+		contentChangeBuffer: PropTypes.number,
+
+		onChange: PropTypes.func,
+		onContentChange: PropTypes.func,
+		onBlur: PropTypes.func,
+		onFocus: PropTypes.func,
+		handleKeyCommand: PropTypes.func
 
 	}
 
@@ -106,23 +109,31 @@ export default class DraftCoreEditor extends React.Component {
 	}
 
 	componentDidMount () {
-		const {plugins} = this.props;
+		const {plugins, id} = this.props;
 
 		for (let plugin of plugins) {
 			if (plugin.setEditor) {
 				plugin.setEditor(this);
 			}
 		}
+
+		if (id) {
+			ContextProvider.register(id, this);
+		}
 	}
 
 
 	componentWillUnmount () {
-		const {plugins} = this.props;
+		const {plugins, id} = this.props;
 
 		for (let plugin of plugins) {
 			if (plugin.setEditor) {
 				plugin.setEditor(null);
 			}
+		}
+
+		if (id) {
+			ContextProvider.unregister(id, this);
 		}
 	}
 

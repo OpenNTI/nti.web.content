@@ -1,5 +1,3 @@
-export const SET_CONTENT_EDITOR = 'content:editor:seteditor';
-
 export const SAVING = 'content:editor:saving';
 export const SAVE_ENDED = 'content:editor:saveend';
 
