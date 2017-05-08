@@ -1,12 +1,27 @@
 import React from 'react';
 
+import IdRegistry from './IdRegistry';
+
+const registry = new IdRegistry();
+
 
 export default class ContextProvider extends React.Component {
+	static register (id, editor) {
+		registry.register(id, editor);
+	}
+
+
+	static unregister (id, editor) {
+		registry.unregister(id, editor);
+	}
+
+
 	static propTypes = {
 		editor: React.PropTypes.shape({
 			getPluginContext: React.PropTypes.func,
 
 		}),
+		editorID: React.PropTypes.string,
 		children: React.PropTypes.element,
 
 		/**
@@ -29,6 +44,7 @@ export default class ContextProvider extends React.Component {
 
 		this.externalLinks = [];
 		this.register(props);
+		this.addRegistryListener(props);
 	}
 
 
@@ -47,10 +63,14 @@ export default class ContextProvider extends React.Component {
 
 
 	getEditor (props = this.props) {
-		let {editor} = props;
+		let {editor, editorId} = props;
 
 		while (editor && editor.editor) {
 			editor = editor.editor;
+		}
+
+		if (!editor && editorId) {
+			editor = registry.get(editorId);
 		}
 
 		return editor;
@@ -70,18 +90,50 @@ export default class ContextProvider extends React.Component {
 		}
 	}
 
-
 	componentWillUnmount () {
 		this.externalLinks = [];
 		this.unregister();
+		this.removeRegistryListener();
+	}
+
+
+	addRegistryListener (props = this.props) {
+		const {editorId, internal} = props;
+
+		this.removeRegistryListener(props);
+
+		if (editorId && !internal) {
+			registry.addListener(registry.getRegisterEvent(editorId), this.onEditorRegistered);
+			registry.addListener(registry.getUnregisterEvent(editorId), this.onEditorUnregistered);
+		}
+	}
+
+
+	removeRegistryListener (props = this.props) {
+		const {editorId} = props;
+
+		if (editorId) {
+			registry.removeListener(registry.getRegisterEvent(editorId), this.onEditorRegistered);
+			registry.removeListener(registry.getUnregisterEvent(editorId), this.onEditorUnregistered);
+		}
+	}
+
+
+	onEditorRegistered = (editor) => {
+		this.registerEditor(editor);
 	}
 
 
 	//link other instances of CoreContextProvider together.
 	register (props = this.props) {
-		const editor = this.getEditor(props);
+		if (!props.internal) {
+			this.registerEditor(this.getEditor(props));
+		}
+	}
 
-		if (editor && editor.editorContext && !props.internal) {
+
+	registerEditor (editor) {
+		if (editor && editor.editorContext) {
 			editor.editorContext.addLink(this);
 		}
 	}
@@ -92,10 +144,20 @@ export default class ContextProvider extends React.Component {
 	}
 
 
-	unregister (props = this.props) {
-		const editor = this.getEditor(props);
+	onEditorUnregistered = (editor) => {
+		this.unregisterEditor(editor);
+	}
 
-		if (editor && editor.editorContext && !props.internal) {
+
+	unregister (props = this.props) {
+		if (!props.internal) {
+			this.unregisterEditor(this.getEditor(props));
+		}
+	}
+
+
+	unregisterEditor (editor) {
+		if (editor && editor.editorContext) {
 			editor.editorContext.removeLink(this);
 		}
 	}
