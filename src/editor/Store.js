@@ -1,8 +1,10 @@
 import StorePrototype from 'nti-lib-store';
-import {Errors} from 'nti-web-commons';
 import Logger from 'nti-util-logger';
 
+import {Errors} from 'nti-web-commons';
+
 import {
+	SET_CONTENT_EDITOR,
 	SAVING,
 	SAVE_ENDED,
 	SET_ERROR,
@@ -29,6 +31,8 @@ const SHORT = 3000;
 
 const Protected = Symbol('Protected');
 const ErrorMessages = 'error-messages';
+
+const SetContentEditor = Symbol('SetContentEditor');
 
 const SetSaveStart = Symbol('SetSaveStart');
 const SetSaveEnd = Symbol('SetSaveEnd');
@@ -58,6 +62,7 @@ const RenderJobChanged = Symbol('RenderJobChanged');
 
 function init (store) {
 	store[Protected] = {
+		contentEditor: null,
 		savingCount: 0,
 		publishing: false,
 		unpublishing: false,
@@ -74,6 +79,7 @@ class Store extends StorePrototype {
 		init(this);
 
 		this.registerHandlers({
+			[SET_CONTENT_EDITOR]: SetContentEditor,
 			[SAVING]: SetSaveStart,
 			[SAVE_ENDED]: SetSaveEnd,
 			[SET_ERROR]: SetError,
@@ -93,6 +99,12 @@ class Store extends StorePrototype {
 
 	[Reset] () {
 		init(this);
+	}
+
+
+	[SetContentEditor] (e) {
+		this[Protected].contentEditor = e.action && e.action.response;
+		this.emitChange({type: SET_CONTENT_EDITOR});
 	}
 
 
@@ -307,6 +319,11 @@ class Store extends StorePrototype {
 
 	get editorRef () {
 		return this[Protected].editorRef;
+	}
+
+
+	get contentEditor () {
+		return this[Protected].contentEditor;
 	}
 
 

@@ -3,6 +3,7 @@ import {wait} from 'nti-commons';
 
 import Store from './Store';
 import {
+	SET_CONTENT_EDITOR,
 	SAVING,
 	SAVE_ENDED,
 	DELETING,
@@ -24,6 +25,10 @@ export function resetStore () {
 	dispatch(RESET_STORE);
 }
 
+
+export function setContentEditorRef (ref) {
+	dispatch(SET_CONTENT_EDITOR, ref);
+}
 
 export function publishContentPackage (contentPackage) {
 	const {rst, version} = Store.editorRef.getRSTAndVersion();

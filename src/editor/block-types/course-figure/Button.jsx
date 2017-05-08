@@ -30,13 +30,20 @@ function createBlock (insertBlock, {course}) {
 
 }
 
+function isBlock (block) {
+	const type = block.getType();
+	const data = block.getData();
+
+	return type === BLOCKS.ATOMIC && data.get('name') === 'course-figure';
+}
+
 CourseFigureButton.propTypes = {
 	course: PropTypes.object
 };
 export default function CourseFigureButton ({course}) {
 	return (
 		<Button className="course-figure-button" createBlock={createBlock} createBlockProps={{course}}>
-			<BlockCount />
+			<BlockCount predicate={isBlock}/>
 			<span className="label">Photo</span>
 		</Button>
 	);

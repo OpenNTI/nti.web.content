@@ -17,8 +17,11 @@ export default {
 					},
 
 					getInsertBlockCount: (predicate) => {
-						//TODO: fill this out
-						return 0;
+						const state = getEditorState();
+						const content = state.getCurrentContent();
+						const blocks = content.getBlocksAsArray();
+
+						return blocks.filter(predicate).length;
 					},
 
 					insertBlock: (block, replaceRange) => {

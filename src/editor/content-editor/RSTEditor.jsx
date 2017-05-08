@@ -5,6 +5,7 @@ import {HOC} from 'nti-web-commons';
 import {Editor, Plugins, BLOCKS, STYLES} from '../../draft-core';
 import {Parser} from '../../RST';
 import {CustomRenders, CustomStyles} from '../block-types';
+import {setContentEditorRef} from '../Actions';
 
 const {ItemChanges} = HOC;
 
@@ -102,7 +103,10 @@ export default class RSTEditor extends React.Component {
 		onContentChange: React.PropTypes.func
 	}
 
-	setEditorRef = x => this.editorRef = x
+	setEditorRef = x => {
+		this.editorRef = x;
+		setContentEditorRef(x);
+	}
 
 	constructor (props) {
 		super(props);
