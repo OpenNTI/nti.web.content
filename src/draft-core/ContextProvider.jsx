@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import IdRegistry from './IdRegistry';
 
@@ -17,24 +18,25 @@ export default class ContextProvider extends React.Component {
 
 
 	static propTypes = {
-		editor: React.PropTypes.shape({
-			getPluginContext: React.PropTypes.func,
+		editor: PropTypes.shape({
+			getPluginContext: PropTypes.func,
 
 		}),
-		editorID: React.PropTypes.string,
-		children: React.PropTypes.element,
+		editorID: PropTypes.string,
+		children: PropTypes.element,
 
 		/**
 		 * Flag this instance as internal to Core. External ContextProviders add references to this one.
 		 * @type {boolean}
 		 */
-		internal: React.PropTypes.bool
+		internal: PropTypes.bool
 	}
 
 	static childContextTypes = {
-		editorContext: React.PropTypes.shape({
-			editor: React.PropTypes.any,
-			plugins: React.PropTypes.object
+		editorContext: PropTypes.shape({
+			editor: PropTypes.any,
+			getSelection: PropTypes.func,
+			plugins: PropTypes.object
 		})
 	}
 
@@ -56,7 +58,8 @@ export default class ContextProvider extends React.Component {
 			editorContext: {
 				editor,
 				plugins: pluginContext,
-				get editorState () { return editor && editor.editorState; }
+				get editorState () { return editor && editor.editorState; },
+				getSelection: () => { return editor && editor.editorState && editor.editorState.getSelection(); }
 			}
 		};
 	}

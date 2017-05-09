@@ -27,9 +27,9 @@ function splitContentAndGetSelection (content, selection) {
 }
 
 
-export default function insertBlock (block, replace, editorState) {
+export default function insertBlock (block, replace, selection, editorState) {
 	const currentContent = editorState.getCurrentContent();
-	const currentSelection = editorState.getSelection();
+	const currentSelection = selection || editorState.getSelection();
 
 	//TODO, when replacing look into pulling entity and style range info into the new blocks character data
 	const {fixedContent, fixedSelection} = fixContentAndSelection(currentContent, currentSelection, replace);
