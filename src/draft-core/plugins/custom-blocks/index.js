@@ -2,9 +2,19 @@ import {setBlockData, removeBlock} from './utils';
 
 export default {
 	create: (config = {}) => {
-		const {customRenderers = [], customStyles = []} = config;
+		const {customRenderers = [], customStyles = [], blockProps} = config;
+
+		let extraProps = blockProps || {};
 
 		return {
+			setExtraProps: (props = {}) => {
+				extraProps = props;
+			},
+
+			mergeExtraProps: (props = {}) => {
+				extraProps = {...extraProps, ...props};
+			},
+
 			blockRendererFn: (contentBlock, pluginProps) => {
 				const {getEditorState, setEditorState} = pluginProps;
 
@@ -16,6 +26,7 @@ export default {
 							props: {
 								...(renderer.props || {}),
 								...(pluginProps || {}),
+								...(extraProps || {}),
 								setBlockData: (data) => {
 									const newState = setBlockData(contentBlock, data, getEditorState());
 

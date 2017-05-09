@@ -1,10 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import {ContentResources} from 'nti-web-commons';
+
 import Controls from '../Controls';
 
 import FigureEditor from './FigureEditor';
 import CaptionEditor from './CaptionEditor';
+
+
+function fileIsImage (file) {
+	return /image\//i.test(file.FileMimeType);
+}
+
 
 export default class CourseFigureEditor extends React.Component {
 	static propTypes = {
@@ -52,6 +60,19 @@ export default class CourseFigureEditor extends React.Component {
 	}
 
 
+	onChange = () => {
+		const {blockProps: {course, setBlockData}} = this.props;
+		const accept = x => !x.isFolder && fileIsImage(x);
+
+		ContentResources.selectFrom(course.getID(), accept)
+			.then((file) => {
+				if (setBlockData) {
+					setBlockData({arguments: file.url});
+				}
+			});
+	}
+
+
 	onFocus = () => {
 		const {blockProps: {setReadOnly}} = this.props;
 
@@ -86,7 +107,7 @@ export default class CourseFigureEditor extends React.Component {
 
 		return (
 			<div className="course-figure-editor" onMouseDown={this.onMouseDown}>
-				<Controls onRemove={this.onRemove} />
+				<Controls onRemove={this.onRemove} onChange={this.onChange}/>
 				<FigureEditor url={url} blockId={blockId} onFocus={this.onFocus} onBlur={this.onBlur} />
 				<CaptionEditor
 					body={body}

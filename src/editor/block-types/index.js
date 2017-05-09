@@ -12,7 +12,7 @@ export const Buttons = TYPES.reduce((acc, type) => {
 	return acc;
 }, []);
 
-export const CustomRenders = TYPES.reduce((acc, type) => {
+export const CustomRenderers = TYPES.reduce((acc, type) => {
 	if (type.component) {
 		acc.push(type);
 	}

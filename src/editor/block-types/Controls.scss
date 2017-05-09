@@ -11,6 +11,27 @@
 		height: 3rem;
 	}
 
+	.change {
+		flex: 0 0 auto;
+		margin-right: rem-calc(21px);
+		color: $secondary-grey;
+		cursor: pointer;
+
+		i {
+			margin-right: rem-calc(10px);
+			display: inline-block;
+			vertical-align: middle;
+		}
+
+		span {
+			font-size: 0.625rem;
+			font-weight: bold;
+			text-transform: uppercase;
+			display: inline-block;
+			vertical-align: middle;
+		}
+	}
+
 	.remove {
 		flex: 0 0 auto;
 		width: 0.875rem;

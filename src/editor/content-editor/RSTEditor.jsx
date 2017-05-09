@@ -5,7 +5,7 @@ import {HOC} from 'nti-web-commons';
 
 import {Editor, Plugins, BLOCKS, STYLES} from '../../draft-core';
 import {Parser} from '../../RST';
-import {CustomRenders, CustomStyles} from '../block-types';
+import {CustomRenderers, CustomStyles} from '../block-types';
 
 const {ItemChanges} = HOC;
 
@@ -82,12 +82,14 @@ const pastedText = Plugins.FormatPasted.create({
 	}
 });
 
+const customBlocks = Plugins.CustomBlocks.create({customRenderers: CustomRenderers, customStyles: CustomStyles});
+
 const plugins = [
 	Plugins.LimitBlockTypes.create({allowed: ALLOWED_BLOCKS}),
 	Plugins.LimitStyles.create({allowd: ALLOWED_STYLES}),
 	Plugins.ExternalLinks.create({allowedInBlockTypes: new Set([BLOCKS.UNSTYLED, BLOCKS.ORDERED_LIST_ITEM, BLOCKS.UNORDERED_LIST_ITEM])}),
 	Plugins.InsertBlock.create(),
-	Plugins.CustomBlocks.create({customRenderers: CustomRenders, customStyles: CustomStyles}),
+	customBlocks,
 	pastedText,
 	Plugins.KeepFocusInView.create(),
 	Plugins.BlockBreakOut.create(),
@@ -100,6 +102,7 @@ export default class RSTEditor extends React.Component {
 	static propTypes = {
 		value: React.PropTypes.string,
 		contentPackage: React.PropTypes.object,
+		course: React.PropTypes.object,
 		onContentChange: React.PropTypes.func
 	}
 
@@ -108,9 +111,13 @@ export default class RSTEditor extends React.Component {
 	constructor (props) {
 		super(props);
 
+		const {course} = this.props;
+
 		this.pendingSaves = [];
 
 		this.setUpValue(props);
+
+		customBlocks.mergeExtraProps({course});
 	}
 
 
@@ -137,11 +144,15 @@ export default class RSTEditor extends React.Component {
 
 
 	componentWillReceiveProps (nextProps) {
-		const {value:nextValue} = nextProps;
-		const {value:oldValue} = this.props;
+		const {value:nextValue, course:nextCourse} = nextProps;
+		const {value:oldValue, course:oldCourse} = this.props;
 
 		if (nextValue !== oldValue && !this.isPendingSave(nextValue)) {
 			this.setUpValue(nextProps);
+		}
+
+		if (nextCourse !== oldCourse) {
+			customBlocks.mergeExtraProps({course: nextCourse});
 		}
 
 		this.cleanUpPending(nextValue);
