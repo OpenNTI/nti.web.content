@@ -1,7 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import uuid from 'uuid';
 
-import PreventStealingFocus from '../../../components/PreventStealingFocus';
+import {DnD} from 'nti-web-commons';
+
+import {DRAG_DATA_TYPE} from '../Constants';
+
+// import PreventStealingFocus from '../../../components/PreventStealingFocus';
 
 export default class Button extends React.Component {
 	static propTypes = {
@@ -13,10 +18,19 @@ export default class Button extends React.Component {
 	static contextTypes = {
 		editorContext: React.PropTypes.shape({
 			plugins: React.PropTypes.shape({
-				insertBlock: React.PropTypes.func,
-				allowInsertBlock: React.PropTypes.bool
+				getInsertMethod: React.PropTypes.func,
+				allowInsertBlock: React.PropTypes.bool,
+				registerInsertHandler: React.PropTypes.func,
+				unregisterInsertHandler: React.PropTypes.func
 			})
 		})
+	}
+
+
+	constructor (props) {
+		super(props);
+
+		this.dragInsertionId = uuid();
 	}
 
 
@@ -36,25 +50,56 @@ export default class Button extends React.Component {
 
 
 	onClick = () => {
-		const {insertBlock} = this.pluginContext;
+		this.handleInsertion();
+	}
+
+
+	handleInsertion = (selection) => {
+		const {getInsertMethod} = this.pluginContext;
 		const {createBlock, createBlockProps} = this.props;
 
-		if (insertBlock && createBlock) {
-			createBlock(insertBlock, createBlockProps);
+		if (getInsertMethod && createBlock) {
+			createBlock(getInsertMethod(selection), createBlockProps);
+		}
+	}
+
+
+	onDragStart = () => {
+		const {registerInsertHandler} = this.pluginContext;
+
+		if (registerInsertHandler) {
+			registerInsertHandler(this.dragInsertionId, this.handleInsertion);
+		}
+	}
+
+
+	onDragEnd = () => {
+		const {unregisterInsertHandler} = this.pluginContext;
+
+		if (unregisterInsertHandler) {
+			unregisterInsertHandler(this.dragInsertionId);
 		}
 	}
 
 
 	render () {
 		const {children, ...otherProps} = this.props;
+		const data = [
+			{dataTransferKey: DRAG_DATA_TYPE, dataForTransfer: this.dragInsertionId},
+			{dataTransferKey: 'text', dataForTransfer: ''}
+		];
 
 		delete otherProps.createBlock;
 		delete otherProps.createBlockProps;
 
+			// <PreventStealingFocus onClick={this.onClick} {...otherProps}>
+			// </PreventStealingFocus>
 		return (
-			<PreventStealingFocus onClick={this.onClick} {...otherProps}>
-				{children}
-			</PreventStealingFocus>
+			<DnD.Draggable data={data} onDragStart={this.onDragStart} onDragEnd={this.onDragEnd}>
+				<div onClick={this.onClick} {...otherProps}>
+					{children}
+				</div>
+			</DnD.Draggable>
 		);
 	}
 }

@@ -1,5 +1,8 @@
+import {EVENT_HANDLED, EVENT_NOT_HANDLED} from '../Constants';
+
 import Button from './components/Button';
 import BlockCount from './components/BlockCount';
+import {DRAG_DATA_TYPE} from './Constants';
 import {insertBlock} from './utils';
 
 //https://github.com/facebook/draft-js/issues/442
@@ -7,8 +10,24 @@ import {insertBlock} from './utils';
 export default {
 	components: {Button, BlockCount},
 
-	create: (config = {}) => {
+	create: (/*config = {}*/) => {
+		const insertionHandlers = {};
+
 		return {
+			handleDrop (selection, dataTransfer) {
+				const insertionId = dataTransfer.data.getData(DRAG_DATA_TYPE);
+				const handler = insertionHandlers[insertionId];
+
+
+				if (handler) {
+					handler(selection);
+					return EVENT_HANDLED;
+				}
+
+				return EVENT_NOT_HANDLED;
+			},
+
+
 			getContext (getEditorState, setEditorState) {
 				return {
 					get allowInsertBlock () {
@@ -24,10 +43,23 @@ export default {
 						return blocks.filter(predicate).length;
 					},
 
-					insertBlock: (block, replaceRange) => {
-						const newState = insertBlock(block, replaceRange, getEditorState());
 
-						setEditorState(newState);
+					getInsertMethod: (selection) => {
+						return (block, replaceRange) => {
+							const newState = insertBlock(block, replaceRange, selection, getEditorState());
+
+							setEditorState(newState);
+						};
+					},
+
+
+					registerInsertHandler (id, handler) {
+						insertionHandlers[id] = handler;
+					},
+
+
+					unregisterInsertHandler (id) {
+						delete insertionHandlers[id];
 					}
 				};
 			}
