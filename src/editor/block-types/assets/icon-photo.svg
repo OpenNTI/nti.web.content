@@ -1,45 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg width="70px" height="70px" viewBox="0 0 70 70" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
     <!-- Generator: Sketch 43.2 (39069) - http://www.bohemiancoding.com/sketch -->
-    <title>-icon-photo</title>
+    <title>-icon-photo copy</title>
     <desc>Created with Sketch.</desc>
     <defs>
         <rect id="path-1" x="5" y="15" width="60" height="40" rx="2"></rect>
-        <rect id="path-2" x="9" y="19" width="52" height="32" rx="1"></rect>
-        <rect id="path-3" x="0" y="0" width="51" height="31" rx="1"></rect>
-        <polyline id="path-5" points="61.2842712 16 61.1033621 51.8190909 25.2842712 52"></polyline>
-        <polyline id="path-6" points="27 25.5208153 27 42.5208153 10 42.5208153"></polyline>
-        <circle id="path-7" cx="20.5" cy="30.5" r="6.5"></circle>
+        <circle id="path-2" cx="20.5" cy="30.5" r="6.5"></circle>
+        <path d="M59.6574639,30.7576118 L60.3049819,62.9198485 L48.3437554,63.2845238 L38.4495524,53.3903208 C38.0561055,52.9968738 38.0470261,52.3680497 38.4416549,51.9734209 L59.6574639,30.7576118 Z" id="path-3"></path>
+        <polygon id="path-4" points="32.9800776 43.7092623 34.0407377 56.7907377 20.9592623 55.7300776"></polygon>
     </defs>
     <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="-icon-photo">
+        <g id="-icon-photo-copy">
             <g id="Rectangle-2-Copy-2">
                 <use fill="#FFFFFF" fill-rule="evenodd" xlink:href="#path-1"></use>
                 <rect stroke="#E2E2E2" stroke-width="1" x="5.5" y="15.5" width="59" height="39" rx="2"></rect>
             </g>
-            <g id="Rectangle">
-                <use fill-opacity="0.1" fill="#3FB3F6" fill-rule="evenodd" xlink:href="#path-2"></use>
-                <rect stroke="#C5C5C5" stroke-width="1" x="9.5" y="19.5" width="51" height="31" rx="1"></rect>
-            </g>
-            <g id="Rectangle-56" transform="translate(9.000000, 19.000000)">
-                <mask id="mask-4" fill="white">
-                    <use xlink:href="#path-3"></use>
-                </mask>
-                <g id="Mask"></g>
-                <g mask="url(#mask-4)" transform="translate(43.284271, 34.000000) rotate(-135.000000) translate(-43.284271, -34.000000) ">
-                    <use fill="#E2F4E5" fill-rule="evenodd" xlink:href="#path-5"></use>
-                    <path stroke="#3FB34F" stroke-width="1" d="M60.7781372,17.2132408 L60.6058684,51.3215972 L26.497512,51.493866 L60.7781372,17.2132408 Z"></path>
-                </g>
-                <g mask="url(#mask-4)" transform="translate(18.500000, 34.020815) rotate(-135.000000) translate(-18.500000, -34.020815) ">
-                    <use fill="#E2F4E5" fill-rule="evenodd" xlink:href="#path-6"></use>
-                    <path stroke="#3FB34F" stroke-width="1" d="M26.5,26.7279221 L26.5,42.0208153 L11.2071068,42.0208153 L26.5,26.7279221 Z"></path>
-                </g>
-            </g>
+            <rect id="Rectangle" fill-opacity="0.1" fill="#3FB3F6" x="9" y="19" width="52" height="32" rx="1"></rect>
             <g id="Oval-16">
-                <use fill="#FFF8EB" fill-rule="evenodd" xlink:href="#path-7"></use>
+                <use fill="#FFF8EB" fill-rule="evenodd" xlink:href="#path-2"></use>
                 <circle stroke="#EAC143" stroke-width="1" cx="20.5" cy="30.5" r="6"></circle>
             </g>
             <rect id="bounding-box" x="0" y="0" width="70" height="70"></rect>
+            <g id="Rectangle-56" transform="translate(49.021068, 47.021068) rotate(-135.000000) translate(-49.021068, -47.021068) ">
+                <use fill="#E2F4E5" fill-rule="evenodd" xlink:href="#path-3"></use>
+                <path stroke="#3FB34F" stroke-width="1" d="M59.1811875,31.9409951 L59.7951225,62.4351608 L48.5445093,62.7781708 L38.8031058,53.0367674 C38.6016729,52.8353345 38.5990818,52.5231008 38.7952083,52.3269743 L59.1811875,31.9409951 Z"></path>
+            </g>
+            <g id="Rectangle-56" transform="translate(27.500000, 50.250000) rotate(-135.000000) translate(-27.500000, -50.250000) ">
+                <use fill="#E2F4E5" fill-rule="evenodd" xlink:href="#path-4"></use>
+                <path stroke="#3FB34F" stroke-width="1" d="M32.5690928,44.8273538 L33.4948345,56.2448345 L22.0773538,55.3190928 L32.5690928,44.8273538 Z"></path>
+            </g>
+            <rect id="Rectangle" stroke="#C5C5C5" x="9.5" y="19.5" width="51" height="31" rx="1"></rect>
         </g>
     </g>
 </svg>
