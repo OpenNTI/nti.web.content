@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import cx from 'classnames';
 
 import {ContentResources} from 'nti-web-commons';
 
@@ -37,14 +38,37 @@ function isBlock (block) {
 	return type === BLOCKS.ATOMIC && data.get('name') === 'course-figure';
 }
 
-CourseFigureButton.propTypes = {
-	course: PropTypes.object
-};
-export default function CourseFigureButton ({course}) {
-	return (
-		<Button className="course-figure-button" createBlock={createBlock} createBlockProps={{course}}>
-			<BlockCount predicate={isBlock}/>
-			<span className="label">Photo</span>
-		</Button>
-	);
+export default class CourseFigureButton extends React.Component {
+	static propTypes = {
+		course: PropTypes.object
+	}
+
+	state = {}
+
+
+	onMouseDown = () => {
+		this.setState({
+			mousedown: true
+		});
+	}
+
+	onMouseUp = () => {
+		this.setState({
+			mousedown: false
+		});
+	}
+
+	render () {
+		const {course} = this.props;
+		const {mousedown} = this.state;
+		const cls = cx('course-figure-button', {mousedown});
+
+		return (
+			<Button className={cls} createBlock={createBlock} createBlockProps={{course}} onMouseDown={this.onMouseDown} onMouseUp={this.onMouseUp} onDragEnd={this.onMouseUp}>
+				<BlockCount className="used" predicate={isBlock} />
+				<span className="icon" />
+				<span className="label">Photo</span>
+			</Button>
+		);
+	}
 }

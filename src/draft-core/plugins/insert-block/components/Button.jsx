@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import cx from 'classnames';
 import uuid from 'uuid';
 
 import {DnD} from 'nti-web-commons';
@@ -10,9 +11,12 @@ import {DRAG_DATA_TYPE} from '../Constants';
 
 export default class Button extends React.Component {
 	static propTypes = {
+		className: PropTypes.string,
 		createBlock: PropTypes.func,
 		createBlockProps: PropTypes.object,
-		children: PropTypes.node
+		children: PropTypes.node,
+		onDragStart: PropTypes.func,
+		onDragEnd: PropTypes.func
 	}
 
 	static contextTypes = {
@@ -64,26 +68,39 @@ export default class Button extends React.Component {
 	}
 
 
-	onDragStart = () => {
+	onDragStart = (e) => {
+		const {onDragStart} = this.props;
 		const {registerInsertHandler} = this.pluginContext;
 
 		if (registerInsertHandler) {
 			registerInsertHandler(this.dragInsertionId, this.handleInsertion);
 		}
+
+
+		if (onDragStart) {
+			onDragStart(e);
+		}
 	}
 
 
-	onDragEnd = () => {
+	onDragEnd = (e) => {
+		const {onDragEnd} = this.props;
 		const {unregisterInsertHandler} = this.pluginContext;
 
 		if (unregisterInsertHandler) {
 			unregisterInsertHandler(this.dragInsertionId);
 		}
+
+
+		if (onDragEnd) {
+			onDragEnd(e);
+		}
 	}
 
 
 	render () {
-		const {children, ...otherProps} = this.props;
+		const {children, className, ...otherProps} = this.props;
+		const cls = cx(className, {disabled: !this.isAllowed});
 		const data = [
 			{dataTransferKey: DRAG_DATA_TYPE, dataForTransfer: this.dragInsertionId},
 			{dataTransferKey: 'text', dataForTransfer: ''}
@@ -91,12 +108,12 @@ export default class Button extends React.Component {
 
 		delete otherProps.createBlock;
 		delete otherProps.createBlockProps;
+		delete otherProps.onDragStart;
+		delete otherProps.onDragEnd;
 
-			// <PreventStealingFocus onClick={this.onClick} {...otherProps}>
-			// </PreventStealingFocus>
 		return (
 			<DnD.Draggable data={data} onDragStart={this.onDragStart} onDragEnd={this.onDragEnd}>
-				<div onClick={this.onClick} {...otherProps}>
+				<div {...otherProps} className={cls} onClick={this.onClick}>
 					{children}
 				</div>
 			</DnD.Draggable>
