@@ -48,7 +48,7 @@ export default class CaptionEditor extends React.Component {
 		const {body, onChange} = this.props;
 
 		if (onChange) {
-			onChange([title, body[1]]);
+			onChange([title, body[1] || '']);
 		}
 	}
 
@@ -57,7 +57,7 @@ export default class CaptionEditor extends React.Component {
 		const {body, onChange} = this.props;
 
 		if (onChange) {
-			onChange([body[0], description]);
+			onChange([body[0] || '', description]);
 		}
 	}
 
