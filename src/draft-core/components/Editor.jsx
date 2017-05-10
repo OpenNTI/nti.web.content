@@ -193,7 +193,8 @@ export default class DraftCoreEditor extends React.Component {
 	onChange = (editorState, cb) => {
 		const {onChange} = this.props;
 		const {currentEditorState} = this.state;
-		// const state = fixStateForAllowed(editorState, allowedInlineStyles, allowedBlockTypes, allowLinks);
+		const contentChanged = currentEditorState.getCurrentContent() !== editorState.getCurrentContent();
+
 
 		this.setState({currentEditorState: editorState}, () => {
 			if (typeof cb === 'function') {
@@ -204,7 +205,7 @@ export default class DraftCoreEditor extends React.Component {
 				onChange(editorState);
 			}
 
-			if (currentEditorState.getCurrentContent() !== editorState.getCurrentContent()) {
+			if (contentChanged) {
 				this.onContentChangeBuffered();
 			}
 		});

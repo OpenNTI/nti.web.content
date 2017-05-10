@@ -12,23 +12,21 @@ function fileIsImage (file) {
 	return /image\//i.test(file.FileMimeType);
 }
 
-function createBlock (insertBlock, {course}) {
+async function createBlock (insertBlock, {course}) {
 	const accept = x => !x.isFolder && fileIsImage(x);
 
-	ContentResources.selectFrom(course.getID(), accept)
-		.then((file) => {
-			insertBlock({
-				type: BLOCKS.ATOMIC,
-				text: '',
-				data: {
-					name: 'course-figure',
-					arguments: file.url,
-					body: [],
-					options: {local: true}
-				}
-			});
-		});
+	const file = await ContentResources.selectFrom(course.getID(), accept);
 
+	insertBlock({
+		type: BLOCKS.ATOMIC,
+		text: '',
+		data: {
+			name: 'course-figure',
+			arguments: file.url,
+			body: [],
+			options: {local: true}
+		}
+	});
 }
 
 function isBlock (block) {
