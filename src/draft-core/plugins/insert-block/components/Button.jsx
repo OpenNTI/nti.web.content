@@ -103,7 +103,7 @@ export default class Button extends React.Component {
 		const cls = cx(className, {disabled: !this.isAllowed});
 		const data = [
 			{dataTransferKey: DRAG_DATA_TYPE, dataForTransfer: this.dragInsertionId},
-			{dataTransferKey: 'text', dataForTransfer: ''}
+			{dataTransferKey: 'text', dataForTransfer: 'Insert'},
 		];
 
 		delete otherProps.createBlock;
