@@ -1,1 +1,1 @@
-export const DRAG_DATA_TYPE = 'inset-block-data-drop';
+export const DRAG_DATA_TYPE = 'application/vnd.nextthought.app.dndinsertblock';

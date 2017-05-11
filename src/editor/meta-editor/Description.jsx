@@ -1,6 +1,7 @@
 import React from 'react';
 import {scoped} from 'nti-lib-locale';
 
+import {Plugins} from '../../draft-core';
 import {saveContentPackageDescription} from '../Actions';
 
 import MetaEditor from './MetaEditor';
@@ -10,6 +11,10 @@ const DEFAULT_TEXT = {
 };
 
 const t = scoped('CONTENT_EDITOR_TITLE', DEFAULT_TEXT);
+
+const plugins = [
+	Plugins.IgnoreDrop.create()
+];
 
 export default class ContentEditorTitle extends React.Component {
 	static propTypes = {
@@ -37,6 +42,7 @@ export default class ContentEditorTitle extends React.Component {
 				value={description}
 				onContentChange={this.onContentChange}
 				placeholder={t('placeholder')}
+				plugins={plugins}
 			/>
 		);
 	}
