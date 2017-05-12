@@ -6,21 +6,34 @@ import PropTypes from 'prop-types';
 
 const stop = e => e.stopPropagation();
 
-const EVENTS = {
-	keydown: stop,
-	mousedown: stop,
-	selectionchange: stop,
-	focusin: stop,
-	focusout: stop
-};
-
-function forEachEvent (fn) {
-	Object.keys(EVENTS).forEach(name => fn(name, EVENTS[name]));
-}
 
 export default class NestedEditorWrapper extends React.Component {
 	static propTypes = {
-		children: PropTypes.node
+		children: PropTypes.node,
+		onMouseDown: PropTypes.func
+	}
+
+	events = {
+		keydown: stop,
+		selectionchange: stop,
+		focusin: stop,
+		focusout: stop,
+		click: stop,
+		mouseup: stop,
+		mousedown: (e) => {
+			const {onMouseDown} = this.props;
+
+			stop(e);
+
+			if (onMouseDown) {
+				onMouseDown(e);
+			}
+		}
+	}
+
+
+	forEachEvent (fn) {
+		Object.keys(this.events).forEach(name => fn(name, this.events[name]));
 	}
 
 
@@ -43,13 +56,13 @@ export default class NestedEditorWrapper extends React.Component {
 		}
 
 		this.unsubscribe = () => {
-			forEachEvent((name, handler) => {
+			this.forEachEvent((name, handler) => {
 				wrapper.removeEventListener(name, handler, false);
 				wrapper.addEventListener(name, handler, true);
 			});
 		};
 
-		forEachEvent((name, handler) => {
+		this.forEachEvent((name, handler) => {
 			wrapper.addEventListener(name, handler, false);
 			wrapper.addEventListener(name, handler, true);
 		});
