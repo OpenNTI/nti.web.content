@@ -14,7 +14,6 @@ export default class NestedEditorWrapper extends React.Component {
 	}
 
 	events = {
-		keydown: stop,
 		selectionchange: stop,
 		focusin: stop,
 		focusout: stop,
