@@ -64,6 +64,7 @@ export default class ActiveType extends React.Component {
 		const {className, ...otherProps} = this.props;
 		const {activeType} = this;
 		const cls = cx('draft-core-active-type', className, activeType, {empty: !activeType});
+		const label = activeType && !this.getString.isMissing(activeType) ? this.getString(activeType) : '';
 
 		delete otherProps.getString;
 		delete otherProps.onClick;
@@ -71,7 +72,7 @@ export default class ActiveType extends React.Component {
 
 		return (
 			<div className={cls} onClick={this.onClick} onMouseDown={this.onMouseDown} {...otherProps}>
-				<span>{activeType ? this.getString(activeType) : ''}</span>
+				<span>{label}</span>
 			</div>
 		);
 	}
