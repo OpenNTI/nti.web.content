@@ -1,18 +1,17 @@
 import React from 'react';
 import {scoped} from 'nti-lib-locale';
+
 import {Flyout} from 'nti-web-commons';
 
-import {ActiveType, TypeButton, ContextProvider} from '../../draft-core';
-
-const {Types} = TypeButton;
+import {ActiveType, TypeButton, ContextProvider, BLOCKS} from '../../draft-core';
 
 const DEFAULT_TEXT = {
-	[Types.HEADER_TWO]: 'Title',
-	[Types.HEADER_THREE]: 'Section Title',
-	[Types.HEADER_FOUR]: 'Paragraph Headline',
-	[Types.UNSTYLED]: 'Body Text',
-	[Types.ORDERED_LIST_ITEM]: 'Numbered List',
-	[Types.UNORDERED_LIST_ITEM]: 'Bulleted List'
+	[BLOCKS.HEADER_TWO]: 'Title',
+	[BLOCKS.HEADER_THREE]: 'Section Title',
+	[BLOCKS.HEADER_FOUR]: 'Paragraph Headline',
+	[BLOCKS.UNSTYLED]: 'Body Text',
+	[BLOCKS.ORDERED_LIST_ITEM]: 'Numbered List',
+	[BLOCKS.UNORDERED_LIST_ITEM]: 'Bulleted List'
 };
 
 const t = scoped('CONTENT_EDITOR_TYPE_FORMAT', DEFAULT_TEXT);
@@ -31,14 +30,14 @@ export default function ContentEditorTypeFormat ({editor}) {
 				<ContextProvider editor={editor}>
 					<div className="content-editor-type-flyout">
 						<ul className="plain">
-							<li><TypeButton className={typeClass} type={Types.HEADER_TWO} getString={t} plain checkmark /></li>
-							<li><TypeButton className={typeClass} type={Types.HEADER_THREE} getString={t} plain checkmark /></li>
-							<li><TypeButton className={typeClass} type={Types.HEADER_FOUR} getString={t} plain checkmark /></li>
-							<li><TypeButton className={typeClass} type={Types.UNSTYLED} getString={t} plain checkmark /></li>
+							<li><TypeButton className={typeClass} type={BLOCKS.HEADER_TWO} getString={t} plain checkmark /></li>
+							<li><TypeButton className={typeClass} type={BLOCKS.HEADER_THREE} getString={t} plain checkmark /></li>
+							<li><TypeButton className={typeClass} type={BLOCKS.HEADER_FOUR} getString={t} plain checkmark /></li>
+							<li><TypeButton className={typeClass} type={BLOCKS.UNSTYLED} getString={t} plain checkmark /></li>
 						</ul>
 						<ul className="lists">
-							<li><TypeButton className={typeClass} type={Types.ORDERED_LIST_ITEM} getString={t} plain checkmark /></li>
-							<li><TypeButton className={typeClass} type={Types.UNORDERED_LIST_ITEM} getString={t} plain checkmark /></li>
+							<li><TypeButton className={typeClass} type={BLOCKS.ORDERED_LIST_ITEM} getString={t} plain checkmark /></li>
+							<li><TypeButton className={typeClass} type={BLOCKS.UNORDERED_LIST_ITEM} getString={t} plain checkmark /></li>
 						</ul>
 					</div>
 				</ContextProvider>
