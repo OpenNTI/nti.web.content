@@ -1,4 +1,4 @@
-import {setBlockData, removeBlock} from './utils';
+import {setBlockData, removeBlock, indexOfType} from './utils';
 
 export default {
 	create: (config = {}) => {
@@ -17,6 +17,11 @@ export default {
 
 			blockRendererFn: (contentBlock, pluginProps) => {
 				const {getEditorState, setEditorState} = pluginProps;
+				const editorState = getEditorState();
+
+				let pendingState;
+				let pendingUpdate;
+
 
 				for (let renderer of customRenderers) {
 					if (renderer.handlesBlock(contentBlock)) {
@@ -27,10 +32,20 @@ export default {
 								...(renderer.props || {}),
 								...(pluginProps || {}),
 								...(extraProps || {}),
+								indexOfType: indexOfType(contentBlock, renderer.handlesBlock, editorState),
 								setBlockData: (data) => {
-									const newState = setBlockData(contentBlock, data, getEditorState());
+									const newState = setBlockData(contentBlock, data, pendingState || getEditorState());
 
-									setEditorState(newState);
+									pendingState = newState;
+
+									if (!pendingUpdate) {
+										pendingUpdate = setTimeout(() => {
+											setEditorState(pendingState);
+
+											pendingState = null;
+											pendingUpdate = null;
+										}, 100);
+									}
 								},
 								removeBlock: () => {
 									const newState = removeBlock(contentBlock, getEditorState());

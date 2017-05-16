@@ -18,6 +18,7 @@ export default class CourseFigureEditor extends React.Component {
 	static propTypes = {
 		block: PropTypes.object,
 		blockProps: PropTypes.shape({
+			indexOfType: PropTypes.number,
 			setBlockData: PropTypes.func,
 			removeBlock: PropTypes.func,
 			setReadOnly: PropTypes.func
@@ -101,7 +102,7 @@ export default class CourseFigureEditor extends React.Component {
 
 
 	render () {
-		const {block} = this.props;
+		const {block, blockProps:{indexOfType}} = this.props;
 		const {url, body} = this.state;
 		const blockId = block.getKey();
 
@@ -115,6 +116,7 @@ export default class CourseFigureEditor extends React.Component {
 					onFocus={this.onFocus}
 					onBlur={this.onBlur}
 					onChange={this.onCaptionChange}
+					indexOfType={indexOfType}
 				/>
 			</div>
 		);

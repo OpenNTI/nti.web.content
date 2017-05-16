@@ -5,11 +5,14 @@ import {scoped} from 'nti-lib-locale';
 import RSTFieldEditor from '../RSTFieldEditor';
 
 const DEFAULT_TEXT = {
-	titlePlaceholder: 'Title',
+	figureTitle: 'Figure %(index)s',
 	descriptionPlaceholder: 'Write a caption...'
 };
 
 const t = scoped('COURSE_FIGURE_CAPTION_EDITOR', DEFAULT_TEXT);
+
+const FIGURE_REGEX = /^Figure\s\d$/;
+
 
 export default class CaptionEditor extends React.Component {
 	static propTypes = {
@@ -17,7 +20,52 @@ export default class CaptionEditor extends React.Component {
 		blockId: PropTypes.string,
 		onChange: PropTypes.func,
 		onFocus: PropTypes.func,
-		onBlur: PropTypes.func
+		onBlur: PropTypes.func,
+		indexOfType: PropTypes.number
+	}
+
+	state = {}
+
+	componentWillReceiveProps (nextProps) {
+		const {body:newBody, indexOfType:newIndex} = nextProps;
+		const {body:oldBody, indexOfType:oldIndex} = this.props;
+
+		if (newBody !== oldBody || newIndex !== oldIndex) {
+			this.maybeFixTitle(newBody, newIndex);
+		}
+	}
+
+	componentDidMount () {
+		const {body, onChange, indexOfType} = this.props;
+
+		if (!body.length) {
+			onChange([t('figureTitle', {index: indexOfType})]);
+		}
+	}
+
+
+	maybeFixTitle (body, index) {
+		const {onChange} = this.props;
+		const newTitle = t('figureTitle', {index});
+		const oldTitle = body[0];
+
+		if (!oldTitle || (FIGURE_REGEX.test(oldTitle) && newTitle !== oldTitle)) {
+			onChange([newTitle, body[1] || '']);
+		}
+	}
+
+
+	get title () {
+		const {body} = this.props;
+
+		return body[0] || '';
+	}
+
+
+	get description () {
+		const {body} = this.props;
+
+		return body[1] || '';
 	}
 
 
@@ -45,40 +93,51 @@ export default class CaptionEditor extends React.Component {
 
 
 	onTitleChange = (title) => {
-		const {body, onChange} = this.props;
+		const {onChange, indexOfType} = this.props;
 
-		if (onChange) {
-			onChange([title, body[1] || '']);
-		}
+		this.setState({
+			emptiedTitle: !title
+		}, () => {
+			if (onChange) {
+				onChange([title || t('figureTitle', {index: indexOfType}), this.description]);
+			}
+		});
+
 	}
 
 
 	onDescriptionChange = (description) => {
-		const {body, onChange} = this.props;
+		const {onChange} = this.props;
 
 		if (onChange) {
-			onChange([body[0] || '', description]);
+			onChange([this.title, description]);
 		}
 	}
 
 
 	render () {
-		const {body, blockId} = this.props;
+		const {blockId, indexOfType} = this.props;
+		const {emptiedTitle} = this.state;
+		let {title} = this;
+
+		if (emptiedTitle && FIGURE_REGEX.test(title)) {
+			title = '';
+		}
 
 		return (
 			<div className="caption-editor">
 				<RSTFieldEditor
 					className="title"
-					value={body[0] || ''}
+					value={title}
 					fieldId={`${blockId}-title`}
 					onFocus={this.onFocus}
 					onBlur={this.onBlur}
 					onChange={this.onTitleChange}
-					placeholder={t('titlePlaceholder')}
+					placeholder={t('figureTitle', {index: indexOfType})}
 				/>
 				<RSTFieldEditor
 					className="description"
-					value={body[1] || ''}
+					value={this.description}
 					fieldId={`${blockId}-description`}
 					onFocus={this.onFocus}
 					onBlur={this.onBlur}
