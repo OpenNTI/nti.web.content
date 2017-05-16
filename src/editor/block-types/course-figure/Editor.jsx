@@ -44,10 +44,11 @@ export default class CourseFigureEditor extends React.Component {
 	getStateFor (props = this.props) {
 		const {block} = props;
 		const data = block.getData();
+		const body = data.get('body');
 
 		return {
 			url: data.get('arguments'),
-			body: data.get('body')
+			body: body.toJS ? body.toJS() : body
 		};
 	}
 
