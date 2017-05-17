@@ -103,14 +103,11 @@ export default class CaptionEditor extends React.Component {
 	onTitleChange = (title) => {
 		const {onChange, indexOfType} = this.props;
 
-		this.setState({
-			emptiedTitle: !title
-		}, () => {
-			if (onChange) {
-				onChange([title || t('figureTitle', {index: indexOfType}), this.description]);
-			}
-		});
+		this.emptiedTitle = !title;
 
+		if (onChange) {
+			onChange([title || t('figureTitle', {index: indexOfType}), this.description]);
+		}
 	}
 
 
@@ -125,8 +122,7 @@ export default class CaptionEditor extends React.Component {
 
 	render () {
 		const {blockId, indexOfType} = this.props;
-		const {emptiedTitle} = this.state;
-		let {title} = this;
+		let {title, emptiedTitle} = this;
 
 		if (emptiedTitle && FIGURE_REGEX.test(title)) {
 			title = '';
