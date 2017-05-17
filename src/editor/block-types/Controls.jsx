@@ -17,19 +17,23 @@ export default class BlockTypeControls extends React.Component {
 	}
 
 
-	onRemove = () => {
+	onRemove = (e) => {
 		const {onRemove} = this.props;
 
 		if (onRemove) {
+			e.stopPropagation();
+
 			onRemove();
 		}
 	}
 
 
-	onChange = () => {
+	onChange = (e) => {
 		const {onChange} = this.props;
 
 		if (onChange) {
+			e.stopPropagation();
+
 			onChange();
 		}
 	}
