@@ -83,6 +83,7 @@ export default class ContentEditorPublish extends React.Component {
 
 
 	onRenderJobChanged () {
+		debugger;
 		this.setState({
 			renderJob: Store.renderJob
 		});

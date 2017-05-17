@@ -10,14 +10,23 @@ const stop = e => e.stopPropagation();
 export default class NestedEditorWrapper extends React.Component {
 	static propTypes = {
 		children: PropTypes.node,
-		onMouseDown: PropTypes.func
+		onMouseDown: PropTypes.func,
+		onClick: PropTypes.func
 	}
 
 	events = {
 		selectionchange: stop,
 		focusin: stop,
 		focusout: stop,
-		click: stop,
+		click: (e) => {
+			const {onClick} = this.props;
+
+			stop(e);
+
+			if (onClick) {
+				onClick(e);
+			}
+		},
 		mouseup: stop,
 		mousedown: (e) => {
 			const {onMouseDown} = this.props;
@@ -70,6 +79,9 @@ export default class NestedEditorWrapper extends React.Component {
 
 	render () {
 		const {children, ...otherProps} = this.props;
+
+		delete otherProps.onMouseDown;
+		delete otherProps.onClick;
 
 		return (
 			<div {...otherProps} ref={this.attachWrapperRef} >

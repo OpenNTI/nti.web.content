@@ -24,7 +24,15 @@ export default class CaptionEditor extends React.Component {
 		indexOfType: PropTypes.number
 	}
 
+	attachTitleRef = x => this.titleEditor = x
+
 	state = {}
+
+	focus () {
+		if (this.titleEditor) {
+			this.titleEditor.focus();
+		}
+	}
 
 	componentWillReceiveProps (nextProps) {
 		const {body:newBody, indexOfType:newIndex} = nextProps;
@@ -127,6 +135,7 @@ export default class CaptionEditor extends React.Component {
 		return (
 			<div className="caption-editor">
 				<RSTFieldEditor
+					ref={this.attachTitleRef}
 					className="title"
 					value={title}
 					fieldId={`${blockId}-title`}

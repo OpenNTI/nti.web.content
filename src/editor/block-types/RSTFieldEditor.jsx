@@ -53,6 +53,13 @@ export default class RSTFieldEditor extends React.Component {
 	}
 
 
+	focus () {
+		if (this.editor) {
+			this.editor.focus();
+		}
+	}
+
+
 	isPendingSave (value) {
 		for (let save of this.pendingSaves) {
 			if (save === value) {
@@ -137,6 +144,7 @@ export default class RSTFieldEditor extends React.Component {
 			<Selection.Component className={cls} value={selectableValue} id={fieldId}>
 				<NestedEditorWrapper className="rst-field-nested-wrapper">
 					<Editor
+						ref={this.attachEditorRef}
 						editorState={editorState}
 						plugins={plugins}
 						onFocus={this.onEditorFocus}
