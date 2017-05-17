@@ -25,6 +25,8 @@ export default class CourseFigureEditor extends React.Component {
 		})
 	}
 
+	attachCaptionRef = x => this.caption = x
+
 	constructor (props) {
 		super(props);
 
@@ -101,6 +103,14 @@ export default class CourseFigureEditor extends React.Component {
 		}
 	}
 
+	onClick = (e) => {
+		e.stopPropagation();
+
+		if (this.caption) {
+			this.caption.focus();
+		}
+	}
+
 
 	render () {
 		const {block, blockProps:{indexOfType}} = this.props;
@@ -108,10 +118,11 @@ export default class CourseFigureEditor extends React.Component {
 		const blockId = block.getKey();
 
 		return (
-			<div className="course-figure-editor" onMouseDown={this.onMouseDown}>
+			<div className="course-figure-editor" onClick={this.onClick}>
 				<Controls onRemove={this.onRemove} onChange={this.onChange}/>
 				<FigureEditor url={url} blockId={blockId} onFocus={this.onFocus} onBlur={this.onBlur} />
 				<CaptionEditor
+					ref={this.attachCaptionRef}
 					body={body}
 					blockId={blockId}
 					onFocus={this.onFocus}
