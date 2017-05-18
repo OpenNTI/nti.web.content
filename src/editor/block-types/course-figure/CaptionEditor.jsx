@@ -13,6 +13,10 @@ const t = scoped('COURSE_FIGURE_CAPTION_EDITOR', DEFAULT_TEXT);
 
 const FIGURE_REGEX = /^Figure\s\d$/;
 
+function getFigureTitle (index) {
+	return t('figureTitle', {index: index + 1});
+}
+
 
 export default class CaptionEditor extends React.Component {
 	static propTypes = {
@@ -47,14 +51,14 @@ export default class CaptionEditor extends React.Component {
 		const {body, onChange, indexOfType} = this.props;
 
 		if (!body.length) {
-			onChange([t('figureTitle', {index: indexOfType})]);
+			onChange([getFigureTitle(indexOfType)]);
 		}
 	}
 
 
 	maybeFixTitle (body, index) {
 		const {onChange} = this.props;
-		const newTitle = t('figureTitle', {index});
+		const newTitle = getFigureTitle(index);
 		const oldTitle = body[0];
 
 		if (!oldTitle || (FIGURE_REGEX.test(oldTitle) && newTitle !== oldTitle)) {
@@ -106,7 +110,7 @@ export default class CaptionEditor extends React.Component {
 		this.emptiedTitle = !title;
 
 		if (onChange) {
-			onChange([title || t('figureTitle', {index: indexOfType}), this.description], true);
+			onChange([title || getFigureTitle(indexOfType), this.description], true);
 		}
 	}
 
@@ -138,7 +142,7 @@ export default class CaptionEditor extends React.Component {
 					onFocus={this.onFocus}
 					onBlur={this.onBlur}
 					onChange={this.onTitleChange}
-					placeholder={t('figureTitle', {index: indexOfType})}
+					placeholder={getFigureTitle(indexOfType)}
 				/>
 				<RSTFieldEditor
 					className="description"

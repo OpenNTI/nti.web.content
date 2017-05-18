@@ -3,12 +3,12 @@ export default function indexOfType (contentBlock, isOfType, editorState) {
 	let count = 0;
 
 	for (let block of blocks) {
-		if (isOfType(block)) {
-			count += 1;
-		}
-
 		if (block === contentBlock) {
 			break;
+		}
+
+		if (!isOfType || isOfType(block)) {
+			count += 1;
 		}
 	}
 
