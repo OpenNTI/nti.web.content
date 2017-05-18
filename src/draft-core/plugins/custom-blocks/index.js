@@ -1,3 +1,5 @@
+import {EditorState} from 'draft-js';
+
 import {setBlockData, removeBlock, indexOfType} from './utils';
 
 export default {
@@ -40,7 +42,9 @@ export default {
 
 									if (!pendingUpdate) {
 										pendingUpdate = setTimeout(() => {
-											setEditorState(pendingState);
+											const current = getEditorState();
+
+											setEditorState(EditorState.forceSelection(pendingState, current.getSelection()));
 
 											pendingState = null;
 											pendingUpdate = null;
