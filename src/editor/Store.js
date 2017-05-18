@@ -1,6 +1,5 @@
 import StorePrototype from 'nti-lib-store';
 import Logger from 'nti-util-logger';
-
 import {Errors} from 'nti-web-commons';
 
 import {
@@ -30,8 +29,6 @@ const SHORT = 3000;
 
 const Protected = Symbol('Protected');
 const ErrorMessages = 'error-messages';
-
-const SetContentEditor = Symbol('SetContentEditor');
 
 const SetSaveStart = Symbol('SetSaveStart');
 const SetSaveEnd = Symbol('SetSaveEnd');

@@ -1,6 +1,5 @@
 import React from 'react';
 import {scoped} from 'nti-lib-locale';
-
 import {Flyout} from 'nti-web-commons';
 
 import {ActiveType, TypeButton, ContextProvider, BLOCKS} from '../../draft-core';

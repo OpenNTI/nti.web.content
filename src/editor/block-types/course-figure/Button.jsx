@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
-
 import {ContentResources} from 'nti-web-commons';
 
 import {Plugins, BLOCKS} from '../../../draft-core';

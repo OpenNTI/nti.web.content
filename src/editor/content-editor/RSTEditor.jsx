@@ -1,6 +1,5 @@
 import React from 'react';
 import {EditorState, convertFromRaw, convertToRaw} from 'draft-js';
-
 import {HOC} from 'nti-web-commons';
 
 import {Editor, Plugins, BLOCKS, STYLES} from '../../draft-core';
