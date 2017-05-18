@@ -95,11 +95,11 @@ export default class CourseFigureEditor extends React.Component {
 	}
 
 
-	onCaptionChange = (body) => {
+	onCaptionChange = (body, doNotKeepSelection) => {
 		const {blockProps: {setBlockData}} = this.props;
 
 		if (setBlockData) {
-			setBlockData({body});
+			setBlockData({body}, doNotKeepSelection);
 		}
 	}
 

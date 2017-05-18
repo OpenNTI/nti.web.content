@@ -35,7 +35,7 @@ export default {
 								...(pluginProps || {}),
 								...(extraProps || {}),
 								indexOfType: indexOfType(contentBlock, renderer.handlesBlock, editorState),
-								setBlockData: (data) => {
+								setBlockData: (data, doNotKeepFocus) => {
 									const newState = setBlockData(contentBlock, data, pendingState || getEditorState());
 
 									pendingState = newState;
@@ -44,7 +44,11 @@ export default {
 										pendingUpdate = setTimeout(() => {
 											const current = getEditorState();
 
-											setEditorState(EditorState.forceSelection(pendingState, current.getSelection()));
+											if (doNotKeepFocus) {
+												setEditorState(pendingState);
+											} else {
+												setEditorState(EditorState.forceSelection(pendingState, current.getSelection()));
+											}
 
 											pendingState = null;
 											pendingUpdate = null;

@@ -106,7 +106,7 @@ export default class CaptionEditor extends React.Component {
 		this.emptiedTitle = !title;
 
 		if (onChange) {
-			onChange([title || t('figureTitle', {index: indexOfType}), this.description]);
+			onChange([title || t('figureTitle', {index: indexOfType}), this.description], true);
 		}
 	}
 
@@ -115,7 +115,7 @@ export default class CaptionEditor extends React.Component {
 		const {onChange} = this.props;
 
 		if (onChange) {
-			onChange([this.title, description]);
+			onChange([this.title, description], true);
 		}
 	}
 
