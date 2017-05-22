@@ -1,7 +1,9 @@
 import CourseFigure from './course-figure';
+import CourseVideo from './course-video';
 
 const TYPES = [
-	CourseFigure
+	CourseFigure,
+	CourseVideo
 ];
 
 export const Buttons = TYPES.reduce((acc, type) => {

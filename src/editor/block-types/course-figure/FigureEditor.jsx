@@ -1,8 +1,9 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 export default class FigureEditor extends React.Component {
 	static propTypes = {
-		url: React.PropTypes.string
+		url: PropTypes.string
 	}
 
 	onClick = () => {

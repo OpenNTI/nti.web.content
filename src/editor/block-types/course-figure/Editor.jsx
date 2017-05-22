@@ -1,47 +1,42 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import {ContentResources} from 'nti-web-commons';
+import {scoped} from 'nti-lib-locale';
 
-import Controls from '../Controls';
+import Controls from '../course-common/Controls';
+import {CourseEditor, CaptionEditor} from '../course-common';
 
 import FigureEditor from './FigureEditor';
-import CaptionEditor from './CaptionEditor';
 
+const DEFAULT_TEXT = {
+	figureTitle: 'Figure %(index)s',
+	descriptionPlaceholder: 'Write a caption...'
+};
+
+const editorT = scoped('COURSE_FIGURE_CAPTION_EDITOR', DEFAULT_TEXT);
+
+const FIGURE_REGEX = /^Figure\s\d$/;
+
+function getFigureTitle (index) {
+	return editorT('figureTitle', {index: index + 1});
+}
 
 function fileIsImage (file) {
 	return /image\//i.test(file.FileMimeType);
 }
 
+const blockType = {
+	t: editorT,
+	regex: FIGURE_REGEX,
+	getTitle: getFigureTitle
+};
 
-export default class CourseFigureEditor extends React.Component {
-	static propTypes = {
-		block: PropTypes.object,
-		blockProps: PropTypes.shape({
-			indexOfType: PropTypes.number,
-			setBlockData: PropTypes.func,
-			removeBlock: PropTypes.func,
-			setReadOnly: PropTypes.func
-		})
-	}
+const defaultControlsText = {
+	change: 'Replace Image'
+};
 
-	attachCaptionRef = x => this.caption = x
+const controlsT = scoped('course-figure-controls', defaultControlsText);
 
-	constructor (props) {
-		super(props);
-
-		this.state = this.getStateFor(props);
-	}
-
-	componentWillReceiveProps (nextProps) {
-		const {block:newBlock} = nextProps;
-		const {block:oldBlock} = this.props;
-
-		if (newBlock !== oldBlock) {
-			this.setState(this.getStateFor(nextProps));
-		}
-	}
-
-
+export default class CourseFigureEditor extends CourseEditor {
 	getStateFor (props = this.props) {
 		const {block} = props;
 		const data = block.getData();
@@ -51,15 +46,6 @@ export default class CourseFigureEditor extends React.Component {
 			url: data.get('arguments'),
 			body: body.toJS ? body.toJS() : body
 		};
-	}
-
-
-	onRemove = () => {
-		const {blockProps: {removeBlock}} = this.props;
-
-		if (removeBlock) {
-			removeBlock();
-		}
 	}
 
 
@@ -73,34 +59,8 @@ export default class CourseFigureEditor extends React.Component {
 					setBlockData({arguments: file.url});
 				}
 			});
-	}
+	};
 
-
-	onFocus = () => {
-		const {blockProps: {setReadOnly}} = this.props;
-
-		if (setReadOnly) {
-			setReadOnly(true);
-		}
-	}
-
-
-	onBlur = () => {
-		const {blockProps: {setReadOnly}} = this.props;
-
-		if (setReadOnly) {
-			setReadOnly(false);
-		}
-	}
-
-
-	onCaptionChange = (body, doNotKeepSelection) => {
-		const {blockProps: {setBlockData}} = this.props;
-
-		if (setBlockData) {
-			setBlockData({body}, doNotKeepSelection);
-		}
-	}
 
 	onClick = (e) => {
 		e.stopPropagation();
@@ -108,7 +68,7 @@ export default class CourseFigureEditor extends React.Component {
 		if (this.caption) {
 			this.caption.focus();
 		}
-	}
+	};
 
 
 	render () {
@@ -118,7 +78,7 @@ export default class CourseFigureEditor extends React.Component {
 
 		return (
 			<div className="course-figure-editor" onClick={this.onClick}>
-				<Controls onRemove={this.onRemove} onChange={this.onChange}/>
+				<Controls onRemove={this.onRemove} onChange={this.onChange} t={controlsT} />
 				<FigureEditor url={url} blockId={blockId} onFocus={this.onFocus} onBlur={this.onBlur} />
 				<CaptionEditor
 					ref={this.attachCaptionRef}
@@ -128,6 +88,7 @@ export default class CourseFigureEditor extends React.Component {
 					onBlur={this.onBlur}
 					onChange={this.onCaptionChange}
 					indexOfType={indexOfType}
+					blockType={blockType}
 				/>
 			</div>
 		);
