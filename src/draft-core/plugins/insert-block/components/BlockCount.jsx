@@ -42,12 +42,15 @@ export default class BlockCount extends React.Component {
 		const {blockCount} = this;
 		const cls = cx('insert-block-count', className, {isUsed: blockCount > 0});
 
-		return (
-			<div className={cls}>
-				{blockCount > 0 &&
-					blockCount
-				}
-			</div>
-		);
+		if(blockCount > 0) {
+			return (
+				<div className={cls}>
+					{blockCount}
+				</div>
+			);
+		} else {
+			return (null);
+		}
+
 	}
 }
