@@ -3,17 +3,12 @@ import PropTypes from 'prop-types';
 import cx from 'classnames';
 import {scoped} from 'nti-lib-locale';
 
-const DEFAULT_TEXT = {
-	change: 'Replace Image'
-};
-
-const t = scoped('course-figure-controls', DEFAULT_TEXT);
-
 export default class BlockTypeControls extends React.Component {
 	static propTypes = {
 		className: PropTypes.string,
 		onRemove: PropTypes.func,
-		onChange: PropTypes.func
+		onChange: PropTypes.func,
+		t: PropTypes.func.isRequired
 	}
 
 
@@ -40,16 +35,22 @@ export default class BlockTypeControls extends React.Component {
 
 
 	render () {
-		const {className} = this.props;
+		const {className, t, iconName} = this.props;
 		const cls = cx('custom-block-type-control', className);
+
+		const changeBodyComponent = ({onChange, t}) => onChange === null ?
+			null :
+			(
+				<div className="change" onClick={onChange}>
+					<i className="icon-image" />
+					<span>{t('change')}</span>
+				</div>
+			);
 
 		return (
 			<div className={cls}>
 				<div className="spacer" />
-				<div className="change" onClick={this.onChange}>
-					<i className="icon-image" />
-					<span>{t('change')}</span>
-				</div>
+				<changeBodyComponent onChange={this.onChange} t={t} />
 				<div className="remove" onClick={this.onRemove}>
 					<i className="icon-bold-x" />
 				</div>

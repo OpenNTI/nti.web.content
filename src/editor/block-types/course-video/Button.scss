@@ -1,0 +1,5 @@
+@import "../assets/button";
+
+.course-video-button {
+	@include block-type-button('../assets/icon-video.svg');
+}

@@ -1,22 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {scoped} from 'nti-lib-locale';
 
 import RSTFieldEditor from '../RSTFieldEditor';
-
-const DEFAULT_TEXT = {
-	figureTitle: 'Figure %(index)s',
-	descriptionPlaceholder: 'Write a caption...'
-};
-
-const t = scoped('COURSE_FIGURE_CAPTION_EDITOR', DEFAULT_TEXT);
-
-const FIGURE_REGEX = /^Figure\s\d$/;
-
-function getFigureTitle (index) {
-	return t('figureTitle', {index: index + 1});
-}
-
 
 export default class CaptionEditor extends React.Component {
 	static propTypes = {
@@ -25,7 +10,12 @@ export default class CaptionEditor extends React.Component {
 		onChange: PropTypes.func,
 		onFocus: PropTypes.func,
 		onBlur: PropTypes.func,
-		indexOfType: PropTypes.number
+		indexOfType: PropTypes.number,
+		blockType: PropTypes.shape({
+			t: PropTypes.func.isRequired,
+			regex: PropTypes.instanceOf(RegExp).isRequired,
+			getTitle: PropTypes.func.isRequired
+		}).isRequired
 	}
 
 	attachTitleRef = x => this.titleEditor = x
@@ -48,20 +38,20 @@ export default class CaptionEditor extends React.Component {
 	}
 
 	componentDidMount () {
-		const {body, onChange, indexOfType} = this.props;
+		const {body, onChange, indexOfType, blockType} = this.props;
 
 		if (!body.length) {
-			onChange([getFigureTitle(indexOfType)]);
+			onChange([blockType.getTitle(indexOfType)]);
 		}
 	}
 
 
 	maybeFixTitle (body, index) {
-		const {onChange} = this.props;
-		const newTitle = getFigureTitle(index);
+		const {onChange, blockType} = this.props;
+		const newTitle = blockType.getTitle(index);
 		const oldTitle = body[0];
 
-		if (!oldTitle || (FIGURE_REGEX.test(oldTitle) && newTitle !== oldTitle)) {
+		if (!oldTitle || (blockType.regex.test(oldTitle) && newTitle !== oldTitle)) {
 			onChange([newTitle, body[1] || '']);
 		}
 	}
@@ -105,12 +95,12 @@ export default class CaptionEditor extends React.Component {
 
 
 	onTitleChange = (title) => {
-		const {onChange, indexOfType} = this.props;
+		const {onChange, indexOfType, blockType} = this.props;
 
 		this.emptiedTitle = !title;
 
 		if (onChange) {
-			onChange([title || getFigureTitle(indexOfType), this.description], true);
+			onChange([title || blockType.getTitle(indexOfType), this.description], true);
 		}
 	}
 
@@ -125,10 +115,10 @@ export default class CaptionEditor extends React.Component {
 
 
 	render () {
-		const {blockId, indexOfType} = this.props;
+		const {blockId, indexOfType, blockType} = this.props;
 		let {title, emptiedTitle} = this;
 
-		if (emptiedTitle && FIGURE_REGEX.test(title)) {
+		if (emptiedTitle && blockType.regex.test(title)) {
 			title = '';
 		}
 
@@ -142,7 +132,7 @@ export default class CaptionEditor extends React.Component {
 					onFocus={this.onFocus}
 					onBlur={this.onBlur}
 					onChange={this.onTitleChange}
-					placeholder={getFigureTitle(indexOfType)}
+					placeholder={blockType.getTitle(indexOfType)}
 				/>
 				<RSTFieldEditor
 					className="description"
@@ -151,7 +141,7 @@ export default class CaptionEditor extends React.Component {
 					onFocus={this.onFocus}
 					onBlur={this.onBlur}
 					onChange={this.onDescriptionChange}
-					placeholder={t('descriptionPlaceholder')}
+					placeholder={blockType.t('descriptionPlaceholder')}
 				/>
 			</div>
 		);
