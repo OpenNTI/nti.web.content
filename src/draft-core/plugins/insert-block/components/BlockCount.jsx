@@ -44,7 +44,9 @@ export default class BlockCount extends React.Component {
 
 		return (
 			<div className={cls}>
-				{blockCount}
+				{blockCount > 0 &&
+					blockCount
+				}
 			</div>
 		);
 	}
