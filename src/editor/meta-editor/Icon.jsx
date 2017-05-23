@@ -4,6 +4,7 @@ import React from 'react';
 import cx from 'classnames';
 import {scoped} from 'nti-lib-locale';
 import {ContentResources, HOC} from 'nti-web-commons';
+import {URL} from 'nti-lib-dom';
 
 import {saveContentPackageIcon} from '../Actions';
 
@@ -28,7 +29,7 @@ export default class ContentEditorIcon extends React.Component {
 
 	constructor (props) {
 		super(props);
-		this.state = {fileOver: false, counter: 0};
+		this.state = {fileOver: false};
 	}
 
 	onClick = (e) => {
@@ -70,47 +71,36 @@ export default class ContentEditorIcon extends React.Component {
 	dragEnter = (e) => {
 		e.preventDefault();
 		e.stopPropagation();
-		this.setState({ fileOver: true, counter: this.state.counter + 1 });
+		this.setState({ fileOver: true});
 	}
 
 
 	dragLeave = (e) => {
 		e.preventDefault();
 		e.stopPropagation();
-		this.setState({ counter: this.state.counter - 1 });
-		if(this.state.counter - 1 === 0) {
-			this.setState({ fileOver: false });
-		}
+
+		this.setState({ fileOver: false });
 	}
 
 
 	drop = (e) => {
 		const {contentPackage} = this.props;
+		const {items} = e.dataTransfer || {};
+		const [item] = items || [];
 		e.preventDefault();
 		e.stopPropagation();
 		this.setState({ fileOver: false });
 
-		let file = e.dataTransfer.items[0].getAsFile();
-		let url = this.createObjectURL(file);
-		saveContentPackageIcon(contentPackage, url);
-	}
-
-
-	getURLObject = () => {
-		let url;
-
-		if (window.URL && window.URL.createObjectURL) {
-			url = window.URL;
-		} else if (window.webkitURL && window.webkitURL.createObjectURL) {
-			url = window.webkitURL;
+		if(item) {
+			let file = item.getAsFile();
+			let url = this.createObjectURL(file);
+			saveContentPackageIcon(contentPackage, url);
 		}
-
-		return url;
 	}
 
 
 	createObjectURL = (file) => {
-		let url = this.getURLObject();
+		let url = URL;
 
 		if (!url) { return null; }
 
@@ -129,10 +119,10 @@ export default class ContentEditorIcon extends React.Component {
 
 		return (
 			<ItemChanges item={contentPackage} onItemChanged={this.onContentPackageChanged}>
-				<div className={cls} onClick={this.onClick} onDragOver={this.dragOver} onDragEnter={this.dragEnter} onDragLeave={this.dragLeave} onDrop={this.drop}>
+				<div className={cls} onClick={this.onClick}>
 					{!icon && this.renderPlaceholder()}
 					{icon && this.renderIcon(icon)}
-					<input type="file" data-qtip="Cover Image" accept="image/*" />
+					<input type="file" data-qtip="Cover Image" accept="image/*" onDragOver={this.dragOver} onDragEnter={this.dragEnter} onDragLeave={this.dragLeave} onDrop={this.drop}/>
 				</div>
 			</ItemChanges>
 		);
