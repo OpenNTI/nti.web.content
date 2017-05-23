@@ -71,7 +71,7 @@ export default class ContentEditorIcon extends React.Component {
 	dragEnter = (e) => {
 		e.preventDefault();
 		e.stopPropagation();
-		this.setState({ fileOver: true});
+		this.setState({ fileOver: true });
 	}
 
 
@@ -100,13 +100,11 @@ export default class ContentEditorIcon extends React.Component {
 
 
 	createObjectURL = (file) => {
-		let url = URL;
+		if (!URL) { return null; }
 
-		if (!url) { return null; }
+		const objectURL = URL.createObjectURL(file);
 
-		this.objectURL = url.createObjectURL(file);
-
-		return this.objectURL;
+		return objectURL;
 	}
 
 
