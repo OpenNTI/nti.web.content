@@ -35,22 +35,22 @@ export default class BlockTypeControls extends React.Component {
 
 
 	render () {
-		const {className, t, iconName} = this.props;
+		const {className, t, iconName, onChange} = this.props;
 		const cls = cx('custom-block-type-control', className);
 
-		const changeBodyComponent = ({onChange, t}) => onChange === null ?
+		const ChangeBodyComponent = ({onChange, getString}) => onChange === null ?
 			null :
 			(
 				<div className="change" onClick={onChange}>
 					<i className="icon-image" />
-					<span>{t('change')}</span>
+					<span>{getString('change')}</span>
 				</div>
 			);
 
 		return (
 			<div className={cls}>
 				<div className="spacer" />
-				<changeBodyComponent onChange={this.onChange} t={t} />
+				<ChangeBodyComponent onChange={onChange} getString={t} />
 				<div className="remove" onClick={this.onRemove}>
 					<i className="icon-bold-x" />
 				</div>
