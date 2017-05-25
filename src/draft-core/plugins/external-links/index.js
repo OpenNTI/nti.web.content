@@ -62,10 +62,8 @@ export default {
 					get currentLink () {
 						return getSelectedEntityKey(getEditorState());
 					},
-					get editingLink () {
-						const editingEntity = store.getItem(EditingEntityKey);
-
-						return editingEntity ? true : false;
+					get isEditing () {
+						return Boolean(store.getItem(EditingEntityKey));
 					},
 					toggleLink: (link) => {
 						const editorState = getEditorState();

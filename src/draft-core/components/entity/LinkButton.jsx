@@ -11,7 +11,7 @@ export default class LinkButton extends React.Component {
 				toggleLink: React.PropTypes.func.isRequired,
 				currentLink: React.PropTypes.string,
 				allowLinks: React.PropTypes.bool,
-				editingLink: React.PropTypes.bool
+				isEditing: React.PropTypes.bool
 			})
 		})
 	}
@@ -47,9 +47,9 @@ export default class LinkButton extends React.Component {
 
 
 	get isEditing () {
-		const {editingLink} = this.pluginContext;
+		const {isEditing} = this.pluginContext;
 
-		return editingLink;
+		return isEditing;
 	}
 
 
