@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Component as Video} from 'nti-web-video';
+import Video from 'nti-web-video';
 import {EmptyState} from 'nti-web-commons';
 
 export default class VideoEditor extends React.Component {
@@ -40,12 +40,9 @@ export default class VideoEditor extends React.Component {
 						<a onClick={this.onDone} role="button" className="nti-button primary rounded"><span>Done</span></a>
 					</div>
 				</div>
-				{/*
 				<div className="kaltura-options">
 					<a><i className="icon-folder" />My Videos</a>
-					<a><i className="icon-upload" />Upload a Video</a>
 				</div>
-				*/}
 			</div>
 		</div>
 	);
@@ -56,8 +53,7 @@ export default class VideoEditor extends React.Component {
 
 	render () {
 		const {url, onFocus, onBlur} = this.props;
-		// const emptyString = 'Enter a link to a YouTube, Vimeo or Kaltura video.';
-		const emptyString = 'Enter a link to a YouTube or Vimeo video.';
+		const emptyString = 'Enter a link to a YouTube, Vimeo or Kaltura video.';
 
 		return (
 			<div className="video-editor">

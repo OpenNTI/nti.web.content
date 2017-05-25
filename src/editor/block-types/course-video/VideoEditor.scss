@@ -87,9 +87,16 @@
 		& > * {
 			height: 100%;
 
+			/* Required for Vimeo and YouTube */
 			& > * {
 				height: 100%;
 				width: 100%;
+
+				/* Required for Kaltura */
+				& > * {
+					height: 100%;
+					width: 100%;
+				}
 			}
 		}
 	}

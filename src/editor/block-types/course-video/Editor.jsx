@@ -55,11 +55,13 @@ export default class CourseVideoEditor extends CourseEditor {
 		const {block, blockProps:{indexOfType, setBlockData}} = this.props;
 		const {url, body} = this.state;
 		const blockId = block.getKey();
+		const updateFromMediaSource = ({service, source, href}) => {
+			setBlockData({arguments: `${service} ${source}`});
+			this.setState({url: href});
+		};
 		const updateUrl = inputUrl => {
-			createMediaSourceFromUrl(inputUrl).then(({service, source, href}) => {
-				setBlockData({arguments: `${service} ${source}`});
-				this.setState({url: href});
-			});
+			createMediaSourceFromUrl(inputUrl)
+			.then(mediaSource => mediaSource && updateFromMediaSource(mediaSource));
 		};
 
 		return (
