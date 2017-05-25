@@ -11,6 +11,8 @@ export default class VideoEditor extends React.Component {
 		updateUrl: PropTypes.func
 	}
 
+	state = {};
+
 	attachUrlRef = x => this.urlField = x;
 
 	onClick = e => {
@@ -22,11 +24,19 @@ export default class VideoEditor extends React.Component {
 	};
 
 	onDone = e => {
+		e.stopPropagation();
+
+		this.setState({errorMsg: ''});
+
 		const {updateUrl} = this.props;
 
 		if (this.urlField) {
-			updateUrl(this.urlField.value);
+			updateUrl(this.urlField.value.trim());
 		}
+	};
+
+	onError = e => {
+		this.setState({errorMsg: 'No video found. Try again.'});
 	};
 
 	blankComponent = ({msg, onFocus, onBlur}) => (
@@ -40,6 +50,7 @@ export default class VideoEditor extends React.Component {
 						<a onClick={this.onDone} role="button" className="nti-button primary rounded"><span>Done</span></a>
 					</div>
 				</div>
+				<span className="error-message">{this.state.errorMsg}</span>
 				<div className="kaltura-options">
 					<a><i className="icon-folder" />My Videos</a>
 				</div>
@@ -47,8 +58,8 @@ export default class VideoEditor extends React.Component {
 		</div>
 	);
 
-	innerComponent = ({url, msg, onFocus, onBlur}) => url ?
-		<div className="editor-video-embed"><Video src={url} /></div> :
+	innerComponent = ({url, msg, onFocus, onBlur}) => url && !this.state.errorMsg ?
+		<div className="editor-video-embed"><Video onError={this.onError} src={url} /></div> :
 		(<this.blankComponent msg={msg} onFocus={onFocus} onBlur={onBlur} />);
 
 	render () {

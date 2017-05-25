@@ -17,6 +17,10 @@
 	& > .video-insert-options {
 		margin: auto 52px;
 
+		& > .error-message {
+			color: $error-text-color;
+		}
+
 		& > .video-link {
 			line-height: .875rem;
 
