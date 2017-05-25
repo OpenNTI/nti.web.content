@@ -57,9 +57,11 @@ export default class VideoEditor extends React.Component {
 					</div>
 				</div>
 				<span className="error-message">{this.state.errorMsg}</span>
+				{/*
 				<div className="kaltura-options">
 					<a><i className="icon-folder" />My Videos</a>
 				</div>
+				*/}
 			</div>
 		</div>
 	);
