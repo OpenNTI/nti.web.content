@@ -39,6 +39,12 @@ export default class VideoEditor extends React.Component {
 		this.setState({errorMsg: 'No video found. Try again.'});
 	};
 
+	onKeyDown = e => {
+		if (e.key === 'Enter') {
+			this.onDone(e);
+		}
+	};
+
 	blankComponent = ({msg, onFocus, onBlur}) => (
 		<div className="video-editor-blank" onClick={this.onClick}>
 			<EmptyState header={msg} className="empty-string" />
@@ -46,7 +52,7 @@ export default class VideoEditor extends React.Component {
 				<div className="video-link">
 					<label htmlFor="urlField">Link</label>
 					<div className="video-link-input">
-						<input id="urlField" type="url" placeholder="Paste a link and hit enter" ref={this.attachUrlRef} onFocus={onFocus} onBlur={onBlur} />
+						<input id="urlField" type="url" placeholder="Paste a link and hit enter" ref={this.attachUrlRef} onFocus={onFocus} onKeyDown={this.onKeyDown} onBlur={onBlur} />
 						<a onClick={this.onDone} role="button" className="nti-button primary rounded"><span>Done</span></a>
 					</div>
 				</div>
