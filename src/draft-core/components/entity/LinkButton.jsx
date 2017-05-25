@@ -10,7 +10,8 @@ export default class LinkButton extends React.Component {
 			plugins: React.PropTypes.shape({
 				toggleLink: React.PropTypes.func.isRequired,
 				currentLink: React.PropTypes.string,
-				allowLinks: React.PropTypes.bool
+				allowLinks: React.PropTypes.bool,
+				editingLink: React.PropTypes.bool
 			})
 		})
 	}
@@ -45,6 +46,13 @@ export default class LinkButton extends React.Component {
 	}
 
 
+	get isEditing () {
+		const {editingLink} = this.pluginContext;
+
+		return editingLink;
+	}
+
+
 	onMouseDown = (e) => {
 		const {toggleLink} = this.pluginContext;
 
@@ -60,8 +68,8 @@ export default class LinkButton extends React.Component {
 
 	render () {
 		const {className} = this.props;
-		const {isAllowed, isCurrent} = this;
-		const cls = cx('draft-core-link-button', className, {active: isCurrent, disabled: !isAllowed});
+		const {isAllowed, isEditing} = this;
+		const cls = cx('draft-core-link-button', className, {active: isEditing, disabled: !isAllowed});
 
 		return (
 			<button
