@@ -1,9 +1,18 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {scoped} from 'nti-lib-locale';
+
 import {createMediaSourceFromUrl} from 'nti-web-video';
 
-import Controls from '../course-common/Controls';
-import {CourseEditor, CaptionEditor} from '../course-common';
+import {
+	CaptionEditor,
+	Controls,
+	attachCaptionRef,
+	onRemove,
+	onFocus,
+	onBlur,
+	onCaptionChange
+} from '../course-common';
 
 import VideoEditor from './VideoEditor';
 
@@ -26,8 +35,25 @@ const defaultControlsText = {
 
 const controlsT = scoped('course-figure-controls', defaultControlsText);
 
-export default class CourseVideoEditor extends CourseEditor {
+export default class CourseVideoEditor extends React.Component {
+	static propTypes = {
+		block: PropTypes.object,
+		blockProps: PropTypes.shape({
+			indexOfType: PropTypes.number,
+			setBlockData: PropTypes.func,
+			removeBlock: PropTypes.func,
+			setReadOnly: PropTypes.func
+		})
+	};
+
 	onChange = null;
+
+	constructor (props) {
+		super(props);
+
+		this.state = this.getStateFor(props);
+	}
+
 
 	getStateFor (props = this.props) {
 		const {block} = props;
@@ -41,6 +67,16 @@ export default class CourseVideoEditor extends CourseEditor {
 	}
 
 
+	componentWillReceiveProps (nextProps) {
+		const {block:newBlock} = nextProps;
+		const {block:oldBlock} = this.props;
+
+		if (newBlock !== oldBlock) {
+			this.setState(this.getStateFor(nextProps));
+		}
+	}
+
+
 	onClick = e => {
 		e.stopPropagation();
 
@@ -48,6 +84,13 @@ export default class CourseVideoEditor extends CourseEditor {
 			this.caption.focus();
 		}
 	};
+
+
+	onRemove = () => onRemove(this.props);
+	onFocus = () => onFocus(this.props);
+	onBlur = () => onBlur(this.props);
+	onFocus = () => onFocus(this.props);
+	onCaptionChange = (body, doNotKeepSelection) => onCaptionChange(body, doNotKeepSelection, this.props);
 
 
 	updateFromMediaSource = ({service, source, href}) => {
@@ -72,7 +115,7 @@ export default class CourseVideoEditor extends CourseEditor {
 				<Controls onRemove={this.onRemove} onChange={this.onChange} t={controlsT} />
 				<VideoEditor updateUrl={this.updateUrl} url={url} onFocus={this.onFocus} onBlur={this.onBlur} />
 				<CaptionEditor
-					ref={this.attachCaptionRef}
+					ref={attachCaptionRef}
 					body={body}
 					blockId={blockId}
 					onFocus={this.onFocus}

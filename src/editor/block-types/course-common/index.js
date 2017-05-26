@@ -1,2 +1,3 @@
-export CourseEditor from './Editor';
+export * from './Editor';
 export CaptionEditor from './CaptionEditor';
+export Controls from './Controls';
