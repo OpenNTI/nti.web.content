@@ -12,6 +12,7 @@ import {
 	onBlur,
 	onCaptionChange
 } from '../course-common';
+
 import FigureEditor from './FigureEditor';
 
 const DEFAULT_TEXT = {

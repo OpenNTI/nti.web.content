@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {scoped} from 'nti-lib-locale';
-
 import {createMediaSourceFromUrl} from 'nti-web-video';
 
 import {

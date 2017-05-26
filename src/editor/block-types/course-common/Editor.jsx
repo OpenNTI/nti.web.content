@@ -1,7 +1,7 @@
 export const attachCaptionRef = x => this.caption = x;
 
 
-export const onRemove = props => {
+export function onRemove (props) {
 	const {blockProps: {removeBlock}} = props;
 
 	if (removeBlock) {
@@ -10,7 +10,7 @@ export const onRemove = props => {
 }
 
 
-export const onFocus = props => {
+export function onFocus (props) {
 	const {blockProps: {setReadOnly}} = props;
 
 	if (setReadOnly) {
@@ -19,7 +19,7 @@ export const onFocus = props => {
 }
 
 
-export const onBlur = props => {
+export function onBlur (props) {
 	const {blockProps: {setReadOnly}} = props;
 
 	if (setReadOnly) {
@@ -28,7 +28,7 @@ export const onBlur = props => {
 }
 
 
-export const onCaptionChange = (body, doNotKeepSelection, props) => {
+export function onCaptionChange (body, doNotKeepSelection, props) {
 	const {blockProps: {setBlockData}} = props;
 
 	if (setBlockData) {
