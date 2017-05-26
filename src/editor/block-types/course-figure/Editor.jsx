@@ -107,7 +107,6 @@ export default class CourseFigureEditor extends React.Component {
 	onRemove = () => onRemove(this.props);
 	onFocus = () => onFocus(this.props);
 	onBlur = () => onBlur(this.props);
-	onFocus = () => onFocus(this.props);
 	onCaptionChange = (body, doNotKeepSelection) => onCaptionChange(body, doNotKeepSelection, this.props);
 
 
