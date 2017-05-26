@@ -5,18 +5,16 @@ import Editor from './Editor';
 
 const NAME = 'course-figure';
 
-export default {
-	handlesBlock: (contentBlock) => {
-		const type = contentBlock.getType();
-		const data = contentBlock.getData();
+export const handlesBlock = (contentBlock) => {
+	const type = contentBlock.getType();
+	const data = contentBlock.getData();
 
-		return type === BLOCKS.ATOMIC && data.get('name') === NAME;
-	},
-
-	className: 'nti-course-figure-block',
-
-	button: Button,
-
-	component: Editor,
-	editable: false
+	return type === BLOCKS.ATOMIC && data.get('name') === NAME;
 };
+
+export const className = 'nti-course-figure-block';
+
+export const button = Button;
+
+export const component = Editor;
+export const editable = false;

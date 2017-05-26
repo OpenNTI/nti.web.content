@@ -12,7 +12,7 @@ const DEFAULT_TEXT = {
 	descriptionPlaceholder: 'Write a caption...'
 };
 
-const editorT = scoped('COURSE_FIGURE_CAPTION_EDITOR', DEFAULT_TEXT);
+const editorT = scoped('nti-content.editor.block-types.course-figure.FigureEditor', DEFAULT_TEXT);
 
 const FIGURE_REGEX = /^Figure\s\d$/;
 
@@ -30,11 +30,11 @@ const blockType = {
 	getTitle: getFigureTitle
 };
 
-const defaultControlsText = {
+const DEFAULT_CONTROLS_TEXT = {
 	change: 'Replace Image'
 };
 
-const controlsT = scoped('course-figure-controls', defaultControlsText);
+const controlsT = scoped('nti-content.editor.block-types.course-figure.Controls', DEFAULT_CONTROLS_TEXT);
 
 export default class CourseFigureEditor extends CourseEditor {
 	getStateFor (props = this.props) {

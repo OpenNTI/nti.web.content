@@ -7,19 +7,18 @@ import {CourseEditor, CaptionEditor} from '../course-common';
 
 import VideoEditor from './VideoEditor';
 
-const defaultText = {
+const DEFAULT_TEXT = {
 	videoTitle: 'Video %(index)s',
 	descriptionPlaceholder: 'Write a caption...'
 };
-const editorT = scoped('COURSE_VIDEO_CAPTION_EDITOR', defaultText);
-const regex = /^Video\s\d$/;
-const getTitle = index => editorT('videoTitle', {index: index + 1});
+
+const editorT = scoped('COURSE_VIDEO_CAPTION_EDITOR', DEFAULT_TEXT);
 
 const blockType = {
 	t: editorT,
-	regex,
-	getTitle
-}
+	regex: /^Video\s\d$/,
+	getTitle: index => editorT('videoTitle', {index: index + 1})
+};
 
 const defaultControlsText = {
 	change: 'Replace Video'
@@ -51,23 +50,27 @@ export default class CourseVideoEditor extends CourseEditor {
 	};
 
 
+	updateFromMediaSource = ({service, source, href}) => {
+		const {blockProps:{setBlockData}} = this.props;
+		setBlockData({arguments: `${service} ${source}`});
+		this.setState({url: href});
+	};
+
+
+	updateUrl = inputUrl => createMediaSourceFromUrl(inputUrl)
+		.then(mediaSource => mediaSource && this.updateFromMediaSource(mediaSource))
+		.catch(() => Function.prototype());
+
+
 	render () {
-		const {block, blockProps:{indexOfType, setBlockData}} = this.props;
+		const {block, blockProps:{indexOfType}} = this.props;
 		const {url, body} = this.state;
 		const blockId = block.getKey();
-		const updateFromMediaSource = ({service, source, href}) => {
-			setBlockData({arguments: `${service} ${source}`});
-			this.setState({url: href});
-		};
-		const updateUrl = inputUrl => {
-			createMediaSourceFromUrl(inputUrl)
-			.then(mediaSource => mediaSource && updateFromMediaSource(mediaSource));
-		};
 
 		return (
 			<div className="course-video-editor">
 				<Controls onRemove={this.onRemove} onChange={this.onChange} t={controlsT} />
-				<VideoEditor updateUrl={updateUrl} url={url} onFocus={this.onFocus} onBlur={this.onBlur} />
+				<VideoEditor updateUrl={this.updateUrl} url={url} onFocus={this.onFocus} onBlur={this.onBlur} />
 				<CaptionEditor
 					ref={this.attachCaptionRef}
 					body={body}

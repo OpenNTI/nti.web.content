@@ -35,7 +35,7 @@ export default class VideoEditor extends React.Component {
 		}
 	};
 
-	onError = e => {
+	onError = () => {
 		this.setState({errorMsg: 'No video found. Try again.'});
 	};
 
@@ -66,9 +66,9 @@ export default class VideoEditor extends React.Component {
 		</div>
 	);
 
-	innerComponent = ({url, msg, onFocus, onBlur}) => url && !this.state.errorMsg ?
-		<div className="editor-video-embed"><Video onError={this.onError} src={url} /></div> :
-		(<this.blankComponent msg={msg} onFocus={onFocus} onBlur={onBlur} />);
+	innerComponent = ({url, msg, onFocus, onBlur}) => url && !this.state.errorMsg
+		? <div className="editor-video-embed"><Video onError={this.onError} src={url} /></div>
+		: (<this.blankComponent msg={msg} onFocus={onFocus} onBlur={onBlur} />);
 
 	render () {
 		const {url, onFocus, onBlur} = this.props;
