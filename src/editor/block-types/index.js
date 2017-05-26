@@ -1,5 +1,5 @@
-import CourseFigure from './course-figure';
-import CourseVideo from './course-video';
+import * as CourseFigure from './course-figure';
+import * as CourseVideo from './course-video';
 
 const TYPES = [
 	CourseFigure,
