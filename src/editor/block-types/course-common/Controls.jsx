@@ -8,7 +8,7 @@ export default class BlockTypeControls extends React.Component {
 		className: PropTypes.string,
 		onRemove: PropTypes.func,
 		onChange: PropTypes.func,
-		t: PropTypes.func.isRequired
+		getString: PropTypes.func
 	}
 
 
@@ -34,23 +34,28 @@ export default class BlockTypeControls extends React.Component {
 	}
 
 
-	render () {
-		const {className, t, iconName, onChange} = this.props;
-		const cls = cx('custom-block-type-control', className);
+	ChangeBodyComponent ({onChange, getString}) {
+		if (onChange === null) {
+			return null;
+		}
 
-		const ChangeBodyComponent = ({onChange, getString}) => onChange === null ?
-			null :
-			(
-				<div className="change" onClick={onChange}>
-					<i className="icon-image" />
-					<span>{getString('change')}</span>
-				</div>
-			);
+		return (
+			<div className="change" onClick={onChange}>
+				<i className="icon-image" />
+				<span>{getString('Controls.changeImage')}</span>
+			</div>
+		);
+	}
+
+
+	render () {
+		const {className, getString, onChange} = this.props;
+		const cls = cx('custom-block-type-control', className);
 
 		return (
 			<div className={cls}>
 				<div className="spacer" />
-				<ChangeBodyComponent onChange={onChange} getString={t} />
+				<this.ChangeBodyComponent onChange={onChange} getString={getString} />
 				<div className="remove" onClick={this.onRemove}>
 					<i className="icon-bold-x" />
 				</div>

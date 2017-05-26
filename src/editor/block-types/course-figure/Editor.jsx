@@ -15,33 +15,26 @@ import {
 import FigureEditor from './FigureEditor';
 
 const DEFAULT_TEXT = {
-	figureTitle: 'Figure %(index)s',
-	descriptionPlaceholder: 'Write a caption...'
+	Editor: {
+		figureTitle: 'Figure %(index)s',
+		descriptionPlaceholder: 'Write a caption...'
+	},
+	Controls: {
+		changeImage: 'Replace Image'
+	}
 };
 
-const editorT = scoped('nti-content.editor.block-types.course-figure.FigureEditor', DEFAULT_TEXT);
-
-const FIGURE_REGEX = /^Figure\s\d$/;
-
-function getFigureTitle (index) {
-	return editorT('figureTitle', {index: index + 1});
-}
+const getString = scoped('nti-content.editor.block-types.course-figure.FigureEditor', DEFAULT_TEXT);
 
 function fileIsImage (file) {
 	return /image\//i.test(file.FileMimeType);
 }
 
 const blockType = {
-	t: editorT,
-	regex: FIGURE_REGEX,
-	getTitle: getFigureTitle
+	getString,
+	regex: /^Figure\s\d$/,
+	getTitle: index => getString('Editor.figureTitle', {index: index + 1})
 };
-
-const DEFAULT_CONTROLS_TEXT = {
-	change: 'Replace Image'
-};
-
-const controlsT = scoped('nti-content.editor.block-types.course-figure.Controls', DEFAULT_CONTROLS_TEXT);
 
 export default class CourseFigureEditor extends React.Component {
 	static propTypes = {
@@ -117,7 +110,7 @@ export default class CourseFigureEditor extends React.Component {
 
 		return (
 			<div className="course-figure-editor" onClick={this.onClick}>
-				<Controls onRemove={this.onRemove} onChange={this.onChange} t={controlsT} />
+				<Controls onRemove={this.onRemove} onChange={this.onChange} getString={getString} />
 				<FigureEditor url={url} blockId={blockId} onFocus={this.onFocus} onBlur={this.onBlur} />
 				<CaptionEditor
 					ref={attachCaptionRef}

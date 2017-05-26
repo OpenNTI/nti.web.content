@@ -17,23 +17,19 @@ import {
 import VideoEditor from './VideoEditor';
 
 const DEFAULT_TEXT = {
-	videoTitle: 'Video %(index)s',
-	descriptionPlaceholder: 'Write a caption...'
+	Editor: {
+		videoTitle: 'Video %(index)s',
+		descriptionPlaceholder: 'Write a caption...'
+	}
 };
 
-const editorT = scoped('COURSE_VIDEO_CAPTION_EDITOR', DEFAULT_TEXT);
+const getString = scoped('nti-content.editor.block-types.course-video.VideoEditor', DEFAULT_TEXT);
 
 const blockType = {
-	t: editorT,
+	getString,
 	regex: /^Video\s\d$/,
-	getTitle: index => editorT('videoTitle', {index: index + 1})
+	getTitle: index => getString('Editor.videoTitle', {index: index + 1})
 };
-
-const defaultControlsText = {
-	change: 'Replace Video'
-};
-
-const controlsT = scoped('course-figure-controls', defaultControlsText);
 
 export default class CourseVideoEditor extends React.Component {
 	static propTypes = {
@@ -111,7 +107,7 @@ export default class CourseVideoEditor extends React.Component {
 
 		return (
 			<div className="course-video-editor">
-				<Controls onRemove={this.onRemove} onChange={this.onChange} t={controlsT} />
+				<Controls onRemove={this.onRemove} onChange={this.onChange} />
 				<VideoEditor updateUrl={this.updateUrl} url={url} onFocus={this.onFocus} onBlur={this.onBlur} />
 				<CaptionEditor
 					ref={attachCaptionRef}

@@ -12,7 +12,7 @@ export default class CaptionEditor extends React.Component {
 		onBlur: PropTypes.func,
 		indexOfType: PropTypes.number,
 		blockType: PropTypes.shape({
-			t: PropTypes.func.isRequired,
+			getString: PropTypes.func.isRequired,
 			regex: PropTypes.instanceOf(RegExp).isRequired,
 			getTitle: PropTypes.func.isRequired
 		}).isRequired
@@ -141,7 +141,7 @@ export default class CaptionEditor extends React.Component {
 					onFocus={this.onFocus}
 					onBlur={this.onBlur}
 					onChange={this.onDescriptionChange}
-					placeholder={blockType.t('descriptionPlaceholder')}
+					placeholder={blockType.getString('Editor.descriptionPlaceholder')}
 				/>
 			</div>
 		);
