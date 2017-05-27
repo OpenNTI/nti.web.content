@@ -11,9 +11,9 @@ export default class BlockCount extends React.Component {
 
 
 	static contextTypes = {
-		editorContext: React.PropTypes.shape({
-			plugins: React.PropTypes.shape({
-				getInsertBlockCount: React.PropTypes.func
+		editorContext: PropTypes.shape({
+			plugins: PropTypes.shape({
+				getInsertBlockCount: PropTypes.func
 			})
 		})
 	}

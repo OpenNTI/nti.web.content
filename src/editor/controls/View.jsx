@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
 import {ContextProvider} from '../../draft-core';
@@ -22,11 +23,11 @@ function getEditorForSelection (selection) {
 
 export default class ContentEditorControls extends React.Component {
 	static propTypes = {
-		contentPackage: React.PropTypes.object,
-		course: React.PropTypes.object,
-		selectionManager: React.PropTypes.shape({
-			addListener: React.PropTypes.func,
-			removeListener: React.PropTypes.func
+		contentPackage: PropTypes.object,
+		course: PropTypes.object,
+		selectionManager: PropTypes.shape({
+			addListener: PropTypes.func,
+			removeListener: PropTypes.func
 		})
 	}
 

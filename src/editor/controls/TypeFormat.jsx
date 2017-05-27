@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import {scoped} from 'nti-lib-locale';
 import {Flyout} from 'nti-web-commons';
@@ -18,7 +19,7 @@ const typeClass = 'content-editor-type-button';
 
 
 ContentEditorTypeFormat.propTypes = {
-	editor: React.PropTypes.object
+	editor: PropTypes.object
 };
 export default function ContentEditorTypeFormat ({editor}) {
 	const trigger = (<ActiveType className="content-editor-active-type" getString={t} />);

@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import cx from 'classnames';
 import {INLINE_STYLE} from 'draft-js-utils';
@@ -16,20 +17,20 @@ export default class StyleButton extends React.Component {
 	static Styles = Styles
 
 	static contextTypes = {
-		editorContext: React.PropTypes.shape({
-			plugins: React.PropTypes.shape({
-				toggleInlineStyle: React.PropTypes.func.isRequired,
-				currentInlineStyles: React.PropTypes.object,
-				allowedInlineStyles: React.PropTypes.object
+		editorContext: PropTypes.shape({
+			plugins: PropTypes.shape({
+				toggleInlineStyle: PropTypes.func.isRequired,
+				currentInlineStyles: PropTypes.object,
+				allowedInlineStyles: PropTypes.object
 			})
 		})
 	}
 
 	static propTypes = {
-		className: React.PropTypes.string,
-		children: React.PropTypes.any,
-		style: React.PropTypes.oneOf(Object.values(Styles)).isRequired,
-		shouldDisableForState: React.PropTypes.func
+		className: PropTypes.string,
+		children: PropTypes.any,
+		style: PropTypes.oneOf(Object.values(Styles)).isRequired,
+		shouldDisableForState: PropTypes.func
 	}
 
 	static defaultProps = {

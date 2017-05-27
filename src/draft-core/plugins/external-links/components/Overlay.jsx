@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import {Flyout} from 'nti-web-commons';
 
@@ -12,13 +13,13 @@ const editingEntityKeyEvent = getEventFor(EditingEntityKey);
 
 export default class ExternalLinkOverlay extends React.Component {
 	static propTypes = {
-		store: React.PropTypes.shape({
-			addListener: React.PropTypes.func,
-			removeListener: React.PropTypes.func
+		store: PropTypes.shape({
+			addListener: PropTypes.func,
+			removeListener: PropTypes.func
 		}),
-		getEditorState: React.PropTypes.func,
-		setEditorState: React.PropTypes.func,
-		editor: React.PropTypes.any
+		getEditorState: PropTypes.func,
+		setEditorState: PropTypes.func,
+		editor: PropTypes.any
 	}
 
 

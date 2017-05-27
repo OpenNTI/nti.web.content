@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import {ControlBar, Button} from 'nti-web-commons';
 import {scoped} from 'nti-lib-locale';
@@ -12,7 +13,7 @@ const t = scoped('ASSIGNMENT_CONTROL_BAR', DEFAULT_TEXT);
 
 export default class AssignmentControlBar extends React.Component {
 	static propTypes = {
-		doEdit: React.PropTypes.func
+		doEdit: PropTypes.func
 	}
 
 

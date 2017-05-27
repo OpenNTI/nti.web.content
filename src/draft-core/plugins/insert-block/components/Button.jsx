@@ -19,12 +19,12 @@ export default class Button extends React.Component {
 	}
 
 	static contextTypes = {
-		editorContext: React.PropTypes.shape({
-			plugins: React.PropTypes.shape({
-				getInsertMethod: React.PropTypes.func,
-				allowInsertBlock: React.PropTypes.bool,
-				registerInsertHandler: React.PropTypes.func,
-				unregisterInsertHandler: React.PropTypes.func
+		editorContext: PropTypes.shape({
+			plugins: PropTypes.shape({
+				getInsertMethod: PropTypes.func,
+				allowInsertBlock: PropTypes.bool,
+				registerInsertHandler: PropTypes.func,
+				unregisterInsertHandler: PropTypes.func
 			})
 		})
 	}

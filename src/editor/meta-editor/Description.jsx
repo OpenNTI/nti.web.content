@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import {scoped} from 'nti-lib-locale';
 
@@ -18,8 +19,8 @@ const plugins = [
 
 export default class ContentEditorTitle extends React.Component {
 	static propTypes = {
-		contentPackage: React.PropTypes.object,
-		course: React.PropTypes.object
+		contentPackage: PropTypes.object,
+		course: PropTypes.object
 	}
 
 

@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
 import Icon from './Icon';
@@ -5,8 +6,8 @@ import Title from './Title';
 import Description from './Description';
 
 MetaEditor.propTypes = {
-	contentPackage: React.PropTypes.object,
-	course: React.PropTypes.object
+	contentPackage: PropTypes.object,
+	course: PropTypes.object
 };
 export default function MetaEditor ({contentPackage, course}) {
 	return (

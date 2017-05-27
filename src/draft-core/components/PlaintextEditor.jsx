@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import {EditorState, ContentState} from 'draft-js';
 
@@ -17,8 +18,8 @@ function getValueForEditorState (editorState) {
 
 export default class PlaintextEditor extends React.Component {
 	static propTypes = {
-		value: React.PropTypes.string,
-		onContentChange: React.PropTypes.func
+		value: PropTypes.string,
+		onContentChange: PropTypes.func
 	}
 
 

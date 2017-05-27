@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import cx from 'classnames';
 import {Entity} from 'draft-js';
@@ -32,16 +33,16 @@ const editingEntityKeyEvent = getEventFor(EditingEntityKey);
 
 export default class ExternalLinkEditor extends React.Component {
 	static propTypes = {
-		entityKey: React.PropTypes.string,
-		offsetKey: React.PropTypes.string,
-		decoratedText: React.PropTypes.string,
-		store: React.PropTypes.shape({
-			setItem: React.PropTypes.func,
-			addListener: React.PropTypes.func,
-			removeListener: React.PropTypes.func
+		entityKey: PropTypes.string,
+		offsetKey: PropTypes.string,
+		decoratedText: PropTypes.string,
+		store: PropTypes.shape({
+			setItem: PropTypes.func,
+			addListener: PropTypes.func,
+			removeListener: PropTypes.func
 		}),
-		getEditorState: React.PropTypes.func,
-		setEditorState: React.PropTypes.func
+		getEditorState: PropTypes.func,
+		setEditorState: PropTypes.func
 	}
 
 

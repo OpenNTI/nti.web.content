@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import cx from 'classnames';
 import {scoped} from 'nti-lib-locale';
@@ -22,9 +23,9 @@ const t = scoped('CONTENT_EDITOR_RENDERING_MASK', DEFAULT_TEXT);
 
 export default class ContentEditorRenderingMask extends React.Component {
 	static propTypes = {
-		contentPackage: React.PropTypes.object,
-		onSuccessfulPublish: React.PropTypes.func,
-		onFailureFinish: React.PropTypes.func
+		contentPackage: PropTypes.object,
+		onSuccessfulPublish: PropTypes.func,
+		onFailureFinish: PropTypes.func
 	}
 
 	state = {}

@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import {StickyElement, StickyContainer} from 'nti-web-commons';
 
@@ -10,11 +11,11 @@ import RenderingMask from './RenderingMask';
 
 
 EditorPanel.propTypes = {
-	contentPackage: React.PropTypes.object,
-	course: React.PropTypes.object,
-	pageSource: React.PropTypes.object,
-	breadcrumb: React.PropTypes.array,
-	gotoResources: React.PropTypes.func
+	contentPackage: PropTypes.object,
+	course: PropTypes.object,
+	pageSource: PropTypes.object,
+	breadcrumb: PropTypes.array,
+	gotoResources: PropTypes.func
 };
 export default function EditorPanel ({contentPackage, course, pageSource, gotoResources, breadcrumb}) {
 	const optionsCmp = (<Options contentPackage={contentPackage} course={course} />);

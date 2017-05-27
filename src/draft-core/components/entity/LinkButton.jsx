@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import cx from 'classnames';
 
@@ -6,19 +7,19 @@ const stop = e => (e.preventDefault(), e.stopPropagation());
 
 export default class LinkButton extends React.Component {
 	static contextTypes = {
-		editorContext: React.PropTypes.shape({
-			plugins: React.PropTypes.shape({
-				toggleLink: React.PropTypes.func.isRequired,
-				currentLink: React.PropTypes.string,
-				allowLinks: React.PropTypes.bool,
-				isEditing: React.PropTypes.bool
+		editorContext: PropTypes.shape({
+			plugins: PropTypes.shape({
+				toggleLink: PropTypes.func.isRequired,
+				currentLink: PropTypes.string,
+				allowLinks: PropTypes.bool,
+				isEditing: PropTypes.bool
 			})
 		})
 	}
 
 	static propTypes = {
-		className: React.PropTypes.string,
-		children: React.PropTypes.any
+		className: PropTypes.string,
+		children: PropTypes.any
 	}
 
 

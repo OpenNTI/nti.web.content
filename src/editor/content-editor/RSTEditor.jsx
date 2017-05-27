@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import {EditorState, convertFromRaw, convertToRaw} from 'draft-js';
 import {HOC} from 'nti-web-commons';
@@ -99,10 +100,10 @@ const plugins = [
 
 export default class RSTEditor extends React.Component {
 	static propTypes = {
-		value: React.PropTypes.string,
-		contentPackage: React.PropTypes.object,
-		course: React.PropTypes.object,
-		onContentChange: React.PropTypes.func
+		value: PropTypes.string,
+		contentPackage: PropTypes.object,
+		course: PropTypes.object,
+		onContentChange: PropTypes.func
 	}
 
 	setEditorRef = x => this.editorRef = x

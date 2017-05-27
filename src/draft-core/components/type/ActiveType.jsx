@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import cx from 'classnames';
 
@@ -5,15 +6,15 @@ const stop = e => (e.preventDefault(), e.stopPropagation());
 
 export default class ActiveType extends React.Component {
 	static propTypes = {
-		className: React.PropTypes.string,
-		onClick: React.PropTypes.func,
-		getString: React.PropTypes.func
+		className: PropTypes.string,
+		onClick: PropTypes.func,
+		getString: PropTypes.func
 	}
 
 	static contextTypes = {
-		editorContext: React.PropTypes.shape({
-			plugins: React.PropTypes.shape({
-				currentBlockType: React.PropTypes.string
+		editorContext: PropTypes.shape({
+			plugins: PropTypes.shape({
+				currentBlockType: PropTypes.string
 			})
 		})
 	}

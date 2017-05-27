@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import cx from 'classnames';
 import {scoped} from 'nti-lib-locale';
@@ -22,8 +23,8 @@ const t = scoped('CONTENT_EDITING_EDITOR', DEFAULT_TEXT);
 
 export default class ContentEditor extends React.Component {
 	static propTypes = {
-		contentPackage: React.PropTypes.object,
-		course: React.PropTypes.object
+		contentPackage: PropTypes.object,
+		course: PropTypes.object
 	}
 
 	setEditorRef = x => this.editorRef = x

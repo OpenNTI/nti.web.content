@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import cx from 'classnames';
 import {Selection, Errors} from 'nti-web-commons';
@@ -10,10 +11,10 @@ const {Field:{Component:ErrorCmp}} = Errors;
 
 export default class ContentMetaEditor extends React.Component {
 	static propTypes = {
-		contentPackage: React.PropTypes.object,
-		className: React.PropTypes.string,
-		fieldName: React.PropTypes.string,
-		onChange: React.PropTypes.func
+		contentPackage: PropTypes.object,
+		className: PropTypes.string,
+		fieldName: PropTypes.string,
+		onChange: PropTypes.func
 	}
 
 	constructor (props) {

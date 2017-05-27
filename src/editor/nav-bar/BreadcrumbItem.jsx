@@ -1,8 +1,9 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
 export default class BreadcrumbItem extends React.Component {
 	static propTypes = {
-		item: React.PropTypes.object
+		item: PropTypes.object
 	}
 
 

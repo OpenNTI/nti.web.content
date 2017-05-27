@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import {scoped} from 'nti-lib-locale';
 
@@ -10,8 +11,8 @@ const DEFAULT_TEXT = {
 const t = scoped('CONTENT-EDITOR-NAVBAR-BREADCRUMB', DEFAULT_TEXT);
 
 Breadcrumb.propTypes = {
-	gotoResources: React.PropTypes.func,
-	breadcrumb: React.PropTypes.array
+	gotoResources: PropTypes.func,
+	breadcrumb: PropTypes.array
 };
 
 export default function Breadcrumb ({gotoResources, breadcrumb}) {

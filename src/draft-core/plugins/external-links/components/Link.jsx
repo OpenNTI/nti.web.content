@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import cx from 'classnames';
 import {Entity} from 'draft-js';
@@ -10,13 +11,13 @@ const editingEntityKeyEvent = getEventFor(EditingEntityKey);
 
 export default class ExternalLink extends React.Component {
 	static propTypes = {
-		entityKey: React.PropTypes.string,
-		children: React.PropTypes.any,
-		offsetKey: React.PropTypes.string,
-		decoratedText: React.PropTypes.string,
-		store: React.PropTypes.shape({
-			addListener: React.PropTypes.func,
-			removeListener: React.PropTypes.func
+		entityKey: PropTypes.string,
+		children: PropTypes.any,
+		offsetKey: PropTypes.string,
+		decoratedText: PropTypes.string,
+		store: PropTypes.shape({
+			addListener: PropTypes.func,
+			removeListener: PropTypes.func
 		})
 	}
 

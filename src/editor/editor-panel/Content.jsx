@@ -1,11 +1,12 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
 import MetaEditor from '../meta-editor';
 import ContentEditor from '../content-editor';
 
 EditorPanelContent.propTypes = {
-	contentPackage: React.PropTypes.object,
-	course: React.PropTypes.object
+	contentPackage: PropTypes.object,
+	course: PropTypes.object
 };
 export default function EditorPanelContent ({contentPackage, course}) {
 	return (

@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import {Editor, EditorState, Entity, convertFromRaw, convertToRaw, CompositeDecorator} from 'draft-js';
 import {mount} from 'enzyme';
@@ -19,8 +20,8 @@ function findLinkEntities (contentBlock, callback) {
 }
 
 Link.propTypes = {
-	offsetKey: React.PropTypes.string,
-	children: React.PropTypes.any
+	offsetKey: PropTypes.string,
+	children: PropTypes.any
 };
 function Link ({offsetKey, children}) {
 	return (

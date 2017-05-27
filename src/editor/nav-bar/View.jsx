@@ -1,13 +1,14 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import {Pager} from 'nti-web-commons';
 
 import Breadcrumb from './Breadcrumb';
 
 NavBar.propTypes = {
-	gotoRoot: React.PropTypes.func,
-	pageSource: React.PropTypes.object,
-	breadcrumb: React.PropTypes.array,
-	gotoResources: React.PropTypes.func
+	gotoRoot: PropTypes.func,
+	pageSource: PropTypes.object,
+	breadcrumb: PropTypes.array,
+	gotoResources: PropTypes.func
 };
 export default function NavBar ({pageSource, gotoResources, breadcrumb}) {
 	return (

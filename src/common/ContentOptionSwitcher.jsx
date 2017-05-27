@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import cx from 'classnames';
 import {scoped} from 'nti-lib-locale';
@@ -15,12 +16,12 @@ const t = scoped('CONTENT_OPTIONS_SWITCHER', DEFAULT_TEXT);
 
 export default class ContentOptionSwitcher extends React.Component {
 	static propTypes = {
-		className: React.PropTypes.string,
-		content: React.PropTypes.node,
-		options: React.PropTypes.node,
-		hideOptions: React.PropTypes.bool,
-		active: React.PropTypes.oneOf([CONTENT, OPTIONS]),
-		getString: React.PropTypes.func
+		className: PropTypes.string,
+		content: PropTypes.node,
+		options: PropTypes.node,
+		hideOptions: PropTypes.bool,
+		active: PropTypes.oneOf([CONTENT, OPTIONS]),
+		getString: PropTypes.func
 	}
 
 

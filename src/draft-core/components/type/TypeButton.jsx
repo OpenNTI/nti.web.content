@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import cx from 'classnames';
 import {scoped} from 'nti-lib-locale';
@@ -27,23 +28,23 @@ export default class TypeButton extends React.Component {
 	static Types = Types
 
 	static contextTypes = {
-		editorContext: React.PropTypes.shape({
-			plugins: React.PropTypes.shape({
-				toggleBlockType: React.PropTypes.func.isRequired,
-				currentBlockType: React.PropTypes.string,
-				allowedBlockTypes: React.PropTypes.object
+		editorContext: PropTypes.shape({
+			plugins: PropTypes.shape({
+				toggleBlockType: PropTypes.func.isRequired,
+				currentBlockType: PropTypes.string,
+				allowedBlockTypes: PropTypes.object
 			})
 		})
 	}
 
 	static propTypes = {
-		className: React.PropTypes.string,
-		type: React.PropTypes.oneOf(Object.values(Types)).isRequired,
-		label: React.PropTypes.string,
-		children: React.PropTypes.node,
-		getString: React.PropTypes.func,
-		plain: React.PropTypes.bool,
-		checkmark: React.PropTypes.bool
+		className: PropTypes.string,
+		type: PropTypes.oneOf(Object.values(Types)).isRequired,
+		label: PropTypes.string,
+		children: PropTypes.node,
+		getString: PropTypes.func,
+		plain: PropTypes.bool,
+		checkmark: PropTypes.bool
 	}
 
 	get editorContext () {

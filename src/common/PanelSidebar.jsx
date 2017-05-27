@@ -1,12 +1,13 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import cx from 'classnames';
 import {FixedElement} from 'nti-web-commons';
 
 
 PanelSidebar.propTypes = {
-	className: React.PropTypes.string,
-	sidebar: React.PropTypes.node,
-	children: React.PropTypes.any
+	className: PropTypes.string,
+	sidebar: PropTypes.node,
+	children: PropTypes.any
 };
 export default function PanelSidebar ({className, sidebar, children}) {
 	const cls = cx('panel-sidebar', className);

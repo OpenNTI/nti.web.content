@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import {scoped} from 'nti-lib-locale';
 import {Selection, ControlBar, Prompt} from 'nti-web-commons';
@@ -24,18 +25,18 @@ const selectionManager = new Selection.Manager();
 
 export default class ContentEditor extends React.Component {
 	static propTypes = {
-		contentPackage: React.PropTypes.object,
-		course: React.PropTypes.object,
-		onDidChange: React.PropTypes.func,
-		breadcrumb: React.PropTypes.array,
-		gotoResources: React.PropTypes.func,
-		onDelete: React.PropTypes.func
+		contentPackage: PropTypes.object,
+		course: PropTypes.object,
+		onDidChange: PropTypes.func,
+		breadcrumb: PropTypes.array,
+		gotoResources: PropTypes.func,
+		onDelete: PropTypes.func
 	}
 
 	static childContextTypes = {
-		SelectionManager: React.PropTypes.shape({
-			select: React.PropTypes.func,
-			unselect: React.PropTypes.func
+		SelectionManager: PropTypes.shape({
+			select: PropTypes.func,
+			unselect: PropTypes.func
 		})
 	}
 
