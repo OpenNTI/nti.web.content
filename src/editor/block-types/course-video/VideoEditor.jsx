@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Video from 'nti-web-video';
 import {EmptyState} from 'nti-web-commons';
+
+import Video from 'nti-web-video';
 
 export default class VideoEditor extends React.Component {
 	static propTypes = {
@@ -36,7 +37,11 @@ export default class VideoEditor extends React.Component {
 	};
 
 	onError = () => {
+		const {updateUrl} = this.props;
+
 		this.setState({errorMsg: 'No video found. Try again.'});
+
+		updateUrl('');
 	};
 
 	onKeyDown = e => {
