@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {scoped} from 'nti-lib-locale';
-import {createMediaSourceFromUrl} from 'nti-web-video';
+
+import {createMediaSourceFromUrl, getCanonicalUrlFromArguments} from 'nti-web-video';
 
 import {
 	CaptionEditor,
@@ -54,9 +55,13 @@ export default class CourseVideoEditor extends React.Component {
 		const {block} = props;
 		const data = block.getData();
 		const body = data.get('body');
+		const blockArguments = data.get('arguments');
+
+		const url = (this.state && this.state.url)
+			|| getCanonicalUrlFromArguments(blockArguments);
 
 		return {
-			url: this.state && this.state.url,
+			url: url,
 			body: body.toJS ? body.toJS() : body
 		};
 	}
@@ -94,9 +99,17 @@ export default class CourseVideoEditor extends React.Component {
 	};
 
 
-	updateUrl = inputUrl => createMediaSourceFromUrl(inputUrl)
-		.then(mediaSource => mediaSource && this.updateFromMediaSource(mediaSource))
-		.catch(() => Function.prototype());
+	updateUrl = inputUrl => {
+		const {blockProps:{setBlockData}} = this.props;
+
+		if (inputUrl) {
+			createMediaSourceFromUrl(inputUrl)
+			.then(mediaSource => mediaSource && this.updateFromMediaSource(mediaSource))
+			.catch(() => Function.prototype());
+		} else {
+			setBlockData({arguments: ''});
+		}
+	};
 
 
 	render () {
