@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {scoped} from 'nti-lib-locale';
 
-import {createMediaSourceFromUrl, getCanonicalUrlFromArguments} from 'nti-web-video';
+import {createMediaSourceFromUrl, getCanonicalUrlFrom} from 'nti-web-video';
 
 import {
 	CaptionEditor,
@@ -58,7 +58,7 @@ export default class CourseVideoEditor extends React.Component {
 		const blockArguments = data.get('arguments');
 
 		const url = (this.state && this.state.url)
-			|| getCanonicalUrlFromArguments(blockArguments);
+			|| getCanonicalUrlFrom(blockArguments);
 
 		return {
 			url: url,
