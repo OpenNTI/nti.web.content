@@ -7,8 +7,8 @@ import {getStateForInput} from './utils';
 export default {
 	create: () => {
 		return {
-			handleBeforeInput (chars, {getEditorState, setEditorState}) {
-				const newState = getStateForInput(chars, getEditorState());
+			handleBeforeInput (chars, editorState, {setEditorState}) {
+				const newState = getStateForInput(chars, editorState);
 
 				if (newState) {
 					setEditorState(newState);

@@ -37,8 +37,7 @@ export default {
 		const {breakTo, convertIfEmpty} = config;
 
 		return {
-			handleReturn (e, {getEditorState, setEditorState}) {
-				const editorState = getEditorState();
+			handleReturn (e, editorState, {setEditorState}) {
 				const selection = editorState.getSelection();
 
 				//If the selection isn't collapsed there's nothing to do
