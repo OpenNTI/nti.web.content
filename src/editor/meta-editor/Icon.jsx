@@ -122,6 +122,7 @@ export default class ContentEditorIcon extends React.Component {
 					{!icon && this.renderPlaceholder()}
 					{icon && this.renderIcon(icon)}
 					<input type="file" data-qtip="Cover Image" accept="image/*" onDragOver={this.dragOver} onDragEnter={this.dragEnter} onDragLeave={this.dragLeave} onDrop={this.drop}/>
+					{icon && this.renderClear()}
 				</div>
 			</ItemChanges>
 		);
@@ -144,8 +145,14 @@ export default class ContentEditorIcon extends React.Component {
 		return (
 			<div className="icon" style={styles}>
 				<i className="icon-add-image" />
-				<span onClick={this.onClear}>{t('clear')}</span>
 			</div>
+		);
+	}
+
+
+	renderClear = () => {
+		return (
+			<span className="clear" onClick={this.onClear}>{t('clear')}</span>
 		);
 	}
 }
