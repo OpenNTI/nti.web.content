@@ -23,6 +23,12 @@ const t = scoped('NTI_CONTENT_EDITOR', DEFAULT_TEXT);
 
 const selectionManager = new Selection.Manager();
 
+const stop = e => e.preventDefault();
+
+function getBody () {
+	return typeof document === 'undefined' ? null : document.body;
+}
+
 export default class ContentEditor extends React.Component {
 	static propTypes = {
 		contentPackage: PropTypes.object,
@@ -42,15 +48,27 @@ export default class ContentEditor extends React.Component {
 
 
 	componentDidMount () {
+		const body = getBody();
+
 		Store.addChangeListener(this.onStoreChange);
+
+		//TODO: figure out if this needs to be more generalized to be used elsewhere
+		if (body) {
+			body.addEventListener('drop', stop);
+		}
 	}
 
 
 	componentWillUnmount () {
 		const {onDidChange} = this.props;
+		const body = getBody();
 
 		resetStore();
 		Store.removeChangeListener(this.onStoreChange);
+
+		if (body) {
+			body.removeEventListener('drop', stop);
+		}
 
 		if (onDidChange) {
 			onDidChange();
