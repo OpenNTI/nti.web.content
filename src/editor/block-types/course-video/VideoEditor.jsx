@@ -3,12 +3,15 @@ import PropTypes from 'prop-types';
 import Video from 'nti-web-video';
 import {EmptyState} from 'nti-web-commons';
 
+const BAD_VIMEO_REGEX = /(?:https?:)?\/\/(?:(?:www|player)\.)?vimeo.com\/(?=.*[a-z]).*\/(?=.*[a-z]).*/i;
+
 export default class VideoEditor extends React.Component {
 	static propTypes = {
 		url: PropTypes.string,
 		onFocus: PropTypes.func,
 		onBlur: PropTypes.func,
-		updateUrl: PropTypes.func
+		updateUrl: PropTypes.func,
+		getString: PropTypes.func
 	}
 
 	state = {};
@@ -26,12 +29,20 @@ export default class VideoEditor extends React.Component {
 	onDone = e => {
 		e.stopPropagation();
 
+		const {getString} = this.props;
+
+		const errorString = getString && getString('Editor.invalidLinkForm');
+
 		this.setState({errorMsg: ''});
 
 		const {updateUrl} = this.props;
 
 		if (this.urlField) {
-			updateUrl(this.urlField.value.trim());
+			if (this.urlField.value.trim().match(BAD_VIMEO_REGEX)) {
+				this.setState({errorMsg: errorString});
+			} else {
+				updateUrl(this.urlField.value.trim());
+			}
 		}
 	};
 
@@ -71,8 +82,8 @@ export default class VideoEditor extends React.Component {
 		: (<this.blankComponent msg={msg} onFocus={onFocus} onBlur={onBlur} />);
 
 	render () {
-		const {url, onFocus, onBlur} = this.props;
-		const emptyString = 'Enter a link to a YouTube, Vimeo or Kaltura video.';
+		const {url, onFocus, onBlur, getString} = this.props;
+		const emptyString = getString('Editor.prompt');
 
 		return (
 			<div className="video-editor">

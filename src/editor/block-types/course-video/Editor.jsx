@@ -18,7 +18,9 @@ import VideoEditor from './VideoEditor';
 const DEFAULT_TEXT = {
 	Editor: {
 		videoTitle: 'Video %(index)s',
-		descriptionPlaceholder: 'Write a caption...'
+		descriptionPlaceholder: 'Write a caption...',
+		invalidLinkForm: 'Invalid link. Use the Vimeo link from the address bar.',
+		prompt: 'Enter a link to a YouTube, Vimeo or Kaltura video.'
 	}
 };
 
@@ -107,7 +109,7 @@ export default class CourseVideoEditor extends React.Component {
 		return (
 			<div className="course-video-editor">
 				<Controls onRemove={this.onRemove} onChange={this.onChange} />
-				<VideoEditor updateUrl={this.updateUrl} url={url} onFocus={this.onFocus} onBlur={this.onBlur} />
+				<VideoEditor updateUrl={this.updateUrl} url={url} onFocus={this.onFocus} onBlur={this.onBlur} getString={getString} />
 				<CaptionEditor
 					ref={attachCaptionRef}
 					body={body}
