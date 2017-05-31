@@ -19,6 +19,8 @@ export default {
 		let createdEntity;
 
 		return {
+			stateStore: store,
+
 			onChange (editorState) {
 				const entityKey = getSelectedEntityKey(editorState);
 
@@ -62,7 +64,7 @@ export default {
 					get currentLink () {
 						return getSelectedEntityKey(getEditorState());
 					},
-					get isEditing () {
+					get isEditingLink () {
 						return Boolean(store.getItem(EditingEntityKey));
 					},
 					toggleLink: (link) => {

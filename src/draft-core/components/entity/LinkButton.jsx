@@ -12,7 +12,7 @@ export default class LinkButton extends React.Component {
 				toggleLink: PropTypes.func.isRequired,
 				currentLink: PropTypes.string,
 				allowLinks: PropTypes.bool,
-				isEditing: PropTypes.bool
+				isEditingLink: PropTypes.bool
 			})
 		})
 	}
@@ -47,10 +47,10 @@ export default class LinkButton extends React.Component {
 	}
 
 
-	get isEditing () {
-		const {isEditing} = this.pluginContext;
+	get isEditingLink () {
+		const {isEditingLink} = this.pluginContext;
 
-		return isEditing;
+		return isEditingLink;
 	}
 
 
@@ -69,8 +69,8 @@ export default class LinkButton extends React.Component {
 
 	render () {
 		const {className} = this.props;
-		const {isAllowed, isEditing} = this;
-		const cls = cx('draft-core-link-button', className, {active: isEditing, disabled: !isAllowed});
+		const {isAllowed, isEditingLink} = this;
+		const cls = cx('draft-core-link-button', className, {active: isEditingLink, disabled: !isAllowed});
 
 		return (
 			<button

@@ -91,8 +91,8 @@ export default class DraftCoreEditor extends React.Component {
 	}
 
 
-	setEditorState = (state, focus) => {
-		this[INTERNAL_CHANGE](state, focus);
+	setEditorState = (state, cb) => {
+		this[INTERNAL_CHANGE](state, cb);
 	}
 
 	[INTERNAL_CHANGE] (editorState, cb) {

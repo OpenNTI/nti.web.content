@@ -42,7 +42,8 @@ export default class ExternalLinkEditor extends React.Component {
 			removeListener: PropTypes.func
 		}),
 		getEditorState: PropTypes.func,
-		setEditorState: PropTypes.func
+		setEditorState: PropTypes.func,
+		onClose: PropTypes.func
 	}
 
 
@@ -136,7 +137,7 @@ export default class ExternalLinkEditor extends React.Component {
 
 
 	setNotEditing () {
-		const {store} = this.props;
+		const {store, onClose} = this.props;
 		const {newLink} = this.state;
 
 		store.setItem(EditingEntityKey, null);
@@ -144,6 +145,11 @@ export default class ExternalLinkEditor extends React.Component {
 
 		if (newLink && !this.hasSaved) {
 			this.doRemove();
+		}
+
+
+		if (onClose) {
+			onClose();
 		}
 	}
 
@@ -191,14 +197,13 @@ export default class ExternalLinkEditor extends React.Component {
 		}
 
 		this.hasSaved = true;
-		this.setNotEditing();
 	}
 
 	createNewLink (link, newText) {
 		const {getEditorState, setEditorState, entityKey, offsetKey} = this.props;
 		const newState = createNewLinkAtOffset(link, newText, entityKey, offsetKey, getEditorState());
 
-		setEditorState(newState);
+		setEditorState(newState, () => this.setNotEditing());
 	}
 
 
@@ -206,7 +211,7 @@ export default class ExternalLinkEditor extends React.Component {
 		const {getEditorState, setEditorState, entityKey, offsetKey} = this.props;
 		const newState = replaceEntityTextAtOffset(text, entityKey, offsetKey, getEditorState());
 
-		setEditorState(newState);
+		setEditorState(newState, () => this.setNotEditing());
 	}
 
 
@@ -236,7 +241,6 @@ export default class ExternalLinkEditor extends React.Component {
 			});
 		} else {
 			this.doSave();
-			this.setNotEditing();
 		}
 	}
 
