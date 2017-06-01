@@ -45,8 +45,13 @@ export default class VideoEditor extends React.Component {
 	};
 
 	onKeyDown = e => {
+		const {onBlur} = this.props;
 		if (e.key === 'Enter') {
 			this.onDone(e);
+
+			if (onBlur) {
+				onBlur();
+			}
 		}
 	};
 
