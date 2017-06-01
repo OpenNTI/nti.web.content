@@ -1,3 +1,5 @@
+import url from 'url';
+
 import React from 'react';
 import PropTypes from 'prop-types';
 import Video from 'nti-web-video';
@@ -38,14 +40,15 @@ export default class VideoEditor extends React.Component {
 		const {updateUrl} = this.props;
 
 		if (this.urlField) {
-			const input = this.urlField.value.trim();
-			if (!String(input).includes('<')) {
-				return updateUrl(input);
-			}
-
-			const parsedUrl = this.parseEmbedCode(input);
-			if (parsedUrl) {
-				return updateUrl(parsedUrl);
+			try {
+				const input = this.urlField.value.trim();
+				const parsedUrl = this.parseEmbedCode(input) || input;
+				if (!url.parse(parsedUrl)) {
+					throw new Error('Empty value');
+				}
+				updateUrl(parsedUrl);
+			} catch (err) {
+				this.onError(err);
 			}
 		}
 	};
@@ -67,7 +70,7 @@ export default class VideoEditor extends React.Component {
 				<div className="video-link">
 					<label htmlFor="urlField">Link</label>
 					<div className="video-link-input">
-						<input id="urlField" type="url" placeholder="Paste a link or embed code" ref={this.attachUrlRef} onFocus={onFocus} onKeyDown={this.onKeyDown} onBlur={onBlur} />
+						<input id="urlField" type="url" placeholder="Enter a link or embed code" ref={this.attachUrlRef} onFocus={onFocus} onKeyDown={this.onKeyDown} onBlur={onBlur} />
 						<a onClick={this.onDone} role="button" className="nti-button primary rounded"><span>Done</span></a>
 					</div>
 				</div>
