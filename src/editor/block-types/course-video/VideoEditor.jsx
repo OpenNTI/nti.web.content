@@ -12,6 +12,13 @@ export default class VideoEditor extends React.Component {
 		updateUrl: PropTypes.func
 	}
 
+	parseEmbedCode = input => {
+		const div = document.createElement('div');
+		div.innerHTML = input;
+		const iframe = div.querySelector('iframe');
+		return iframe && iframe.src;
+	};
+
 	state = {};
 
 	attachUrlRef = x => this.urlField = x;
@@ -32,7 +39,15 @@ export default class VideoEditor extends React.Component {
 		const {updateUrl} = this.props;
 
 		if (this.urlField) {
-			updateUrl(this.urlField.value.trim());
+			const input = this.urlField.value.trim();
+			if (!String(input).includes('<')) {
+				return updateUrl(input);
+			}
+
+			const parsedUrl = this.parseEmbedCode(input);
+			if (parsedUrl) {
+				return updateUrl(parsedUrl);
+			}
 		}
 	};
 
@@ -62,7 +77,7 @@ export default class VideoEditor extends React.Component {
 				<div className="video-link">
 					<label htmlFor="urlField">Link</label>
 					<div className="video-link-input">
-						<input id="urlField" type="url" placeholder="Paste a link and hit enter" ref={this.attachUrlRef} onFocus={onFocus} onKeyDown={this.onKeyDown} onBlur={onBlur} />
+						<input id="urlField" type="url" placeholder="Paste a link or embed code" ref={this.attachUrlRef} onFocus={onFocus} onKeyDown={this.onKeyDown} onBlur={onBlur} />
 						<a onClick={this.onDone} role="button" className="nti-button primary rounded"><span>Done</span></a>
 					</div>
 				</div>
