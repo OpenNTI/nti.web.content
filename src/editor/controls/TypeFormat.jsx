@@ -23,28 +23,42 @@ export default class ContentEditorTypeFormat extends React.Component {
 		editor: PropTypes.object
 	};
 
+	setFlyoutRef = x => this.flyoutRef = x;
+
+	closeMenu = () => {
+		if (this.flyoutRef) {
+			this.flyoutRef.dismiss();
+		}
+	};
+
 	render () {
 		const {editor} = this.props;
 
 		return (
 			<div className="content-editor-type-format">
-				<Flyout.Triggered className="content-editor-type-formats" trigger={trigger} verticalAlign={Flyout.ALIGNMENTS.TOP} horizontalAlign={Flyout.ALIGNMENTS.LEFT}>
-					<ContextProvider editor={editor}>
-						<div className="content-editor-type-flyout">
-							<ul className="plain">
-								<li><TypeButton className={typeClass} type={BLOCKS.HEADER_TWO} getString={t} plain checkmark /></li>
-								<li><TypeButton className={typeClass} type={BLOCKS.HEADER_THREE} getString={t} plain checkmark /></li>
-								<li><TypeButton className={typeClass} type={BLOCKS.HEADER_FOUR} getString={t} plain checkmark /></li>
-								<li><TypeButton className={typeClass} type={BLOCKS.UNSTYLED} getString={t} plain checkmark /></li>
-							</ul>
-							<ul className="lists">
-								<li><TypeButton className={typeClass} type={BLOCKS.ORDERED_LIST_ITEM} getString={t} plain checkmark /></li>
-								<li><TypeButton className={typeClass} type={BLOCKS.UNORDERED_LIST_ITEM} getString={t} plain checkmark /></li>
-							</ul>
-						</div>
-					</ContextProvider>
+				<Flyout.Triggered ref={this.setFlyoutRef} className="content-editor-type-formats" trigger={trigger} verticalAlign={Flyout.ALIGNMENTS.TOP} horizontalAlign={Flyout.ALIGNMENTS.LEFT}>
+					<this.renderFlyout editor={editor} />
 				</Flyout.Triggered>
 			</div>
 		);
 	}
+
+	renderFlyout = ({editor}) => {
+		return (
+			<ContextProvider editor={editor}>
+				<div className="content-editor-type-flyout">
+					<ul className="plain">
+						<li><TypeButton onMouseDown={this.closeMenu} className={typeClass} type={BLOCKS.HEADER_TWO} getString={t} plain checkmark /></li>
+						<li><TypeButton onMouseDown={this.closeMenu} className={typeClass} type={BLOCKS.HEADER_THREE} getString={t} plain checkmark /></li>
+						<li><TypeButton onMouseDown={this.closeMenu} className={typeClass} type={BLOCKS.HEADER_FOUR} getString={t} plain checkmark /></li>
+						<li><TypeButton onMouseDown={this.closeMenu} className={typeClass} type={BLOCKS.UNSTYLED} getString={t} plain checkmark /></li>
+					</ul>
+					<ul className="lists">
+						<li><TypeButton onMouseDown={this.closeMenu} className={typeClass} type={BLOCKS.ORDERED_LIST_ITEM} getString={t} plain checkmark /></li>
+						<li><TypeButton onMouseDown={this.closeMenu} className={typeClass} type={BLOCKS.UNORDERED_LIST_ITEM} getString={t} plain checkmark /></li>
+					</ul>
+				</div>
+			</ContextProvider>
+		);
+	};
 }

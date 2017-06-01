@@ -44,7 +44,8 @@ export default class TypeButton extends React.Component {
 		children: PropTypes.node,
 		getString: PropTypes.func,
 		plain: PropTypes.bool,
-		checkmark: PropTypes.bool
+		checkmark: PropTypes.bool,
+		onMouseDown: PropTypes.func
 	}
 
 	get editorContext () {
@@ -79,7 +80,7 @@ export default class TypeButton extends React.Component {
 
 
 	onMouseDown = (e) => {
-		const {type} = this.props;
+		const {type, onMouseDown} = this.props;
 		const {toggleBlockType} = this.pluginContext;
 
 		if (e) {
@@ -88,6 +89,10 @@ export default class TypeButton extends React.Component {
 
 		if (toggleBlockType) {
 			toggleBlockType(type);
+		}
+
+		if (onMouseDown) {
+			onMouseDown();
 		}
 	}
 
