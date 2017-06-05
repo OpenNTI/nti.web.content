@@ -2,22 +2,44 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
 
+import {createMediaSourceFromUrl} from 'nti-web-video';
+
 import {Plugins, BLOCKS} from '../../../draft-core';
 
 import {isVideoBlock} from './util';
+import Picker from './Picker';
 
 const {Button, BlockCount} = Plugins.InsertBlock.components;
 
-const createBlock = insertBlock => insertBlock({
-	type: BLOCKS.ATOMIC,
-	text: '',
-	data: {
-		name: 'ntivideo',
-		body: [],
-		arguments: '',
-		options: {}
-	}
-});
+function createBlock (insertBlock) {
+	Picker.show()
+		.then((video) => {
+			return createMediaSourceFromUrl(video);
+		})
+		.then(({service, source}) => {
+			insertBlock({
+				type: BLOCKS.ATOMIC,
+				text: '',
+				data: {
+					name: 'ntivideo',
+					body: [],
+					arguments: `${service} ${source}`,
+					options: {}
+				}
+			});
+		});
+}
+
+// const createBlock = insertBlock => insertBlock({
+// 	type: BLOCKS.ATOMIC,
+// 	text: '',
+// 	data: {
+// 		name: 'ntivideo',
+// 		body: [],
+// 		arguments: '',
+// 		options: {}
+// 	}
+// });
 
 export default class CourseVideoButton extends React.Component {
 	static propTypes = {

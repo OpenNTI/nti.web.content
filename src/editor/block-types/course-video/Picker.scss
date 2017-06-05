@@ -1,0 +1,40 @@
+@import "../assets/button";
+
+.content-editor-video-picker-container {
+	.icon-close {
+		display: none;
+	}
+
+	.content-editor-video-picker {
+		background: white;
+		width: rem-calc(375px);
+
+		.picker {
+			padding: rem-calc(10px 10px 20px);
+		}
+
+		h1 {
+			text-align: center;
+			font-size: 1.25rem;
+			color: $primary-grey;
+		}
+
+		label span {
+			display: block;
+			font-size: 0.625rem;
+			font-weight: bold;
+			text-transform: uppercase;
+			color: $secondary-grey;
+		}
+
+		input {
+			width: 100%;
+			padding: rem-calc(4px 2px);
+			font-size: 0.875rem;
+		}
+
+		.dialog-buttons {
+			background: $panel-background;
+		}
+	}
+}
