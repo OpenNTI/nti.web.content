@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {scoped} from 'nti-lib-locale';
-
 import {createMediaSourceFromUrl, getCanonicalUrlFrom} from 'nti-web-video';
 
 import {
@@ -134,7 +133,7 @@ export default class CourseVideoEditor extends React.Component {
 		return (
 			<div className="course-video-editor">
 				<Controls onRemove={this.onRemove} onChange={this.onChange} />
-				<VideoEditor updateUrl={this.updateUrl} url={url} onFocus={this.onFocus} onBlur={this.onBlur} />
+				<VideoEditor updateUrl={this.updateUrl} src={url} onFocus={this.onFocus} onBlur={this.onBlur} />
 				<CaptionEditor
 					ref={attachCaptionRef}
 					body={body}

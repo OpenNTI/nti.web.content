@@ -3,12 +3,11 @@ import url from 'url';
 import React from 'react';
 import PropTypes from 'prop-types';
 import {EmptyState} from 'nti-web-commons';
-
 import Video from 'nti-web-video';
 
 export default class VideoEditor extends React.Component {
 	static propTypes = {
-		url: PropTypes.string,
+		src: PropTypes.string,
 		onFocus: PropTypes.func,
 		onBlur: PropTypes.func,
 		updateUrl: PropTypes.func
@@ -94,17 +93,17 @@ export default class VideoEditor extends React.Component {
 		</div>
 	);
 
-	innerComponent = ({url, msg, onFocus, onBlur}) => url && !this.state.errorMsg
-		? <div className="editor-video-embed"><Video onError={this.onError} src={url} /></div>
+	innerComponent = ({src, msg, onFocus, onBlur}) => src && !this.state.errorMsg
+		? <div className="editor-video-embed"><Video onError={this.onError} src={src} /></div>
 		: (<this.blankComponent msg={msg} onFocus={onFocus} onBlur={onBlur} />);
 
 	render () {
-		const {url, onFocus, onBlur} = this.props;
+		const {src, onFocus, onBlur} = this.props;
 		const emptyString = 'Enter a link to a YouTube, Vimeo or Kaltura video.';
 
 		return (
 			<div className="video-editor">
-				<this.innerComponent url={url} msg={emptyString} onFocus={onFocus} onBlur={onBlur} />
+				<this.innerComponent src={src} msg={emptyString} onFocus={onFocus} onBlur={onBlur} />
 			</div>
 		);
 	}
