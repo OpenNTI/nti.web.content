@@ -72,8 +72,11 @@ export default class VideoEditor extends React.Component {
 		}
 	};
 
-	blankComponent = ({msg, onFocus, onBlur}) => (
-		<div className="video-editor-blank" onClick={this.onClick}>
+	blankComponent = () => {
+		const {onFocus, onBlur} = this.props;
+		const msg = 'Enter a link to a YouTube, Vimeo or Kaltura video.';
+
+		return (<div className="video-editor-blank" onClick={this.onClick}>
 			<EmptyState header={msg} className="empty-string" />
 			<div className="video-insert-options">
 				<div className="video-link">
@@ -90,20 +93,21 @@ export default class VideoEditor extends React.Component {
 				</div>
 				*/}
 			</div>
-		</div>
-	);
+		</div>);
+	};
 
-	innerComponent = ({src, msg, onFocus, onBlur}) => src && !this.state.errorMsg
-		? <div className="editor-video-embed"><Video onError={this.onError} src={src} /></div>
-		: (<this.blankComponent msg={msg} onFocus={onFocus} onBlur={onBlur} />);
+	innerComponent = () => {
+		const {src} = this.props;
+		return src && !this.state.errorMsg
+			? <div className="editor-video-embed"><Video onError={this.onError} src={src} /></div>
+			: this.blankComponent();
+	};
 
 	render () {
-		const {src, onFocus, onBlur} = this.props;
-		const emptyString = 'Enter a link to a YouTube, Vimeo or Kaltura video.';
 
 		return (
 			<div className="video-editor">
-				<this.innerComponent src={src} msg={emptyString} onFocus={onFocus} onBlur={onBlur} />
+				{this.innerComponent()}
 			</div>
 		);
 	}
