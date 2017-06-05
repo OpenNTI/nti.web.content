@@ -91,10 +91,24 @@ export default class CourseVideoEditor extends React.Component {
 	onBlur = () => onBlur(this.props);
 	onCaptionChange = (body, doNotKeepSelection) => onCaptionChange(body, doNotKeepSelection, this.props);
 
+	normalizeSource = (service, source) => {
+		if (!/kaltura/i.test(service)) {
+			return source;
+		}
+
+		const [providerId, entryId] = source.split('/');
+		if (providerId && entryId) {
+			return `${providerId}:${entryId}`;
+		}
+
+		return source;
+	};
 
 	updateFromMediaSource = ({service, source, href}) => {
 		const {blockProps:{setBlockData}} = this.props;
-		setBlockData({arguments: `${service} ${source}`});
+		const normalSource = this.normalizeSource(service, source);
+
+		setBlockData({arguments: `${service} ${normalSource}`});
 		this.setState({url: href});
 	};
 
