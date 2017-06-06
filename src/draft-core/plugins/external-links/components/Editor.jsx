@@ -190,10 +190,7 @@ export default class ExternalLinkEditor extends React.Component {
 			this.createNewLink(newHref, oldText === newText ? null : newText || newHref);
 		} else {
 			Entity.mergeData(entityKey, {href: newHref});
-
-			if (newText !== oldText) {
-				this.replaceText(newText || newHref);
-			}
+			this.replaceText(newText || newHref);
 		}
 
 		this.hasSaved = true;
