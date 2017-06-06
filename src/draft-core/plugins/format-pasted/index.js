@@ -20,9 +20,9 @@ function getStateForPasted (text, html, editorState, config) {
 export default {
 	create: (config = {}) => {
 		return {
-			handlePastedText (text, html, {getEditorState, setEditorState}) {
+			handlePastedText (text, html, editorState, {setEditorState}) {
 				const transformedHTML = transformNTIContent(html);
-				const newState = getStateForPasted(text, transformedHTML, getEditorState(), config);
+				const newState = getStateForPasted(text, transformedHTML, editorState, config);
 
 				if (!newState) { return NOT_HANDLED; }
 
