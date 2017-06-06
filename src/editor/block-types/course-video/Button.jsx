@@ -2,8 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
 
-import {createMediaSourceFromUrl} from 'nti-web-video';
-
 import {Plugins, BLOCKS} from '../../../draft-core';
 
 import {isVideoBlock} from './util';
@@ -13,9 +11,6 @@ const {Button, BlockCount} = Plugins.InsertBlock.components;
 
 function createBlock (insertBlock) {
 	Picker.show()
-		.then((video) => {
-			return createMediaSourceFromUrl(video);
-		})
 		.then(({service, source}) => {
 			insertBlock({
 				type: BLOCKS.ATOMIC,

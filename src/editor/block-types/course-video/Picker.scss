@@ -8,6 +8,7 @@
 	.content-editor-video-picker {
 		background: white;
 		width: rem-calc(375px);
+		position: relative;
 
 		.picker {
 			padding: rem-calc(10px 10px 20px);
@@ -35,6 +36,34 @@
 
 		.dialog-buttons {
 			background: $panel-background;
+		}
+
+		.saving-mask {
+			position: absolute;
+			top: 0;
+			left: 0; right: 0;
+			background: white;
+			opacity: 0;
+			transition: opacity 0.2s;
+
+			.loading-spinner {
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				margin-top: -12px;
+				margin-left: -12px;
+			}
+
+			&.saving {
+				opacity: 1;
+				bottom: 0;
+			}
+		}
+
+		.error {
+			font: normal bold 0.625rem/1 $body-font-family;
+			color: $primary-red;
+			text-transform: uppercase;
 		}
 	}
 }

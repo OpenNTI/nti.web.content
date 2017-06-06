@@ -8,3 +8,16 @@ export const isVideoBlock = contentBlock => {
 
 	return type === BLOCKS.ATOMIC && data.get('name') === NAME;
 };
+
+export const normalizeSource = (service, source) => {
+	if (!/kaltura/i.test(service)) {
+		return source;
+	}
+
+	const [providerId, entryId] = source.split('/');
+	if (providerId && entryId) {
+		return `${providerId}:${entryId}`;
+	}
+
+	return source;
+};
