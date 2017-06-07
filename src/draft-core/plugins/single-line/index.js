@@ -11,9 +11,9 @@ export default {
 		return {
 			editorClass: 'single-line',
 
-			handlePastedText (text, html, {getEditorState, setEditorState}) {
-				const editorState = getEditorState();
-				const blocks = convertFromHTML(html || cleanText(text));
+			handlePastedText (text, html, editorState, {setEditorState}) {
+				const state = convertFromHTML(html || cleanText(text));
+				const blocks = state.contentBlocks;
 
 				//insert only the first block. TODO: figure out how to join blocks together.
 
