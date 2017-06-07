@@ -191,10 +191,8 @@ export default class ExternalLinkEditor extends React.Component {
 		} else {
 			Entity.mergeData(entityKey, {href: newHref});
 
-			if (!(newText === oldText && newHref === this.initialHref)) {
+			if (newText !== oldText) {
 				this.replaceText(newText || newHref);
-			} else {
-				this.setNotEditing();
 			}
 		}
 
@@ -253,7 +251,6 @@ export default class ExternalLinkEditor extends React.Component {
 
 
 	onEdit = () => {
-		this.initialHref = this.state.href;
 		this.setEditing();
 	}
 
