@@ -20,7 +20,7 @@ const t = scoped('nti-content.editor.block-types.course-video.Picker', DEFAULT_T
 
 
 async function getMediaSource (input) {
-	const url = parseEmbedCode(input);
+	const url = parseEmbedCode(input) || input;
 	const {service, source} = await createMediaSourceFromUrl(url);
 	const normalizedSource = normalizeSource(service, source);
 
