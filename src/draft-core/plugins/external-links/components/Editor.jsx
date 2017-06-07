@@ -193,6 +193,8 @@ export default class ExternalLinkEditor extends React.Component {
 
 			if (newText !== oldText) {
 				this.replaceText(newText || newHref);
+			} else {
+				this.setNotEditing();
 			}
 		}
 
