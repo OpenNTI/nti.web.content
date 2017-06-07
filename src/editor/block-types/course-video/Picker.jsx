@@ -6,7 +6,7 @@ import {createMediaSourceFromUrl} from 'nti-web-video';
 import {Prompt, DialogButtons, Loading} from 'nti-web-commons';
 import {wait} from 'nti-commons';
 
-import {normalizeSource} from './util';
+import {normalizeSource, parseEmbedCode} from './util';
 
 const DEFAULT_TEXT = {
 	header: 'Enter a link to a YouTube, Vimeo, or Kaltura video.',
@@ -19,7 +19,8 @@ const DEFAULT_TEXT = {
 const t = scoped('nti-content.editor.block-types.course-video.Picker', DEFAULT_TEXT);
 
 
-async function getMediaSource (url) {
+async function getMediaSource (input) {
+	const url = parseEmbedCode(input);
 	const {service, source} = await createMediaSourceFromUrl(url);
 	const normalizedSource = normalizeSource(service, source);
 
