@@ -193,7 +193,8 @@ export default class DraftCoreEditor extends React.Component {
 	onChange = (editorState, cb) => {
 		const {onChange} = this.props;
 		const {currentEditorState} = this.state;
-		const contentChanged = currentEditorState.getCurrentContent() !== editorState.getCurrentContent();
+		const contentChanged = currentEditorState.getCurrentContent() !== editorState.getCurrentContent()
+								|| editorState.getLastChangeType() === 'apply-entity';
 
 
 		this.setState({currentEditorState: editorState}, () => {
