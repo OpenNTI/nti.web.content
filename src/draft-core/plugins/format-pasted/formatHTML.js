@@ -52,9 +52,9 @@ export default {
 
 
 	format (text, html, editorState, config) {
-		const blocksFromHTML = convertFromHTML(html, getSafeBodyFromHTML, BlockRenderMap);
+		const stateFromHTML = convertFromHTML(html, getSafeBodyFromHTML, BlockRenderMap);
 		const formatTypeChangeMap = getFormatTypeChangeMap(config);
-		const formattedBlocks = formatBlocks(blocksFromHTML, formatTypeChangeMap);
+		const formattedBlocks = formatBlocks(stateFromHTML.contentBlocks, formatTypeChangeMap);
 
 		const fragment = ContentState.createFromBlockArray(formattedBlocks);
 
