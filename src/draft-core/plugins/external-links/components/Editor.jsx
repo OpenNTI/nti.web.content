@@ -43,7 +43,8 @@ export default class ExternalLinkEditor extends React.Component {
 		}),
 		getEditorState: PropTypes.func,
 		setEditorState: PropTypes.func,
-		onClose: PropTypes.func
+		onClose: PropTypes.func,
+		onEntitySave: PropTypes.func
 	}
 
 
@@ -182,7 +183,7 @@ export default class ExternalLinkEditor extends React.Component {
 
 
 	doSave () {
-		const {entityKey, decoratedText:oldText} = this.props;
+		const {entityKey, decoratedText:oldText, onEntitySave} = this.props;
 		const {fullHref, href, decoratedText:newText, newLink,} = this.state;
 		const newHref = fullHref || href;
 
@@ -194,6 +195,12 @@ export default class ExternalLinkEditor extends React.Component {
 			if (newText !== oldText) {
 				this.replaceText(newText || newHref);
 			} else {
+				//If the text didn't change it might not trigger a content change
+				//so call this call back to trigger one so we save.
+				if (onEntitySave) {
+					onEntitySave();
+				}
+
 				this.setNotEditing();
 			}
 		}
