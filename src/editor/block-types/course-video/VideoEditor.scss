@@ -88,6 +88,11 @@
 	& > .editor-video-embed {
 		height: 100%;
 
+		video {
+			/*FF needs this for reasons DNE*/
+			white-space: normal;
+		}
+
 		& > * {
 			height: 100%;
 
