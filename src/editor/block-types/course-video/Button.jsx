@@ -1,13 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import cx from 'classnames';
+import {scoped} from 'nti-lib-locale';
 
-import {Plugins, BLOCKS} from '../../../draft-core';
+import {BLOCKS} from '../../../draft-core';
+import Button from '../common/Button';
 
 import {isVideoBlock} from './util';
 import Picker from './Picker';
 
-const {Button, BlockCount} = Plugins.InsertBlock.components;
+const DEFAULT_TEXT = {
+	label: 'Embed Video'
+};
+
+const t = scoped('nti-cotent.editor.block-types.course-figure.button', DEFAULT_TEXT);
 
 function createBlock (insertBlock) {
 	Picker.show()
@@ -25,43 +30,19 @@ function createBlock (insertBlock) {
 		});
 }
 
-// const createBlock = insertBlock => insertBlock({
-// 	type: BLOCKS.ATOMIC,
-// 	text: '',
-// 	data: {
-// 		name: 'ntivideo',
-// 		body: [],
-// 		arguments: '',
-// 		options: {}
-// 	}
-// });
-
-export default class CourseVideoButton extends React.Component {
-	static propTypes = {
-		course: PropTypes.object
-	};
-
-	state = {};
-
-	onMouseDown = () => this.setState({
-		mousedown: true
-	});
-
-	onMouseUp = () => this.setState({
-		mousedown: false
-	});
-
-	render () {
-		const {course} = this.props;
-		const {mousedown} = this.state;
-		const cls = cx('course-video-button', {mousedown});
-
-		return (
-			<Button className={cls} createBlock={createBlock} createBlockProps={{course}} onMouseDown={this.onMouseDown} onMouseUp={this.onMouseUp} onDragEnd={this.onMouseUp}>
-				<BlockCount className="used" predicate={isVideoBlock} />
-				<span className="icon" />
-				<span className="label">Embed Video</span>
-			</Button>
-		);
-	}
+CourseVideoButton.propTypes = {
+	course: PropTypes.course
+};
+export default function CourseVideoButton ({course}) {
+	return (
+		<Button
+			className="course-video-button"
+			iconClass="content-editor-block-types-video-button"
+			label={t('label')}
+			createBlock={createBlock}
+			createBlockProps={{course}}
+			isBlockPredicate={isVideoBlock}
+		/>
+	);
 }
+

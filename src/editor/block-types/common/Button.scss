@@ -1,0 +1,46 @@
+@import "~nti-style-common";
+
+.content-editor-block-type-button {
+	width: rem-calc(110px);
+	height: rem-calc(110px);
+	border: 1px solid $border-grey-light;
+	background: #fff;
+	margin: rem-calc(5px);
+	position: relative;
+	overflow: hidden;
+	transition: transform 250ms;
+	cursor: pointer;
+
+	&.disabled {
+		opacity: 0.5;
+		pointer-events: none;
+	}
+
+	&.mousedown {
+		transform: scale(0.9);
+	}
+
+	.label, .used {
+		color: $secondary-grey;
+		text-transform: uppercase;
+		font: normal bold 0.625rem/1.4 $body-font-family;
+	}
+
+	.icon {
+		display: block;
+		height: rem-calc(65px);
+		background-position: center center;
+		background-repeat: no-repeat;
+	}
+
+	.label {
+		display: block;
+		text-align: center;
+	}
+
+	.used {
+		text-align: right;
+		padding: 5px 5px 0 0;
+		min-height: rem-calc(19px);
+	}
+}
