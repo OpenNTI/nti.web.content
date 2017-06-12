@@ -1,5 +1,15 @@
+import {SelectionState} from 'draft-js';
+
 export default function fixSelection (content, selection/*, willRemove*/) {
 	if (selection.isCollapsed()) { return selection; }
 
-	//TODO: figure this out
+	const focusKey = selection.getFocusKey();
+	const focusOffset = selection.getFocusOffset();
+
+	return new SelectionState({
+		anchorKey: focusKey,
+		anchorOffset: focusOffset,
+		focusKey,
+		focusOffset
+	});
 }

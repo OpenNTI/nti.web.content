@@ -3,7 +3,7 @@ import {EVENT_HANDLED, EVENT_NOT_HANDLED} from '../Constants';
 import Button from './components/Button';
 import BlockCount from './components/BlockCount';
 import {DRAG_DATA_TYPE} from './Constants';
-import {insertBlock} from './utils';
+import {insertBlock, getSelectedText} from './utils';
 
 //https://github.com/facebook/draft-js/issues/442
 
@@ -50,6 +50,11 @@ export default {
 
 							setEditorState(newState);
 						};
+					},
+
+
+					getSelectedTextForInsertion: () => {
+						return getSelectedText(getEditorState());
 					},
 
 
