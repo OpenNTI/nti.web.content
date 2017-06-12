@@ -1,5 +1,5 @@
-@import "../assets/button";
+@import "~nti-style-common";
 
-.course-video-button {
-	@include block-type-button('../assets/icon-video.svg');
+.content-editor-block-types-video-button {
+	background-image: url('../assets/icon-video.svg');
 }
