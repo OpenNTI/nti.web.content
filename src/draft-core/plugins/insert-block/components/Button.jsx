@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import cx from 'classnames';
 import uuid from 'uuid';
 import {DnD} from 'nti-web-commons';
-import {EditorState, SelectionState} from 'draft-js';
+import {EditorState, SelectionState, Modifier} from 'draft-js';
 
 import {DRAG_DATA_TYPE} from '../Constants';
 
@@ -70,8 +70,17 @@ export default class Button extends React.Component {
 				const contentState = editorState && editorState.getCurrentContent && editorState.getCurrentContent();
 				const nextBlock = contentState && contentState.getBlockAfter(selectionState.focusKey);
 
-				if (editorState && contentState && nextBlock) {
-					const newEditorState = EditorState.acceptSelection(editorState, SelectionState.createEmpty(nextBlock.getKey()));
+				if (editorState && contentState) {
+					let newEditorState;
+
+					if (nextBlock) {
+						newEditorState = EditorState.acceptSelection(editorState, SelectionState.createEmpty(nextBlock.getKey()));
+					} else {
+						const newContent = Modifier.insertText(contentState, selectionState, '\n', editorState.getCurrentInlineStyle(), null);
+						const tmpEditorState = EditorState.push(editorState, newContent, 'insert-characters');
+						newEditorState = EditorState.acceptSelection(tmpEditorState, SelectionState.createEmpty(newContent.getLastBlock().getKey()));
+					}
+
 					this.editorContext.editor.setEditorState(newEditorState);
 					this.editorContext.editor.focus();
 				}
