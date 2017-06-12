@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import cx from 'classnames';
 import uuid from 'uuid';
 import {DnD} from 'nti-web-commons';
-import {EditorState, SelectionState, Modifier} from 'draft-js';
 
+import {moveSelectionToNextBlock} from '../';
 import {DRAG_DATA_TYPE} from '../Constants';
 
 // import PreventStealingFocus from '../../../components/PreventStealingFocus';
@@ -57,6 +57,11 @@ export default class Button extends React.Component {
 		this.handleInsertion();
 	}
 
+	focusEditor = () => {
+		this.editorContext.editor.setEditorState(moveSelectionToNextBlock(this.editorContext));
+		this.editorContext.editor.focus();
+	}
+
 
 	handleInsertion = (selection) => {
 		const {getInsertMethod} = this.pluginContext;
@@ -64,27 +69,7 @@ export default class Button extends React.Component {
 
 		if (getInsertMethod && createBlock) {
 			createBlock(getInsertMethod(selection), createBlockProps)
-			.then(() => {
-				const selectionState = this.editorContext.getSelection && this.editorContext.getSelection();
-				const editorState = this.editorContext.editor && this.editorContext.editor.getEditorState && this.editorContext.editor.getEditorState();
-				const contentState = editorState && editorState.getCurrentContent && editorState.getCurrentContent();
-				const nextBlock = contentState && contentState.getBlockAfter(selectionState.focusKey);
-
-				if (editorState && contentState) {
-					let newEditorState;
-
-					if (nextBlock) {
-						newEditorState = EditorState.acceptSelection(editorState, SelectionState.createEmpty(nextBlock.getKey()));
-					} else {
-						const newContent = Modifier.insertText(contentState, selectionState, '\n', editorState.getCurrentInlineStyle(), null);
-						const tmpEditorState = EditorState.push(editorState, newContent, 'insert-characters');
-						newEditorState = EditorState.acceptSelection(tmpEditorState, SelectionState.createEmpty(newContent.getLastBlock().getKey()));
-					}
-
-					this.editorContext.editor.setEditorState(newEditorState);
-					this.editorContext.editor.focus();
-				}
-			});
+			.then(this.focusEditor);
 		}
 	}
 

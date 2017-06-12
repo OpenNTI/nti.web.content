@@ -1,3 +1,5 @@
+import {EditorState, SelectionState, Modifier} from 'draft-js';
+
 import {EVENT_HANDLED, EVENT_NOT_HANDLED} from '../Constants';
 
 import Button from './components/Button';
@@ -65,4 +67,27 @@ export default {
 			}
 		};
 	}
+};
+
+export const moveSelectionToNextBlock = editorContext => {
+	const selectionState = editorContext.getSelection && editorContext.getSelection();
+	const editorState = editorContext.editor && editorContext.editor.getEditorState && editorContext.editor.getEditorState();
+	const contentState = editorState && editorState.getCurrentContent && editorState.getCurrentContent();
+	const nextBlock = contentState && contentState.getBlockAfter(selectionState.focusKey);
+
+	if (editorState && contentState) {
+		let newEditorState;
+
+		if (nextBlock) {
+			newEditorState = EditorState.acceptSelection(editorState, SelectionState.createEmpty(nextBlock.getKey()));
+		} else {
+			const newContent = Modifier.insertText(contentState, selectionState, '\n', editorState.getCurrentInlineStyle(), null);
+			const tmpEditorState = EditorState.push(editorState, newContent, 'insert-characters');
+			newEditorState = EditorState.acceptSelection(tmpEditorState, SelectionState.createEmpty(newContent.getLastBlock().getKey()));
+		}
+
+		return newEditorState;
+	}
+
+	return editorState;
 };
