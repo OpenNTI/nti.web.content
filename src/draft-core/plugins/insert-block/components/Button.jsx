@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import cx from 'classnames';
 import uuid from 'uuid';
 import {DnD} from 'nti-web-commons';
+import {EditorState, SelectionState} from 'draft-js';
 
 import {DRAG_DATA_TYPE} from '../Constants';
 
@@ -62,7 +63,19 @@ export default class Button extends React.Component {
 		const {createBlock, createBlockProps} = this.props;
 
 		if (getInsertMethod && createBlock) {
-			createBlock(getInsertMethod(selection), createBlockProps);
+			createBlock(getInsertMethod(selection), createBlockProps)
+			.then(() => {
+				const selectionState = this.editorContext.getSelection && this.editorContext.getSelection();
+				const editorState = this.editorContext.editor && this.editorContext.editor.getEditorState && this.editorContext.editor.getEditorState();
+				const contentState = editorState && editorState.getCurrentContent && editorState.getCurrentContent();
+				const nextBlock = contentState && contentState.getBlockAfter(selectionState.focusKey);
+
+				if (editorState && contentState && nextBlock) {
+					const newEditorState = EditorState.acceptSelection(editorState, SelectionState.createEmpty(nextBlock.getKey()));
+					this.editorContext.editor.setEditorState(newEditorState);
+					this.editorContext.editor.focus();
+				}
+			});
 		}
 	}
 
