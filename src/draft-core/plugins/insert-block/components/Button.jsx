@@ -58,11 +58,11 @@ export default class Button extends React.Component {
 
 
 	handleInsertion = (selection) => {
-		const {getInsertMethod} = this.pluginContext;
+		const {getInsertMethod, getSelectedTextForInsertion} = this.pluginContext;
 		const {createBlock, createBlockProps} = this.props;
 
 		if (getInsertMethod && createBlock) {
-			createBlock(getInsertMethod(selection), createBlockProps);
+			createBlock(getInsertMethod(selection), createBlockProps, getSelectedTextForInsertion());
 		}
 	}
 
