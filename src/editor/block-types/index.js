@@ -1,10 +1,12 @@
 import * as CourseFigure from './course-figure';
 import * as CourseVideo from './course-video';
 import * as OrderedList from './ordered-list';
+import * as UnorderedList from './unordered-list';
 
 const TYPES = [
 	CourseFigure,
 	CourseVideo,
+	UnorderedList,
 	OrderedList
 ];
 
