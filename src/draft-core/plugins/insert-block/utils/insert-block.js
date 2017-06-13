@@ -1,4 +1,4 @@
-import {Modifier, BlockMapBuilder, ContentBlock, genKey, EditorState} from 'draft-js';
+import {Modifier, BlockMapBuilder, SelectionState, ContentBlock, genKey, EditorState} from 'draft-js';
 //We don't really need immutable its just something draft needs so let draft depend on it
 import {List} from 'immutable';//eslint-disable-line import/no-extraneous-dependencies
 
@@ -27,6 +27,21 @@ function splitContentAndGetSelection (content, selection) {
 }
 
 
+function getNewSelection (content, block, key) {
+	if (block.type === BLOCKS.ATOMIC) { return content.getSelectionAfter().set('hasFocus', true); }
+
+	const offset = block.text.length;
+
+	return new SelectionState({
+		anchorKey: key,
+		anchorOffset: offset,
+		focusKey: key,
+		focusOffset: offset,
+		hasFocus: true
+	});
+}
+
+
 export default function insertBlock (block, replace, selection, editorState) {
 	const currentContent = editorState.getCurrentContent();
 	const currentSelection = selection || editorState.getSelection();
@@ -42,7 +57,7 @@ export default function insertBlock (block, replace, selection, editorState) {
 			key: genKey(),
 			type: block.type,
 			text: block.text,
-			data: block.data,
+			data: block.data || {},
 			characterList: List()
 		}),
 		new ContentBlock({
@@ -57,7 +72,7 @@ export default function insertBlock (block, replace, selection, editorState) {
 
 	const newContent = withBlock.merge({
 		selectionBefore: currentSelection,
-		selectionAfter: withBlock.getSelectionAfter().set('hasFocus', true)
+		selectionAfter: getNewSelection(withBlock, block, insertionSelection.getStartKey())
 	});
 
 	return EditorState.push(editorState, newContent, CHANGE_TYPES.INSERT_FRAGMENT);

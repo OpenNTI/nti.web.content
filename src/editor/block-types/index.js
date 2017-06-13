@@ -1,9 +1,11 @@
 import * as CourseFigure from './course-figure';
 import * as CourseVideo from './course-video';
+import * as OrderedList from './ordered-list';
 
 const TYPES = [
 	CourseFigure,
-	CourseVideo
+	CourseVideo,
+	OrderedList
 ];
 
 export const Buttons = TYPES.reduce((acc, type) => {
