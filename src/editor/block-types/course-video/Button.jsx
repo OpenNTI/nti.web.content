@@ -31,7 +31,7 @@ function createBlock (insertBlock) {
 }
 
 CourseVideoButton.propTypes = {
-	course: PropTypes.course
+	course: PropTypes.object
 };
 export default function CourseVideoButton ({course}) {
 	return (
