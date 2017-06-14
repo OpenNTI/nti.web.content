@@ -4,7 +4,6 @@ import cx from 'classnames';
 import uuid from 'uuid';
 import {DnD} from 'nti-web-commons';
 
-import {moveSelectionToNextBlock} from '../';
 import {DRAG_DATA_TYPE} from '../Constants';
 
 // import PreventStealingFocus from '../../../components/PreventStealingFocus';
@@ -57,19 +56,13 @@ export default class Button extends React.Component {
 		this.handleInsertion();
 	}
 
-	focusEditor = () => {
-		this.editorContext.editor.setEditorState(moveSelectionToNextBlock(this.editorContext));
-		this.editorContext.editor.focus();
-	}
-
 
 	handleInsertion = (selection) => {
 		const {getInsertMethod} = this.pluginContext;
 		const {createBlock, createBlockProps} = this.props;
 
 		if (getInsertMethod && createBlock) {
-			createBlock(getInsertMethod(selection), createBlockProps)
-			.then(this.focusEditor);
+			createBlock(getInsertMethod(selection), createBlockProps);
 		}
 	}
 

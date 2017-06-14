@@ -7,6 +7,28 @@ import BlockCount from './components/BlockCount';
 import {DRAG_DATA_TYPE} from './Constants';
 import {insertBlock} from './utils';
 
+const moveSelectionToNextBlock = editorState => {
+	const selectionState = editorState.getSelection && editorState.getSelection();
+	const contentState = editorState.getCurrentContent && editorState.getCurrentContent();
+	const nextBlock = contentState && contentState.getBlockAfter(selectionState.focusKey);
+
+	if (editorState && contentState) {
+		let newEditorState;
+
+		if (nextBlock) {
+			newEditorState = EditorState.acceptSelection(editorState, SelectionState.createEmpty(nextBlock.getKey()));
+		} else {
+			const newContent = Modifier.insertText(contentState, selectionState, '\n', editorState.getCurrentInlineStyle(), null);
+			const tmpEditorState = EditorState.push(editorState, newContent, 'insert-characters');
+			newEditorState = EditorState.acceptSelection(tmpEditorState, SelectionState.createEmpty(newContent.getLastBlock().getKey()));
+		}
+
+		return newEditorState;
+	}
+
+	return editorState;
+};
+
 //https://github.com/facebook/draft-js/issues/442
 
 export default {
@@ -30,7 +52,7 @@ export default {
 			},
 
 
-			getContext (getEditorState, setEditorState) {
+			getContext (getEditorState, setEditorState, focus) {
 				return {
 					get allowInsertBlock () {
 						//TODO: add a config for disabling inserting blocks given certain selections
@@ -50,7 +72,9 @@ export default {
 						return (block, replaceRange) => {
 							const newState = insertBlock(block, replaceRange, selection, getEditorState());
 
-							setEditorState(newState);
+							setEditorState(moveSelectionToNextBlock(newState));
+
+							focus();
 						};
 					},
 
@@ -67,27 +91,4 @@ export default {
 			}
 		};
 	}
-};
-
-export const moveSelectionToNextBlock = editorContext => {
-	const selectionState = editorContext.getSelection && editorContext.getSelection();
-	const editorState = editorContext.editor && editorContext.editor.getEditorState && editorContext.editor.getEditorState();
-	const contentState = editorState && editorState.getCurrentContent && editorState.getCurrentContent();
-	const nextBlock = contentState && contentState.getBlockAfter(selectionState.focusKey);
-
-	if (editorState && contentState) {
-		let newEditorState;
-
-		if (nextBlock) {
-			newEditorState = EditorState.acceptSelection(editorState, SelectionState.createEmpty(nextBlock.getKey()));
-		} else {
-			const newContent = Modifier.insertText(contentState, selectionState, '\n', editorState.getCurrentInlineStyle(), null);
-			const tmpEditorState = EditorState.push(editorState, newContent, 'insert-characters');
-			newEditorState = EditorState.acceptSelection(tmpEditorState, SelectionState.createEmpty(newContent.getLastBlock().getKey()));
-		}
-
-		return newEditorState;
-	}
-
-	return editorState;
 };
