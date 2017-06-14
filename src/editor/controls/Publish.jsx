@@ -92,7 +92,7 @@ export default class ContentEditorPublish extends React.Component {
 
 	goToPreviewView () {
 		if(this.props.handleNavigation) {
-			this.props.handleNavigation('', encodeNTIIDForURI(this.props.contentPackage.NTIID));
+			this.props.handleNavigation();
 		}
 	}
 
