@@ -3,6 +3,7 @@ import React from 'react';
 import cx from 'classnames';
 import {scoped} from 'nti-lib-locale';
 import {Flyout, Loading, HOC} from 'nti-web-commons';
+import {encodeForURI as encodeNTIIDForURI} from 'nti-lib-ntiids';
 
 import Store from '../Store';
 import {PUBLISHING, RENDER_JOB_CHANGE, SET_ERROR} from '../Constants';
@@ -44,7 +45,8 @@ const t = scoped('CONTENT_EDITOR_PUBLISH', DEFAULT_TEXT);
 
 export default class ContentEditorPublish extends React.Component {
 	static propTypes = {
-		contentPackage: PropTypes.object
+		contentPackage: PropTypes.object,
+		handleNavigation: PropTypes.func
 	}
 
 
@@ -83,9 +85,24 @@ export default class ContentEditorPublish extends React.Component {
 	}
 
 
+	onPublishFinish () {
+		this.goToPreviewView();
+	}
+
+
+	goToPreviewView () {
+		if(this.props.handleNavigation) {
+			this.props.handleNavigation('', encodeNTIIDForURI(this.props.contentPackage.NTIID));
+		}
+	}
+
 	onRenderJobChanged () {
 		this.setState({
 			renderJob: Store.renderJob
+		}, () => {
+			if(this.state.renderJob && !this.state.renderJob.isPending && !this.state.error) {
+				this.onPublishFinish();
+			}
 		});
 	}
 
