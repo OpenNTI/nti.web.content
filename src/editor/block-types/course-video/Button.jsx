@@ -2,11 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {scoped} from 'nti-lib-locale';
 
+import {EmbedInput} from 'nti-web-video';
+
 import {BLOCKS} from '../../../draft-core';
 import Button from '../common/Button';
 
 import {isVideoBlock} from './util';
-import Picker from './Picker';
 
 const DEFAULT_TEXT = {
 	label: 'Embed Video'
@@ -15,7 +16,7 @@ const DEFAULT_TEXT = {
 const t = scoped('nti-cotent.editor.block-types.course-figure.button', DEFAULT_TEXT);
 
 function createBlock (insertBlock) {
-	Picker.show()
+	EmbedInput.show()
 		.then(({service, source}) => {
 			insertBlock({
 				type: BLOCKS.ATOMIC,
