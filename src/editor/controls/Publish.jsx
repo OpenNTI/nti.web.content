@@ -46,7 +46,7 @@ const t = scoped('CONTENT_EDITOR_PUBLISH', DEFAULT_TEXT);
 export default class ContentEditorPublish extends React.Component {
 	static propTypes = {
 		contentPackage: PropTypes.object,
-		handleNavigation: PropTypes.func
+		navigateToPublished: PropTypes.func
 	}
 
 
@@ -91,8 +91,8 @@ export default class ContentEditorPublish extends React.Component {
 
 
 	goToPreviewView () {
-		if(this.props.handleNavigation) {
-			this.props.handleNavigation();
+		if(this.props.navigateToPublished) {
+			this.props.navigateToPublished();
 		}
 	}
 

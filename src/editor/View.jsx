@@ -37,7 +37,7 @@ export default class ContentEditor extends React.Component {
 		breadcrumb: PropTypes.array,
 		gotoResources: PropTypes.func,
 		onDelete: PropTypes.func,
-		handleNavigation: PropTypes.func
+		navigateToPublished: PropTypes.func
 	}
 
 	static childContextTypes = {
@@ -107,7 +107,7 @@ export default class ContentEditor extends React.Component {
 	}
 
 	render () {
-		const {contentPackage, course, gotoResources, breadcrumb, handleNavigation} = this.props;
+		const {contentPackage, course, gotoResources, breadcrumb, navigateToPublished} = this.props;
 		const sidebar = (<Sidebar contentPackage={contentPackage} course={course} selectionManager={selectionManager} />);
 
 		return (
@@ -116,7 +116,7 @@ export default class ContentEditor extends React.Component {
 					<EditorPanel contentPackage={contentPackage} course={course} gotoResources={gotoResources} breadcrumb={breadcrumb} />
 				</PanelSidebar>
 				<ControlBar visible>
-					<Controls selectionManager={selectionManager} contentPackage={contentPackage} course={course} handleNavigation={handleNavigation}/>
+					<Controls selectionManager={selectionManager} contentPackage={contentPackage} course={course} navigateToPublished={navigateToPublished}/>
 				</ControlBar>
 			</div>
 		);
