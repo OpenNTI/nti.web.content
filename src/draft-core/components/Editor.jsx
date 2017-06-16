@@ -77,7 +77,7 @@ export default class DraftCoreEditor extends React.Component {
 
 		for (let plugin of plugins) {
 			if (plugin.getContext) {
-				let pluginContext = plugin.getContext(() => this.getEditorState(), (state, focus) => this.setEditorState(state, focus), () => this.focus());
+				let pluginContext = plugin.getContext(() => this.getEditorState(), (state, cb) => this.setEditorState(state, cb), () => this.focus());
 				context = {...context, ...pluginContext};
 			}
 		}
