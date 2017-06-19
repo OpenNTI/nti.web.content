@@ -86,7 +86,7 @@ const customBlocks = Plugins.CustomBlocks.create({customRenderers: CustomRendere
 
 const plugins = [
 	Plugins.LimitBlockTypes.create({allowed: ALLOWED_BLOCKS}),
-	Plugins.LimitStyles.create({allowd: ALLOWED_STYLES}),
+	Plugins.LimitStyles.create({allowed: ALLOWED_STYLES}),
 	Plugins.ExternalLinks.create({allowedInBlockTypes: new Set([BLOCKS.UNSTYLED, BLOCKS.ORDERED_LIST_ITEM, BLOCKS.UNORDERED_LIST_ITEM])}),
 	Plugins.InsertBlock.create(),
 	customBlocks,

@@ -1,6 +1,6 @@
 import {RichUtils} from 'draft-js';
 
-import {getAllowedSet} from './utils';
+import {getAllowedSet, fixStateForAllowed} from './utils';
 
 export default {
 	create: (config = {}) => {
@@ -10,6 +10,10 @@ export default {
 		const allow = getAllowedSet(allowed, disallowed);
 
 		return {
+			onChange (editorState) {
+				return fixStateForAllowed(editorState, allowed);
+			},
+
 			getContext (getEditorState, setEditorState) {
 				return {
 					get allowedInlineStyles () {
