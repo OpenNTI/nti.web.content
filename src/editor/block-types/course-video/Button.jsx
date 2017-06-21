@@ -13,10 +13,29 @@ const DEFAULT_TEXT = {
 	label: 'Embed Video'
 };
 
-const t = scoped('nti-cotent.editor.block-types.course-figure.button', DEFAULT_TEXT);
+const t = scoped('nti-content.editor.block-types.course-figure.button', DEFAULT_TEXT);
 
-function createBlock (insertBlock) {
-	EmbedInput.show()
+export default class CourseVideoButton extends React.Component {
+	static propTypes = {
+		course: PropTypes.object
+	};
+
+	constructor () {
+		super();
+
+		this.state = this.getStateFor(this.props);
+	}
+
+	getStateFor = () => ({});
+
+	attachButtonRef = x => this.buttonRef = x;
+
+	createBlock = insertBlock => {
+		const editorRef = null;
+
+		EmbedInput.show(void 0, {
+			refocus : editorRef
+		})
 		.then(({service, source}) => {
 			insertBlock({
 				type: BLOCKS.ATOMIC,
@@ -29,21 +48,22 @@ function createBlock (insertBlock) {
 				}
 			});
 		});
-}
+	};
 
-CourseVideoButton.propTypes = {
-	course: PropTypes.object
-};
-export default function CourseVideoButton ({course}) {
-	return (
-		<Button
-			className="course-video-button"
-			iconClass="content-editor-block-types-video-button"
-			label={t('label')}
-			createBlock={createBlock}
-			createBlockProps={{course}}
-			isBlockPredicate={isVideoBlock}
-		/>
-	);
-}
+	render = () => {
+		const {course} = this.props;
 
+		return (
+			<Button
+				ref={this.attachButtonRef}
+				className="course-video-button"
+				iconClass="content-editor-block-types-video-button"
+				label={t('label')}
+				createBlock={this.createBlock}
+				createBlockProps={{course}}
+				isBlockPredicate={isVideoBlock}
+			/>
+		);
+	};
+
+}
