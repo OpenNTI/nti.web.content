@@ -72,7 +72,7 @@ export default {
 						return (block, replaceRange) => {
 							const newState = insertBlock(block, replaceRange, selection, getEditorState());
 
-							setEditorState(moveSelectionToNextBlock(newState), focus);
+							setEditorState(block.maintainSelection ? newState : moveSelectionToNextBlock(newState), focus);
 						};
 					},
 
