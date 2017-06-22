@@ -14,7 +14,8 @@ function createBlock (insertBlock) {
 	insertBlock({
 		type: BLOCKS.UNORDERED_LIST_ITEM,
 		depth: 0,
-		text: ''
+		text: '',
+		maintainSelection: true
 	});
 }
 
