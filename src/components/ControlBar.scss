@@ -3,7 +3,7 @@
 .content-control-bar {
 	display: flex;
 	align-items: center;
-	height: 60px;
+	height: rem-calc(52px);
 
 	.message {
 		flex: 1 1 auto;
@@ -29,7 +29,8 @@
 		}
 	}
 
-	.basic-button {
+	.nti-button {
 		flex: 0 0 auto;
+		padding: 0.5rem 1.25rem;
 	}
 }
