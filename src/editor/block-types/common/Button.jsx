@@ -13,7 +13,8 @@ export default class BlockTypeButton extends React.Component {
 		label: PropTypes.string,
 		createBlock: PropTypes.func,
 		createBlockProps: PropTypes.object,
-		isBlockPredicate: PropTypes.func
+		isBlockPredicate: PropTypes.func,
+		attachPluginRef: PropTypes.func
 	}
 
 
@@ -34,12 +35,14 @@ export default class BlockTypeButton extends React.Component {
 			label,
 			createBlock,
 			createBlockProps,
-			isBlockPredicate
+			isBlockPredicate,
+			attachPluginRef
 		} = this.props;
 		const {mousedown} = this.state;
 
 		return (
 			<Button
+				ref={attachPluginRef}
 				className={cx('content-editor-block-type-button', className, {mousedown})}
 				createBlock={createBlock}
 				createBlockProps={createBlockProps}

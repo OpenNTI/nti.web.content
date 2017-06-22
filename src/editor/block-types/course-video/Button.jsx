@@ -31,10 +31,13 @@ export default class CourseVideoButton extends React.Component {
 	attachButtonRef = x => this.buttonRef = x;
 
 	createBlock = insertBlock => {
-		const editorRef = null;
+		const editorRef = this.buttonRef
+			&& this.buttonRef.editorContext
+			&& this.buttonRef.editorContext.editor
+			&& this.buttonRef.editorContext.editor.draftEditor;
 
 		EmbedInput.show(void 0, {
-			refocus : editorRef
+			refocus: editorRef
 		})
 		.then(({service, source}) => {
 			insertBlock({
@@ -55,7 +58,7 @@ export default class CourseVideoButton extends React.Component {
 
 		return (
 			<Button
-				ref={this.attachButtonRef}
+				attachPluginRef={this.attachButtonRef}
 				className="course-video-button"
 				iconClass="content-editor-block-types-video-button"
 				label={t('label')}
