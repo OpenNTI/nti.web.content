@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+
 import {Associations} from 'nti-web-commons';
 
 import Icon from './Icon';
@@ -18,7 +19,7 @@ export default function MetaEditor ({contentPackage, course}) {
 			<Icon contentPackage={contentPackage} course={course} />
 
 			<div className="wrap">
-				<Sharing.Lessons item={contentPackage} scope={course} />
+				{contentPackage && (<Sharing.Lessons item={contentPackage} scope={course} />)}
 				<Title contentPackage={contentPackage} course={course} />
 				<Description contentPackage={contentPackage} course={course} />
 			</div>
