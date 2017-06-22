@@ -69,10 +69,10 @@ export default {
 
 
 					getInsertMethod: (selection) => {
-						return (block, replaceRange) => {
+						return (block, replaceRange, maintainSelection) => {
 							const newState = insertBlock(block, replaceRange, selection, getEditorState());
 
-							setEditorState(block.maintainSelection ? newState : moveSelectionToNextBlock(newState), focus);
+							setEditorState(maintainSelection ? newState : moveSelectionToNextBlock(newState), focus);
 						};
 					},
 
