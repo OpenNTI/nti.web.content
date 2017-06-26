@@ -29,6 +29,32 @@ const moveSelectionToNextBlock = editorState => {
 	return editorState;
 };
 
+/**
+ * Some browsers (COUGHfirefoxCOUGH) don't automatically show the selection, so
+ * for block types that need to maintain selection (not move up a block), this
+ * function will ensure that the selection is maintained and actually selected
+ *
+ * @param  {EditorState} editorState State of the editor after block insertion
+ * @return {EditorState}             State of hte editor after selection updated
+ */
+const ensureMaintainSelection = editorState => {
+	const selectionState = editorState.getSelection && editorState.getSelection();
+	const contentState = editorState.getCurrentContent && editorState.getCurrentContent();
+	const currBlock = contentState && contentState.getBlockForKey(selectionState.focusKey);
+
+	if (editorState && contentState) {
+		let newEditorState;
+
+		if (currBlock) {
+			newEditorState = EditorState.acceptSelection(editorState, SelectionState.createEmpty(currBlock.getKey()));
+		}
+
+		return newEditorState;
+	}
+
+	return editorState;
+};
+
 //https://github.com/facebook/draft-js/issues/442
 
 export default {
@@ -72,7 +98,9 @@ export default {
 						return (block, replaceRange, maintainSelection) => {
 							const newState = insertBlock(block, replaceRange, selection, getEditorState());
 
-							setEditorState(maintainSelection ? newState : moveSelectionToNextBlock(newState), focus);
+							setEditorState(maintainSelection
+								? ensureMaintainSelection(newState)
+								: moveSelectionToNextBlock(newState), focus);
 						};
 					},
 
