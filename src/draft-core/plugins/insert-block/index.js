@@ -1,59 +1,9 @@
-import {EditorState, SelectionState, Modifier} from 'draft-js';
-
 import {EVENT_HANDLED, EVENT_NOT_HANDLED} from '../Constants';
 
 import Button from './components/Button';
 import BlockCount from './components/BlockCount';
 import {DRAG_DATA_TYPE} from './Constants';
-import {insertBlock, getSelectedText} from './utils';
-
-const moveSelectionToNextBlock = editorState => {
-	const selectionState = editorState.getSelection && editorState.getSelection();
-	const contentState = editorState.getCurrentContent && editorState.getCurrentContent();
-	const nextBlock = contentState && contentState.getBlockAfter(selectionState.focusKey);
-
-	if (editorState && contentState) {
-		let newEditorState;
-
-		if (nextBlock) {
-			newEditorState = EditorState.acceptSelection(editorState, SelectionState.createEmpty(nextBlock.getKey()));
-		} else {
-			const newContent = Modifier.insertText(contentState, selectionState, '\n', editorState.getCurrentInlineStyle(), null);
-			const tmpEditorState = EditorState.push(editorState, newContent, 'insert-characters');
-			newEditorState = EditorState.acceptSelection(tmpEditorState, SelectionState.createEmpty(newContent.getLastBlock().getKey()));
-		}
-
-		return newEditorState;
-	}
-
-	return editorState;
-};
-
-/**
- * Some browsers (COUGHfirefoxCOUGH) don't automatically show the selection, so
- * for block types that need to maintain selection (not move up a block), this
- * function will ensure that the selection is maintained and actually selected
- *
- * @param  {EditorState} editorState State of the editor after block insertion
- * @return {EditorState}             State of hte editor after selection updated
- */
-const ensureMaintainSelection = editorState => {
-	const selectionState = editorState.getSelection && editorState.getSelection();
-	const contentState = editorState.getCurrentContent && editorState.getCurrentContent();
-	const currBlock = contentState && contentState.getBlockForKey(selectionState.focusKey);
-
-	if (editorState && contentState) {
-		let newEditorState;
-
-		if (currBlock) {
-			newEditorState = EditorState.acceptSelection(editorState, SelectionState.createEmpty(currBlock.getKey()));
-		}
-
-		return newEditorState;
-	}
-
-	return editorState;
-};
+import {insertBlock, getSelectedText, ensureMaintainSelection, moveSelectionToNextBlock} from './utils';
 
 //https://github.com/facebook/draft-js/issues/442
 
