@@ -25,7 +25,7 @@ function draftToRST (editorState) {
 const plugins = [
 	Plugins.LimitBlockTypes.create({allowed: new Set([BLOCKS.UNSTYLED])}),
 	Plugins.LimitStyles.create({allowed: new Set([])}),
-	Plugins.ExternalLinks.create(),
+	// Plugins.ExternalLinks.create(),
 	Plugins.SingleLine.create()
 ];
 
