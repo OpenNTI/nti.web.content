@@ -1,10 +1,11 @@
+/* eslint-env jest */
 import StrongEmphasis from '../StrongEmphasis';
 import Plaintext from '../Plaintext';
 import {getInterface} from '../../../../Parser';
 
 describe('StrongEmphasis', () => {
 	describe('isNextBlock', () => {
-		it('matchOpen is true for **, and has correct nextChar', () => {
+		test('matchOpen is true for **, and has correct nextChar', () => {
 			const test = ['*', '*', 's', 't', 'r', 'o', 'n', 'g'];
 			const inputInterface = getInterface(0, test);
 			const {matches, nextChar} = StrongEmphasis.matchOpen(inputInterface);
@@ -13,7 +14,7 @@ describe('StrongEmphasis', () => {
 			expect(nextChar).toEqual('s');
 		});
 
-		it('matchOpen is false for *', () => {
+		test('matchOpen is false for *', () => {
 			const test = ['*', 'n', 'o', 't'];
 			const inputInterface = getInterface(0, test);
 			const {matches} = StrongEmphasis.matchOpen(inputInterface);
@@ -21,7 +22,7 @@ describe('StrongEmphasis', () => {
 			expect(matches).toBeFalsy();
 		});
 
-		it('matchClose is true for **, and has correct nextChar', () => {
+		test('matchClose is true for **, and has correct nextChar', () => {
 			const test = ['*', '*', 'c'];
 			const inputInterface = getInterface(0, test);
 			const {matches, nextChar} = StrongEmphasis.matchClose(inputInterface);
@@ -30,7 +31,7 @@ describe('StrongEmphasis', () => {
 			expect(nextChar).toEqual('c');
 		});
 
-		it('matchClose is false for *', () => {
+		test('matchClose is false for *', () => {
 			const test = ['*', 'c'];
 			const inputInterface = getInterface(0, test);
 			const {matches} = StrongEmphasis.matchClose(inputInterface);
@@ -41,7 +42,7 @@ describe('StrongEmphasis', () => {
 
 
 	describe('getRange', () => {
-		it('Has correct offset', () => {
+		test('Has correct offset', () => {
 			const strong = new StrongEmphasis('s');
 
 			const range = strong.getRanges({charCount: 0});
@@ -50,7 +51,7 @@ describe('StrongEmphasis', () => {
 			expect(range.inlineStyleRanges[0].offset).toEqual(0);
 		});
 
-		it('Has correct length', () => {
+		test('Has correct length', () => {
 			const strong = new StrongEmphasis('s');
 
 			strong.appendBlock(new Plaintext('t'));

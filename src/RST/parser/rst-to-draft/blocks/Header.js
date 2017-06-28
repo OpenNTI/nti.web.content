@@ -24,7 +24,7 @@ function fixLevel (level, options) {
 
 //Checks if the line is the same header character repeating
 //= - ` : . ' " ~ ^ _ * + #
-const IS_LINE_HEADER_REGEX = /^([\=,\-,\+,`,:,\.,',",~,\^,_,\*,#])\1+$/;
+const IS_LINE_HEADER_REGEX = /^([=\-+`:.'"~^_*#])\1+$/;
 
 export const LEVEL_TO_TYPE = {
 	1: BLOCK_TYPE.HEADER_ONE,

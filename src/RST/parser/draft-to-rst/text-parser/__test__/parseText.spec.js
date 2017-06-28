@@ -1,9 +1,10 @@
+/* eslint-env jest */
 import {INLINE_STYLE} from 'draft-js-utils';
 
 import parseText from '../parseText';
 
 describe('parseText', () => {
-	it('block with bold', () => {
+	test('block with bold', () => {
 		const block = {
 			text: 'This is a block with bold and some plain',
 			inlineStyleRanges: [{
@@ -18,7 +19,7 @@ describe('parseText', () => {
 		expect(parsed).toEqual('This is a block with **bold** and some plain');
 	});
 
-	it('block with underline', () => {
+	test('block with underline', () => {
 		const block = {
 			text: 'This is a block with underline and some plain',
 			inlineStyleRanges: [{
@@ -33,7 +34,7 @@ describe('parseText', () => {
 		expect(parsed).toEqual('This is a block with :underline:`underline` and some plain');
 	});
 
-	it('Cleans up leading space', () => {
+	test('Cleans up leading space', () => {
 		const block = {
 			text: 'This is a block with bold',
 			inlineStyleRanges: [{
@@ -48,7 +49,7 @@ describe('parseText', () => {
 		expect(parsed).toEqual('This is a block with **bold**');
 	});
 
-	it('Cleans up trailing space', () => {
+	test('Cleans up trailing space', () => {
 		const block = {
 			text: 'This is a block with bold ',
 			inlineStyleRanges: [{
@@ -63,7 +64,7 @@ describe('parseText', () => {
 		expect(parsed).toEqual('This is a block with **bold** ');
 	});
 
-	it('Cleans up leading and trailing space', () => {
+	test('Cleans up leading and trailing space', () => {
 		const block = {
 			text: 'This is a block with bold ',
 			inlineStyleRanges: [{
@@ -78,7 +79,7 @@ describe('parseText', () => {
 		expect(parsed).toEqual('This is a block with **bold** ');
 	});
 
-	it('escapes rst thats not in a range', () => {
+	test('escapes rst thats not in a range', () => {
 		const block = {
 			text: 'This is a block with * rst chars ** : = !',
 			inlineStyleRanges: [],
@@ -89,7 +90,7 @@ describe('parseText', () => {
 		expect(parsed).toEqual('This is a block with \\* rst chars \\*\\* \\: \\= \\!');
 	});
 
-	it('escapes rst thats in a range', () => {
+	test('escapes rst thats in a range', () => {
 		const block = {
 			text: 'This is a block with * = ! plus bold and * rst chars ** : = !',
 			inlineStyleRanges: [{
@@ -104,7 +105,7 @@ describe('parseText', () => {
 		expect(parsed).toEqual('This is a block with \\* \\= \\! plus **bold and \\* rst chars \\*\\* \\: \\= \\!**');
 	});
 
-	it('Handles multiple ranges', () => {
+	test('Handles multiple ranges', () => {
 		const block = {
 			text: 'This is plain. This is bold. This is bold underline. This is bold underline italic.',
 			inlineStyleRanges: [
@@ -131,7 +132,7 @@ describe('parseText', () => {
 		expect(parsed).toEqual('This is plain\\. **This is bold\\.** :boldunderline:`This is bold underline\\.` \\ :bolditalicunderline:`This is bold underline italic\\.`');
 	});
 
-	it('Handles touching ranges', () => {
+	test('Handles touching ranges', () => {
 		const block = {
 			text: 'This block has underline, bolditalic, and italicunderline',
 			inlineStyleRanges: [

@@ -1,3 +1,4 @@
+/* eslint-env jest */
 import {EditorState, convertFromRaw} from 'draft-js';
 
 import {BLOCKS} from '../../../../Constants';
@@ -20,7 +21,7 @@ function getBlock (state, key) {
 }
 
 describe('removeBlock tests', () => {
-	it('turns block to an empty unstyled block', () => {
+	test('turns block to an empty unstyled block', () => {
 		const protoBlock = {type: BLOCKS.UNSTYLED, depth: 0, text: 'asdf', inlineStyleRanges: [], entityRanges: []};
 		const atomicBlock = {type: BLOCKS.ATOMIC, depth: 0, text: '', inlineStyleRanges: [], entityRanges: []};
 

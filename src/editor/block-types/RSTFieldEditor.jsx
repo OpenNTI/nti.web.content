@@ -5,15 +5,15 @@ import {EditorState, convertFromRaw, convertToRaw} from 'draft-js';
 import {Selection} from 'nti-web-commons';
 
 import {Parser} from '../../RST';
-import {Editor, Plugins, BLOCKS, STYLES, NestedEditorWrapper} from '../../draft-core';
+import {Editor, Plugins, BLOCKS, NestedEditorWrapper} from '../../draft-core';
 
 function rstToDraft (rst) {
 	const draftState = rst && Parser.convertRSTToDraftState(rst);
 	const {blocks} = draftState || {blocks: []};
 
 	return blocks && blocks.length ?
-				EditorState.createWithContent(convertFromRaw(draftState)) :
-				EditorState.createEmpty();
+		EditorState.createWithContent(convertFromRaw(draftState)) :
+		EditorState.createEmpty();
 }
 
 function draftToRST (editorState) {

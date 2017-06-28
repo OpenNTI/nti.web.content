@@ -1,9 +1,11 @@
+/* globals spyOn */
+/* eslint-env jest */
 import Plaintext from '../Plaintext';
 import {getInterface} from '../../../../Parser';
 
 describe('Plaintext', () => {
 	describe('isNextBlock', () => {
-		it('Is always true', () => {
+		test('Is always true', () => {
 			const chars = ['a', '*', '`', '.'];
 
 			for (let char of chars) {
@@ -26,7 +28,7 @@ describe('Plaintext', () => {
 			return block;
 		}
 
-		it('If no currentBlock returns new Plaintext', () => {
+		test('If no currentBlock returns new Plaintext', () => {
 			const test = ['p', 'l', 'a', 'i', 'n'];
 			const inputInterface = getInterface(0, test);
 			const parsedInterface = getInterface(0, []);
@@ -35,7 +37,7 @@ describe('Plaintext', () => {
 			expect(block.isPlaintext).toBeTruthy();
 		});
 
-		it('If currentBlock is target, and input is not whitespace, the currentBlock is a role marker', () => {
+		test('If currentBlock is target, and input is not whitespace, the currentBlock is a role marker', () => {
 			const test = ['p', 'l', 'a', 'i', 'n'];
 			const currentBlock = buildBlock('isTarget');
 			const inputInterface = getInterface(0, test);
@@ -47,7 +49,7 @@ describe('Plaintext', () => {
 			expect(block.roleMarker).toEqual(currentBlock);
 		});
 
-		it('If the currentBlock is a target, and the input is whitespace, the currentBlock is not a role marker', () => {
+		test('If the currentBlock is a target, and the input is whitespace, the currentBlock is not a role marker', () => {
 			const test = [' ', 'p', 'l', 'a', 'i', 'n'];
 			const currentBlock = buildBlock('isTarget');
 			const inputInterface = getInterface(0, test);
@@ -61,21 +63,21 @@ describe('Plaintext', () => {
 	});
 
 	describe('shouldAppendBlock', () => {
-		it('Is true if we don\'t end in whitespace, and the block is plaintext', () => {
+		test('Is true if we don\'t end in whitespace, and the block is plaintext', () => {
 			const block = new Plaintext('n');
 			const newBlock = new Plaintext('o');
 
 			expect(block.shouldAppendBlock(newBlock)).toBeTruthy();
 		});
 
-		it('Is false for none plaintext', () => {
+		test('Is false for none plaintext', () => {
 			const block = new Plaintext('n');
 			const newBlock = {notPlaintext: true};
 
 			expect(block.shouldAppendBlock(newBlock)).toBeFalsy();
 		});
 
-		it('Appending white space prevents the next shouldAppendBlock', () => {
+		test('Appending white space prevents the next shouldAppendBlock', () => {
 			const block = new Plaintext('n');
 			const whitespace = new Plaintext(' ');
 			const newBlock = new Plaintext('o');
@@ -87,7 +89,7 @@ describe('Plaintext', () => {
 	});
 
 	describe('appendBlock', () => {
-		it('appends to the existing text', () => {
+		test('appends to the existing text', () => {
 			const block = new Plaintext('n');
 			const newBlock = new Plaintext('o');
 
@@ -109,7 +111,7 @@ describe('Plaintext', () => {
 			return block;
 		}
 
-		it('If it has role marker and not forced, calls marker', () => {
+		test('If it has role marker and not forced, calls marker', () => {
 			const block = new Plaintext('n');
 			const marker = buildMarker();
 			const context = {};
@@ -120,7 +122,7 @@ describe('Plaintext', () => {
 			expect(marker.getOutputForInterpreted).toHaveBeenCalledWith(block, context);
 		});
 
-		it('If it has role marker and forces, does not call marker', () => {
+		test('If it has role marker and forces, does not call marker', () => {
 			const block = new Plaintext('n');
 			const marker = buildMarker();
 			const context = {};
@@ -131,7 +133,7 @@ describe('Plaintext', () => {
 			expect(marker.getOutputForInterpreted).not.toHaveBeenCalled();
 		});
 
-		it('No role marker, has the correct output', () => {
+		test('No role marker, has the correct output', () => {
 			const block = new Plaintext('p');
 
 			block.appendBlock(new Plaintext('l'));

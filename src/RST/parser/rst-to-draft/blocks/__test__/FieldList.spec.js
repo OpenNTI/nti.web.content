@@ -1,23 +1,24 @@
+/* eslint-env jest */
 import FieldList from '../FieldList';
 import {getInterface} from '../../../Parser';
 
 describe('FieldList', () => {
 	describe('isNextBlock', () => {
-		it('Matches on a field list', () => {
+		test('Matches on a field list', () => {
 			const rst = ':name: value';
 			const inputInterface = getInterface(0, [rst]);
 
 			expect(FieldList.isNextBlock(inputInterface)).toBeTruthy();
 		});
 
-		it('Does not match on non field lists', () => {
+		test('Does not match on non field lists', () => {
 			const rst = 'paragraph';
 			const inputInterface = getInterface(0, [rst]);
 
 			expect(FieldList.isNextBlock(inputInterface)).toBeFalsy();
 		});
 
-		it('Does not match on roles', () => {
+		test('Does not match on roles', () => {
 			const rst = ':underline:`underlined`';
 			const inputInterface = getInterface(0, [rst]);
 
@@ -26,7 +27,7 @@ describe('FieldList', () => {
 	});
 
 	describe('parse', () => {
-		it('Parses name', () => {
+		test('Parses name', () => {
 			const name = 'name';
 			const rst = `:${name}:value`;
 			const inputInterface = getInterface(0, [rst]);
@@ -35,7 +36,7 @@ describe('FieldList', () => {
 			expect(block.name).toEqual(name);
 		});
 
-		it('Parses value with space', () => {
+		test('Parses value with space', () => {
 			const value = 'value';
 			const rst = `:name: ${value}`;
 			const inputInterface = getInterface(0, [rst]);
@@ -44,7 +45,7 @@ describe('FieldList', () => {
 			expect(block.value).toEqual(value);
 		});
 
-		xit('Parses value without space', () => {
+		test.skip('Parses value without space', () => {
 			const value = 'value';
 			const rst = `:name:${value}`;
 			const inputInterface = getInterface(0, [rst]);

@@ -1,3 +1,4 @@
+/* eslint-env jest */
 import {EditorState, convertFromRaw} from 'draft-js';
 
 import {BLOCKS} from '../../../../Constants';
@@ -8,7 +9,7 @@ function createEditorState (raw) {
 }
 
 describe('indexOfType tests', () => {
-	it('Correctly gives the index of a block', () => {
+	test ('Correctly gives the index of a block', () => {
 		const protoBlock = {type: BLOCKS.UNSTYLED, depth: 0, text: '', inlineStyleRanges: [], entityRanges: []};
 		const editorState = createEditorState({
 			blocks: [
@@ -29,7 +30,7 @@ describe('indexOfType tests', () => {
 		}
 	});
 
-	it('Count skips blocks that aren\'t of type', () => {
+	test ('Count skips blocks that aren\'t of type', () => {
 		const protoUnstyled = {type: BLOCKS.UNSTYLED, depth: 0, text: '', inlineStyleRanges: [], entityRanges: []};
 		const protoAtomic = {type: BLOCKS.ATOMIC, depth: 0, text: '', inlineStyleRanges: [], entityRanges: []};
 

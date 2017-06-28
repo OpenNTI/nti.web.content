@@ -3,7 +3,6 @@ import React from 'react';
 import cx from 'classnames';
 import {scoped} from 'nti-lib-locale';
 import {Flyout, Loading, HOC} from 'nti-web-commons';
-import {encodeForURI as encodeNTIIDForURI} from 'nti-lib-ntiids';
 
 import Store from '../Store';
 import {PUBLISHING, RENDER_JOB_CHANGE, SET_ERROR} from '../Constants';
@@ -183,10 +182,10 @@ export default class ContentEditorPublish extends React.Component {
 			failed: isFailed
 		});
 		const label = isPublishing ?
-							t('publishing.trigger') :
-							isFailed ?
-								t('publishFailed.trigger') :
-								isPublished ? t('publishChanges.trigger') : t('publish.trigger');
+			t('publishing.trigger') :
+			isFailed ?
+				t('publishFailed.trigger') :
+				isPublished ? t('publishChanges.trigger') : t('publish.trigger');
 
 		return (
 			<div className={cls}>
@@ -204,8 +203,8 @@ export default class ContentEditorPublish extends React.Component {
 		const {error} = this.state;
 
 		return contentPackage && contentPackage.isPublished ?
-				this.renderPublished(error) :
-				this.renderDraft(error);
+			this.renderPublished(error) :
+			this.renderDraft(error);
 	}
 
 	renderDraft (error) {

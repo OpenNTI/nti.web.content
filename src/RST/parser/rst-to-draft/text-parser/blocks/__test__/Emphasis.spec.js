@@ -1,10 +1,11 @@
+/* eslint-env jest */
 import Emphasis from '../Emphasis';
 import Plaintext from '../Plaintext';
 import {getInterface} from '../../../../Parser';
 
 describe('Emphasis', () => {
 	describe('isNextBlock', () => {
-		it('matchOpen true for *', () => {
+		test('matchOpen true for *', () => {
 			const chars = ['*', 'e', 'm', 'p'];
 			const inputInterface = getInterface(0, chars);
 			const {matches} = Emphasis.matchOpen(inputInterface);
@@ -12,7 +13,7 @@ describe('Emphasis', () => {
 			expect(matches).toBeTruthy();
 		});
 
-		it('matchOpen false for **', () => {
+		test('matchOpen false for **', () => {
 			const chars = ['*', '*', 'e', 'm', 'p'];
 			const inputInterface = getInterface(0, chars);
 			const {matches} = Emphasis.matchOpen(inputInterface);
@@ -20,7 +21,7 @@ describe('Emphasis', () => {
 			expect(matches).toBeFalsy();
 		});
 
-		it('matchClose true for *', () => {
+		test('matchClose true for *', () => {
 			const chars = ['*', 'e', 'm', 'p'];
 			const inputInterface = getInterface(0, chars);
 			const {matches} = Emphasis.matchClose(inputInterface);
@@ -28,7 +29,7 @@ describe('Emphasis', () => {
 			expect(matches).toBeTruthy();
 		});
 
-		it('matchClose false for **', () => {
+		test('matchClose false for **', () => {
 			const chars = ['*', '*', 'e', 'm', 'p'];
 			const inputInterface = getInterface(0, chars);
 			const {matches} = Emphasis.matchClose(inputInterface);
@@ -38,7 +39,7 @@ describe('Emphasis', () => {
 	});
 
 	describe('Parse', () => {
-		it('Opening Range consumes 1 character and opens a range', () => {
+		test('Opening Range consumes 1 character and opens a range', () => {
 			const chars = ['*', 'e', 'm', 'p'];
 			const inputInterface = getInterface(0, chars);
 			const {block, context, length} = Emphasis.parse(inputInterface, {});
@@ -48,7 +49,7 @@ describe('Emphasis', () => {
 			expect(length).toEqual(1);
 		});
 
-		it('Closing Range consumes 1 character and closes the range', () => {
+		test('Closing Range consumes 1 character and closes the range', () => {
 			const chars = ['*', ' ', 'n', 'o', 't'];
 			const inputInterface = getInterface(0, chars);
 			const {block, length} = Emphasis.parse(inputInterface, {openRange: Emphasis.rangeName});
@@ -61,7 +62,7 @@ describe('Emphasis', () => {
 	});
 
 	describe('getRanges', () => {
-		it('Has Correct Offset', () => {
+		test('Has Correct Offset', () => {
 			const block = new Emphasis('e');
 			const {inlineStyleRanges} = block.getRanges({charCount: 30});
 
@@ -69,7 +70,7 @@ describe('Emphasis', () => {
 			expect(inlineStyleRanges[0].offset).toEqual(30);
 		});
 
-		it('Has Correct Length', () => {
+		test('Has Correct Length', () => {
 			const block = new Emphasis('e');
 
 			block.appendBlock(new Plaintext('m'));

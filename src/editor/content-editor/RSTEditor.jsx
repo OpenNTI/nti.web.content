@@ -32,8 +32,8 @@ function rstToEditorState (rst, options) {
 	const newBlocks = titleBlock ? blocks.slice(1) : blocks;
 
 	const editorState = newBlocks && newBlocks.length ?
-							EditorState.createWithContent(convertFromRaw({blocks:newBlocks, entityMap})) :
-							EditorState.createEmpty();
+		EditorState.createWithContent(convertFromRaw({blocks:newBlocks, entityMap})) :
+		EditorState.createEmpty();
 
 	return {editorState, titleLabel: titleBlock && titleBlock.data && titleBlock.data.label};
 }
@@ -177,8 +177,8 @@ export default class RSTEditor extends React.Component {
 		const editorState = this.editorRef && this.editorRef.editorState;
 
 		return editorState ?
-					editorStateToRST(editorState, this.title, titleLabel) :
-					'';
+			editorStateToRST(editorState, this.title, titleLabel) :
+			'';
 	}
 
 

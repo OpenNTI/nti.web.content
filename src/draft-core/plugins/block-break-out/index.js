@@ -1,5 +1,5 @@
 import {
-  RichUtils
+	RichUtils
 } from 'draft-js';
 
 import {BLOCKS} from '../../Constants';

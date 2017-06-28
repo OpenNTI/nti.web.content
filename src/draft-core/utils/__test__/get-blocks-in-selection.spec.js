@@ -1,3 +1,4 @@
+/* eslint-env jest */
 import {convertFromRaw, SelectionState} from 'draft-js';
 
 import {BLOCKS} from '../../Constants';
@@ -38,21 +39,21 @@ describe('getBlocksInSelection', () => {
 	});
 
 	describe('Single Block Selection', () => {
-		it('First Block Selected', () => {
+		test('First Block Selected', () => {
 			const blocks = getBlocks(keys[0], keys[0]);
 
 			expect(blocks.length).toEqual(1);
 			expect(blocks[0].getKey()).toEqual(keys[0]);
 		});
 
-		it('Middle Block Selected', () => {
+		test('Middle Block Selected', () => {
 			const blocks = getBlocks(keys[1], keys[1]);
 
 			expect(blocks.length).toEqual(1);
 			expect(blocks[0].getKey()).toEqual(keys[1]);
 		});
 
-		it('Last Block Selected', () => {
+		test('Last Block Selected', () => {
 			const blocks = getBlocks(keys[2], keys[2]);
 
 			expect(blocks.length).toEqual(1);
@@ -61,7 +62,7 @@ describe('getBlocksInSelection', () => {
 	});
 
 	describe('Multi-Block Selection', () => {
-		it('First Two Blocks Selected', () => {
+		test('First Two Blocks Selected', () => {
 			const blocks = getBlocks(keys[0], keys[1]);
 
 			expect(blocks.length).toEqual(2);
@@ -69,7 +70,7 @@ describe('getBlocksInSelection', () => {
 			expect(blocks[1].getKey()).toEqual(keys[1]);
 		});
 
-		it('Middle Two Blocks Selected', () => {
+		test('Middle Two Blocks Selected', () => {
 			const blocks = getBlocks(keys[1], keys[2]);
 
 			expect(blocks.length).toEqual(2);
@@ -77,7 +78,7 @@ describe('getBlocksInSelection', () => {
 			expect(blocks[1].getKey()).toEqual(keys[2]);
 		});
 
-		it('Last Two Blocks Selected', () => {
+		test('Last Two Blocks Selected', () => {
 			const blocks = getBlocks(keys[2], keys[3]);
 
 			expect(blocks.length).toEqual(2);
@@ -85,7 +86,7 @@ describe('getBlocksInSelection', () => {
 			expect(blocks[1].getKey()).toEqual(keys[3]);
 		});
 
-		it('First Three Blocks Selected', () => {
+		test('First Three Blocks Selected', () => {
 			const blocks = getBlocks(keys[0], keys[2]);
 
 			expect(blocks.length).toEqual(3);
@@ -94,7 +95,7 @@ describe('getBlocksInSelection', () => {
 			expect(blocks[2].getKey()).toEqual(keys[2]);
 		});
 
-		it('Last Three Blocks Selected', () => {
+		test('Last Three Blocks Selected', () => {
 			const blocks = getBlocks(keys[1], keys[3]);
 
 			expect(blocks.length).toEqual(3);
@@ -103,7 +104,7 @@ describe('getBlocksInSelection', () => {
 			expect(blocks[2].getKey()).toEqual(keys[3]);
 		});
 
-		it('All Blocks Selected', () => {
+		test('All Blocks Selected', () => {
 			const blocks = getBlocks(keys[0], keys[3]);
 
 			expect(blocks.length).toEqual(4);

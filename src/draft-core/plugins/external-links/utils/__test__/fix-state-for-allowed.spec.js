@@ -1,10 +1,11 @@
+/* eslint-env jest */
 import fixStateForAllowed from '../fix-state-for-allowed';
 import {BLOCKS, ENTITIES, MUTABILITY} from '../../../../Constants';
 
 import {getEditorState, getRawFromState} from './utils';
 
 describe('fixStateForAllowed', () => {
-	it('Removes links from invalid types, but leaves them in valid ones', () => {
+	test('Removes links from invalid types, but leaves them in valid ones', () => {
 		const editorState = getEditorState({
 			blocks: [
 				{

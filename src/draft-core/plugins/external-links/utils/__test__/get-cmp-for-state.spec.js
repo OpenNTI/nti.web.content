@@ -1,10 +1,11 @@
+/* eslint-env jest */
 import {BLOCKS, ENTITIES, MUTABILITY} from '../../../../Constants';
 import getCmpForState from '../get-cmp-for-state';
 
 import {getStateAndOffsetKeys} from './utils';
 
 describe('getCmpForState', () => {
-	it('Gets last link in same block', () => {
+	test('Gets last link in same block', () => {
 		const {offsetKeys, state} = getStateAndOffsetKeys({
 			blocks: [
 				{
@@ -32,7 +33,7 @@ describe('getCmpForState', () => {
 		expect(cmp.offsetKey).toEqual(offsetKeys[offsetKeys.length - 1]);
 	});
 
-	it('Gets last link in multiple blocks', () => {
+	test('Gets last link in multiple blocks', () => {
 		const {offsetKeys, state} = getStateAndOffsetKeys({
 			blocks: [
 				{

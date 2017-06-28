@@ -117,8 +117,8 @@ export default class CourseVideoEditor extends React.Component {
 
 		if (inputUrl) {
 			createMediaSourceFromUrl(inputUrl)
-			.then(mediaSource => mediaSource && this.updateFromMediaSource(mediaSource))
-			.catch(() => {});
+				.then(mediaSource => mediaSource && this.updateFromMediaSource(mediaSource))
+				.catch(() => {});
 		} else {
 			setBlockData({arguments: ''});
 		}

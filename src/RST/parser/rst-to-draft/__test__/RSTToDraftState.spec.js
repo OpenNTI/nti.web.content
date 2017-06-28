@@ -1,3 +1,4 @@
+/* eslint-env jest */
 import RSTToDraftState from '../RSTToDraftState';
 
 //TODO: Add directives, figures, and comments to the test RST and any
@@ -60,11 +61,11 @@ const TEST_PARSED = RSTToDraftState.parse(TEST_RST);
 const {blocks, entityMap} = TEST_PARSED;
 
 describe('RSTToDraftState', () => {
-	it('Has the correct number of blocks', () => {
+	test('Has the correct number of blocks', () => {
 		expect(blocks.length).toEqual(25);
 	});
 
-	it('entityMap has all the entities', () => {
+	test('entityMap has all the entities', () => {
 		const links = entityMap['links'];
 		const multiple = entityMap['one with multiple words'];
 		const inline = entityMap['http://www.google.com#inline'];
@@ -88,49 +89,49 @@ describe('RSTToDraftState', () => {
 	});
 
 	describe('Headers', () => {
-		it('Title', () => {
+		test('Title', () => {
 			const header = blocks[0];
 
 			expect(header.type).toEqual('header-one');
 			expect(header.text).toEqual('This is a test RST Document');
 		});
 
-		it('Inline Styles', () => {
+		test('Inline Styles', () => {
 			const header = blocks[1];
 
 			expect(header.type).toEqual('header-two');
 			expect(header.text).toEqual('Inline Styles');
 		});
 
-		it('Links', () => {
+		test('Links', () => {
 			const header = blocks[5];
 
 			expect(header.type).toEqual('header-two');
 			expect(header.text).toEqual('Links');
 		});
 
-		it('Named Links', () => {
+		test('Named Links', () => {
 			const header = blocks[6];
 
 			expect(header.type).toEqual('header-three');
 			expect(header.text).toEqual('Named Links');
 		});
 
-		it('Inline Links', () => {
+		test('Inline Links', () => {
 			const header = blocks[8];
 
 			expect(header.type).toEqual('header-three');
 			expect(header.text).toEqual('Inline Links');
 		});
 
-		it('Bullet Lists', () => {
+		test('Bullet Lists', () => {
 			const header = blocks[10];
 
 			expect(header.type).toEqual('header-two');
 			expect(header.text).toEqual('Bullet Lists');
 		});
 
-		it('Ordered List', () => {
+		test('Ordered List', () => {
 			const header = blocks[15];
 
 			expect(header.type).toEqual('header-two');
@@ -139,35 +140,35 @@ describe('RSTToDraftState', () => {
 	});
 
 	describe('Paragraphs', () => {
-		it('First Paragraph', () => {
+		test('First Paragraph', () => {
 			const block = blocks[2];
 
 			expect(block.type).toEqual('unstyled');
 			expect(block.text).toEqual('The first paragraph doesn\'t have any styling');
 		});
 
-		it('Second Paragraph', () => {
+		test('Second Paragraph', () => {
 			const block = blocks[3];
 
 			expect(block.type).toEqual('unstyled');
 			expect(block.text).toEqual('The second paragraph has bold, italic, interpreted, and literals.');
 		});
 
-		it('Third Paragraph', () => {
+		test('Third Paragraph', () => {
 			const block = blocks[4];
 
 			expect(block.type).toEqual('unstyled');
 			expect(block.text).toEqual('The third paragraph has roles emphasis, math, bolditalic.');
 		});
 
-		it('Named Links Paragraph', () => {
+		test('Named Links Paragraph', () => {
 			const block = blocks[7];
 
 			expect(block.type).toEqual('unstyled');
 			expect(block.text).toEqual('This paragraph has named links and even another one with Multiple Words');
 		});
 
-		it('Inline Links Paragraph', () => {
+		test('Inline Links Paragraph', () => {
 			const block = blocks[9];
 
 			expect(block.type).toEqual('unstyled');
@@ -176,7 +177,7 @@ describe('RSTToDraftState', () => {
 	});
 
 	describe('Bullets', () => {
-		it('List Item 1', () => {
+		test('List Item 1', () => {
 			const block = blocks[11];
 
 			expect(block.type).toEqual('unordered-list-item');
@@ -184,7 +185,7 @@ describe('RSTToDraftState', () => {
 			expect(block.text).toEqual('List Item 1 with italic');
 		});
 
-		it('Nested List Item', () => {
+		test('Nested List Item', () => {
 			const block = blocks[12];
 
 			expect(block.type).toEqual('unordered-list-item');
@@ -192,7 +193,7 @@ describe('RSTToDraftState', () => {
 			expect(block.text).toEqual('Nested List Item with bold');
 		});
 
-		it('Double Nested List Item', () => {
+		test('Double Nested List Item', () => {
 			const block = blocks[13];
 
 			expect(block.type).toEqual('unordered-list-item');
@@ -200,7 +201,7 @@ describe('RSTToDraftState', () => {
 			expect(block.text).toEqual('Double Nested List Item');
 		});
 
-		it('List Item 2', () => {
+		test('List Item 2', () => {
 			const block = blocks[14];
 
 			expect(block.type).toEqual('unordered-list-item');
@@ -210,7 +211,7 @@ describe('RSTToDraftState', () => {
 	});
 
 	describe('Ordered List Items', () => {
-		it('Numbered List Item 1', () => {
+		test('Numbered List Item 1', () => {
 			const block = blocks[16];
 
 			expect(block.type).toEqual('ordered-list-item');
@@ -219,7 +220,7 @@ describe('RSTToDraftState', () => {
 			expect(block.text).toEqual('Numbered List Item with italic');
 		});
 
-		it('Numbered Nested List Item', () => {
+		test('Numbered Nested List Item', () => {
 			const block = blocks[17];
 
 			expect(block.type).toEqual('ordered-list-item');
@@ -228,7 +229,7 @@ describe('RSTToDraftState', () => {
 			expect(block.text).toEqual('Numbered Nested List Item');
 		});
 
-		it('Numbered List Item 2', () => {
+		test('Numbered List Item 2', () => {
 			const block = blocks[18];
 
 			expect(block.type).toEqual('ordered-list-item');
@@ -237,7 +238,7 @@ describe('RSTToDraftState', () => {
 			expect(block.text).toEqual('Numbered List Item');
 		});
 
-		it('Alpha List Item 1', () => {
+		test('Alpha List Item 1', () => {
 			const block = blocks[19];
 
 			expect(block.type).toEqual('ordered-list-item');
@@ -246,7 +247,7 @@ describe('RSTToDraftState', () => {
 			expect(block.text).toEqual('Alpha List Item with bold');
 		});
 
-		it('Alpha Nested List Item', () => {
+		test('Alpha Nested List Item', () => {
 			const block = blocks[20];
 
 			expect(block.type).toEqual('ordered-list-item');
@@ -255,7 +256,7 @@ describe('RSTToDraftState', () => {
 			expect(block.text).toEqual('Alpha Nested List Item');
 		});
 
-		it('Alpha List Item 2', () => {
+		test('Alpha List Item 2', () => {
 			const block = blocks[21];
 
 			expect(block.type).toEqual('ordered-list-item');
@@ -264,7 +265,7 @@ describe('RSTToDraftState', () => {
 			expect(block.text).toEqual('Alpha List Item');
 		});
 
-		it('Roman Numeral List Item 1', () => {
+		test('Roman Numeral List Item 1', () => {
 			const block = blocks[22];
 
 			expect(block.type).toEqual('ordered-list-item');
@@ -273,7 +274,7 @@ describe('RSTToDraftState', () => {
 			expect(block.text).toEqual('Roman Numeral List Item with interpreted');
 		});
 
-		it('Roman Numeral Nested List Item', () => {
+		test('Roman Numeral Nested List Item', () => {
 			const block = blocks[23];
 
 			expect(block.type).toEqual('ordered-list-item');
@@ -282,7 +283,7 @@ describe('RSTToDraftState', () => {
 			expect(block.text).toEqual('Roman Numeral Nested List Item');
 		});
 
-		it('Roman Numeral List Item 2', () => {
+		test('Roman Numeral List Item 2', () => {
 			const block = blocks[24];
 
 			expect(block.type).toEqual('ordered-list-item');
@@ -293,7 +294,7 @@ describe('RSTToDraftState', () => {
 	});
 
 	describe('Inline Styles', () => {
-		it('Title', () => {
+		test('Title', () => {
 			const block = blocks[0];
 			const {inlineStyleRanges} = block;
 
@@ -308,7 +309,7 @@ describe('RSTToDraftState', () => {
 			expect(inlineStyleRanges[1].length).toEqual(3);
 		});
 
-		it('Second Paragraph', () => {
+		test('Second Paragraph', () => {
 			const block = blocks[3];
 			const {inlineStyleRanges} = block;
 
@@ -331,7 +332,7 @@ describe('RSTToDraftState', () => {
 			expect(inlineStyleRanges[3].length).toEqual(9);
 		});
 
-		it('Bullet list Item 1', () => {
+		test('Bullet list Item 1', () => {
 			const block = blocks[11];
 			const {inlineStyleRanges} = block;
 
@@ -342,7 +343,7 @@ describe('RSTToDraftState', () => {
 			expect(inlineStyleRanges[0].length).toEqual(6);
 		});
 
-		it('Nested Bullet List Item', () => {
+		test('Nested Bullet List Item', () => {
 			const block = blocks[12];
 			const {inlineStyleRanges} = block;
 
@@ -353,7 +354,7 @@ describe('RSTToDraftState', () => {
 			expect(inlineStyleRanges[0].length).toEqual(4);
 		});
 
-		it('Bullet list Item 2', () => {
+		test('Bullet list Item 2', () => {
 			const block = blocks[14];
 			const {inlineStyleRanges} = block;
 
@@ -364,7 +365,7 @@ describe('RSTToDraftState', () => {
 			expect(inlineStyleRanges[0].length).toEqual(7);
 		});
 
-		it('Ordered List Item 1', () => {
+		test('Ordered List Item 1', () => {
 			const block = blocks[16];
 			const {inlineStyleRanges} = block;
 
@@ -375,7 +376,7 @@ describe('RSTToDraftState', () => {
 			expect(inlineStyleRanges[0].length).toEqual(6);
 		});
 
-		it('Ordered List Item 3', () => {
+		test('Ordered List Item 3', () => {
 			const block = blocks[19];
 			const {inlineStyleRanges} = block;
 
@@ -386,7 +387,7 @@ describe('RSTToDraftState', () => {
 			expect(inlineStyleRanges[0].length).toEqual(4);
 		});
 
-		it('Ordered List Item 5', () => {
+		test('Ordered List Item 5', () => {
 			const block = blocks[22];
 			const {inlineStyleRanges} = block;
 
@@ -399,7 +400,7 @@ describe('RSTToDraftState', () => {
 	});
 
 	describe('Entity Ranges', () => {
-		it('Named Links', () => {
+		test('Named Links', () => {
 			const block = blocks[7];
 			const {entityRanges} = block;
 
@@ -414,7 +415,7 @@ describe('RSTToDraftState', () => {
 			expect(entityRanges[1].length).toEqual(23);
 		});
 
-		it('Inline Links', () => {
+		test('Inline Links', () => {
 			const block = blocks[9];
 			const {entityRanges} = block;
 

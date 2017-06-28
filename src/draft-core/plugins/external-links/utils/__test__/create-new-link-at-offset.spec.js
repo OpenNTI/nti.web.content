@@ -1,3 +1,4 @@
+/* eslint-env jest */
 import {convertToRaw, RichUtils, Entity, SelectionState} from 'draft-js';
 
 import {BLOCKS, ENTITIES, MUTABILITY} from '../../../../Constants';
@@ -6,7 +7,7 @@ import createNewLinkAtOffset from '../create-new-link-at-offset';
 import {getStateAndOffsetKeys, getOffsetKeys} from './utils';
 
 describe('create-new-link-at-offset', () => {
-	it('Creates one link if entity is in one block, and replaces text', () => {
+	test('Creates one link if entity is in one block, and replaces text', () => {
 		const {state, offsetKeys} = getStateAndOffsetKeys({
 			blocks: [
 				{
@@ -41,7 +42,7 @@ describe('create-new-link-at-offset', () => {
 		expect(newRaw.entityMap[key].data.href).toEqual('http://www.google.com');
 	});
 
-	it('Creates a link per block', () => {
+	test('Creates a link per block', () => {
 		const {state, blockKeys} = getStateAndOffsetKeys({
 			blocks: [
 				{

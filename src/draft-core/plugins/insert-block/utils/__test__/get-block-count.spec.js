@@ -1,3 +1,4 @@
+/* eslint-env jest */
 import {EditorState, convertFromRaw} from 'draft-js';
 
 
@@ -43,38 +44,38 @@ function getCount (blocks, group) {
 
 describe('getBlockCount', () => {
 	describe('non-grouped', () => {
-		it('no blocks', () => {
+		test('no blocks', () => {
 			const blocks = [createNonTarget(), createNonTarget(), createNonTarget()];
 
 			expect(getCount(blocks)).toEqual(0);
 		});
 
-		it('target block at the start', () => {
+		test('target block at the start', () => {
 			const blocks = [createTarget(), createNonTarget(), createNonTarget()];
 
 			expect(getCount(blocks)).toEqual(1);
 		});
 
-		it('target block at the end', () => {
+		test('target block at the end', () => {
 			const blocks = [createNonTarget(), createNonTarget(), createTarget()];
 
 			expect(getCount(blocks)).toEqual(1);
 		});
 
-		it('target block in the middle', () => {
+		test('target block in the middle', () => {
 			const blocks = [createNonTarget(), createTarget(), createNonTarget()];
 
 			expect(getCount(blocks)).toEqual(1);
 		});
 
-		it('Multiple target blocks', () => {
+		test('Multiple target blocks', () => {
 			const blocks = [createTarget(), createNonTarget(), createTarget()];
 
 			expect(getCount(blocks)).toEqual(2);
 		});
 
 
-		it('All target blocks', () => {
+		test('All target blocks', () => {
 			const blocks = [createTarget(), createTarget(), createTarget()];
 
 			expect(getCount(blocks)).toEqual(3);
@@ -82,31 +83,31 @@ describe('getBlockCount', () => {
 	});
 
 	describe('grouped', () => {
-		it('no blocks', () => {
+		test('no blocks', () => {
 			const blocks = [createNonTarget(), createNonTarget(), createNonTarget(), createNonTarget(), createNonTarget()];
 
 			expect(getCount(blocks, true)).toEqual(0);
 		});
 
-		it('groups length one', () => {
+		test('groups length one', () => {
 			const blocks = [createTarget(), createNonTarget(), createTarget(), createNonTarget(), createTarget()];
 
 			expect(getCount(blocks, true)).toEqual(3);
 		});
 
-		it('groups length two', () => {
+		test('groups length two', () => {
 			const blocks = [createTarget(), createTarget(), createNonTarget(), createTarget(), createTarget()];
 
 			expect(getCount(blocks, true)).toEqual(2);
 		});
 
-		it('groups of mixed length', () => {
+		test('groups of mixed length', () => {
 			const blocks = [createTarget(), createTarget(), createTarget(), createNonTarget(), createTarget()];
 
 			expect(getCount(blocks, true)).toEqual(2);
 		});
 
-		it('all target blocks', () => {
+		test('all target blocks', () => {
 			const blocks = [createTarget(), createTarget(), createTarget(), createTarget(), createTarget()];
 
 			expect(getCount(blocks, true)).toEqual(1);

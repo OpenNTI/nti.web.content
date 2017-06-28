@@ -44,8 +44,8 @@ export default class ExternalLink extends React.Component {
 
 	getBoundingClientRect () {
 		return this.anchorRef && this.anchorRef.getBoundingClientRect ?
-				this.anchorRef.getBoundingClientRect() :
-				{top: 0, left: 0, right: 0, bottom: 0, width: 0, height: 0};
+			this.anchorRef.getBoundingClientRect() :
+			{top: 0, left: 0, right: 0, bottom: 0, width: 0, height: 0};
 	}
 
 

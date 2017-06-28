@@ -1,3 +1,4 @@
+/* eslint-env jest */
 import {BLOCK_TYPE} from 'draft-js-utils';
 
 import Header, {LEVEL_TO_TYPE} from '../Header';
@@ -7,7 +8,7 @@ import {getInterface} from '../../../Parser';
 
 describe('Header', () => {
 	describe('isValidOverlined', () => {
-		it('No currentBlock, and a valid underline', () => {
+		test('No currentBlock, and a valid underline', () => {
 			const input = [
 				'===',
 				'asd',
@@ -19,7 +20,7 @@ describe('Header', () => {
 			expect(Header.isValidOverlined(inputInterface, {}, parsedInterface)).toBeTruthy();
 		});
 
-		it('No currentBlock, and underline is too short', () => {
+		test('No currentBlock, and underline is too short', () => {
 			const input = [
 				'===',
 				'asd',
@@ -31,7 +32,7 @@ describe('Header', () => {
 			expect(Header.isValidOverlined(inputInterface, {}, parsedInterface)).toBeFalsy();
 		});
 
-		it('Non-paragraph currentBlock, and the the overline is too short for the text', () => {
+		test('Non-paragraph currentBlock, and the the overline is too short for the text', () => {
 			const input = [
 				'==',
 				'asd',
@@ -43,7 +44,7 @@ describe('Header', () => {
 			expect(Header.isValidOverlined(inputInterface, {}, parsedInterface)).toBeFalsy();
 		});
 
-		it('No currentBlock, and the text is indented with overline and underline 1 character longer', () => {
+		test('No currentBlock, and the text is indented with overline and underline 1 character longer', () => {
 			const input = [
 				'=====',
 				' asd',
@@ -55,7 +56,7 @@ describe('Header', () => {
 			expect(Header.isValidOverlined(inputInterface, {}, parsedInterface)).toBeTruthy();
 		});
 
-		it('No currentBlock, and the text is indented with overline and underline the same length', () => {
+		test('No currentBlock, and the text is indented with overline and underline the same length', () => {
 			const input = [
 				'=====',
 				' asd ' ,
@@ -70,7 +71,7 @@ describe('Header', () => {
 
 
 	describe('isValidUnderline', () => {
-		it('One line paragraph, no open header, right length is true', () => {
+		test('One line paragraph, no open header, right length is true', () => {
 			const input = [
 				'asd',
 				'==='
@@ -81,7 +82,7 @@ describe('Header', () => {
 			expect(Header.isValidUnderlined(inputInterface, {}, parsedInterface)).toBeTruthy();
 		});
 
-		it('Current header with the incorrect char is false', () => {
+		test('Current header with the incorrect char is false', () => {
 			const input = [
 				'asd',
 				'==='
@@ -92,7 +93,7 @@ describe('Header', () => {
 			expect(Header.isValidUnderlined(inputInterface, {openHeader: {char: '+', length: 3}}, parsedInterface)).toBeFalsy();
 		});
 
-		it('Current header with incorrect length', () => {
+		test('Current header with incorrect length', () => {
 			const input = [
 				'asd',
 				'==='
@@ -103,7 +104,7 @@ describe('Header', () => {
 			expect(Header.isValidUnderlined(inputInterface, {openHeader: {char: '=', length: 4}}, parsedInterface)).toBeFalsy();
 		});
 
-		it('Current header is a match, but text length isn\'t is true', () => {
+		test('Current header is a match, but text length isn\'t is true', () => {
 			const input = [
 				' asd',
 				'====='
@@ -116,7 +117,7 @@ describe('Header', () => {
 	});
 
 	describe('isValidHeader', () => {
-		it('Matches Headers', () => {
+		test('Matches Headers', () => {
 			const chars = ['=', '-', '`', ':', '.', '\'', '"', '~', '^', '_', '*', '+', '#'];
 
 			for (let char of chars) {
@@ -127,7 +128,7 @@ describe('Header', () => {
 			}
 		});
 
-		it('Does not match non headers', () => {
+		test('Does not match non headers', () => {
 			const rst = 'paragraph';
 			const inputInterface = getInterface(0, [rst]);
 
@@ -136,7 +137,7 @@ describe('Header', () => {
 	});
 
 	describe('parse', () => {
-		it('Seeing the same header more than once keeps the same level', () => {
+		test('Seeing the same header more than once keeps the same level', () => {
 			const rst = '===';
 			const inputInterface = getInterface(0, [rst]);
 			const parsedInterface = getInterface(0, []);
@@ -149,7 +150,7 @@ describe('Header', () => {
 			expect(newContext.headerLevels.charToLevel['=']).toEqual(1);
 		});
 
-		it('Increases depth with new characters until it reaches 6', () => {
+		test('Increases depth with new characters until it reaches 6', () => {
 			const chars = ['=', '-', ':', '.', '^', '_', '*', '+', '#'];
 			let context = {};
 
@@ -175,7 +176,7 @@ describe('Header', () => {
 			expect(context.headerLevels.charToLevel['#']).toEqual(6);
 		});
 
-		it('No currentBlock just marks a header open, does not return a block', () => {
+		test('No currentBlock just marks a header open, does not return a block', () => {
 			const rst = '===';
 			const inputInterface = getInterface(0, [rst]);
 			const parsedInterface = getInterface(0, []);
@@ -185,7 +186,7 @@ describe('Header', () => {
 			expect(context.openHeader).toBeTruthy();
 		});
 
-		it('When currentBlock is a paragraph, it gets consumed, and a header block is returned', () => {
+		test('When currentBlock is a paragraph, it gets consumed, and a header block is returned', () => {
 			const rst = '===';
 			const paragraph = new Paragraph('paragraph', '', {});
 			const inputInterface = getInterface(0, [rst]);
@@ -199,7 +200,7 @@ describe('Header', () => {
 	});
 
 	describe('Instance Tests', () => {
-		it('Returns the correct type for the level without starting HeaderLevel', () => {
+		test('Returns the correct type for the level without starting HeaderLevel', () => {
 			const textBlock = new Paragraph('paragraph', '', {text: new Text('paragraph')});
 
 			for (let i = 0; i <= 6; i++) {
@@ -210,7 +211,7 @@ describe('Header', () => {
 			}
 		});
 
-		it('Returns the correct type for level with startingHeaderLevel', () => {
+		test('Returns the correct type for level with startingHeaderLevel', () => {
 			const textBlock = new Paragraph('paragraph', '', {text: new Text('paragraph')});
 			const expectedType = {
 				1: BLOCK_TYPE.HEADER_THREE,
@@ -231,7 +232,7 @@ describe('Header', () => {
 
 
 
-		it('Returns the correct text', () => {
+		test('Returns the correct text', () => {
 			const text = 'paragraph';
 			const textBlock = new Paragraph(text, '', {text: new Text(text)});
 			const block = new Header('+++', '', {level: 1, char: '+', textBlock});

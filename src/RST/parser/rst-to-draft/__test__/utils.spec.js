@@ -1,9 +1,10 @@
+/* eslint-env jest */
 import {getIndention, normalizeEntityName} from '../utils';
 
 describe('RST Parser Utils', () => {
 	describe('getIndention tests', () => {
 		describe('No block indicator', () => {
-			it('Tabs Only, no extra space', () => {
+			test('Tabs Only, no extra space', () => {
 				const test = '			block with blockOffset';
 				const indention = getIndention(test);
 
@@ -11,7 +12,7 @@ describe('RST Parser Utils', () => {
 				expect(indention.lineOffset).toEqual(3);
 			});
 
-			it('Spaces only, no extra space', () => {
+			test('Spaces only, no extra space', () => {
 				const test = '      block with blockOffset';
 				const indention = getIndention(test);
 
@@ -19,7 +20,7 @@ describe('RST Parser Utils', () => {
 				expect(indention.lineOffset).toEqual(6);
 			});
 
-			it('Mixed tabs and spaces, no extra space', () => {
+			test('Mixed tabs and spaces, no extra space', () => {
 				const test = '	  	block with blockOffset';
 				const indention = getIndention(test);
 
@@ -27,7 +28,7 @@ describe('RST Parser Utils', () => {
 				expect(indention.lineOffset).toEqual(4);
 			});
 
-			it('Tabs Only, with extra space', () => {
+			test('Tabs Only, with extra space', () => {
 				const test = '			 block with blockOffset';
 				const indention = getIndention(test);
 
@@ -35,7 +36,7 @@ describe('RST Parser Utils', () => {
 				expect(indention.lineOffset).toEqual(4);
 			});
 
-			it('Spaces only, with extra space', () => {
+			test('Spaces only, with extra space', () => {
 				const test = '       block with blockOffset';
 				const indention = getIndention(test);
 
@@ -43,7 +44,7 @@ describe('RST Parser Utils', () => {
 				expect(indention.lineOffset).toEqual(7);
 			});
 
-			it('Mixed tabs and spaces, with extra space', () => {
+			test('Mixed tabs and spaces, with extra space', () => {
 				const test = '	  	 block with blockOffset';
 				const indention = getIndention(test);
 
@@ -53,7 +54,7 @@ describe('RST Parser Utils', () => {
 		});
 
 		describe('With block indicator', () => {
-			it('Tabs Only, no extra space', () => {
+			test('Tabs Only, no extra space', () => {
 				const test = '			aablock with blockOffset';
 				const indention = getIndention(test, 'aa');
 
@@ -61,7 +62,7 @@ describe('RST Parser Utils', () => {
 				expect(indention.lineOffset).toEqual(5);
 			});
 
-			it('Spaces only, no extra space', () => {
+			test('Spaces only, no extra space', () => {
 				const test = '      aablock with blockOffset';
 				const indention = getIndention(test, 'aa');
 
@@ -69,7 +70,7 @@ describe('RST Parser Utils', () => {
 				expect(indention.lineOffset).toEqual(8);
 			});
 
-			it('Mixed tabs and spaces, no extra space', () => {
+			test('Mixed tabs and spaces, no extra space', () => {
 				const test = '	  	aablock with blockOffset';
 				const indention = getIndention(test, 'aa');
 
@@ -77,7 +78,7 @@ describe('RST Parser Utils', () => {
 				expect(indention.lineOffset).toEqual(6);
 			});
 
-			it('Tabs Only, with extra space', () => {
+			test('Tabs Only, with extra space', () => {
 				const test = '			aa block with blockOffset';
 				const indention = getIndention(test, 'aa');
 
@@ -85,7 +86,7 @@ describe('RST Parser Utils', () => {
 				expect(indention.lineOffset).toEqual(6);
 			});
 
-			it('Spaces only, with extra space', () => {
+			test('Spaces only, with extra space', () => {
 				const test = '      aa block with blockOffset';
 				const indention = getIndention(test, 'aa');
 
@@ -93,7 +94,7 @@ describe('RST Parser Utils', () => {
 				expect(indention.lineOffset).toEqual(9);
 			});
 
-			it('Mixed tabs and spaces, with extra space', () => {
+			test('Mixed tabs and spaces, with extra space', () => {
 				const test = '	  	aa block with blockOffset';
 				const indention = getIndention(test, 'aa');
 
@@ -104,21 +105,21 @@ describe('RST Parser Utils', () => {
 	});
 
 	describe('normalizeEntityName tests', () => {
-		it('normalizes whitespace', () => {
+		test('normalizes whitespace', () => {
 			const base = '		two tabs';
 			const normalized = normalizeEntityName(base);
 
 			expect(normalized).toEqual('  two tabs');
 		});
 
-		it('normalizes case', () => {
+		test('normalizes case', () => {
 			const base = 'UpPeR AnD LoWeR CaSe';
 			const normalized = normalizeEntityName(base);
 
 			expect(normalized).toEqual('upper and lower case');
 		});
 
-		it('normalizes both', () => {
+		test('normalizes both', () => {
 			const base = '	UPPER and lower case';
 			const normalized = normalizeEntityName(base);
 

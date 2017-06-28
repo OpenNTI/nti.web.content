@@ -1,10 +1,11 @@
+/* eslint-env jest */
 import isEntityAtOffsetinSingleBlock from '../is-entity-at-offset-in-single-block';
 import {BLOCKS, ENTITIES, MUTABILITY} from '../../../../Constants';
 
 import {getStateAndOffsetKeys} from './utils';
 
 describe('is-entity-at-offset-in-single-block', () => {
-	it('True is entity is in single block', () => {
+	test('True is entity is in single block', () => {
 		const {state, offsetKeys} = getStateAndOffsetKeys({
 			blocks: [
 				{
@@ -30,7 +31,7 @@ describe('is-entity-at-offset-in-single-block', () => {
 	});
 
 	//TODO: figure out how to test this, draft is creating a new entity for the second block
-	// it('True is entity is in single block', () => {
+	// test('True is entity is in single block', () => {
 	// 	const {state, offsetKeys} = getStateAndOffsetKeys({
 	// 		blocks: [
 	// 			{

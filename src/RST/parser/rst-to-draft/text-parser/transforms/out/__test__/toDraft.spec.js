@@ -1,3 +1,4 @@
+/* eslint-env jest */
 import toDraft from '../ToDraft';
 
 function createBlock (text, styles = [], range = [], map = {}) {
@@ -24,7 +25,7 @@ const FAKE_BLOCKS = [
 ];
 
 describe('text-parser toDraft', () => {
-	it('Output is what is expected', () => {
+	test('Output is what is expected', () => {
 		const {text, inlineStyleRanges, entityRanges, entityMap} = toDraft({blocks:FAKE_BLOCKS, context: {}});
 
 		expect(text).toEqual('block 1 block 2 block 3 block 4');

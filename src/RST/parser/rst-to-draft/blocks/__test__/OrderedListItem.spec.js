@@ -1,3 +1,4 @@
+/* eslint-env jest */
 import OrderedListItem from '../OrderedListItem';
 import Paragraph from '../Paragraph';
 import Text from '../Text';
@@ -5,7 +6,7 @@ import {getInterface} from '../../../Parser';
 
 describe('OrderedListItem', () => {
 	describe('isNextBlock', () => {
-		it('Matches Roman Numerals', () => {
+		test('Matches Roman Numerals', () => {
 			const tests = [
 				'(IV) Ordered List Item',
 				'XII. Ordered List Item',
@@ -19,7 +20,7 @@ describe('OrderedListItem', () => {
 			}
 		});
 
-		it('Matches Alpha Numeric', () => {
+		test('Matches Alpha Numeric', () => {
 			const tests = [
 				'(B) Ordered List Item',
 				'Z. Ordered List Item',
@@ -33,7 +34,7 @@ describe('OrderedListItem', () => {
 			}
 		});
 
-		it('Matches Numeric', () => {
+		test('Matches Numeric', () => {
 			const tests = [
 				'(2) Ordered List Item',
 				'11. Ordered List Item',
@@ -47,7 +48,7 @@ describe('OrderedListItem', () => {
 			}
 		});
 
-		it('Matches Auto Numbered', () => {
+		test('Matches Auto Numbered', () => {
 			const tests = [
 				'(#) Ordered List Item',
 				'#. Ordered List Item',
@@ -61,7 +62,7 @@ describe('OrderedListItem', () => {
 			}
 		});
 
-		it('Does not match non ordered list item', () => {
+		test('Does not match non ordered list item', () => {
 			const tests = [
 				'A paragraph',
 				'MCX paragraph',
@@ -81,7 +82,7 @@ describe('OrderedListItem', () => {
 
 
 	describe('parse', () => {
-		it('Parses text', () => {
+		test('Parses text', () => {
 			const rst = '1. Ordered List Item';
 			const inputInterface = getInterface(0, [rst]);
 			const {block} = OrderedListItem.parse(inputInterface);
@@ -89,7 +90,7 @@ describe('OrderedListItem', () => {
 			expect(block.text.text).toEqual('Ordered List Item');
 		});
 
-		it('Parses Roman Numeral Link Style', () => {
+		test('Parses Roman Numeral Link Style', () => {
 			const rst = '(ii) Ordered List Item';
 			const inputInterface = getInterface(0, [rst]);
 			const {block} = OrderedListItem.parse(inputInterface);
@@ -97,7 +98,7 @@ describe('OrderedListItem', () => {
 			expect(block.listStyle).toEqual('roman-numeral');
 		});
 
-		it('Parses Alpha Numeric Link Style', () => {
+		test('Parses Alpha Numeric Link Style', () => {
 			const rst = 'a.) Ordered List Item';
 			const inputInterface = getInterface(0, [rst]);
 			const {block} = OrderedListItem.parse(inputInterface);
@@ -105,7 +106,7 @@ describe('OrderedListItem', () => {
 			expect(block.listStyle).toEqual('alpha-numeric');
 		});
 
-		it('Parses Numeric Link Style', () => {
+		test('Parses Numeric Link Style', () => {
 			const rst = '(1) Ordered List Item';
 			const inputInterface = getInterface(0, [rst]);
 			const {block} = OrderedListItem.parse(inputInterface);
@@ -113,7 +114,7 @@ describe('OrderedListItem', () => {
 			expect(block.listStyle).toEqual('numeric');
 		});
 
-		it('Parses Auto Numbered Link Style', () => {
+		test('Parses Auto Numbered Link Style', () => {
 			const rst = '#) Ordered List Item';
 			const inputInterface = getInterface(0, [rst]);
 			const {block} = OrderedListItem.parse(inputInterface);
@@ -124,7 +125,7 @@ describe('OrderedListItem', () => {
 
 
 	describe('Instance Tests', () => {
-		it('Should append paragraphs that are the same offset', () => {
+		test('Should append paragraphs that are the same offset', () => {
 			const orderedListItem = new OrderedListItem('1. Ordered List Item', '1.');
 			const paragraph = new Paragraph('   Paragraph', '', {text: new Text('Paragraph')});
 
@@ -132,14 +133,14 @@ describe('OrderedListItem', () => {
 		});
 
 
-		it('Does not append paragraphs that are not the same offset', () => {
+		test('Does not append paragraphs that are not the same offset', () => {
 			const orderedListItem = new OrderedListItem('1. Ordered List Item', '1');
 			const paragraph = new Paragraph('Paragraph', '', {text: new Text('Paragraph')});
 
 			expect(orderedListItem.shouldAppendBlock(paragraph)).toBeFalsy();
 		});
 
-		it('Appending text adds it to the previous line', () => {
+		test('Appending text adds it to the previous line', () => {
 			const orderedListItem = new OrderedListItem('1. Ordered', '1', {text: new Text('Ordered')});
 			const paragraph = new Paragraph('  List Item', '', {text: new Text('List Item')});
 

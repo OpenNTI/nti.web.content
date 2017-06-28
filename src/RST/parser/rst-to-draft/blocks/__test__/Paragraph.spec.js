@@ -1,10 +1,11 @@
+/* eslint-env jest */
 import {BLOCK_TYPE} from 'draft-js-utils';
 
 import Paragraph from '../Paragraph';
 import {getInterface} from '../../../Parser';
 
 describe('Paragraph', () => {
-	it('isNextBlock matches everything', () => {
+	test('isNextBlock matches everything', () => {
 		const tests = [
 			'paragraph',
 			'  paragraph',
@@ -18,7 +19,7 @@ describe('Paragraph', () => {
 		}
 	});
 
-	it('parses ignore leading spaces (that just makes it a block quote)', () => {
+	test('parses ignore leading spaces (that just makes it a block quote)', () => {
 		const text = ' paragraph';
 		const inputInterface = getInterface(0, [text]);
 		const {block} = Paragraph.parse(inputInterface);
@@ -27,7 +28,7 @@ describe('Paragraph', () => {
 	});
 
 	describe('Instance', () => {
-		it('Indented paragraphs are output as block quotes', () => {
+		test('Indented paragraphs are output as block quotes', () => {
 			const text = '  paragraph';
 			const inputInterface = getInterface(0, [text]);
 			const {block} = Paragraph.parse(inputInterface);

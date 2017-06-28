@@ -1,7 +1,8 @@
+/* eslint-env jest */
 import split from '../Split';
 
 describe('text-parser Split', () => {
-	it('Splits input as expected', () => {
+	test('Splits input as expected', () => {
 		const {input} = split({input: 'split', context: {}});
 
 		expect(input.length).toEqual(5);

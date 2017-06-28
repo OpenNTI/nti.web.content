@@ -20,11 +20,11 @@ const endsInWhitespace = /\s$/;
 const notWhitespaceChar = /\S/;
 const doesNotEndInWhitespace = /\S$/;
 
-const open = /['"\<\(\[\{]/;
-const close = /['"\)\]\}\>]/;
+const open = /['"<([{]/;
+const close = /['")]}>]/;
 
-const validPrecedingRange = /[-:\/'"\<\(\[\{]/; // One of  - : / ' " < ( [ {
-const validFollowingRange = /[\-\.,\:;\!\?\\\/'"\)\]\}\>]/; //One of - . , : ; ! ? \ / ' " ) ] } >
+const validPrecedingRange = /[-:/'"<([{]/; // One of  - : / ' " < ( [ {
+const validFollowingRange = /[-.,:;!?\\/'")]}>]/; //One of - . , : ; ! ? \ / ' " ) ] } >
 
 export default {
 	isWhitespaceChar (char) {

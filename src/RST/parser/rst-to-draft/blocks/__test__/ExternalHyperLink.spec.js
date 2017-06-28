@@ -1,17 +1,18 @@
+/* eslint-env jest */
 import ExternalHyperLink from '../ExternalHyperLink';
 import {normalizeEntityName} from '../../utils';
 import {getInterface} from '../../../Parser';
 
 describe('External HyperLink', () => {
 	describe('isNextBlock', () => {
-		it('Matches ExternalHyperLink', () => {
+		test('Matches ExternalHyperLink', () => {
 			const rst = '.. _link name: http://www.google.com';
 			const inputInterface = getInterface(0, [rst]);
 
 			expect(ExternalHyperLink.isNextBlock(inputInterface)).toBeTruthy();
 		});
 
-		it('Does not match non ExternalHyperLinks', () => {
+		test('Does not match non ExternalHyperLinks', () => {
 			const rst = 'this is a paragraph';
 			const inputInterface = getInterface(0, [rst]);
 
@@ -20,7 +21,7 @@ describe('External HyperLink', () => {
 	});
 
 	describe('parsing', () => {
-		it('Parses name', () => {
+		test('Parses name', () => {
 			const name = 'external link';
 			const rst = `.. _${name}: http://www.google.com`;
 			const inputInterface = getInterface(0, [rst]);
@@ -29,7 +30,7 @@ describe('External HyperLink', () => {
 			expect(block.name).toEqual(name);
 		});
 
-		it('Parses target with space', () => {
+		test('Parses target with space', () => {
 			const link = 'http://www.google.com';
 			const rst = `.. _external link: ${link}`;
 			const inputInterface = getInterface(0, [rst]);
@@ -38,7 +39,7 @@ describe('External HyperLink', () => {
 			expect(block.target).toEqual(link);
 		});
 
-		it('Parses target without space', () => {
+		test('Parses target without space', () => {
 			const link = 'http://www.google.com';
 			const rst = `.. _external link:${link}`;
 			const inputInterface = getInterface(0, [rst]);
@@ -61,7 +62,7 @@ describe('External HyperLink', () => {
 			link = block;
 		});
 
-		it('Adds correct link to the entity map', () => {
+		test('Adds correct link to the entity map', () => {
 			const context = {};
 
 			link.getOutput(context);

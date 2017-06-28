@@ -1,3 +1,4 @@
+/* eslint-env jest */
 import {convertToRaw} from 'draft-js';
 
 import {BLOCKS, ENTITIES, MUTABILITY} from '../../../../Constants';
@@ -7,7 +8,7 @@ import {getStateAndOffsetKeys} from './utils';
 
 
 describe('removeEntityKeyAtOffset', () => {
-	it('Removes Only Instance of Entity', () => {
+	test('Removes Only Instance of Entity', () => {
 		const {state, offsetKeys} = getStateAndOffsetKeys({
 			blocks: [
 				{

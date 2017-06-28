@@ -1,3 +1,4 @@
+/* eslint-env jest */
 import {INLINE_STYLE} from 'draft-js-utils';
 
 import Literal from '../Literal';
@@ -6,7 +7,7 @@ import {getInterface} from '../../../../Parser';
 
 describe('Literal', () => {
 	describe('isNextBlock', () => {
-		it('matchOpen is true for ``', () => {
+		test('matchOpen is true for ``', () => {
 			const test = ['`', '`', 'l', 'i', 't', 'e', 'r', 'a', 'l'];
 			const inputInterface = getInterface(0, test);
 			const {matches, nextChar} = Literal.matchOpen(inputInterface);
@@ -15,7 +16,7 @@ describe('Literal', () => {
 			expect(nextChar).toEqual('l');
 		});
 
-		it('matchOpen is false for `', () => {
+		test('matchOpen is false for `', () => {
 			const test = ['`', 'i', 'n', 't', 'e', 'r', 'p', 'r', 'e', 't', 'e', 'd'];
 			const inputInterface = getInterface(0, test);
 			const {matches} = Literal.matchOpen(inputInterface);
@@ -23,7 +24,7 @@ describe('Literal', () => {
 			expect(matches).toBeFalsy();
 		});
 
-		it('matchClose is true for ``', () => {
+		test('matchClose is true for ``', () => {
 			const test = ['`', '`', 'a'];
 			const inputInterface = getInterface(0, test);
 			const {matches, nextChar} = Literal.matchClose(inputInterface);
@@ -32,7 +33,7 @@ describe('Literal', () => {
 			expect(nextChar).toEqual('a');
 		});
 
-		it('matchClose is false for `', () => {
+		test('matchClose is false for `', () => {
 			const test = ['`', 'a'];
 			const inputInterface = getInterface(0, test);
 			const {matches} = Literal.matchClose(inputInterface);
@@ -43,7 +44,7 @@ describe('Literal', () => {
 
 
 	describe('getRanges', () => {
-		it('getRanges returns the proper range', () => {
+		test('getRanges returns the proper range', () => {
 			const block = new Literal();
 
 			block.appendBlock(new Plaintext('l'));

@@ -13,11 +13,11 @@ export function getCurrentLink (editorState) {
 		return entityKey !== null && Entity.get(entityKey).getType() === ENTITY_TYPE.LINK;
 	}, (start, end) => {
 		if (
-				currentBlock.getKey() === selection.getAnchorKey() &&
+			currentBlock.getKey() === selection.getAnchorKey() &&
 				selection.getAnchorKey() === selection.getFocusKey() &&
 				selection.getAnchorOffset() >= start &&
 				selection.getFocusOffset() <= end
-			) {
+		) {
 			currentLink = currentBlock.getEntityAt(start);
 		}
 	});

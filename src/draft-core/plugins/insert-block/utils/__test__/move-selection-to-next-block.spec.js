@@ -1,3 +1,4 @@
+/* eslint-env jest */
 import {EditorState, SelectionState, convertFromRaw} from 'draft-js';
 
 import {BLOCKS} from '../../../../Constants';
@@ -8,7 +9,7 @@ function createEditorState (raw) {
 }
 
 describe('moveSelectionToNextBlock for inserting a block', () => {
-	it('Moves selection to next block', () => {
+	test('Moves selection to next block', () => {
 		const currKey = 'curr';
 		const nextKey = 'next';
 		const protoBlock = {key: currKey, type: BLOCKS.UNSTYLED, depth: 0, text: 'asdf', inlineStyleRanges: [], entityRanges: []};

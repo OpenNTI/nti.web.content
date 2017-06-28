@@ -5,15 +5,15 @@ export default function getBlocksInSelection (content, selection) {
 	let ended = false;
 
 	return content.getBlockMap()
-			.skipUntil(block => block.getKey() === startKey)
-			.takeUntil(block => {
-				const result = ended;
+		.skipUntil(block => block.getKey() === startKey)
+		.takeUntil(block => {
+			const result = ended;
 
-				if (block.getKey() === endKey) {
-					ended = true;
-				}
+			if (block.getKey() === endKey) {
+				ended = true;
+			}
 
-				return result;
-			})
-			.toArray();
+			return result;
+		})
+		.toArray();
 }

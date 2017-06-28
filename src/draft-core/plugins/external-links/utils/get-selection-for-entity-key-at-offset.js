@@ -58,8 +58,8 @@ function getEndOfSelection (range, block, entityKey, content) {
 function getInfoForOffsetKey (offsetKey, editorState) {
 	const {blockKey, decoratorKey, leafKey} = DraftOffsetKey.decode(offsetKey);
 	const {start, end} = editorState
-							.getBlockTree(blockKey)
-							.getIn([decoratorKey, 'leaves', leafKey]);
+		.getBlockTree(blockKey)
+		.getIn([decoratorKey, 'leaves', leafKey]);
 
 	return {
 		blockKey,

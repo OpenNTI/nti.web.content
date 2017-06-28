@@ -9,21 +9,21 @@ export default function getSelectedText (editorState) {
 	const endKey = selection.getEndKey();
 
 	return getBlocksInSelection(editorState.getCurrentContent(), selection)
-			.map(block => {
-				const key = block.getKey();
-				const text = block.getText();
+		.map(block => {
+			const key = block.getKey();
+			const text = block.getText();
 
-				let start = 0;
-				let end = text.length;
+			let start = 0;
+			let end = text.length;
 
-				if (key === startKey) {
-					start = selection.getStartOffset();
-				}
+			if (key === startKey) {
+				start = selection.getStartOffset();
+			}
 
-				if (key === endKey) {
-					end = selection.getEndOffset();
-				}
+			if (key === endKey) {
+				end = selection.getEndOffset();
+			}
 
-				return text.slice(start, end);
-			});
+			return text.slice(start, end);
+		});
 }

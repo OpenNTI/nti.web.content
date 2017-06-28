@@ -1,3 +1,4 @@
+/* eslint-env jest */
 import Directive from '../Directive';
 import Paragraph from '../Paragraph';
 import Empty from '../Empty';
@@ -7,14 +8,14 @@ import {getInterface} from '../../../Parser';
 
 describe('Generic Directive', () => {
 	describe('isNextBlock', () => {
-		it('Matches on a directive', () => {
+		test('Matches on a directive', () => {
 			const rst = '.. directive:: argument1 argument 2';
 			const inputInterface = getInterface(0, [rst]);
 
 			expect(Directive.isNextBlock(inputInterface, {})).toBeTruthy();
 		});
 
-		it('Does not match on non directives', () => {
+		test('Does not match on non directives', () => {
 			const rst = '- bullet list item';
 			const inputInterface = getInterface(0, [rst]);
 
@@ -23,7 +24,7 @@ describe('Generic Directive', () => {
 	});
 
 	describe('parsing', () => {
-		it('Parses name', () => {
+		test('Parses name', () => {
 			const name = 'directive';
 			const rst = `.. ${name}:: argument1 argument 2`;
 			const inputInterface = getInterface(0, [rst]);
@@ -32,7 +33,7 @@ describe('Generic Directive', () => {
 			expect(block.name).toEqual(name);
 		});
 
-		it('Parses arguments', () => {
+		test('Parses arguments', () => {
 			const args = 'argument1 argument2';
 			const rst = `.. directive:: ${args}`;
 			const inputInterface = getInterface(0, [rst]);
@@ -56,19 +57,19 @@ describe('Generic Directive', () => {
 
 		describe('shouldAppendBlock', () => {
 
-			it('Should append deeper blocks', () => {
+			test('Should append deeper blocks', () => {
 				const paragraph = new Paragraph('  indented paragraph', '', {text: 'indented paragraph'});
 
 				expect(directive.shouldAppendBlock(paragraph)).toBeTruthy();
 			});
 
-			it('Should append empty blocks', () => {
+			test('Should append empty blocks', () => {
 				const empty = new Empty();
 
 				expect(directive.shouldAppendBlock(empty)).toBeTruthy();
 			});
 
-			it('Should not append blocks that are the same depth', () => {
+			test('Should not append blocks that are the same depth', () => {
 				const paragraph = new Paragraph('not indented paragraph', '', {text: 'indented paragraph'});
 
 				expect(directive.shouldAppendBlock(paragraph)).toBeFalsy();
@@ -76,7 +77,7 @@ describe('Generic Directive', () => {
 		});
 
 		describe('appendBlock', () => {
-			it('Field Lists are added to the options', () => {
+			test('Field Lists are added to the options', () => {
 				const name = 'name';
 				const value = 'value';
 				const fieldList = new FieldList('  :name: value', '', {name, value});
@@ -86,7 +87,7 @@ describe('Generic Directive', () => {
 				expect(directive.options[name]).toEqual(value);
 			});
 
-			it('Non empty blocks are appended to the body', () => {
+			test('Non empty blocks are appended to the body', () => {
 				const first = new Paragraph('  paragraph 1', '', {test: 'paragraph 1'});
 				const second = new Paragraph('  paragraph 2', '', {test: 'paragraph 2'});
 

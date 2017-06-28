@@ -24,8 +24,8 @@ export default class Range {
 		const maybeClosing = context.openRange === this.rangeName;
 
 		const  {matches, nextChar, prevChar} = maybeOpening ?
-										this.matchOpen(inputInterface, context, parsedInterface) :
-										this.matchClose(inputInterface, context, parsedInterface);
+			this.matchOpen(inputInterface, context, parsedInterface) :
+			this.matchClose(inputInterface, context, parsedInterface);
 
 		const prevInput = prevChar || inputInterface.get(-1);
 		const nextInput = nextChar || inputInterface.get(this.openChars.length);

@@ -1,10 +1,12 @@
+/* globals spyOn */
+/* eslint-env jest */
 import Role from '../Role';
 import Plaintext from '../Plaintext';
 import {getInterface} from '../../../../Parser';
 
 describe('Role', () => {
 	describe('isNextBlock', () => {
-		it('matchOpen is true for :', () => {
+		test('matchOpen is true for :', () => {
 			const test = [':', 'r', 'o', 'l', 'e'];
 			const inputInterface = getInterface(0, test);
 			const {matches} = Role.matchOpen(inputInterface);
@@ -12,7 +14,7 @@ describe('Role', () => {
 			expect(matches).toBeTruthy();
 		});
 
-		it('matchOpen is false for not :', () => {
+		test('matchOpen is false for not :', () => {
 			const test = ['r', 'o', 'l', 'e'];
 			const inputInterface = getInterface(0, test);
 			const {matches} = Role.matchOpen(inputInterface);
@@ -20,7 +22,7 @@ describe('Role', () => {
 			expect(matches).toBeFalsy();
 		});
 
-		it('matchClose is true for :', () => {
+		test('matchClose is true for :', () => {
 			const test = [':', 'r', 'o', 'l', 'e'];
 			const inputInterface = getInterface(0, test);
 			const {matches} = Role.matchClose(inputInterface);
@@ -28,7 +30,7 @@ describe('Role', () => {
 			expect(matches).toBeTruthy();
 		});
 
-		it('matchClose is false for not : ', () => {
+		test('matchClose is false for not : ', () => {
 			const test = ['r', 'o', 'l', 'e'];
 			const inputInterface = getInterface(0, test);
 			const {matches} = Role.matchClose(inputInterface);
@@ -49,7 +51,7 @@ describe('Role', () => {
 			return block;
 		}
 
-		it('If currentBlock is interpreted role get set as marker', () => {
+		test('If currentBlock is interpreted role get set as marker', () => {
 			const test = [':'];
 			const currentBlock = buildBlock('isInterpreted');
 			const inputInterface = getInterface(0, test);
@@ -60,7 +62,7 @@ describe('Role', () => {
 			expect(block.markerFor).toEqual(currentBlock);
 		});
 
-		it('If currentBlock is not interpreted role does not get set as marker', () => {
+		test('If currentBlock is not interpreted role does not get set as marker', () => {
 			const test = [':'];
 			const currentBlock = buildBlock('notInterpreted');
 			const inputInterface = getInterface(0, test);
@@ -73,7 +75,7 @@ describe('Role', () => {
 	});
 
 	describe('getOutput', () => {
-		it('If has marker set, the marker is a valid range, and the role range is closed the output is null', () => {
+		test('If has marker set, the marker is a valid range, and the role range is closed the output is null', () => {
 			const role = new Role();
 
 			role.doClose();
@@ -82,7 +84,7 @@ describe('Role', () => {
 			expect(role.getOutput()).toBeNull();
 		});
 
-		it('If no marker set output is plain test', () => {
+		test('If no marker set output is plain test', () => {
 			const role = new Role();
 
 			role.appendBlock(new Plaintext('r'));
@@ -111,7 +113,7 @@ describe('Role', () => {
 		});
 
 		//TODO: need to test more of these
-		it('emphasis', () => {
+		test('emphasis', () => {
 			const role = new Role();
 
 			role.appendBlock(new Plaintext('e'));

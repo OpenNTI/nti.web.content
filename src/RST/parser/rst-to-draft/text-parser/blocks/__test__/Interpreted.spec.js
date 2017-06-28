@@ -1,3 +1,5 @@
+/* globals spyOn */
+/* eslint-env jest */
 import {INLINE_STYLE} from 'draft-js-utils';
 
 import {getInterface} from '../../../../Parser';
@@ -6,7 +8,7 @@ import Plaintext from '../Plaintext';
 
 describe('Interpreted', () => {
 	describe('isNextBlock', () => {
-		it('matchOpen is true for `', () => {
+		test('matchOpen is true for `', () => {
 			const test = ['`', 'i', 'n', 't'];
 			const inputInterface = getInterface(0, test);
 			const {matches} = Interpreted.matchOpen(inputInterface);
@@ -14,7 +16,7 @@ describe('Interpreted', () => {
 			expect(matches).toBeTruthy();
 		});
 
-		it('matchOpen is not true for ``', () => {
+		test('matchOpen is not true for ``', () => {
 			const test = ['`', '`', 'l', 'i', 't'];
 			const inputInterface = getInterface(0, test);
 			const {matches} = Interpreted.matchOpen(inputInterface);
@@ -22,7 +24,7 @@ describe('Interpreted', () => {
 			expect(matches).toBeFalsy();
 		});
 
-		it('matchOpen is not true for not `', () => {
+		test('matchOpen is not true for not `', () => {
 			const test = ['n', 'o', 't'];
 			const inputInterface = getInterface(0, test);
 			const {matches} = Interpreted.matchOpen(inputInterface);
@@ -30,7 +32,7 @@ describe('Interpreted', () => {
 			expect(matches).toBeFalsy();
 		});
 
-		it('matchClose is true for `', () => {
+		test('matchClose is true for `', () => {
 			const test = ['`', 'a', 'f', 't', 'e', 'r'];
 			const inputInterface = getInterface(0, test);
 			const {matches, nextChar} = Interpreted.matchClose(inputInterface);
@@ -39,7 +41,7 @@ describe('Interpreted', () => {
 			expect(nextChar).toEqual('a');
 		});
 
-		it('matchClose is false for ``', () => {
+		test('matchClose is false for ``', () => {
 			const test = ['`', '`', 'a', 'f', 't', 'e', 'r'];
 			const inputInterface = getInterface(0, test);
 			const {matches} = Interpreted.matchClose(inputInterface);
@@ -47,7 +49,7 @@ describe('Interpreted', () => {
 			expect(matches).toBeFalsy();
 		});
 
-		it('matchClose consumes following _', () => {
+		test('matchClose consumes following _', () => {
 			const test = ['`', '_', 'a', 'f', 't', 'e', 'r'];
 			const inputInterface = getInterface(0, test);
 			const {matches, nextChar} = Interpreted.matchClose(inputInterface);
@@ -69,7 +71,7 @@ describe('Interpreted', () => {
 			return block;
 		}
 
-		it('Calls setMarker if currentBlock is role', () => {
+		test('Calls setMarker if currentBlock is role', () => {
 			const test = ['`'];
 			const currentBlock = buildBlock('isRole');
 			const inputInterface = getInterface(0, test);
@@ -80,7 +82,7 @@ describe('Interpreted', () => {
 			expect(block.roleMarker).toEqual(currentBlock);
 		});
 
-		it('Calls setMarker if currentBlock is target', () => {
+		test('Calls setMarker if currentBlock is target', () => {
 			const test = ['`'];
 			const currentBlock = buildBlock('isTarget');
 			const inputInterface = getInterface(0, test);
@@ -104,7 +106,7 @@ describe('Interpreted', () => {
 			return block;
 		}
 
-		it('If it has a marker, its getOutputForInterpreted', () => {
+		test('If it has a marker, its getOutputForInterpreted', () => {
 			const test = ['`'];
 			const inputInterface = getInterface(0, test);
 			const parsedInterface = getInterface(0, []);
@@ -118,7 +120,7 @@ describe('Interpreted', () => {
 			expect(marker.getOutputForInterpreted).toHaveBeenCalledWith(block, context);
 		});
 
-		it('If it has a marker, and output if forced', () => {
+		test('If it has a marker, and output if forced', () => {
 			const test = ['`'];
 			const inputInterface = getInterface(0, test);
 			const parsedInterface = getInterface(0, []);
@@ -132,7 +134,7 @@ describe('Interpreted', () => {
 			expect(marker.getOutputForInterpreted).not.toHaveBeenCalled();
 		});
 
-		it('Without marker code range output is returned', () => {
+		test('Without marker code range output is returned', () => {
 			const test = ['`'];
 			const inputInterface = getInterface(0, test);
 			const parsedInterface = getInterface(0, []);

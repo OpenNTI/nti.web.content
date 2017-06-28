@@ -1,3 +1,4 @@
+/* eslint-env jest */
 import {BLOCKS, ENTITIES, MUTABILITY} from '../../../../Constants';
 import getSelectionForEntityKeyAtOffset from '../get-selection-for-entity-key-at-offset';
 
@@ -6,7 +7,7 @@ import {getStateAndOffsetKeys} from './utils';
 
 describe('get-selection-for-entity-key-at-offset', () => {
 	describe('Single Entity Range', () => {
-		it('Start of block', () => {
+		test('Start of block', () => {
 			const {state, offsetKeys, blockKeys} = getStateAndOffsetKeys({
 				blocks: [
 					{
@@ -35,7 +36,7 @@ describe('get-selection-for-entity-key-at-offset', () => {
 			expect(selection.getEndOffset()).toEqual(4);
 		});
 
-		it('Middle of block', () => {
+		test('Middle of block', () => {
 			const {state, offsetKeys, blockKeys} = getStateAndOffsetKeys({
 				blocks: [
 					{
@@ -64,7 +65,7 @@ describe('get-selection-for-entity-key-at-offset', () => {
 			expect(selection.getEndOffset()).toEqual(20);
 		});
 
-		it('End of block', () => {
+		test('End of block', () => {
 			const {state, offsetKeys, blockKeys} = getStateAndOffsetKeys({
 				blocks: [
 					{
@@ -128,7 +129,7 @@ describe('get-selection-for-entity-key-at-offset', () => {
 			blockKeys = b;
 		});
 
-		it('Selection for first entity range', () => {
+		test('Selection for first entity range', () => {
 			const selection = getSelectionForEntityKeyAtOffset(0, offsetKeys[0], state);
 
 			expect(selection.getStartKey()).toEqual(blockKeys[0]);
@@ -139,7 +140,7 @@ describe('get-selection-for-entity-key-at-offset', () => {
 		});
 
 
-		it('Selection for second entity range', () => {
+		test('Selection for second entity range', () => {
 			const selection = getSelectionForEntityKeyAtOffset(0, offsetKeys[1], state);
 
 			expect(selection.getStartKey()).toEqual(blockKeys[0]);
@@ -149,7 +150,7 @@ describe('get-selection-for-entity-key-at-offset', () => {
 			expect(selection.getEndOffset()).toEqual(59);
 		});
 
-		it('Selection for third entity range', () => {
+		test('Selection for third entity range', () => {
 			const selection = getSelectionForEntityKeyAtOffset(0, offsetKeys[2], state);
 
 			expect(selection.getStartKey()).toEqual(blockKeys[0]);
@@ -195,7 +196,7 @@ describe('get-selection-for-entity-key-at-offset', () => {
 			blockKeys = b;
 		});
 
-		it('Fist Range', () => {
+		test('Fist Range', () => {
 			const selection = getSelectionForEntityKeyAtOffset(0, offsetKeys[0], state);
 
 			expect(selection.getStartKey()).toEqual(blockKeys[0]);
@@ -205,9 +206,8 @@ describe('get-selection-for-entity-key-at-offset', () => {
 			expect(selection.getEndOffset()).toEqual(43);
 		});
 
-		it('Draft collapses the ranges into one', () => {
+		test('Draft collapses the ranges into one', () => {
 			expect(offsetKeys.length).toEqual(1);
 		});
 	});
 });
-

@@ -1,3 +1,4 @@
+/* eslint-env jest */
 import toDraft from '../toDraft';
 
 function createBlock (block, map = {}) {
@@ -20,7 +21,7 @@ const FAKE_BLOCKS = [
 ];
 
 describe('rst-to-draft toDraft', () => {
-	it('Output is whats expected', () => {
+	test('Output is whats expected', () => {
 		const {blocks, entityMap} = toDraft({blocks:FAKE_BLOCKS, context:{}});
 
 		expect(blocks.length).toEqual(2);

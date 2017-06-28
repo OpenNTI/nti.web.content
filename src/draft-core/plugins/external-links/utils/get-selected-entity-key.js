@@ -50,6 +50,6 @@ export default function getSelectedEntityKey (editorState) {
 	const currentBlock = content.getBlockForKey(selection.getStartKey());
 
 	return selection.isCollapsed() ?
-			getCollapsedSelectedEntityKey(selection, currentBlock) :
-			getExpandedSelectionEntityKey(selection, currentBlock);
+		getCollapsedSelectedEntityKey(selection, currentBlock) :
+		getExpandedSelectionEntityKey(selection, currentBlock);
 }

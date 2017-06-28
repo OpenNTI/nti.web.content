@@ -4,12 +4,12 @@ function getBlockKeyToIndex (editorState) {
 	const content = editorState.getCurrentContent();
 
 	return content
-			.getBlocksAsArray()
-			.reduce((acc, block, index) => {
-				acc[block.key] = index;
+		.getBlocksAsArray()
+		.reduce((acc, block, index) => {
+			acc[block.key] = index;
 
-				return acc;
-			}, {});
+			return acc;
+		}, {});
 }
 
 

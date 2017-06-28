@@ -171,7 +171,7 @@ export default class DraftCoreEditor extends React.Component {
 
 
 	focus = () => {
-		const {editorState} = this;
+		// const {editorState} = this;
 
 		if (this.draftEditor) {
 			this.draftEditor.focus();
@@ -288,8 +288,8 @@ export default class DraftCoreEditor extends React.Component {
 					</div>
 				</ContextProvider>
 				{pluginOverlays.length ?
-						pluginOverlays.map((x, index) => React.createElement(x, {key: index, getEditorState: this.getEditorState, setEditorState: this.setEditorState, editor: this})) :
-						null
+					pluginOverlays.map((x, index) => React.createElement(x, {key: index, getEditorState: this.getEditorState, setEditorState: this.setEditorState, editor: this})) :
+					null
 				}
 			</div>
 		);

@@ -210,19 +210,19 @@ export default class ContentEditor extends React.Component {
 
 				<div className="content">
 					{rstContents === LOADING ?
-							(<Loading.Mask message={t('Loading')} />) :
-							rstContents instanceof Error ?
-								(<EmptyState header={t('failedHeader')}/>) :
-								(<RSTEditor
-									ref={this.setEditorRef}
-									contentPackage={contentPackage}
-									course={course}
-									value={rstContents}
-									onFocus={this.onEditorFocus}
-									onBlur={this.onEditorBlur}
-									onChange={this.onEditorChange}
-									onContentChange={this.onEditorContentChange}
-								/>)
+						(<Loading.Mask message={t('Loading')} />) :
+						rstContents instanceof Error ?
+							(<EmptyState header={t('failedHeader')}/>) :
+							(<RSTEditor
+								ref={this.setEditorRef}
+								contentPackage={contentPackage}
+								course={course}
+								value={rstContents}
+								onFocus={this.onEditorFocus}
+								onBlur={this.onEditorBlur}
+								onChange={this.onEditorChange}
+								onContentChange={this.onEditorContentChange}
+							/>)
 
 					}
 				</div>

@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {scoped} from 'nti-lib-locale';
-
 import {EmbedInput} from 'nti-web-video';
 
 import {BLOCKS} from '../../../draft-core';
@@ -39,18 +38,18 @@ export default class CourseVideoButton extends React.Component {
 		EmbedInput.show(void 0, {
 			refocus: editorRef
 		})
-		.then(({service, source}) => {
-			insertBlock({
-				type: BLOCKS.ATOMIC,
-				text: '',
-				data: {
-					name: 'ntivideo',
-					body: [],
-					arguments: `${service} ${source}`,
-					options: {}
-				}
+			.then(({service, source}) => {
+				insertBlock({
+					type: BLOCKS.ATOMIC,
+					text: '',
+					data: {
+						name: 'ntivideo',
+						body: [],
+						arguments: `${service} ${source}`,
+						options: {}
+					}
+				});
 			});
-		});
 	};
 
 	render = () => {
