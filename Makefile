@@ -5,11 +5,12 @@ LIB = lib
 
 MAKE_PACKAGE=webpack --progress --cache --bail --hide-modules=true --display-chunks=false
 
-all: node_modules bundle
+all: clean test bundle
 
 node_modules: package.json
 	@rm -rf node_modules
 	@npm install
+	@touch node_modules
 
 test: node_modules check
 	@jest
@@ -21,5 +22,5 @@ clean:
 	@rm -rf $(LIB)
 	@rm -rf $(REPORTS)
 
-bundle:
+bundle: node_modules
 	@$(MAKE_PACKAGE)
