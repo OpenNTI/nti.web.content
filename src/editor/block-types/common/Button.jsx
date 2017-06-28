@@ -14,7 +14,8 @@ export default class BlockTypeButton extends React.Component {
 		createBlock: PropTypes.func,
 		createBlockProps: PropTypes.object,
 		isBlockPredicate: PropTypes.func,
-		attachPluginRef: PropTypes.func
+		attachPluginRef: PropTypes.func,
+		group: PropTypes.bool
 	}
 
 
@@ -36,7 +37,8 @@ export default class BlockTypeButton extends React.Component {
 			createBlock,
 			createBlockProps,
 			isBlockPredicate,
-			attachPluginRef
+			attachPluginRef,
+			group
 		} = this.props;
 		const {mousedown} = this.state;
 
@@ -50,7 +52,7 @@ export default class BlockTypeButton extends React.Component {
 				onMouseUp={this.onMouseUp}
 				onDragEnd={this.onMouseUp}
 			>
-				<BlockCount className="used" predicate={isBlockPredicate} />
+				<BlockCount className="used" predicate={isBlockPredicate} group={group} />
 				<span className={cx('icon', iconClass)} />
 				<span className="label">{label}</span>
 			</Button>

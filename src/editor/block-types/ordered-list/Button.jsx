@@ -32,6 +32,7 @@ export default function OrderedListButton () {
 			label={t('label')}
 			createBlock={createBlock}
 			isBlockPredicate={isBlock}
+			group
 		/>
 	);
 }

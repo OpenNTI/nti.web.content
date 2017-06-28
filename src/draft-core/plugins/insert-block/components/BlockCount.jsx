@@ -6,6 +6,7 @@ import cx from 'classnames';
 export default class BlockCount extends React.Component {
 	static propTypes = {
 		predicate: PropTypes.func,
+		group: PropTypes.bool,
 		className: PropTypes.string
 	}
 
@@ -30,10 +31,10 @@ export default class BlockCount extends React.Component {
 
 
 	get blockCount () {
-		const {predicate} = this.props;
+		const {predicate, group} = this.props;
 		const {getInsertBlockCount} = this.pluginContext;
 
-		return getInsertBlockCount ? getInsertBlockCount(predicate) : 0;
+		return getInsertBlockCount ? getInsertBlockCount(predicate, group) : 0;
 	}
 
 

@@ -30,6 +30,7 @@ export default function UnorderedListItem () {
 			label={t('label')}
 			createBlock={createBlock}
 			isBlockPredicate={isBlock}
+			group
 		/>
 	);
 }

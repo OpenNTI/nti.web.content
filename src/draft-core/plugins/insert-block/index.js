@@ -3,7 +3,13 @@ import {EVENT_HANDLED, EVENT_NOT_HANDLED} from '../Constants';
 import Button from './components/Button';
 import BlockCount from './components/BlockCount';
 import {DRAG_DATA_TYPE} from './Constants';
-import {insertBlock, getSelectedText, ensureMaintainSelection, moveSelectionToNextBlock} from './utils';
+import {
+	insertBlock,
+	getSelectedText,
+	ensureMaintainSelection,
+	moveSelectionToNextBlock,
+	getBlockCount
+} from './utils';
 
 //https://github.com/facebook/draft-js/issues/442
 
@@ -35,12 +41,8 @@ export default {
 						return true;
 					},
 
-					getInsertBlockCount: (predicate) => {
-						const state = getEditorState();
-						const content = state.getCurrentContent();
-						const blocks = content.getBlocksAsArray();
-
-						return blocks.filter(predicate).length;
+					getInsertBlockCount: (predicate, group) => {
+						return getBlockCount(getEditorState(), predicate, group);
 					},
 
 
