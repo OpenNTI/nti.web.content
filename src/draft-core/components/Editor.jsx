@@ -172,9 +172,8 @@ export default class DraftCoreEditor extends React.Component {
 
 	focus = () => {
 		const {editorState} = this;
-		const hasFocus = editorState && editorState.getSelection().getHasFocus();
 
-		if (!hasFocus && this.draftEditor) {
+		if (this.draftEditor) {
 			this.draftEditor.focus();
 		}
 	}
