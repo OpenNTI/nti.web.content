@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {ENTITY_TYPE} from 'draft-js-utils';
 import {Editor, EditorState, convertFromRaw, convertToRaw, CompositeDecorator, Entity} from 'draft-js';
 import {Parser} from 'RST';
@@ -19,8 +20,8 @@ function findLinkEntities (contentBlock, callback) {
 }
 
 Link.propTypes = {
-	entityKey: React.PropTypes.string,
-	children: React.PropTypes.any
+	entityKey: PropTypes.string,
+	children: PropTypes.any
 };
 function Link (props) {
 	const {url} = Entity.get(props.entityKey).getData();
