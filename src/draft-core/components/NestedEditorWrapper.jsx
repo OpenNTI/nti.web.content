@@ -46,11 +46,11 @@ export default class NestedEditorWrapper extends React.Component {
 
 
 	onKeyDown = (e) => {
-		if (event.keyCode === 38) {
+		if (e.keyCode === 38) {
 			stop(e);
-		} else if (event.keyCode === 40) {
+		} else if (e.keyCode === 40) {
 			stop(e);
-		} else if (event.keyCode === 8) {
+		} else if (e.keyCode === 8) {
 			stop(e);
 		}
 	}
