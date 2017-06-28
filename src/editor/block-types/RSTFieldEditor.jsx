@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
 import {EditorState, convertFromRaw, convertToRaw} from 'draft-js';
+
 import {Selection} from 'nti-web-commons';
 
 import {Parser} from '../../RST';
@@ -25,7 +26,7 @@ function draftToRST (editorState) {
 const plugins = [
 	Plugins.LimitBlockTypes.create({allowed: new Set([BLOCKS.UNSTYLED])}),
 	Plugins.LimitStyles.create({allowed: new Set([])}),
-	// Plugins.ExternalLinks.create(),
+	Plugins.LimitLinks.create(),
 	Plugins.SingleLine.create()
 ];
 

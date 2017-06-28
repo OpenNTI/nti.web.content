@@ -7,5 +7,6 @@ export IgnoreDrop from './ignore-drop';
 export InsertBlock from './insert-block';
 export KeepFocusInView from './keep-focus-in-view';
 export LimitBlockTypes from './limit-block-types';
+export LimitLinks from './limit-links';
 export LimitStyles from './limit-styles';
 export SingleLine from './single-line';
