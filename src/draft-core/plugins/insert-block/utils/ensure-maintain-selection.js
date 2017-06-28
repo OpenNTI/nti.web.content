@@ -17,7 +17,12 @@ export default function ensureMaintainSelection (editorState) {
 		let newEditorState;
 
 		if (currBlock) {
-			newEditorState = EditorState.acceptSelection(editorState, SelectionState.createEmpty(currBlock.getKey()));
+			const newSelectionState = selectionState.merge({
+				anchorKey: currBlock.getKey(),
+				focusKey: currBlock.getKey()
+			});
+
+			newEditorState = EditorState.acceptSelection(editorState, newSelectionState);
 		}
 
 		return newEditorState;
