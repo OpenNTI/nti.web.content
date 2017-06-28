@@ -1,4 +1,4 @@
-import {EditorState, SelectionState} from 'draft-js';
+import {EditorState} from 'draft-js';
 
 /**
  * Some browsers (COUGHfirefoxCOUGH) don't automatically show the selection, so
