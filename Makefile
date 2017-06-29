@@ -13,7 +13,7 @@ node_modules: package.json
 	@touch node_modules
 
 test: node_modules check
-	@jest
+	@jest --coverage
 
 check:
 	@eslint --ext .js,.jsx ./src
