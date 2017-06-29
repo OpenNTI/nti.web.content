@@ -68,7 +68,7 @@ describe('RSTToDraftState', () => {
 	test('entityMap has all the entities', () => {
 		const links = entityMap['links'];
 		const multiple = entityMap['one with multiple words'];
-		const inline = entityMap['http://www.google.com#inline'];
+		const inline = entityMap[3];//The id of inline links is now based on a counter of how many links we've parsed
 
 		expect(Object.keys(entityMap).length).toEqual(3);
 
@@ -421,7 +421,7 @@ describe('RSTToDraftState', () => {
 
 			expect(entityRanges.length).toEqual(1);
 
-			expect(entityRanges[0].key).toEqual('http://www.google.com#inline');
+			expect(entityRanges[0].key).toEqual(3);//The key for inline links is based on a counter
 			expect(entityRanges[0].offset).toEqual(19);
 			expect(entityRanges[0].length).toEqual(12);
 		});
