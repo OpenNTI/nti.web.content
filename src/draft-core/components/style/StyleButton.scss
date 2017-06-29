@@ -20,7 +20,6 @@
 		repeat: no-repeat;
 		position: center center;
 	}
-	border: 1px solid white;
 
 	&:first-of-type {
 		border-radius: 2px 0 0 2px;
@@ -43,8 +42,7 @@
 	&.active,
 	.no-touch &:hover {
 		color: $primary-blue;
-		box-shadow: inset 0 1px 1px 0 rgba(0, 0, 0, 0.2);
-		border: solid 1px #f3f3f3;
+		box-shadow: inset 0 1px 1px 0 rgba(0, 0, 0, 0.2), 0 0 1px 0 #f3f3f3;
 	}
 
 
@@ -56,5 +54,6 @@
 
 	i[class^="icon-"], i[class*=" icon-"] {
 		font-size: 1rem;
+		line-height: 2rem;
 	}
 }
