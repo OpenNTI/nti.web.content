@@ -1,4 +1,4 @@
-import {HANDLED, NOT_HANDLED} from '../Constants';
+import {EVENT_HANDLED, EVENT_NOT_HANDLED} from '../Constants';
 
 import formatHTML from './formatHTML';
 import transformNTIContent from './transformNTIContent';
@@ -24,11 +24,11 @@ export default {
 				const transformedHTML = transformNTIContent(html);
 				const newState = getStateForPasted(text, transformedHTML, editorState, config);
 
-				if (!newState) { return NOT_HANDLED; }
+				if (!newState) { return EVENT_NOT_HANDLED; }
 
 				setEditorState(newState);
 
-				return HANDLED;
+				return EVENT_HANDLED;
 			}
 		};
 	}
