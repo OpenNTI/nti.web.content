@@ -142,11 +142,11 @@ export default class ExternalLink extends React.Component {
 	render () {
 		const {children} = this.props;
 		const {focused, editing} = this.state;
-		const {url} = this.entityData;
+		const {href} = this.entityData;
 		const cls = cx('draft-core-external-link', {focused, editing});
 
 		return (
-			<a href={url} className={cls} ref={this.setAnchorRef}>
+			<a href={href} className={cls} ref={this.setAnchorRef}>
 				{children}
 			</a>
 		);
