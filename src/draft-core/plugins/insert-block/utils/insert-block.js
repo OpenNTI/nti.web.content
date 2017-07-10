@@ -42,12 +42,31 @@ function getNewSelection (content, block, key) {
 }
 
 
+function getPreviousSelection (editorState, selectionState, newBlock) {
+	const focusKey = selectionState.getFocusKey();
+	const currentContent = editorState.getCurrentContent();
+	const block = currentContent && currentContent.getBlockForKey(focusKey);
+	const type = block && block.getType();
+	const nextBlockKey = currentContent.getKeyAfter(focusKey);
+
+	if (type !== BLOCKS.ATOMIC) {
+		return selectionState;
+	}
+
+	return new SelectionState(Object.assign({}, selectionState.toJS(), {
+		anchorKey: nextBlockKey,
+		focusKey: nextBlockKey,
+	}));
+}
+
+
 export default function insertBlock (block, replace, selection, editorState) {
 	const currentContent = editorState.getCurrentContent();
 	const currentSelection = selection || editorState.getSelection();
+	const previousSelection = getPreviousSelection(editorState, currentSelection, block);
 
 	//TODO, when replacing look into pulling entity and style range info into the new blocks character data
-	const {fixedContent, fixedSelection} = fixContentAndSelection(currentContent, currentSelection, replace);
+	const {fixedContent, fixedSelection} = fixContentAndSelection(currentContent, previousSelection, replace);
 	const {splitContent, insertionSelection} = splitContentAndGetSelection(fixedContent, fixedSelection);
 
 	const asType = Modifier.setBlockType(splitContent, insertionSelection, block.type);
@@ -71,7 +90,7 @@ export default function insertBlock (block, replace, selection, editorState) {
 	const withBlock = Modifier.replaceWithFragment(asType, insertionSelection, fragment);
 
 	const newContent = withBlock.merge({
-		selectionBefore: currentSelection,
+		selectionBefore: previousSelection,
 		selectionAfter: getNewSelection(withBlock, block, insertionSelection.getStartKey())
 	});
 
