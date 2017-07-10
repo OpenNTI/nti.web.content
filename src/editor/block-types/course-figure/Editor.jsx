@@ -104,7 +104,6 @@ export default class CourseFigureEditor extends React.Component {
 	onBlur = () => onBlur(this.props);
 	onCaptionChange = (body, doNotKeepSelection) => onCaptionChange(body, doNotKeepSelection, this.props);
 
-
 	render () {
 		const {block, blockProps:{indexOfType}} = this.props;
 		const {url, body} = this.state;
