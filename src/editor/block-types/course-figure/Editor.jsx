@@ -6,7 +6,6 @@ import {scoped} from 'nti-lib-locale';
 import {
 	CaptionEditor,
 	Controls,
-	attachCaptionRef,
 	onRemove,
 	onFocus,
 	onBlur,
@@ -47,6 +46,8 @@ export default class CourseFigureEditor extends React.Component {
 			setReadOnly: PropTypes.func
 		})
 	};
+
+	attachCaptionRef = x => this.caption = x
 
 	constructor (props) {
 		super(props);
@@ -114,7 +115,7 @@ export default class CourseFigureEditor extends React.Component {
 				<Controls onRemove={this.onRemove} onChange={this.onChange} getString={getString} />
 				<FigureEditor url={url} blockId={blockId} onFocus={this.onFocus} onBlur={this.onBlur} />
 				<CaptionEditor
-					ref={attachCaptionRef}
+					ref={this.attachCaptionRef}
 					body={body}
 					blockId={blockId}
 					onFocus={this.onFocus}

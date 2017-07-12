@@ -1,6 +1,3 @@
-export const attachCaptionRef = x => this.caption = x;
-
-
 export function onRemove (props) {
 	const {blockProps: {removeBlock}} = props;
 

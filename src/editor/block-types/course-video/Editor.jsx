@@ -6,7 +6,6 @@ import {createMediaSourceFromUrl, getCanonicalUrlFrom} from 'nti-web-video';
 import {
 	CaptionEditor,
 	Controls,
-	attachCaptionRef,
 	onRemove,
 	onFocus,
 	onBlur,
@@ -42,6 +41,8 @@ export default class CourseVideoEditor extends React.Component {
 	};
 
 	onChange = null;
+
+	attachCaptionRef = x => this.caption = x
 
 	constructor (props) {
 		super(props);
@@ -135,7 +136,7 @@ export default class CourseVideoEditor extends React.Component {
 				<Controls onRemove={this.onRemove} onChange={this.onChange} />
 				<VideoEditor updateUrl={this.updateUrl} src={url} onFocus={this.onFocus} onBlur={this.onBlur} />
 				<CaptionEditor
-					ref={attachCaptionRef}
+					ref={this.attachCaptionRef}
 					body={body}
 					blockId={blockId}
 					onFocus={this.onFocus}
