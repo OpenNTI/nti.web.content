@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
 import {EditorState, convertFromRaw, convertToRaw} from 'draft-js';
-
 import {Selection} from 'nti-web-commons';
 
 import {Parser} from '../../RST';
