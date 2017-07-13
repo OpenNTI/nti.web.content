@@ -5,7 +5,6 @@
   "description": "ReactJS Editor and Renderer for content",
   "license": "UNLICENSED",
   "main": "./lib/cjs-index.js",
-  "module": "./lib/index.js",
   "style": "./lib/index.css",
   "files": [
     "lib"
