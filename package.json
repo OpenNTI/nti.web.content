@@ -1,6 +1,6 @@
 {
   "name": "nti-content",
-  "version": "1.6.0",
+  "version": "1.7.0-alpha",
   "author": "nextthought",
   "description": "ReactJS Editor and Renderer for content",
   "license": "UNLICENSED",
