@@ -15,11 +15,12 @@ EditorPanel.propTypes = {
 	course: PropTypes.object,
 	pageSource: PropTypes.object,
 	breadcrumb: PropTypes.array,
-	gotoResources: PropTypes.func
+	gotoResources: PropTypes.func,
+	readOnly: PropTypes.bool
 };
-export default function EditorPanel ({contentPackage, course, pageSource, gotoResources, breadcrumb}) {
-	const optionsCmp = (<Options contentPackage={contentPackage} course={course} />);
-	const contentCmp = (<Content contentPackage={contentPackage} course={course} />);
+export default function EditorPanel ({contentPackage, course, pageSource, gotoResources, breadcrumb, readOnly}) {
+	const optionsCmp = (<Options contentPackage={contentPackage} course={course} readOnly={readOnly} />);
+	const contentCmp = (<Content contentPackage={contentPackage} course={course} readOnly={readOnly} />);
 
 	return (
 		<StickyContainer className="content-editor-panel">

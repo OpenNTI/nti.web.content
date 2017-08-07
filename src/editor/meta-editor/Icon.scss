@@ -8,6 +8,14 @@
 	position: relative;
 	cursor: pointer;
 
+	&.read-only {
+		pointer-events: none;
+
+		.icon, .clear, .placeholder {
+			display: none;
+		}
+	}
+
 	&.file-over {
 		.placeholder, .icon {
 			&::after {

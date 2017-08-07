@@ -9,6 +9,7 @@ import {SET_ERROR, SAVING} from '../Constants';
 import {saveContentPackageRST} from '../Actions';
 
 import RSTEditor from './RSTEditor';
+import ReadOnly from './ReadOnly';
 
 const {Field:{Component:ErrorCmp}} = Errors;
 
@@ -24,7 +25,8 @@ const t = scoped('CONTENT_EDITING_EDITOR', DEFAULT_TEXT);
 export default class ContentEditor extends React.Component {
 	static propTypes = {
 		contentPackage: PropTypes.object,
-		course: PropTypes.object
+		course: PropTypes.object,
+		readOnly: PropTypes.bool
 	}
 
 	setEditorRef = x => this.editorRef = x
@@ -199,10 +201,14 @@ export default class ContentEditor extends React.Component {
 
 
 	render () {
-		const {contentPackage, course} = this.props;
+		const {contentPackage, course, readOnly} = this.props;
 		const {selectableID, selectableValue, rstContents, contentError, publishError} = this.state;
 		const error = contentError || publishError;
 		const cls = cx('content-editing-editor-container', {error});
+
+		if (readOnly) {
+			return (<ReadOnly />);
+		}
 
 		return (
 			<Selection.Component className={cls} id={selectableID} value={selectableValue}>

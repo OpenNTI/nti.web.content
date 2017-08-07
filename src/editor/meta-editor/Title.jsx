@@ -21,7 +21,8 @@ const plugins = [
 export default class ContentEditorTitle extends React.Component {
 	static propTypes = {
 		contentPackage: PropTypes.object,
-		course: PropTypes.object
+		course: PropTypes.object,
+		readOnly: PropTypes.bool
 	}
 
 
@@ -33,7 +34,7 @@ export default class ContentEditorTitle extends React.Component {
 
 
 	render () {
-		const {contentPackage} = this.props;
+		const {contentPackage, readOnly} = this.props;
 		const {title} = contentPackage || {};
 
 		return (
@@ -45,6 +46,7 @@ export default class ContentEditorTitle extends React.Component {
 				onContentChange={this.onContentChange}
 				plugins={plugins}
 				placeholder={t('placeholder')}
+				readOnly={readOnly}
 			/>
 		);
 	}

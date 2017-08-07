@@ -25,7 +25,8 @@ function fileIsImage (file) {
 export default class ContentEditorIcon extends React.Component {
 	static propTypes = {
 		contentPackage: PropTypes.object,
-		course: PropTypes.object
+		course: PropTypes.object,
+		readOnly: PropTypes.bool
 	}
 
 	constructor (props) {
@@ -110,10 +111,10 @@ export default class ContentEditorIcon extends React.Component {
 
 
 	render () {
-		const {contentPackage} = this.props;
+		const {contentPackage, readOnly} = this.props;
 		const {icon} = contentPackage || {};
 		let {fileOver} = this.state;
-		const cls = cx('content-icon-editor', {placeholder: !icon}, {'file-over': fileOver});
+		const cls = cx('content-icon-editor', {placeholder: !icon}, {'file-over': fileOver, 'read-only': readOnly});
 
 
 		return (

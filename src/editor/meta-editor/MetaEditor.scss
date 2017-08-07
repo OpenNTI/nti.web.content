@@ -4,7 +4,11 @@
 	cursor: text;
 	border-radius: 2px;
 
-	&:hover {
+	&.read-only {
+		pointer-events: none;
+	}
+
+	&:not(.read-only):hover {
 		box-shadow: 0 0 0 1px $border-grey-light;
 	}
 

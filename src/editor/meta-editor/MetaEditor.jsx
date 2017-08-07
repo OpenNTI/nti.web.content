@@ -14,7 +14,8 @@ export default class ContentMetaEditor extends React.Component {
 		contentPackage: PropTypes.object,
 		className: PropTypes.string,
 		fieldName: PropTypes.string,
-		onChange: PropTypes.func
+		onChange: PropTypes.func,
+		readOnly: PropTypes.bool
 	}
 
 	constructor (props) {
@@ -78,15 +79,15 @@ export default class ContentMetaEditor extends React.Component {
 	}
 
 	render () {
-		const {className, fieldName, ...otherProps} = this.props;
+		const {className, fieldName, readOnly, ...otherProps} = this.props;
 		const {selectableID, selectableValue, error} = this.state;
-		const cls = cx('content-editor-meta-editor', className, fieldName, {error: !!error});
+		const cls = cx('content-editor-meta-editor', className, fieldName, {error: !!error, 'read-only': readOnly});
 
 		delete otherProps.onEditorFocus;
 
 		return (
 			<Selection.Component className={cls} id={selectableID} value={selectableValue}>
-				<PlaintextEditor {...otherProps} onChange={this.onEditorChange} onEditorFocus={this.onEditorFocus} />
+				<PlaintextEditor {...otherProps} onChange={this.onEditorChange} onEditorFocus={this.onEditorFocus} readOnly={readOnly} />
 				{error && (<ErrorCmp className="content-editor-meta-error" error={error} />)}
 			</Selection.Component>
 		);

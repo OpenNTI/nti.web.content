@@ -22,6 +22,7 @@ export default class DraftCoreEditor extends React.Component {
 		editorState: PropTypes.object.isRequired,
 		plugins: PropTypes.array,
 		placeholder: PropTypes.string,
+		readOnly: PropTypes.bool,
 
 		contentChangeBuffer: PropTypes.number,
 
@@ -252,7 +253,7 @@ export default class DraftCoreEditor extends React.Component {
 
 
 	render () {
-		const {className, placeholder} = this.props;
+		const {className, placeholder, readOnly} = this.props;
 		const {currentEditorState:editorState, currentPlugins:plugins, busy} = this.state;
 
 		const contentState = editorState && editorState.getCurrentContent();
@@ -267,7 +268,8 @@ export default class DraftCoreEditor extends React.Component {
 			{
 				busy,
 				'auto-hyphenate': UserAgent.isBrowser('Firefox'),// || UserAgent.isBrowser('IE')
-				'hide-placeholder': hidePlaceholder
+				'hide-placeholder': hidePlaceholder,
+				'read-only': readOnly
 			}
 		);
 
@@ -284,6 +286,7 @@ export default class DraftCoreEditor extends React.Component {
 							onBlur={this.onBlur}
 							handleKeyCommand={this.handleKeyCommand}
 							placeholder={placeholder}
+							readOnly={readOnly}
 						/>
 					</div>
 				</ContextProvider>

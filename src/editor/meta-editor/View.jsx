@@ -10,17 +10,18 @@ const {Sharing} = Associations;
 
 MetaEditor.propTypes = {
 	contentPackage: PropTypes.object,
-	course: PropTypes.object
+	course: PropTypes.object,
+	readOnly: PropTypes.bool
 };
-export default function MetaEditor ({contentPackage, course}) {
+export default function MetaEditor ({contentPackage, course, readOnly}) {
 	return (
 		<div className="content-meta-editor">
-			<Icon contentPackage={contentPackage} course={course} />
+			<Icon contentPackage={contentPackage} course={course} readOnly={readOnly} />
 
 			<div className="wrap">
 				{contentPackage && (<Sharing.Lessons item={contentPackage} scope={course} />)}
-				<Title contentPackage={contentPackage} course={course} />
-				<Description contentPackage={contentPackage} course={course} />
+				<Title contentPackage={contentPackage} course={course} readOnly={readOnly} />
+				<Description contentPackage={contentPackage} course={course} readOnly={readOnly} />
 			</div>
 		</div>
 	);

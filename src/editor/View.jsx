@@ -109,14 +109,15 @@ export default class ContentEditor extends React.Component {
 	render () {
 		const {contentPackage, course, gotoResources, breadcrumb, navigateToPublished} = this.props;
 		const sidebar = (<Sidebar contentPackage={contentPackage} course={course} selectionManager={selectionManager} />);
+		const readOnly = !contentPackage || !contentPackage.isModifiable;
 
 		return (
 			<div className="content-editor">
 				<PanelSidebar className="content-editor-panel-sidebar" sidebar={sidebar}>
-					<EditorPanel contentPackage={contentPackage} course={course} gotoResources={gotoResources} breadcrumb={breadcrumb} />
+					<EditorPanel contentPackage={contentPackage} course={course} gotoResources={gotoResources} breadcrumb={breadcrumb} readOnly={readOnly} />
 				</PanelSidebar>
 				<ControlBar visible>
-					<Controls selectionManager={selectionManager} contentPackage={contentPackage} course={course} navigateToPublished={navigateToPublished}/>
+					<Controls selectionManager={selectionManager} contentPackage={contentPackage} course={course} navigateToPublished={navigateToPublished} readOnly={readOnly} />
 				</ControlBar>
 			</div>
 		);
