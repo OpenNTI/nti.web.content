@@ -167,6 +167,7 @@ export default class RSTEditor extends React.Component {
 		if (this.state) {
 			this.setState(state);
 		} else {
+			//eslint-disable-next-line react/no-direct-mutation-state
 			this.state = state;
 		}
 	}
