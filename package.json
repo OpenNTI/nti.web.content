@@ -16,7 +16,8 @@
     "build": "nti-cmp-scripts build",
     "clean": "nti-cmp-scripts clean",
     "check": "nti-cmp-scripts check",
-    "release": "nti-cmp-scripts release"
+    "release": "nti-cmp-scripts release",
+    "install-snapshots": "nti-cmp-scripts install-snapshots"
   },
   "repository": {
     "type": "git",
@@ -61,7 +62,7 @@
   },
   "devDependencies": {
     "enzyme": "^2.8.0",
-    "nti-cmp-scripts": "^1.0.1",
+    "nti-cmp-scripts": "^1.0.29",
     "nti-lib-ntiids": "^1.0.3",
     "nti-style-common": "^1.0.0",
     "nti-web-client": "^1.1.3",
