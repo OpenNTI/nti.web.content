@@ -99,6 +99,8 @@ export default class ContentEditor extends React.Component {
 	loadContentFromPackage (contentPackage) {
 		const {content} = this.state;
 
+		if (!contentPackage || !contentPackage.getRSTContents) { return; }
+
 		if (content !== LOADING) {
 			this.setState({
 				content: LOADING
