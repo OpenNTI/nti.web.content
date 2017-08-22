@@ -1,0 +1,131 @@
+@import "~nti-style-common";
+
+.breadcrumb-sibling-menu {
+	min-width: 400px;
+
+	.sibling-item {
+		padding: 5px;
+		height: 30px;
+		text-overflow: ellipsis;
+		overflow: hidden;
+		cursor: pointer;
+
+		&:hover {
+			background-color: #eee;
+		}
+	}
+}
+
+.content-toolbar .path-items {
+	width: 600px;
+	height: 59px;
+	display: -ms-flexbox;
+	display: flex;
+	-ms-box-orient: horizontal;
+	flex-wrap: nowrap;
+	text-transform: uppercase;
+
+	.tabs {
+		flex: none;
+		cursor: pointer;
+
+		&.go-up {
+			//@include icon($profile_back_arrow, $top: 23px, $left: 35px);
+
+			width: 60px;
+			cursor: pointer;
+
+			&:hover {
+				&::after {
+					//@include sprite($profile_back_arrow_active);
+				}
+			}
+		}
+	}
+
+	.breadcrumb {
+		flex: 1 1 auto;
+		-ms-box-orient: horizontal;
+		display: -ms-flexbox;
+		display: inline-flex;
+		flex-wrap: nowrap;
+		//font: normal 500 1em/59px $font;
+		font-weight: 500;
+		font-size: 12px;
+		max-width: 500px;
+
+		&, * {
+			color: $primary-blue;
+			vertical-align: top;
+			line-height: 59px;
+			overflow: hidden;
+
+			//@include ellipse;
+		}
+
+		.part:not(.no-children):not(:first-of-type)::before {
+			content: '\00a0/\00a0';
+			color: $tertiary-grey;
+		}
+
+		.part {
+			flex: 0 1 auto;
+			cursor: pointer;
+			max-width: 60%;
+
+			&:last-of-type { flex: 2 0 auto; }
+
+			&:hover,
+			&:last-of-type:not(.no-children) {
+				color: $primary-blue;
+			}
+
+			&.locked {
+				cursor: default;
+
+				&:not(:last-of-type):hover {
+					color: inherit;
+				}
+			}
+
+			&.no-children:last-of-type {
+				overflow: visible;
+				cursor: default;
+				margin-left: 0.4em;
+
+				&:hover {
+					position: relative;
+					color: inherit;
+
+					&::after {
+						display: block;
+						position: absolute;
+						top: 0;
+						left: -30px;
+						color: #fff;
+						background: #333;
+						border-width: 0;
+						padding: 3px 5px;
+						border-radius: 0;
+						box-shadow: 1px 2px 5px 0 rgba(0, 0, 0, 0.25);
+
+						//font: normal 600 11px/12px $font;
+						font-weight: 600;
+						font-size: 11px/12px;
+						text-transform: uppercase;
+						content: 'No sections in chapter';
+					}
+
+					&::before {
+						position: absolute;
+						top: 18px;
+						left: -4px;
+						content: '';
+
+						//@include sprite($tooltip-pointer-black-bottom);
+					}
+				}
+			}
+		}
+	}
+}
