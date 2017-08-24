@@ -6,7 +6,8 @@ import {rawContent} from 'nti-commons';
 export default class BreadcrumbItem extends React.Component {
 	static propTypes = {
 		item: PropTypes.object.isRequired,
-		current: PropTypes.bool,
+		isRoot: PropTypes.bool,
+		isCurrent: PropTypes.bool,
 		onClick: PropTypes.func,
 		bcKey: PropTypes.number
 	}
@@ -18,22 +19,19 @@ export default class BreadcrumbItem extends React.Component {
 	}
 
 	renderParent () {
-		const { item, current, onClick, bcKey } = this.props;
+		const { item, isCurrent, isRoot, onClick, bcKey } = this.props;
 		if (!item) { return null; }
 
 		let className = 'path part';
 
-		if(current) {
-			className += ' current';
-		}
-
-		if(item.ntiid) {
-			className += ' link';
-		}
-
-		className += ' ' + item.cls;
+		className += isCurrent ? ' current' : '';
+		className += isRoot ? ' root' : '';
+		className += item.ntiid ? ' link' : '';
+		className += item.cls ? ' ' + item.cls : '';
 
 		const clickHandler = () => {
+			this.flyout && this.flyout.dismiss();
+
 			onClick && onClick(item);
 		};
 
@@ -51,6 +49,8 @@ export default class BreadcrumbItem extends React.Component {
 		const { onClick } = this.props;
 
 		const clickHandler = () => {
+			this.flyout && this.flyout.dismiss();
+
 			onClick && onClick(sibling);
 		};
 
