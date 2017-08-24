@@ -17,7 +17,8 @@ export default class Breadcrumb extends React.Component {
 		return (
 			<BreadcrumbItem
 				onClick={this.props.onClick}
-				current={index === arr.length}
+				isRoot={index === 0}
+				isCurrent={index === arr.length - 1}
 				item={part}
 				key={index}
 				bcKey={index}/>);
