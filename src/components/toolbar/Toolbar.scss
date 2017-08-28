@@ -1,10 +1,10 @@
 @import "~nti-style-common";
 
-.content-toolbar {
-	.toolbar {
-		padding-left: 17px;
-	}
+.sticky .content-toolbar .toolbar {
+	padding-left: 17px;
+}
 
+.content-toolbar {
 	.right.controls {
 		position: relative;
 		padding-right: 10px;
