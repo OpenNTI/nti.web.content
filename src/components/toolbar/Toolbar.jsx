@@ -51,7 +51,9 @@ export default class Toolbar extends React.Component {
 
 		return (
 			<div className="page">
-				<span className="currentPage">{this.state.pageSource.currentIndex + 1}</span> of <span className="total">{this.state.pageSource.total}</span>
+				<span className="currentPage">{this.state.pageSource.getPageNumber() + 1}
+				</span> of <span className="total">{this.state.pageSource.getTotal()}
+				</span>
 			</div>
 		);
 	}
@@ -74,7 +76,7 @@ export default class Toolbar extends React.Component {
 	renderPrev () {
 		const { pageSource } = this.state;
 
-		const className = 'prev' + (pageSource && pageSource.previous ? '' : ' disabled');
+		const className = 'prev' + (pageSource && pageSource.getPrevious() ? '' : ' disabled');
 
 		return (<div onClick={this.goToPrevious} className={className}/>);
 	}
@@ -97,7 +99,7 @@ export default class Toolbar extends React.Component {
 	renderNext () {
 		const { pageSource } = this.state;
 
-		const className = 'next' + (pageSource && pageSource.next ? '' : ' disabled');
+		const className = 'next' + (pageSource && pageSource.getNext() ? '' : ' disabled');
 
 		return (<div onClick={this.goToNext} className={className}/>);
 	}
