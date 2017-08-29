@@ -1,9 +1,5 @@
 @import "~nti-style-common";
 
-.flyout .flyout-inner {
-	min-width: 360px !important;
-}
-
 .content-toolbar .path-items {
 	.toc {
 		flex: none;
@@ -212,7 +208,6 @@
 			&:hover,
 			&.over {
 				box-shadow: none;
-				background: none;
 
 				.label {
 					background: #f3f3f3;
