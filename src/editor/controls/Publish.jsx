@@ -45,7 +45,8 @@ const t = scoped('CONTENT_EDITOR_PUBLISH', DEFAULT_TEXT);
 export default class ContentEditorPublish extends React.Component {
 	static propTypes = {
 		contentPackage: PropTypes.object,
-		navigateToPublished: PropTypes.func
+		navigateToPublished: PropTypes.func,
+		disabled: PropTypes.bool
 	}
 
 
@@ -170,8 +171,8 @@ export default class ContentEditorPublish extends React.Component {
 
 
 	renderTrigger () {
-		const {contentPackage} = this.props;
-		const {disabled, renderJob, publishing, error} = this.state;
+		const {disabled, contentPackage} = this.props;
+		const {renderJob, publishing, error} = this.state;
 		const {isPublished} = contentPackage || {};
 		const isPublishing = (renderJob && renderJob.isPending) || publishing;
 		const isFailed = (renderJob && renderJob.isFailed) || error;
