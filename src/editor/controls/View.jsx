@@ -26,6 +26,7 @@ export default class ContentEditorControls extends React.Component {
 		contentPackage: PropTypes.object,
 		course: PropTypes.object,
 		navigateToPublished: PropTypes.func,
+		readOnly: PropTypes.bool,
 		selectionManager: PropTypes.shape({
 			addListener: PropTypes.func,
 			removeListener: PropTypes.func
@@ -63,7 +64,7 @@ export default class ContentEditorControls extends React.Component {
 
 
 	render () {
-		const {contentPackage, navigateToPublished} = this.props;
+		const {readOnly, contentPackage, navigateToPublished} = this.props;
 		const {selection} = this.state;
 		const editor = getEditorForSelection(selection);
 
@@ -74,7 +75,7 @@ export default class ContentEditorControls extends React.Component {
 					<StyleInsertFormat editor={editor} />
 					<div className="spacer" />
 					<Status />
-					<Publish contentPackage={contentPackage} navigateToPublished={navigateToPublished}/>
+					<Publish contentPackage={contentPackage} navigateToPublished={navigateToPublished} disabled={readOnly}/>
 				</div>
 			</ContextProvider>
 		);

@@ -116,7 +116,7 @@ export default class ContentEditor extends React.Component {
 				<PanelSidebar className="content-editor-panel-sidebar" sidebar={sidebar}>
 					<EditorPanel contentPackage={contentPackage} course={course} gotoResources={gotoResources} breadcrumb={breadcrumb} readOnly={readOnly} />
 				</PanelSidebar>
-				<ControlBar visible={!readOnly}>
+				<ControlBar visible>
 					<Controls selectionManager={selectionManager} contentPackage={contentPackage} course={course} navigateToPublished={navigateToPublished} readOnly={readOnly} />
 				</ControlBar>
 			</div>
