@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import uuid from 'uuid';
 import {scoped} from 'nti-lib-locale';
 import {EmbedInput} from 'nti-web-video';
 
@@ -30,6 +31,7 @@ export default class CourseVideoButton extends React.Component {
 	attachButtonRef = x => this.buttonRef = x;
 
 	createBlock = insertBlock => {
+		const id = uuid.v4();
 		const editorRef = this.buttonRef
 			&& this.buttonRef.editorContext
 			&& this.buttonRef.editorContext.editor
@@ -46,7 +48,9 @@ export default class CourseVideoButton extends React.Component {
 						name: 'ntivideo',
 						body: [],
 						arguments: `${service} ${source}`,
-						options: {}
+						options: {
+							uid: id.replace(/-/g, '')
+						}
 					}
 				});
 			});
