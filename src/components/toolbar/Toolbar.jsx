@@ -76,7 +76,7 @@ export default class Toolbar extends React.Component {
 	renderPrev () {
 		const { pageSource } = this.state;
 
-		const className = 'prev' + (pageSource && pageSource.getPrevious() ? '' : ' disabled');
+		const className = 'prev' + (pageSource && pageSource.previous && pageSource.getPrevious() ? '' : ' disabled');
 
 		return (<div onClick={this.goToPrevious} className={className}/>);
 	}
@@ -99,7 +99,7 @@ export default class Toolbar extends React.Component {
 	renderNext () {
 		const { pageSource } = this.state;
 
-		const className = 'next' + (pageSource && pageSource.getNext() ? '' : ' disabled');
+		const className = 'next' + (pageSource && pageSource.next && pageSource.getNext() ? '' : ' disabled');
 
 		return (<div onClick={this.goToNext} className={className}/>);
 	}
