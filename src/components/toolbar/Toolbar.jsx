@@ -51,7 +51,7 @@ export default class Toolbar extends React.Component {
 
 		return (
 			<div className="page">
-				<span className="currentPage">{this.state.pageSource.getPageNumber() + 1}
+				<span className="currentPage">{this.state.pageSource.getPageNumber()}
 				</span> of <span className="total">{this.state.pageSource.getTotal()}
 				</span>
 			</div>
