@@ -44,10 +44,9 @@
 	}
 
 	.breadcrumb {
-		flex: 1 1 auto;
 		-ms-box-orient: horizontal;
 		display: -ms-flexbox;
-		display: inline-flex;
+		display: flex;
 		flex-wrap: nowrap;
 		//font: normal 500 1em/59px $font;
 		font-weight: 500;
