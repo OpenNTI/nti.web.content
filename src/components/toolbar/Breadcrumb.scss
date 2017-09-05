@@ -52,14 +52,15 @@
 		font-weight: 500;
 		font-size: 12px;
 		max-width: 500px;
+		width: 60%;
 
 		&, * {
 			color: $primary-blue;
 			vertical-align: top;
 			line-height: 59px;
 			overflow: hidden;
-
-			//@include ellipse;
+			white-space: nowrap;
+			text-overflow: ellipsis;
 		}
 
 		.part:not(.no-children):not(:first-of-type)::before {
