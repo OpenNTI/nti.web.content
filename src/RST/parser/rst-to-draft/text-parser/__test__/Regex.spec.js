@@ -132,16 +132,16 @@ describe('text-parser Regex', () => {
 
 		describe('not simple', () => {
 			test('is true if there is a valid prevChar', () => {
-				expect(Regex.isValidRangeStart('', 'a'), false).toBeTruthy();
-				expect(Regex.isValidRangeStart('-', 'a'), false).toBeTruthy();
-				expect(Regex.isValidRangeStart(':', 'a'), false).toBeTruthy();
-				expect(Regex.isValidRangeStart('/', 'a'), false).toBeTruthy();
-				expect(Regex.isValidRangeStart('\'', 'a'), false).toBeTruthy();
-				expect(Regex.isValidRangeStart('"', 'a'), false).toBeTruthy();
-				expect(Regex.isValidRangeStart('<', 'a'), false).toBeTruthy();
-				expect(Regex.isValidRangeStart('(', 'a'), false).toBeTruthy();
-				expect(Regex.isValidRangeStart('[', 'a'), false).toBeTruthy();
-				expect(Regex.isValidRangeStart('{', 'a'), false).toBeTruthy();
+				expect(Regex.isValidRangeStart('', 'a', false)).toBeTruthy();
+				expect(Regex.isValidRangeStart('-', 'a', false)).toBeTruthy();
+				expect(Regex.isValidRangeStart(':', 'a', false)).toBeTruthy();
+				expect(Regex.isValidRangeStart('/', 'a', false)).toBeTruthy();
+				expect(Regex.isValidRangeStart('\'', 'a', false)).toBeTruthy();
+				expect(Regex.isValidRangeStart('"', 'a', false)).toBeTruthy();
+				expect(Regex.isValidRangeStart('<', 'a', false)).toBeTruthy();
+				expect(Regex.isValidRangeStart('(', 'a', false)).toBeTruthy();
+				expect(Regex.isValidRangeStart('[', 'a', false)).toBeTruthy();
+				expect(Regex.isValidRangeStart('{', 'a', false)).toBeTruthy();
 			});
 
 			test('is false if the prevChar is invalid', () => {
