@@ -11,7 +11,8 @@ export default class Toolbar extends React.Component {
 		toc: PropTypes.object,
 		hideControls: PropTypes.bool,
 		hideHeader: PropTypes.bool,
-		doNavigation: PropTypes.func
+		doNavigation: PropTypes.func,
+		message: PropTypes.object
 	}
 
 	constructor (props) {
@@ -123,12 +124,32 @@ export default class Toolbar extends React.Component {
 			return null;
 		}
 
+		if(this.props.message) {
+			return (
+				<div className="path-items show-toast">
+					{this.renderMessage()}
+				</div>
+			);
+		}
+
 		return (
 			<div className="path-items">
 				<TableOfContents toc={this.state.toc} doNavigation={this.props.doNavigation}/>
 				<Breadcrumb onClick={this.onBreadcrumbItemClicked} items={this.state.path}/>
 			</div>
 		);
+	}
+
+	renderMessage () {
+		const { message } = this.props;
+
+		if(!message) {
+			return null;
+		}
+
+		const className = message.cls ? 'header-toast ' + message.cls : 'header-toast';
+
+		return (<div className={className}>{message.text}</div>);
 	}
 
 	render () {
