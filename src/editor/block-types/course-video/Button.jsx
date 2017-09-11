@@ -10,7 +10,7 @@ import Button from '../common/Button';
 import {isVideoBlock} from './util';
 
 const DEFAULT_TEXT = {
-	label: 'Embed Video'
+	label: 'Video'
 };
 
 const t = scoped('nti-content.editor.block-types.course-figure.button', DEFAULT_TEXT);
