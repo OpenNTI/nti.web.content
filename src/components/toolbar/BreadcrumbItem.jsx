@@ -6,6 +6,7 @@ import {rawContent} from 'nti-commons';
 export default class BreadcrumbItem extends React.Component {
 	static propTypes = {
 		item: PropTypes.object.isRequired,
+		message: PropTypes.object,
 		isRoot: PropTypes.bool,
 		isCurrent: PropTypes.bool,
 		onClick: PropTypes.func,
@@ -35,6 +36,19 @@ export default class BreadcrumbItem extends React.Component {
 			onClick && onClick(item);
 		};
 
+		if(this.props.message) {
+			return (
+				<div className="showing-message" key={bcKey}>
+					<div
+						className={className}
+						onClick={clickHandler}
+						{...rawContent(item.label)}
+					/>
+					{this.renderMessage()}
+				</div>
+			);
+		}
+
 		return (
 			<div
 				className={className}
@@ -43,6 +57,18 @@ export default class BreadcrumbItem extends React.Component {
 				{...rawContent(item.label)}
 			/>
 		);
+	}
+
+	renderMessage () {
+		const { message } = this.props;
+
+		if(message) {
+			const className = message.cls ? 'header-toast ' + message.cls : 'header-toast';
+
+			return (<div className={className}>{message.text}</div>);
+		}
+
+		return null;
 	}
 
 	renderSibling = (sibling, index) => {

@@ -124,32 +124,14 @@ export default class Toolbar extends React.Component {
 			return null;
 		}
 
-		if(this.props.message) {
-			return (
-				<div className="path-items show-toast">
-					{this.renderMessage()}
-				</div>
-			);
-		}
+		const className = 'path-items' + (this.props.message ? ' show-toast' : '');
 
 		return (
-			<div className="path-items">
+			<div className={className}>
 				<TableOfContents toc={this.state.toc} doNavigation={this.props.doNavigation}/>
-				<Breadcrumb onClick={this.onBreadcrumbItemClicked} items={this.state.path}/>
+				<Breadcrumb onClick={this.onBreadcrumbItemClicked} items={this.state.path} message={this.props.message}/>
 			</div>
 		);
-	}
-
-	renderMessage () {
-		const { message } = this.props;
-
-		if(!message) {
-			return null;
-		}
-
-		const className = message.cls ? 'header-toast ' + message.cls : 'header-toast';
-
-		return (<div className={className}>{message.text}</div>);
 	}
 
 	render () {
