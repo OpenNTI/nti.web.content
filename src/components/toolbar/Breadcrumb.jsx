@@ -6,6 +6,7 @@ import BreadcrumbItem from './BreadcrumbItem';
 export default class Breadcrumb extends React.Component {
 	static propTypes = {
 		items: PropTypes.arrayOf(PropTypes.object),
+		message: PropTypes.object,
 		onClick: PropTypes.func
 	}
 
@@ -21,7 +22,8 @@ export default class Breadcrumb extends React.Component {
 				isCurrent={index === arr.length - 1}
 				item={part}
 				key={index}
-				bcKey={index}/>);
+				bcKey={index}
+				message={index === arr.length - 1 && this.props.message}/>);
 	}
 
 	render () {

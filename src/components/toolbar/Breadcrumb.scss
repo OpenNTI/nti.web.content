@@ -68,6 +68,19 @@
 			color: $tertiary-grey;
 		}
 
+		div.showing-message {
+			flex: 0 1 auto;
+
+			.part {
+				max-width: 100%;
+
+				&::before {
+					content: '\00a0/\00a0';
+					color: $tertiary-grey;
+				}
+			}
+		}
+
 		.part {
 			flex: 0 1 auto;
 			cursor: pointer;
