@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {scoped} from 'nti-lib-locale';
-import { Chooser } from 'nti-web-video';
+import {EmbedInput} from 'nti-web-video';
 
 import {BLOCKS} from '../../../draft-core';
 import Button from '../common/Button';
@@ -34,17 +34,21 @@ export default class CourseVideoButton extends React.Component {
 			&& this.buttonRef.editorContext
 			&& this.buttonRef.editorContext.editor
 			&& this.buttonRef.editorContext.editor.draftEditor;
-		const { course } = this.props;
-		Chooser.show(course, { refocus: editorRef })
-			.then(video => {
+
+		EmbedInput.show(void 0, {
+			refocus: editorRef
+		})
+			.then(({service, source}) => {
 				insertBlock({
 					type: BLOCKS.ATOMIC,
 					text: '',
 					data: {
-						name: 'ntivideoref',
+						name: 'ntivideo',
 						body: [],
-						arguments: `${video.getID()}`,
-						options: {}
+						arguments: `${service} ${source}`,
+						options: {
+							uid: id.replace(/-/g, '')
+						}
 					}
 				});
 			});

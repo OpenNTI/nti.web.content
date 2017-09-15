@@ -1,21 +1,33 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Video, {Editor} from 'nti-web-video';
-import {getService} from 'nti-web-client';
 import {scoped} from 'nti-lib-locale';
+import {createMediaSourceFromUrl, getCanonicalUrlFrom} from 'nti-web-video';
 
 import {
+	CaptionEditor,
 	Controls,
 	onRemove,
+	onFocus,
+	onBlur,
+	onCaptionChange
 } from '../course-common';
 
+import VideoEditor from './VideoEditor';
+
 const DEFAULT_TEXT = {
-	Controls: {
-		changeImage: 'Edit Video'
+	Editor: {
+		videoTitle: 'Video %(index)s',
+		descriptionPlaceholder: 'Write a caption...'
 	}
 };
 
 const getString = scoped('nti-content.editor.block-types.course-video.VideoEditor', DEFAULT_TEXT);
+
+const blockType = {
+	getString,
+	regex: /^Video\s\d$/,
+	getTitle: index => getString('Editor.videoTitle', {index: index + 1})
+};
 
 export default class CourseVideoEditor extends React.Component {
 	static propTypes = {
@@ -30,76 +42,110 @@ export default class CourseVideoEditor extends React.Component {
 
 	onChange = null;
 
+	attachCaptionRef = x => this.caption = x
+
 	constructor (props) {
 		super(props);
 
-		this.state = {
-			isEditing: false,
-			video: null
-		};
+		this.state = this.getStateFor(props);
 	}
 
-	componentWillMount () {
-		this.getStateFor()
-			.then(state => {
-				this.setState({ ...state });
-			});
-	}
 
-	async getStateFor (props = this.props) {
-		const { block } = props;
+	getStateFor (props = this.props) {
+		const {block} = props;
 		const data = block.getData();
-		const videoNTIID = data.get('arguments');
-		const video = await this.resolveVideo(videoNTIID);
+		const body = data.get('body');
+		const blockArguments = data.get('arguments');
+
+		const url = (this.state && this.state.url)
+			|| getCanonicalUrlFrom(blockArguments);
+
 		return {
-			video,
-			isEditing: false
+			url: url,
+			body: body.toJS ? body.toJS() : body
 		};
 	}
+
 
 	componentWillReceiveProps (nextProps) {
-		const { block: newBlock } = nextProps;
-		const { block: oldBlock } = this.props;
+		const {block:newBlock} = nextProps;
+		const {block:oldBlock} = this.props;
 
 		if (newBlock !== oldBlock) {
-			this.getStateFor(nextProps)
-				.then(state => {
-					this.setState({ ...state });
-				});
+			this.setState(this.getStateFor(nextProps));
 		}
 	}
 
-	async resolveVideo (ntiid) {
-		const service = await getService();
-		const video = await service.getObject(ntiid);
-		return video;
-	}
+
+	onClick = e => {
+		e.stopPropagation();
+
+		if (this.caption) {
+			this.caption.focus();
+		}
+	};
+
 
 	onRemove = () => onRemove(this.props);
+	onFocus = () => onFocus(this.props);
+	onBlur = () => onBlur(this.props);
+	onCaptionChange = (body, doNotKeepSelection) => onCaptionChange(body, doNotKeepSelection, this.props);
 
-	onChange = () => {
-		const { video } = this.state;
-		Editor.show(video, { title: 'Video Editor' })
-			.then(newVideo => {
-				this.setState({
-					video: newVideo,
-					editing: false
-				});
-			});
-	}
+	normalizeSource = (service, source) => {
+		if (!/kaltura/i.test(service)) {
+			return source;
+		}
+
+		const [providerId, entryId] = source.split('/');
+		if (providerId && entryId) {
+			return `${providerId}:${entryId}`;
+		}
+
+		return source;
+	};
+
+	updateFromMediaSource = ({service, source, href}) => {
+		const {blockProps:{setBlockData}} = this.props;
+		const normalSource = this.normalizeSource(service, source);
+
+		setBlockData({arguments: `${service} ${normalSource}`});
+		this.setState({url: href});
+	};
+
+
+	updateUrl = inputUrl => {
+		const {blockProps:{setBlockData}} = this.props;
+
+		if (inputUrl) {
+			createMediaSourceFromUrl(inputUrl)
+				.then(mediaSource => mediaSource && this.updateFromMediaSource(mediaSource))
+				.catch(() => {});
+		} else {
+			setBlockData({arguments: ''});
+		}
+	};
+
 
 	render () {
-		const {isEditing, video} = this.state;
+		const {block, blockProps:{indexOfType}} = this.props;
+		const {url, body} = this.state;
+		const blockId = block.getKey();
 
 		return (
 			<div className="course-video-editor">
-				<Controls onRemove={this.onRemove} onChange={this.onChange} getString={getString} iconName="icon-edit" />
-				{(!isEditing && video) && (
-					<div className="video-wrap">
-						<Video src={video} />
-						<div className="video-title">{ video.title }</div>
-					</div>
-				)}
+				<Controls onRemove={this.onRemove} onChange={this.onChange} />
+				<VideoEditor updateUrl={this.updateUrl} src={url} onFocus={this.onFocus} onBlur={this.onBlur} />
+				<CaptionEditor
+					ref={this.attachCaptionRef}
+					body={body}
+					blockId={blockId}
+					onFocus={this.onFocus}
+					onBlur={this.onBlur}
+					onChange={this.onCaptionChange}
+					indexOfType={indexOfType}
+					blockType={blockType}
+					onClick={this.onClick}
+				/>
 			</div>
 		);
 	}
