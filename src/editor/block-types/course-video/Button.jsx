@@ -31,7 +31,6 @@ export default class CourseVideoButton extends React.Component {
 	attachButtonRef = x => this.buttonRef = x;
 
 	createBlock = insertBlock => {
-		const id = uuid.v4();
 		const editorRef = this.buttonRef
 			&& this.buttonRef.editorContext
 			&& this.buttonRef.editorContext.editor
