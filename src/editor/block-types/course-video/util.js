@@ -1,6 +1,6 @@
 import {BLOCKS} from '../../../draft-core';
 
-const NAME = 'ntivideo';
+const NAME = 'ntivideoref';
 
 export const isVideoBlock = contentBlock => {
 	const type = contentBlock.getType();
