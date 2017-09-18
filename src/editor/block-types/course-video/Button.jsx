@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import uuid from 'uuid';
 import {scoped} from 'nti-lib-locale';
 import { Chooser } from 'nti-web-video';
 
