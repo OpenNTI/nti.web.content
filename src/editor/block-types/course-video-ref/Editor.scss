@@ -1,0 +1,46 @@
+@import "~nti-style-common";
+
+.content-editing-editor-container .content-editing-rst-editor .nti-course-video-block {
+	margin: 0.875rem 0;
+	box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.15);
+
+	.DraftEditor-root {
+		min-height: 0;
+
+		.public-DraftEditor-content {
+			padding: 0;
+
+			& > div, & > div > div {
+				margin: 0;
+			}
+		}
+	}
+
+	.course-video-editor {
+		.video-editor {
+			margin: 0;
+			background-size: cover;
+		}
+
+		.caption-editor {
+			padding: rem-calc(10px 12px);
+			margin: 0;
+			background: $panel-background;
+		}
+
+
+		.rst-field-editor.title {
+			.DraftEditor-root {
+				font-weight: 600;
+				line-height: 19px;
+			}
+		}
+
+		.rst-field-editor.description {
+			.DraftEditor-root {
+				color: $secondary-grey;
+				line-height: 1.43;
+			}
+		}
+	}
+}
