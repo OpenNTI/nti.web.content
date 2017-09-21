@@ -4,6 +4,10 @@
 	margin: 0.875rem 0;
 	box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.15);
 
+	ul {
+		padding: initial; //reset the editor styles
+	}
+
 	.DraftEditor-root {
 		min-height: 0;
 
