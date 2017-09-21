@@ -5,6 +5,7 @@ import { Chooser } from 'nti-web-video';
 
 import {BLOCKS} from '../../../draft-core';
 import Button from '../common/Button';
+import {VIDEO_DELETED_EVENT, emitEvent} from '../Events';
 
 import {isVideoRefBlock} from './util';
 
@@ -13,6 +14,7 @@ const DEFAULT_TEXT = {
 };
 
 const t = scoped('nti-content.editor.block-types.course-figure.button', DEFAULT_TEXT);
+
 
 export default class CourseVideoButton extends React.Component {
 	static propTypes = {
@@ -35,7 +37,13 @@ export default class CourseVideoButton extends React.Component {
 			&& this.buttonRef.editorContext.editor
 			&& this.buttonRef.editorContext.editor.draftEditor;
 		const { course } = this.props;
-		Chooser.show(course, { refocus: editorRef })
+		Chooser.show(course, { refocus: editorRef },
+			{
+				onVideoDelete: (videoId) => {
+					// handle content block modification
+					emitEvent(VIDEO_DELETED_EVENT, videoId);
+				}
+			})
 			.then(video => {
 				insertBlock({
 					type: BLOCKS.ATOMIC,

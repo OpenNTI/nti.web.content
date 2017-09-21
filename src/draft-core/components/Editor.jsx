@@ -194,8 +194,8 @@ export default class DraftCoreEditor extends React.Component {
 		const {onChange} = this.props;
 		const {currentEditorState} = this.state;
 		const contentChanged = currentEditorState.getCurrentContent() !== editorState.getCurrentContent()
-								|| editorState.getLastChangeType() === 'apply-entity';
-
+			|| editorState.getLastChangeType() === 'apply-entity';
+		this.hasPendingChanges = this.hasPendingChanges || contentChanged;
 
 		this.setState({currentEditorState: editorState}, () => {
 			if (typeof cb === 'function') {
@@ -206,8 +206,9 @@ export default class DraftCoreEditor extends React.Component {
 				onChange(editorState);
 			}
 
-			if (contentChanged) {
+			if (this.hasPendingChanges) {
 				this.onContentChangeBuffered();
+				this.hasPendingChanges = false;
 			}
 		});
 	}
