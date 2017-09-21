@@ -4,6 +4,7 @@ import Video, {Editor} from 'nti-web-video';
 import {getService} from 'nti-web-client';
 import {scoped} from 'nti-lib-locale';
 
+import {VIDEO_DELETED_EVENT, addListener, removeListener, emitEvent} from '../Events';
 import {
 	Controls,
 	onRemove,
@@ -44,6 +45,22 @@ export default class CourseVideoEditor extends React.Component {
 			.then(state => {
 				this.setState({ ...state });
 			});
+
+		addListener(VIDEO_DELETED_EVENT, this.onDelete);
+	}
+
+	componentWillUnmount () {
+		removeListener(VIDEO_DELETED_EVENT, this.onDelete);
+	}
+
+	onDelete = (videoId) => {
+		const { block } = this.props;
+		const data = block.getData();
+		const videoNTIID = data.get('arguments');
+
+		if(videoId === videoNTIID) {
+			this.setState({deleted: true});
+		}
 	}
 
 	async getStateFor (props = this.props) {
@@ -79,32 +96,42 @@ export default class CourseVideoEditor extends React.Component {
 
 	onChange = () => {
 		const { video } = this.state;
-		Editor.show(video, { title: 'Video Editor' },
-			{ onVideoDelete: () => {
-				this.props.blockProps.removeBlock && this.props.blockProps.removeBlock();
 
+		this.setState({ isEditing: true});
+
+		Editor.show(video, { title: 'Video Editor' },
+			{ onVideoDelete: (deletedVideo) => {
 				this.onRemove();
+
+				emitEvent(VIDEO_DELETED_EVENT, deletedVideo.getID());
 			}})
 			.then(newVideo => {
 				this.setState({
 					video: newVideo,
-					editing: false
+					isEditing: false
 				});
 			});
 	}
 
 	render () {
-		const {isEditing, video} = this.state;
+		const {isEditing, video, deleted } = this.state;
+		const isMissing = deleted || !video;
+		const onChange = isMissing ? null : this.onChange;
 
 		return (
 			<div className="course-video-editor">
-				<Controls onRemove={this.onRemove} onChange={this.onChange} getString={getString} iconName="icon-edit" />
-				{(!isEditing && video) && (
+				<Controls onRemove={this.onRemove} onChange={onChange} getString={getString} iconName="icon-edit" />
+				{(!isEditing && video && !deleted) && (
 					<div className="video-wrap">
 						<Video src={video} />
 						<div className="video-title">{ video.title }</div>
 					</div>
 				)}
+				{
+					(isMissing) && (
+						<div className="video-missing">This video has been deleted</div>
+					)
+				}
 			</div>
 		);
 	}

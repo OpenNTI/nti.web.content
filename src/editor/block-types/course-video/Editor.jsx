@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import {scoped} from 'nti-lib-locale';
 import {createMediaSourceFromUrl, getCanonicalUrlFrom} from 'nti-web-video';
 
+import {VIDEO_DELETED_EVENT, addListener, removeListener} from '../Events';
 import {
 	CaptionEditor,
 	Controls,
@@ -48,6 +49,24 @@ export default class CourseVideoEditor extends React.Component {
 		super(props);
 
 		this.state = this.getStateFor(props);
+	}
+
+	componentWillMount () {
+		addListener(VIDEO_DELETED_EVENT, this.onDelete);
+	}
+
+	componentWillUnmount () {
+		removeListener(VIDEO_DELETED_EVENT, this.onDelete);
+	}
+
+	onDelete = (videoId) => {
+		const { block } = this.props;
+		const data = block.getData();
+		const videoNTIID = data.get('arguments');
+
+		if(videoId === videoNTIID) {
+			this.onRemove();
+		}
 	}
 
 
