@@ -97,8 +97,6 @@ export default class CourseVideoEditor extends React.Component {
 	onChange = () => {
 		const { video } = this.state;
 
-		this.setState({ isEditing: true});
-
 		Editor.show(video, { title: 'Video Editor' },
 			{ onVideoDelete: (deletedVideo) => {
 				this.onRemove();
@@ -108,7 +106,7 @@ export default class CourseVideoEditor extends React.Component {
 			.then(newVideo => {
 				this.setState({
 					video: newVideo,
-					isEditing: false
+					editing: false
 				});
 			});
 	}
