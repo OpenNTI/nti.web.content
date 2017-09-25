@@ -97,7 +97,11 @@ export default class CourseVideoEditor extends React.Component {
 	onChange = () => {
 		const { video } = this.state;
 
-		Editor.show(video, { title: 'Video Editor' },
+		Editor.show(video,
+			{
+				title: 'Video Editor',
+				restoreScroll: true
+			},
 			{ onVideoDelete: (deletedVideo) => {
 				this.onRemove();
 
