@@ -56,12 +56,12 @@
 	}
 }
 
-.nav-outline.toc-flyout {
+.toc-flyout {
 	box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.2);
-	min-width: 360px;
 
 	.outline-list {
-		top: 60px;
+		max-height: calc(100vh - 210px);
+		overflow-y: auto;
 	}
 
 	.header {
@@ -190,6 +190,7 @@
 		font-size: 0.8em;
 		line-height: 2.5;
 		cursor: pointer;
+		max-width: 360px;
 
 		&, .label {
 			white-space: normal;

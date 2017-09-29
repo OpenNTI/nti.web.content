@@ -113,10 +113,10 @@ export default class TableOfContents extends React.Component {
 		return (<Flyout.Triggered
 			trigger={this.renderTOC()}
 			horizontalAlign={Flyout.ALIGNMENTS.LEFT}
-			sizing={Flyout.SIZES.MATCH_SIDE}
 			ref={this.attachTOCFlyoutRef}
+			constrain
 		>
-			<div className="toc-flyout nav-outline">
+			<div className="toc-flyout">
 				{this.renderTOCHeader()}
 				{this.renderTOCItemList()}
 			</div>
