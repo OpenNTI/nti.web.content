@@ -8,7 +8,7 @@ import {BLOCKS} from '../../../draft-core';
 import Button from '../common/Button';
 import {VIDEO_DELETED_EVENT, emitEvent} from '../Events';
 
-import {isVideoRefBlock} from './util';
+import {isAnyVideoTypeRefBlock} from './util';
 
 const DEFAULT_TEXT = {
 	label: 'Video'
@@ -70,7 +70,7 @@ export default class CourseVideoButton extends React.Component {
 				label={t('label')}
 				createBlock={this.createBlock}
 				createBlockProps={{course}}
-				isBlockPredicate={isVideoRefBlock}
+				isBlockPredicate={isAnyVideoTypeRefBlock}
 			/>
 		);
 	};
