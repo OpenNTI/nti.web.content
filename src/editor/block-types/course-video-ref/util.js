@@ -1,12 +1,20 @@
 import {BLOCKS} from '../../../draft-core';
 
 const NAME = 'ntivideoref';
+const LEGACY_NAME = 'ntivideo';
 
 export const isVideoRefBlock = contentBlock => {
 	const type = contentBlock.getType();
 	const data = contentBlock.getData();
 
 	return type === BLOCKS.ATOMIC && data.get('name') === NAME;
+};
+
+export const isAnyVideoTypeRefBlock = contentBlock => {
+	const type = contentBlock.getType();
+	const data = contentBlock.getData();
+
+	return type === BLOCKS.ATOMIC && (data.get('name') === NAME || data.get('name') === LEGACY_NAME);
 };
 
 export const normalizeSource = (service, source) => {
