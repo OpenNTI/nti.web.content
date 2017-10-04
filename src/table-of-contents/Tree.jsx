@@ -1,9 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
+import {scoped} from 'nti-lib-locale';
 
 import Node from './Node';
 
+const DEFAULT_TEXT = {
+	empty: 'No Table of Contents',
+	noMatch: 'No Matches'
+};
+
+const t = scoped('nti-content.table-of-contents.tree', DEFAULT_TEXT);
 
 export default class ToCTree extends React.Component {
 	static propTypes = {
@@ -22,8 +29,18 @@ export default class ToCTree extends React.Component {
 
 	render () {
 		const {node, filter} = this.props;
+		const tree = this.renderTree(node, filter);
 
-		return this.renderTree(node, filter);
+		return (
+			<div className="table-of-contents-tree">
+				{tree}
+				{!tree && (
+					<div className="empty-toc">
+						{t(filter ? 'noMatch' : 'empty')}
+					</div>
+				)}
+			</div>
+		);
 	}
 
 
@@ -44,7 +61,7 @@ export default class ToCTree extends React.Component {
 		return prune ?
 			null :
 			(
-				<div className={cx('table-of-contents-tree', type, {filtered})}>
+				<div className={cx('toc-tree', type, {filtered})}>
 					<Node node={node} filtered={filtered} highlight={filter} doNavigation={doNavigation} root={this.root} />
 					{branches}
 				</div>

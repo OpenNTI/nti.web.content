@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import cx from 'classnames';
 import {Search, Loading, Error as Err, Banner} from 'nti-web-commons';
 
-import Tree from './Tree';
+import TableOfContents from './TableOfContents';
 
-export default class TableOfContents extends React.Component {
+export default class TableOfContentsView extends React.Component {
 	static propTypes = {
 		contentPackage: PropTypes.object.isRequired,
 		banner: PropTypes.bool,
@@ -55,7 +55,7 @@ export default class TableOfContents extends React.Component {
 		const {loading} = this.state;
 
 		return (
-			<div className="table-of-contents">
+			<div className="table-of-contents-view">
 				{loading && (<Loading.Mask />)}
 				{!loading && this.renderBranding()}
 				{!loading && this.renderSearch()}
@@ -104,7 +104,7 @@ export default class TableOfContents extends React.Component {
 					return (
 						<li key={key}>
 							<h1 className={cls}>Package: {toc.title}</h1>
-							<Tree node={toc.root} filter={filter} />
+							<TableOfContents toc={toc} filter={filter} />
 						</li>
 					);
 				})}

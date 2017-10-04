@@ -1,0 +1,19 @@
+@import '~nti-style-common';
+@import './Common';
+
+
+.table-of-contents-real-page {
+	color: $secondary-grey;
+	background: $panel-background;
+	box-shadow: $node-border;
+
+	@include calcPadding($font-size: 22px, $line-height: 28px, $desired-height: 52px);
+	font: {
+		style: normal;
+		weight: 100;
+		family: $header-font-family;
+	}
+
+	padding-right: $rhs-padding;
+	padding-left: $level-one-padding;
+}

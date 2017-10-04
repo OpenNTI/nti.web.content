@@ -1,3 +1,18 @@
 @import '~nti-style-common';
+@import './Common';
 
-.table-of-contents-tree {}
+.table-of-contents-tree {
+	.empty-toc {
+		text-align: center;
+		background: $panel-background;
+		color: $secondary-grey;
+		box-shadow: $node-border;
+
+		@include calcPadding($font-size: 16px, $line-height: 16px, $desired-height: 52px);
+		font: {
+			style: normal;
+			weight: bold;
+			family: $body-font-family;
+		}
+	}
+}
