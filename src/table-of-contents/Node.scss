@@ -1,0 +1,100 @@
+@import '~nti-style-common';
+
+@mixin calcPadding ($font-size, $line-height, $desired-height) {
+	$padding: ($desired-height - $line-height) / 2;
+
+	font-size: rem-calc($font-size);
+	line-height: $line-height / $font-size;
+
+	padding-top: rem-calc($padding);
+	padding-bottom: rem-calc($padding);
+}
+
+
+.table-of-contents-node {
+	$level-one-padding: 0.75rem;
+	$level-two-padding: 1.125rem;
+	$level-three-padding: 1.875rem;
+	$level-four-padding: 2.375rem;
+
+	$rhs-padding: $level-one-padding;
+
+	color: $secondary-grey;
+
+	&.root { display: none; }
+
+	&.filtered {
+		opacity: 0.3;
+	}
+
+	&.part {
+		background: $panel-background;
+		box-shadow:
+			0 1px 0 0 $border-grey-light,
+			0 -1px 0 0 $border-grey-light;
+
+		@include calcPadding($font-size: 22px, $line-height: 28px, $desired-height: 52px);
+		font: {
+			style: normal;
+			weight: 100;
+			family: $header-font-family;
+		}
+
+		padding-right: $rhs-padding;
+		padding-left: $level-one-padding;
+
+		.label {
+			@include limit-lines($line-height: 28/22);
+		}
+	}
+
+	&.chapter {
+		text-transform: uppercase;
+
+		@include calcPadding($font-size: 14px, $line-height: 18px, $desired-height: 40px);
+		font: {
+			style: normal;
+			weight: 700;
+			family: $body-font-family;
+		}
+
+		padding-right: $rhs-padding;
+		padding-left: $level-one-padding;
+
+		.label {
+			@include limit-lines($line-height: 18/14);
+		}
+	}
+
+	&.section, &.subsection, &.subsubsection {
+		@include calcPadding($font-size: 12px, $line-height: 16px, $desired-height: 30px);
+		font: {
+			style: normal;
+			weight: 400;
+			family: $body-font-family;
+		}
+
+		padding-right: $rhs-padding;
+
+		.label {
+			@include limit-lines($line-height: 16/12);
+		}
+	}
+
+	&.section {
+		padding-left: $level-two-padding;
+	}
+
+	&.subsection {
+		padding-left: $level-three-padding;
+	}
+
+	&.subsubsection {
+		padding-left: $level-four-padding;
+	}
+
+
+	.hit {
+		background-color: #FCFF13;
+	}
+}

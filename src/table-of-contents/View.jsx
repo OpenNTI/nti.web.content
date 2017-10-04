@@ -1,32 +1,114 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Search} from 'nti-web-commons';
+import cx from 'classnames';
+import {Search, Loading, Error as Err, Banner} from 'nti-web-commons';
 
 import Tree from './Tree';
 
 export default class TableOfContents extends React.Component {
 	static propTypes = {
-		toc: PropTypes.object.isRequired,
+		contentPackage: PropTypes.object.isRequired,
+		banner: PropTypes.bool,
 		doNavigation: PropTypes.func
 	}
 
-	state = {}
+	state = {loading: true}
+
+
+	componentWillReceiveProps (nextProps) {
+		const {contentPackage:nextPack} = nextProps;
+		const {contentPackage:prevPack} = this.props;
+
+		if (nextPack !== prevPack) {
+			this.fillIn(nextProps);
+		}
+	}
+
+
+	componentDidMount () {
+		this.fillInTocs(this.props);
+	}
+
+
+	async fillInTocs (props = this.props) {
+		this.setState({loading: true, error: false});
+
+		const {contentPackage} = props;
+
+		try {
+			const tocs = await contentPackage.getTablesOfContents();
+
+			this.setState({loading: false, tocs});
+		} catch (e) {
+			this.setState({error: e});
+		}
+
+	}
+
 
 	updateFilter = (filter) => {
 		this.setState({filter});
 	}
 
+
 	render () {
-		const {toc, doNavigation} = this.props;
-		const {filter} = this.state;
+		const {loading} = this.state;
 
 		return (
 			<div className="table-of-contents">
-				<div className="header">
-					<Search onChange={this.updateFilter} />
-				</div>
-				<Tree node={toc.root} filter={filter} doNavigation={doNavigation} />
+				{loading && (<Loading.Mask />)}
+				{!loading && this.renderBranding()}
+				{!loading && this.renderSearch()}
+				{!loading && this.renderError()}
+				{!loading && this.renderTocs()}
 			</div>
+		);
+	}
+
+
+	renderError () {
+		const {error} = this.state;
+
+		return !error ? null : (<Err error={error} />);
+	}
+
+
+	renderBranding () {
+		const {banner, contentPackage} = this.props;
+
+		return !banner ?
+			null :
+			(
+				<Banner item={contentPackage} className="head">
+					<div className="branding" />
+				</Banner>
+			);
+	}
+
+
+	renderSearch () {
+		return (
+			<Search onChange={this.updateFilter} />
+		);
+	}
+
+
+	renderTocs () {
+		const {tocs, filter} = this.state;
+		const isSingle = tocs.length === 1;
+		const cls = cx({'single-root': isSingle, 'multi-root': !isSingle});
+
+		return (
+			<ul className="contents">
+				{tocs.map((toc, key) => {
+					return (
+						<li key={key}>
+							<h1 className={cls}>Package: {toc.title}</h1>
+							<Tree node={toc.root} filter={filter} />
+						</li>
+					);
+				})}
+			</ul>
 		);
 	}
 }
