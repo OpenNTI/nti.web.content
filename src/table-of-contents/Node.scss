@@ -1,24 +1,7 @@
 @import '~nti-style-common';
-
-@mixin calcPadding ($font-size, $line-height, $desired-height) {
-	$padding: ($desired-height - $line-height) / 2;
-
-	font-size: rem-calc($font-size);
-	line-height: $line-height / $font-size;
-
-	padding-top: rem-calc($padding);
-	padding-bottom: rem-calc($padding);
-}
-
+@import './Common';
 
 .table-of-contents-node {
-	$level-one-padding: 0.75rem;
-	$level-two-padding: 1.125rem;
-	$level-three-padding: 1.875rem;
-	$level-four-padding: 2.375rem;
-
-	$rhs-padding: $level-one-padding;
-
 	color: $secondary-grey;
 
 	&.root { display: none; }
@@ -29,9 +12,7 @@
 
 	&.part {
 		background: $panel-background;
-		box-shadow:
-			0 1px 0 0 $border-grey-light,
-			0 -1px 0 0 $border-grey-light;
+		box-shadow: $node-border;
 
 		@include calcPadding($font-size: 22px, $line-height: 28px, $desired-height: 52px);
 		font: {

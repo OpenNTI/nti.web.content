@@ -1,0 +1,20 @@
+@import '~nti-style-common';
+@import './Common';
+
+.table-of-contents {
+	& > .label {
+		color: $secondary-grey;
+
+		@include calcPadding($font-size: 10px, $line-height: 13px, $desired-height: 16px);
+		font: {
+			style: normal;
+			weight: bold;
+			family: $body-font-family;
+		};
+
+		text-transform: uppercase;
+		padding-left: $level-one-padding;
+
+		box-shadow: $node-border;
+	}
+}
