@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
-import {Ellipsed} from 'nti-web-commons';
+// import {} from 'nti-web-commons';
 
 export default class ToCNode extends React.Component {
 	static propTypes = {
@@ -17,7 +17,7 @@ export default class ToCNode extends React.Component {
 		const {filtered, node} = this.props;
 		const {children, type} = node;
 
-		return cx('outline-node', type, {
+		return cx('table-of-contents-node', type, {
 			filtered,
 			'no-children': children.length === 0
 		});
@@ -51,19 +51,22 @@ export default class ToCNode extends React.Component {
 		const {node, highlight, filtered} = this.props;
 		const {title} = node;
 
-		const props = {...extraProps, title, children: title};
+		const props = {...extraProps, title};
+		const innerProps = {children: title};
 
 		if (highlight && !filtered) {
-			delete props.children;
+			delete innerProps.children;
 
 			let re = node.getMatchExp(highlight);
 			let highlightedTitle = title.replace(re, x => `<span class="hit">${x}</span>`);
 
-			props.dangerouslySetInnerHTML = {__html: highlightedTitle};
+			innerProps.dangerouslySetInnerHTML = {__html: highlightedTitle};
 		}
 
 		return (
-			<Ellipsed tag="a" {...props} />
+			<a {...props}>
+				<span className="label" {...innerProps} />
+			</a>
 		);
 	}
 }

@@ -44,7 +44,7 @@ export default class ToCTree extends React.Component {
 		return prune ?
 			null :
 			(
-				<div className={cx('outline-tree', type, {filtered})}>
+				<div className={cx('table-of-contents-tree', type, {filtered})}>
 					<Node node={node} filtered={filtered} highlight={filter} doNavigation={doNavigation} root={this.root} />
 					{branches}
 				</div>
