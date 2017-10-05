@@ -1,3 +1,17 @@
+@import '~nti-style-common';
+
+$level-one-padding: 0.75rem;
+$level-two-padding: 0.75rem;
+$level-three-padding: 1.125rem;
+$level-four-padding: 1.875rem;
+$level-five-padding: 2.375rem;
+
+$rhs-padding: $level-one-padding;
+
+$node-border:
+	0 1px 0 0 $border-grey-light,
+	0 -1px 0 0 $border-grey-light;
+
 @mixin calcPadding ($font-size, $line-height, $desired-height) {
 	$padding: ($desired-height - $line-height) / 2;
 
@@ -8,13 +22,22 @@
 	padding-bottom: rem-calc($padding);
 }
 
-$level-one-padding: 0.75rem;
-$level-two-padding: 1.125rem;
-$level-three-padding: 1.875rem;
-$level-four-padding: 2.375rem;
+@mixin nodeStyles ($font-size, $line-height, $desired-height, $border, $level-padding) {
+	@include calcPadding($font-size, $line-height, $desired-height);
 
-$rhs-padding: $level-one-padding;
+	@if $border {
+		box-shadow: $node-border
+	}
 
-$node-border:
-	0 1px 0 0 $border-grey-light,
-	0 -1px 0 0 $border-grey-light;
+	padding-right: $rhs-padding;
+	padding-left: $level-padding;
+
+	.no-touch &:not(.filtered):hover {
+		background-color: #f0f0f0;
+	}
+
+	.label {
+		@include limit-lines($line-height: $line-height/$font-size);
+	}
+}
+
