@@ -5,6 +5,18 @@
 }
 
 .content-toolbar {
+	.path-items {
+		.table-of-contents-flyout-trigger {
+			flex: none;
+
+			&::after {
+				content: '\00a0/\00a0';
+				color: $tertiary-grey;
+				margin-left: 0.4em;
+			}
+		}
+	}
+
 	.right.controls {
 		position: relative;
 		padding-right: 10px;

@@ -55,7 +55,7 @@ export default class TableOfContentsView extends React.Component {
 		const {loading} = this.state;
 
 		return (
-			<div className="table-of-contents-view">
+			<div className={cx('table-of-contents-view', {loading})}>
 				{loading && (<Loading.Mask />)}
 				{!loading && this.renderBranding()}
 				{!loading && this.renderSearch()}

@@ -20,6 +20,7 @@ function convertRealPageToNode (realPage) {
 	return {
 		type: 'part',
 		title: t('realPageTitle', {page}),
+		page,
 		id: node.id,
 		idx: node.idx,
 		length: node.length,

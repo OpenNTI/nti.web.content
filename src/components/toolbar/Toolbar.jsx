@@ -1,14 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import {encodeForURI} from 'nti-lib-ntiids';
+
+import {Flyout as TocFlyout} from '../../table-of-contents/';
 
 import Breadcrumb from './Breadcrumb';
-import TableOfContents from './TableOfContents';
 
 export default class Toolbar extends React.Component {
 	static propTypes = {
 		path: PropTypes.any,
 		pageSource: PropTypes.any,
 		toc: PropTypes.object,
+		contentPackage: PropTypes.object,
+		showToc: PropTypes.bool,
 		hideControls: PropTypes.bool,
 		hideHeader: PropTypes.bool,
 		doNavigation: PropTypes.func,
@@ -18,7 +22,7 @@ export default class Toolbar extends React.Component {
 	constructor (props) {
 		super(props);
 
-		const { path, pageSource, toc } = props;
+		const { path, pageSource, contentPackage } = props;
 
 		this.state = {
 			path: []
@@ -27,12 +31,12 @@ export default class Toolbar extends React.Component {
 		Promise.all([
 			path,
 			pageSource,
-			toc
+			contentPackage
 		]).then((results) => {
 			this.setState({
 				path: results[0],
 				pageSource: results[1],
-				toc: results[2]
+				contentPackage: results[2]
 			});
 		});
 	}
@@ -44,6 +48,16 @@ export default class Toolbar extends React.Component {
 
 		this.props.doNavigation && this.props.doNavigation(title, route, precache);
 	}
+
+
+	doTocNavigation = (node) => {
+		const {doNavigation} = this.props;
+
+		if (doNavigation) {
+			doNavigation(node.title, encodeForURI(node.id), {page: node.page});
+		}
+	}
+
 
 	renderPage () {
 		if(!this.state.pageSource) {
@@ -124,11 +138,12 @@ export default class Toolbar extends React.Component {
 			return null;
 		}
 
+		const {showToc} = this.props;
 		const className = 'path-items' + (this.props.message ? ' show-toast' : '');
 
 		return (
 			<div className={className}>
-				<TableOfContents toc={this.state.toc} doNavigation={this.props.doNavigation}/>
+				{showToc && (<TocFlyout contentPackage={this.state.contentPackage} doNavigation={this.doTocNavigation}/>)}
 				<Breadcrumb onClick={this.onBreadcrumbItemClicked} items={this.state.path} message={this.props.message}/>
 			</div>
 		);

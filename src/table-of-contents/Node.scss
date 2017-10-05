@@ -12,7 +12,14 @@
 	}
 
 	&.part {
-		@include nodeStyles($font-size: 22px, $line-height: 28px, $desired-height: 52px, $border: true, $level-padding: $level-one-padding);
+		@include nodeStyles(
+			$font-size: 22px,
+			$line-height: 28px,
+			$desired-height: 52px,
+			$border: true,
+			$level-padding: $level-one-padding,
+			$hover: true
+		);
 
 		background: $panel-background;
 		font: {
@@ -23,7 +30,14 @@
 	}
 
 	&.chapter {
-		@include nodeStyles($font-size: 14px, $line-height: 18px, $desired-height: 40px, $border: false, $level-padding: $level-two-padding);
+		@include nodeStyles(
+			$font-size: 14px,
+			$line-height: 18px,
+			$desired-height: 40px,
+			$border: false,
+			$level-padding: $level-two-padding,
+			$hover: true
+		);
 
 		text-transform: uppercase;
 		font: {
@@ -44,7 +58,8 @@
 			$line-height: $section-line-height,
 			$desired-height: $section-desired-height,
 			$border: false,
-			$level-padding: $level-three-padding
+			$level-padding: $level-three-padding,
+			$hover: true
 		);
 	}
 
@@ -54,7 +69,8 @@
 			$line-height: $section-line-height,
 			$desired-height: $section-desired-height,
 			$border: false,
-			$level-padding: $level-four-padding
+			$level-padding: $level-four-padding,
+			$hover: true
 		);
 	}
 
@@ -64,7 +80,8 @@
 			$line-height: $section-line-height,
 			$desired-height: $section-desired-height,
 			$border: false,
-			$level-padding: $level-five-padding
+			$level-padding: $level-five-padding,
+			$hover: true
 		);
 	}
 
