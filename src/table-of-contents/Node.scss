@@ -3,6 +3,7 @@
 
 .table-of-contents-node {
 	color: $secondary-grey;
+	cursor: pointer;
 
 	&.root { display: none; }
 
@@ -11,67 +12,60 @@
 	}
 
 	&.part {
-		background: $panel-background;
-		box-shadow: $node-border;
+		@include nodeStyles($font-size: 22px, $line-height: 28px, $desired-height: 52px, $border: true, $level-padding: $level-one-padding);
 
-		@include calcPadding($font-size: 22px, $line-height: 28px, $desired-height: 52px);
+		background: $panel-background;
 		font: {
 			style: normal;
 			weight: 100;
 			family: $header-font-family;
-		}
-
-		padding-right: $rhs-padding;
-		padding-left: $level-one-padding;
-
-		.label {
-			@include limit-lines($line-height: 28/22);
-		}
+		};
 	}
 
 	&.chapter {
-		text-transform: uppercase;
+		@include nodeStyles($font-size: 14px, $line-height: 18px, $desired-height: 40px, $border: false, $level-padding: $level-two-padding);
 
-		@include calcPadding($font-size: 14px, $line-height: 18px, $desired-height: 40px);
+		text-transform: uppercase;
 		font: {
 			style: normal;
 			weight: 700;
 			family: $body-font-family;
 		}
-
-		padding-right: $rhs-padding;
-		padding-left: $level-one-padding;
-
-		.label {
-			@include limit-lines($line-height: 18/14);
-		}
 	}
 
-	&.section, &.subsection, &.subsubsection {
-		@include calcPadding($font-size: 12px, $line-height: 16px, $desired-height: 30px);
-		font: {
-			style: normal;
-			weight: 400;
-			family: $body-font-family;
-		}
+	$section-font-size: 12px;
+	$section-line-height: 16px;
+	$section-desired-height: 30px;
 
-		padding-right: $rhs-padding;
-
-		.label {
-			@include limit-lines($line-height: 16/12);
-		}
-	}
 
 	&.section {
-		padding-left: $level-two-padding;
+		@include nodeStyles(
+			$font-size: $section-font-size,
+			$line-height: $section-line-height,
+			$desired-height: $section-desired-height,
+			$border: false,
+			$level-padding: $level-three-padding
+		);
 	}
 
 	&.subsection {
-		padding-left: $level-three-padding;
+		@include nodeStyles(
+			$font-size: $section-font-size,
+			$line-height: $section-line-height,
+			$desired-height: $section-desired-height,
+			$border: false,
+			$level-padding: $level-four-padding
+		);
 	}
 
 	&.subsubsection {
-		padding-left: $level-four-padding;
+		@include nodeStyles(
+			$font-size: $section-font-size,
+			$line-height: $section-line-height,
+			$desired-height: $section-desired-height,
+			$border: false,
+			$level-padding: $level-five-padding
+		);
 	}
 
 

@@ -3,18 +3,14 @@
 
 .table-of-contents {
 	& > .label {
-		color: $secondary-grey;
+		@include nodeStyles($font-size: 10px, $line-height: 13px, $desired-height: 20px, $border: true, $level-padding: $level-one-padding);
 
-		@include calcPadding($font-size: 10px, $line-height: 13px, $desired-height: 16px);
+		color: $secondary-grey;
 		font: {
 			style: normal;
 			weight: bold;
 			family: $body-font-family;
 		};
-
 		text-transform: uppercase;
-		padding-left: $level-one-padding;
-
-		box-shadow: $node-border;
 	}
 }
