@@ -24,6 +24,16 @@ export default class ToCNode extends React.Component {
 	}
 
 
+	onClick = () => {
+		const {node, doNavigation} = this.props;
+
+
+		if (doNavigation) {
+			doNavigation(node);
+		}
+	}
+
+
 	render () {
 		const {doNavigation} = this.props;
 
