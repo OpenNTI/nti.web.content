@@ -13,6 +13,13 @@ export default class ToCNode extends React.Component {
 	}
 
 
+	//TODO: Have this come from a mixin
+	static contextTypes = {
+		router: PropTypes.object,
+		defaultEnvironment: PropTypes.object
+	}
+
+
 	getClassName () {
 		const {filtered, node} = this.props;
 		const {children, type} = node;

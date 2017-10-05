@@ -1,0 +1,39 @@
+@import "~nti-style-common";
+
+.table-of-contents-flyout-trigger {
+	display: flex;
+	flex-wrap: nowrap;
+	align-items: center;
+	align-content: center;
+
+	cursor: pointer;
+
+	.icon {
+		border-radius: 5px;
+		box-shadow: 0 0 0 1px #e5e5e5;
+		background-image: linear-gradient(to bottom, #fff 0%, #f8f8f8 100%);
+		padding: 8px 18px;
+		display: inline-block;
+
+		&::after {
+			content: '';
+			overflow: hidden;
+			background-image: url(./assets/topic-blue.png);
+			width: 18px;
+			height: 20px;
+			display: inline-block;
+		}
+	}
+
+	.label {
+		display: none;
+	}
+}
+
+
+.table-of-contents-flyout {
+	.table-of-contents-view {
+		width: 360px;
+		max-height: calc(100vh - 210px);
+	}
+}

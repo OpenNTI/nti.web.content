@@ -22,7 +22,7 @@ $node-border:
 	padding-bottom: rem-calc($padding);
 }
 
-@mixin nodeStyles ($font-size, $line-height, $desired-height, $border, $level-padding) {
+@mixin nodeStyles ($font-size, $line-height, $desired-height, $border, $level-padding, $hover) {
 	@include calcPadding($font-size, $line-height, $desired-height);
 
 	@if $border {
@@ -32,8 +32,10 @@ $node-border:
 	padding-right: $rhs-padding;
 	padding-left: $level-padding;
 
-	.no-touch &:not(.filtered):hover {
-		background-color: #f0f0f0;
+	@if $hover {
+		.no-touch &:not(.filtered):hover {
+			background-color: #f0f0f0;
+		}
 	}
 
 	.label {

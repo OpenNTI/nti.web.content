@@ -3,7 +3,14 @@
 
 .table-of-contents {
 	& > .label {
-		@include nodeStyles($font-size: 10px, $line-height: 13px, $desired-height: 20px, $border: true, $level-padding: $level-one-padding);
+		@include nodeStyles(
+			$font-size: 10px,
+			$line-height: 13px,
+			$desired-height: 20px,
+			$border: true,
+			$level-padding: $level-one-padding,
+			$hover: false
+		);
 
 		color: $secondary-grey;
 		font: {
