@@ -94,6 +94,7 @@ export default class TableOfContentsView extends React.Component {
 
 
 	renderTocs () {
+		const {doNavigation} = this.props;
 		const {tocs, filter} = this.state;
 		const isSingle = tocs.length === 1;
 		const cls = cx({'single-root': isSingle, 'multi-root': !isSingle});
@@ -104,7 +105,7 @@ export default class TableOfContentsView extends React.Component {
 					return (
 						<li key={key}>
 							<h1 className={cls}>Package: {toc.title}</h1>
-							<TableOfContents toc={toc} filter={filter} />
+							<TableOfContents toc={toc} filter={filter} doNavigation={doNavigation} />
 						</li>
 					);
 				})}

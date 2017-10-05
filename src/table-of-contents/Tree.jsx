@@ -61,7 +61,7 @@ export default class ToCTree extends React.Component {
 		return prune ?
 			null :
 			(
-				<div className={cx('toc-tree', type, {filtered})}>
+				<div key={node.id} className={cx('toc-tree', type, {filtered})}>
 					<Node node={node} filtered={filtered} highlight={filter} doNavigation={doNavigation} root={this.root} />
 					{branches}
 				</div>
