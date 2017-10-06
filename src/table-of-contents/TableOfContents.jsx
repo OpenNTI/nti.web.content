@@ -13,21 +13,6 @@ const DEFAULT_TEXT = {
 
 const t = scoped('nti-content.table-of-contents.toc', DEFAULT_TEXT);
 
-function convertRealPageToNode (realPage) {
-	const {page, node} = realPage;
-
-
-	return {
-		type: 'part',
-		title: t('realPageTitle', {page}),
-		page,
-		id: node.id,
-		idx: node.idx,
-		length: node.length,
-		children: node.children
-	};
-}
-
 TableOfContents.propTypes = {
 	toc: PropTypes.object.isRequired,
 	filter: PropTypes.string,
@@ -44,9 +29,11 @@ export default function TableOfContents ({toc, filter, onSelectNode}) {
 			{hasRealPages && (<div className="label">{t('realPages')}</div>)}
 			{hasRealPages && (
 				<div className="real-pages">
-					{realPages.map((page, index) => {
+					{realPages.map((realPage, index) => {
+						const {page, node} = realPage;
+
 						return (
-							<Node key={index} node={convertRealPageToNode(page)} onSelectNode={onSelectNode} />
+							<Node key={index} node={node} title={t('realPageTitle', {page})} type="part" onSelectNode={onSelectNode} />
 						);
 					})}
 				</div>
