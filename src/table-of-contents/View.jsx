@@ -9,7 +9,7 @@ export default class TableOfContentsView extends React.Component {
 	static propTypes = {
 		contentPackage: PropTypes.object.isRequired,
 		banner: PropTypes.bool,
-		doNavigation: PropTypes.func
+		onSelectNode: PropTypes.func
 	}
 
 	state = {loading: true}
@@ -94,7 +94,7 @@ export default class TableOfContentsView extends React.Component {
 
 
 	renderTocs () {
-		const {doNavigation} = this.props;
+		const {onSelectNode} = this.props;
 		const {tocs, filter} = this.state;
 		const isSingle = tocs.length === 1;
 		const cls = cx({'single-root': isSingle, 'multi-root': !isSingle});
@@ -105,7 +105,7 @@ export default class TableOfContentsView extends React.Component {
 					return (
 						<li key={key}>
 							<h1 className={cls}>Package: {toc.title}</h1>
-							<TableOfContents toc={toc} filter={filter} doNavigation={doNavigation} />
+							<TableOfContents toc={toc} filter={filter} onSelectNode={onSelectNode} />
 						</li>
 					);
 				})}

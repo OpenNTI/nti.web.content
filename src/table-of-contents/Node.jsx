@@ -8,7 +8,7 @@ export default class ToCNode extends React.Component {
 		node: PropTypes.object,
 		highlight: PropTypes.string,
 		filtered: PropTypes.bool,
-		doNavigation: PropTypes.func,
+		onSelectNode: PropTypes.func,
 		root: PropTypes.string
 	}
 
@@ -32,19 +32,19 @@ export default class ToCNode extends React.Component {
 
 
 	onClick = () => {
-		const {node, doNavigation} = this.props;
+		const {node, onSelectNode} = this.props;
 
 
-		if (doNavigation) {
-			doNavigation(node);
+		if (onSelectNode) {
+			onSelectNode(node);
 		}
 	}
 
 
 	render () {
-		const {doNavigation} = this.props;
+		const {onSelectNode} = this.props;
 
-		return doNavigation ? this.renderDisplay() : this.renderLink();
+		return onSelectNode ? this.renderDisplay() : this.renderLink();
 	}
 
 

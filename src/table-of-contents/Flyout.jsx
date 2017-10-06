@@ -7,18 +7,18 @@ import TableOfContents from './View';
 export default class TableOfContentsFlyout extends React.Component {
 	static propTypes = {
 		contentPackage: PropTypes.object,
-		doNavigation: PropTypes.func
+		onSelectNode: PropTypes.func
 	}
 
 
 	attachFlyoutRef = x => this.flyout = x;
 
 
-	doNavigation = (node) => {
-		const {doNavigation} = this.props;
+	onSelectNode = (node) => {
+		const {onSelectNode} = this.props;
 
-		if (doNavigation) {
-			doNavigation(node);
+		if (onSelectNode) {
+			onSelectNode(node);
 		}
 
 		if (this.flyout) {
@@ -27,7 +27,7 @@ export default class TableOfContentsFlyout extends React.Component {
 	}
 
 	render () {
-		const {contentPackage, doNavigation} = this.props;
+		const {contentPackage, onSelectNode} = this.props;
 
 		if (!contentPackage) { return null; }
 
@@ -39,7 +39,7 @@ export default class TableOfContentsFlyout extends React.Component {
 				className="table-of-contents-flyout"
 			>
 				<div>
-					<TableOfContents contentPackage={contentPackage} doNavigation={doNavigation && this.doNavigation} />
+					<TableOfContents contentPackage={contentPackage} onSelectNode={onSelectNode && this.onSelectNode} />
 				</div>
 			</Flyout.Triggered>
 		);

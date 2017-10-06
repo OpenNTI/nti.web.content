@@ -31,22 +31,22 @@ function convertRealPageToNode (realPage) {
 TableOfContents.propTypes = {
 	toc: PropTypes.object.isRequired,
 	filter: PropTypes.string,
-	doNavigation: PropTypes.func
+	onSelectNode: PropTypes.func
 };
-export default function TableOfContents ({toc, filter, doNavigation}) {
+export default function TableOfContents ({toc, filter, onSelectNode}) {
 	const realPages = toc.getRealPages ? toc.getRealPages(filter) : [];
 	const hasRealPages = realPages.length > 0;
 
 	return (
 		<div className="table-of-contents">
 			{hasRealPages && (<div className="label">{t('toc')}</div>)}
-			<Tree node={toc.root} filter={filter} doNavigation={doNavigation} />
+			<Tree node={toc.root} filter={filter} onSelectNode={onSelectNode} />
 			{hasRealPages && (<div className="label">{t('realPages')}</div>)}
 			{hasRealPages && (
 				<div className="real-pages">
 					{realPages.map((page, index) => {
 						return (
-							<Node key={index} node={convertRealPageToNode(page)} doNavigation={doNavigation} />
+							<Node key={index} node={convertRealPageToNode(page)} onSelectNode={onSelectNode} />
 						);
 					})}
 				</div>
