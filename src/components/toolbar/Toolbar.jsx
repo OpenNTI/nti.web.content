@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {encodeForURI} from 'nti-lib-ntiids';
 
 import {Flyout as TocFlyout} from '../../table-of-contents/';
 
@@ -16,6 +15,7 @@ export default class Toolbar extends React.Component {
 		hideControls: PropTypes.bool,
 		hideHeader: PropTypes.bool,
 		doNavigation: PropTypes.func,
+		selectTocNode: PropTypes.func,
 		message: PropTypes.object
 	}
 
@@ -47,15 +47,6 @@ export default class Toolbar extends React.Component {
 			title = item.title;
 
 		this.props.doNavigation && this.props.doNavigation(title, route, precache);
-	}
-
-
-	doTocNavigation = (node) => {
-		const {doNavigation} = this.props;
-
-		if (doNavigation) {
-			doNavigation(node.title, encodeForURI(node.id), {page: node.page});
-		}
 	}
 
 
@@ -138,12 +129,12 @@ export default class Toolbar extends React.Component {
 			return null;
 		}
 
-		const {showToc} = this.props;
+		const {showToc, selectTocNode} = this.props;
 		const className = 'path-items' + (this.props.message ? ' show-toast' : '');
 
 		return (
 			<div className={className}>
-				{showToc && (<TocFlyout contentPackage={this.state.contentPackage} doNavigation={this.doTocNavigation}/>)}
+				{showToc && (<TocFlyout contentPackage={this.state.contentPackage} onSelectNode={selectTocNode}/>)}
 				<Breadcrumb onClick={this.onBreadcrumbItemClicked} items={this.state.path} message={this.props.message}/>
 			</div>
 		);

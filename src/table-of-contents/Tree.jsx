@@ -16,7 +16,7 @@ export default class ToCTree extends React.Component {
 	static propTypes = {
 		node: PropTypes.object.isRequired,
 		filter: PropTypes.string,
-		doNavigation: PropTypes.func
+		onSelectNode: PropTypes.func
 	}
 
 
@@ -47,7 +47,7 @@ export default class ToCTree extends React.Component {
 	renderTree (node, filter) {
 		if (!node.isTopic() || node.isBeyondLevel()) { return null; }
 
-		const {doNavigation} = this.props;
+		const {onSelectNode} = this.props;
 		const {type, children} = node;
 
 		const filtered = filter && !node.matches(filter, false);
@@ -62,7 +62,7 @@ export default class ToCTree extends React.Component {
 			null :
 			(
 				<div key={node.id} className={cx('toc-tree', type, {filtered})}>
-					<Node node={node} filtered={filtered} highlight={filter} doNavigation={doNavigation} root={this.root} />
+					<Node node={node} filtered={filtered} highlight={filter} onSelectNode={onSelectNode} root={this.root} />
 					{branches}
 				</div>
 			);
