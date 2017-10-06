@@ -6,6 +6,8 @@ import cx from 'classnames';
 export default class ToCNode extends React.Component {
 	static propTypes = {
 		node: PropTypes.object,
+		title: PropTypes.string,
+		type: PropTypes.string,
 		highlight: PropTypes.string,
 		filtered: PropTypes.bool,
 		onSelectNode: PropTypes.func,
@@ -21,8 +23,9 @@ export default class ToCNode extends React.Component {
 
 
 	getClassName () {
-		const {filtered, node} = this.props;
-		const {children, type} = node;
+		const {filtered, node, type:propType} = this.props;
+		const {children} = node;
+		const type = propType || node.type;
 
 		return cx('table-of-contents-node', type, {
 			filtered,
@@ -65,8 +68,8 @@ export default class ToCNode extends React.Component {
 
 
 	renderNode (extraProps) {
-		const {node, highlight, filtered} = this.props;
-		const {title} = node;
+		const {node, highlight, filtered, title:propTitle} = this.props;
+		const title = propTitle || node.title;
 
 		const props = {...extraProps, title};
 		const innerProps = {children: title};
