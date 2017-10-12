@@ -99,7 +99,7 @@ export default class BreadcrumbItem extends React.Component {
 				sizing={Flyout.SIZES.MATCH_SIDE}
 				ref={this.attachFlyoutRef}
 			>
-				<div>
+				<div className="breadcrumb-dropdown-view">
 					{item.siblings.map(this.renderSibling)}
 				</div>
 			</Flyout.Triggered>);

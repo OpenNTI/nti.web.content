@@ -3,16 +3,20 @@
 .breadcrumb-sibling-menu {
 	min-width: 400px;
 
-	.sibling-item {
-		padding: 8px;
-		line-height: 25px;
-		text-overflow: ellipsis;
-		overflow: hidden;
-		cursor: pointer;
-		font-size: 14px;
+	.breadcrumb-dropdown-view {
+		max-height: calc(100vh - 210px);
 
-		&:hover {
-			background-color: #eee;
+		.sibling-item {
+			padding: 8px;
+			line-height: 25px;
+			text-overflow: ellipsis;
+			overflow: hidden;
+			cursor: pointer;
+			font-size: 14px;
+
+			&:hover {
+				background-color: #eee;
+			}
 		}
 	}
 }
