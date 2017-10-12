@@ -96,7 +96,6 @@ export default class BreadcrumbItem extends React.Component {
 				trigger={this.renderParent()}
 				hover
 				horizontalAlign={Flyout.ALIGNMENTS.LEFT}
-				sizing={Flyout.SIZES.MATCH_SIDE}
 				ref={this.attachFlyoutRef}
 			>
 				<div className="breadcrumb-dropdown-view">
