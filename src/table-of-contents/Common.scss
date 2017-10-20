@@ -38,7 +38,7 @@ $node-border:
 		}
 	}
 
-	.label {
+	.toc-label {
 		@include limit-lines($line-height: $line-height/$font-size);
 	}
 }

@@ -2,7 +2,7 @@
 @import './Common';
 
 .table-of-contents {
-	& > .label {
+	& > .toc-label {
 		@include nodeStyles(
 			$font-size: 10px,
 			$line-height: 13px,

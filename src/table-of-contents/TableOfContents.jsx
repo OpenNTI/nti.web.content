@@ -24,9 +24,9 @@ export default function TableOfContents ({toc, filter, onSelectNode}) {
 
 	return (
 		<div className="table-of-contents">
-			{hasRealPages && (<div className="label">{t('toc')}</div>)}
+			{hasRealPages && (<div className="toc-label">{t('toc')}</div>)}
 			<Tree node={toc.root} filter={filter} onSelectNode={onSelectNode} />
-			{hasRealPages && (<div className="label">{t('realPages')}</div>)}
+			{hasRealPages && (<div className="toc-label">{t('realPages')}</div>)}
 			{hasRealPages && (
 				<div className="real-pages">
 					{realPages.map((realPage, index) => {

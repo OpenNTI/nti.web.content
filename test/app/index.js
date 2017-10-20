@@ -6,8 +6,9 @@ import {decodeFromURI} from 'nti-lib-ntiids';
 import {getService} from 'nti-web-client';
 import {ConflictResolutionHandler} from 'nti-web-commons';
 
+// import {Flyout} from '../../src/table-of-contents/';
 import {Editor} from '../../src';
-// import RSTTest from '../../src/RST/test';
+// // import RSTTest from '../../src/RST/test';
 
 // import 'normalize.css';
 import 'nti-style-common/fonts.scss';
@@ -82,6 +83,37 @@ class Test extends React.Component {
 		);
 	}
 }
+
+
+//tag:nextthought.com,2011-10:SYMMYS-Bundle-ARPMTextbook
+//tag:nextthought.com,2011-10:NTI-Bundle-NextThoughtFAQ
+
+// class Test extends React.Component {
+// 	state = {}
+
+// 	componentDidMount () {
+// 		getService()
+// 			.then((service) => service.getObject('tag:nextthought.com,2011-10:SYMMYS-Bundle-ARPMTextbook'))
+// 			.then((bundle) => bundle.ContentPackages[0])
+// 			.then((pack) => this.setState({pack}));
+// 	}
+
+
+// 	doNavigation (node) {
+// 		debugger;
+// 	}
+
+
+// 	render () {
+// 		const {pack} = this.state;
+
+// 		if (!pack) { return null; }
+
+// 		return (
+// 			<Flyout contentPackage={pack} doNavigation={this.doNavigation}/>
+// 		);
+// 	}
+// }
 
 
 ReactDOM.render(

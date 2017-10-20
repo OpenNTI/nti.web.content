@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
-// import {} from 'nti-web-commons';
+import {encodeForURI} from 'nti-lib-ntiids';
+import {ActiveState} from 'nti-web-commons';
 
 export default class ToCNode extends React.Component {
 	static propTypes = {
@@ -15,10 +16,23 @@ export default class ToCNode extends React.Component {
 	}
 
 
-	//TODO: Have this come from a mixin
+	//TODO: Have these come from a mixin
 	static contextTypes = {
 		router: PropTypes.object,
 		defaultEnvironment: PropTypes.object
+	}
+
+	getNavigable () {
+		const {context: {router, defaultEnvironment}} = this;
+
+		return router || defaultEnvironment;
+	}
+
+
+	makeHref (path) {
+		const n = this.getNavigable();
+
+		return n.makeHref(path);
 	}
 
 
@@ -61,9 +75,28 @@ export default class ToCNode extends React.Component {
 
 
 	renderLink () {
-		//TODO: fill in the anchor...
+		const {root, node} = this.props;
+		const prefix = this.makeHref(`/${root}/`);
 
-		return this.renderDisplay();
+		let {id} = node;
+		let href = prefix;
+
+		if (id && id !== root) {
+			let fragment = '';
+
+			if (node.isAnchor()) {
+				id = node.parent.id;
+				fragment = `#${node.getAchorTarget()}`;
+			}
+
+			href = `${prefix}${encodeForURI(id)}/${fragment}`;
+		}
+
+		return (
+			<ActiveState hasChildren href={href} tag="div" className={this.getClassName()}>
+				{this.renderNode({href})}
+			</ActiveState>
+		);
 	}
 
 
@@ -85,7 +118,7 @@ export default class ToCNode extends React.Component {
 
 		return (
 			<a {...props}>
-				<span className="label" {...innerProps} />
+				<span className="toc-label" {...innerProps} />
 			</a>
 		);
 	}
