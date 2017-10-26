@@ -17,6 +17,12 @@
 	}
 
 	.course-video-editor {
+		&.no-user-select {
+			*::-moz-selection {
+				background: none;
+			}
+		}
+
 		.video-missing {
 			height: 400px;
 			background-color: black;

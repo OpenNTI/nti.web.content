@@ -121,7 +121,7 @@ export default class CourseVideoEditor extends React.Component {
 		const onChange = isMissing ? null : this.onChange;
 
 		return (
-			<div className="course-video-editor">
+			<div className="course-video-editor no-user-select">
 				<Controls onRemove={this.onRemove} onChange={onChange} getString={getString} iconName="icon-edit" />
 				{(!isEditing && video && !deleted) && (
 					<div className="video-wrap">
