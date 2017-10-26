@@ -13,7 +13,9 @@
 	.content-editing-rst-editor {
 		.DraftEditor-root {
 			min-height: 75vh;//TODO: figure out a better way than this...
-			padding: 0;
+			padding-top: 0;
+			padding-left: 0;
+			padding-right: 0;
 			font: normal normal 0.875rem/2.2 $body-font-family;
 			color: $primary-grey;
 
