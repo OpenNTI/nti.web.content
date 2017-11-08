@@ -3,13 +3,15 @@ import * as CourseVideo from './course-video';
 import * as CourseVideoRef from './course-video-ref';
 import * as OrderedList from './ordered-list';
 import * as UnorderedList from './unordered-list';
+import * as BlockQuote from './block-quote';
 
 const TYPES = [
 	CourseFigure,
 	CourseVideo,
 	CourseVideoRef,
 	UnorderedList,
-	OrderedList
+	OrderedList,
+	BlockQuote
 ];
 
 export const Buttons = TYPES.reduce((acc, type) => {

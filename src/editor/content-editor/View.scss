@@ -69,6 +69,17 @@
 		ul, ol {
 			padding: 0 0 0 2.5rem;
 		}
+
+		blockquote {
+			font-size: 18px;
+			font-style: italic;
+			line-height: 1.67;
+			font-weight: 100;
+			color: #757474;
+			border-left: 3px solid #757474;
+			margin: 20px 0px;
+			padding: 0px 20px;
+		}
 	}
 
 	.content-editing-editor-error {
