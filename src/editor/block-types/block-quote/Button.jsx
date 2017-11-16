@@ -11,16 +11,14 @@ const DEFAULT_TEXT = {
 const t = scoped('nti-content.editor.block-types.block-quote.button', DEFAULT_TEXT);
 
 function createBlock (insertBlock) {
-	debugger;
 	insertBlock({
 		type: BLOCKS.BLOCKQUOTE,
-		depth: 1,
+		depth: 0,
 		text: ''
 	}, false, true);
 }
 
 function isBlock (block) {
-	debugger;
 	return block.getType() === BLOCKS.BLOCKQUOTE;
 }
 

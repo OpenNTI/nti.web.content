@@ -74,11 +74,13 @@
 			font-size: 18px;
 			font-style: italic;
 			line-height: 1.67;
-			font-weight: 100;
 			color: #757474;
 			border-left: 3px solid #757474;
 			margin: 20px 0px;
 			padding: 0px 20px;
+			p {
+				color: #757474;
+			}
 		}
 	}
 
