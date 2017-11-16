@@ -9,6 +9,7 @@ const DEFAULT_TEXT = {
 	[BLOCKS.HEADER_TWO]: 'Title',
 	[BLOCKS.HEADER_THREE]: 'Section Title',
 	[BLOCKS.HEADER_FOUR]: 'Paragraph Headline',
+	[BLOCKS.BLOCKQUOTE]: 'Block Quote',
 	[BLOCKS.UNSTYLED]: 'Body Text',
 	[BLOCKS.ORDERED_LIST_ITEM]: 'Numbered List',
 	[BLOCKS.UNORDERED_LIST_ITEM]: 'Bulleted List'
@@ -50,6 +51,7 @@ export default class ContentEditorTypeFormat extends React.Component {
 						<li><TypeButton onMouseDown={this.closeMenu} className={typeClass} type={BLOCKS.HEADER_TWO} getString={t} plain checkmark /></li>
 						<li><TypeButton onMouseDown={this.closeMenu} className={typeClass} type={BLOCKS.HEADER_THREE} getString={t} plain checkmark /></li>
 						<li><TypeButton onMouseDown={this.closeMenu} className={typeClass} type={BLOCKS.HEADER_FOUR} getString={t} plain checkmark /></li>
+						<li><TypeButton onMouseDown={this.closeMenu} className={typeClass} type={BLOCKS.BLOCKQUOTE} getString={t} plain checkmark /></li>
 						<li><TypeButton onMouseDown={this.closeMenu} className={typeClass} type={BLOCKS.UNSTYLED} getString={t} plain checkmark /></li>
 					</ul>
 					<ul className="lists">
