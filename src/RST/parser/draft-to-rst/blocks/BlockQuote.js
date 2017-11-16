@@ -27,7 +27,7 @@ export default class BlockQuote {
 			return {};
 		}
 
-		const output = [`\t ${parseText(this[BLOCK], context)}`];
+		const output = ['.. Empty comment to isolate the block quote', '..', '', `\t ${parseText(this[BLOCK], context)}`];
 
 		return { output };
 	}
