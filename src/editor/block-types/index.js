@@ -4,6 +4,7 @@ import * as CourseVideoRef from './course-video-ref';
 import * as OrderedList from './ordered-list';
 import * as UnorderedList from './unordered-list';
 import * as BlockQuote from './block-quote';
+import * as Code from './code';
 
 const TYPES = [
 	CourseFigure,
@@ -11,7 +12,8 @@ const TYPES = [
 	CourseVideoRef,
 	UnorderedList,
 	OrderedList,
-	BlockQuote
+	BlockQuote,
+	Code
 ];
 
 export const Buttons = TYPES.reduce((acc, type) => {
