@@ -8,7 +8,7 @@ import {saveContentPackageDescription} from '../Actions';
 import MetaEditor from './MetaEditor';
 
 const DEFAULT_TEXT = {
-	placeholder: 'Write a description here'
+	placeholder: 'Write a description...'
 };
 
 const t = scoped('CONTENT_EDITOR_TITLE', DEFAULT_TEXT);
