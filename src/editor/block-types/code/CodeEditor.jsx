@@ -1,69 +1,65 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Input } from 'nti-web-commons';
 
-import { NestedEditorWrapper } from '../../../draft-core';
+const { TextArea } = Input;
 
 export default class CodeEditor extends React.Component {
 
-	get code () {
-		const { body } = this.props;
-		debugger;
-		return (body && body[0]) || '';
+	static propTypes = {
+		code: PropTypes.string,
+		onChange: PropTypes.func.isRequired,
+		onFocus: PropTypes.func.isRequired,
+		onBlur: PropTypes.func.isRequired,
+		indexOfType: PropTypes.number
+	}
+
+	constructor (props) {
+		super(props);
+		this.state = {
+			code: props.code || ''
+		};
 	}
 
 	attachCodeRef = x => this.codeEditor = x
 
-	focus () {
+	componentWillReceiveProps (nextProps) {
+		if (nextProps.code !== this.props.code && nextProps.code !== this.state.code) {
+			this.setState({
+				code: nextProps.code
+			});
+		}
+	}
+
+	focus = () => {
 		if (this.codeEditor) {
 			this.codeEditor.focus();
 		}
 	}
 
-	onFocus = () => {
-		const {onFocus} = this.props;
-
-		if (onFocus) {
-			onFocus();
-		}
-	}
-
-	onBlur = () => {
-		const {onBlur} = this.props;
-
-		if (onBlur) {
-			onBlur();
-		}
-	}
-
-	onChange = ({ target: { value }}) => {
+	onChange = (value) => {
 		const { onChange } = this.props;
-		debugger;
-		if (onChange) {
-			onChange([value]);
-		}
+
+		onChange(value.split('\n'));
+		this.setState({
+			code: value
+		});
 	}
 
 	render () {
-		const { code } = this;
+		const { code } = this.state;
+		const { onFocus, onBlur } = this.props;
+
 		return (
-			<NestedEditorWrapper>
-				<textarea 
-					value={code} 
-					ref={this.attachCodeRef}
-					onChange={this.onChange} 
-					onFocus={this.onFocus} 
-					onBlur={this.onBlur} 
-				/>
-			</NestedEditorWrapper>
+			<TextArea 
+				value={code}
+				onClick={this.focus} 
+				ref={this.attachCodeRef}
+				onChange={this.onChange} 
+				onFocus={onFocus} 
+				onBlur={onBlur} 
+			/>
 		);
 	}
 }
 
-CodeEditor.propTypes = {
-	body: PropTypes.array,
-	blockId: PropTypes.string,
-	onChange: PropTypes.func,
-	onFocus: PropTypes.func,
-	onBlur: PropTypes.func,
-	indexOfType: PropTypes.number,
-};

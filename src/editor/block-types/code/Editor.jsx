@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
+import { NestedEditorWrapper } from '../../../draft-core';
 import {
 	onFocus,
 	onBlur,
+	onRemove
 } from '../course-common';
 
 import CodeEditor from './CodeEditor';
@@ -21,15 +23,16 @@ class Editor extends Component {
 		})
 	}
 
-	attachCodeRef = x => this.code = x
-
+	attachCodeRef = x => this.code = x;
+	onFocus = () => onFocus(this.props);
+	onBlur = () => onBlur(this.props);
+	onRemove = () => onRemove(this.props);
+	
 	constructor (props) {
 		super(props);
-
 		this.state = this.getStateFor(props);
 	}
 	
-
 	componentWillReceiveProps (nextProps) {
 		const { block: newBlock } = nextProps;
 		const { block: oldBlock } = this.props;
@@ -45,44 +48,49 @@ class Editor extends Component {
 		const body = data.get('body');
 		return {
 			language: data.get('arguments'),
-			body: (body && body.toJS) ? body.toJS() : body
+			body: (body && body.toJS) ? body.toJS() : body.join('\n')
 		};
 	}
 
-	onFocus = () => onFocus(this.props);
-	onBlur = () => onBlur(this.props);
+	onCodeChange = (code) => {
+		const { blockProps: { setBlockData } } = this.props;
+		if (setBlockData) {
+			setBlockData({ body: code });
+		}
+	}
+
+	onLanguageChange = (language) => {
+		const { blockProps: { setBlockData } } = this.props;
+		if (setBlockData) {
+			setBlockData({ arguments: language });
+		}
+	}
 
 	onClick = (e) => {
-		e.stopProagation();
-		if (this.code) {
+		const { target: { classList: targetCls } } = e;
+		e.stopPropagation();
+
+		if (targetCls.contains('rm-editor')) {
+			this.onRemove();
+		} else if (this.code && !targetCls.contains('code-language')) {
 			this.code.focus();
 		}
 	}
 
-	onCodeChange = (body) => {
-		const { blockProps: { setBlockData } } = this.props;
-		if (setBlockData) {
-			setBlockData({ body });
-		}
-	}
-
 	render () {
-		const { block } = this.props;
 		const { body, language } = this.state;
-		const blockId = block.getKey();
 
 		return (
-			<div className="code-block-editor">
-				<Controls language={language} onChange={this.onChange} />
+			<NestedEditorWrapper className="code-block-editor" onClick={this.onClick}>
+				<Controls language={language} onChange={this.onLanguageChange} />
 				<CodeEditor 
 					ref={this.attachCodeRef} 
-					body={body} 
-					blockId={blockId}
+					code={body} 
 					onFocus={this.onFocus} 
 					onBlur={this.onBlur} 
 					onChange={this.onCodeChange}
 				/>
-			</div>
+			</NestedEditorWrapper>
 		);
 	}
 }
