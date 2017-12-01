@@ -1,6 +1,16 @@
 @import "~nti-style-common";
 @import "~draft-js/dist/Draft.css";
 
+.content-editing-editor-container {
+	.nti-draft-core-container {
+		.DraftEditor-root {
+			.public-DraftEditorPlaceholder-root {
+				margin: 34px 0 0 20px;
+			}
+		}
+	}
+}
+
 .nti-draft-core-container {
 	position: relative;
 
@@ -46,10 +56,6 @@
 				size: 1rem;
 				weight: normal;
 				style: normal;
-			}
-
-			.public-DraftEditorPlaceholder-root {
-				margin: 34px 0 0 20px;
 			}
 		}
 	}
