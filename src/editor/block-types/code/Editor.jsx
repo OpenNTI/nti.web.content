@@ -55,7 +55,7 @@ class Editor extends Component {
 	onCodeChange = (code) => {
 		const { blockProps: { setBlockData } } = this.props;
 		if (setBlockData) {
-			setBlockData({ body: code });
+			setBlockData({ body: code }, true);
 		}
 	}
 
