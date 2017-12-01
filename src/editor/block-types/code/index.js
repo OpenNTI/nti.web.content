@@ -12,6 +12,7 @@ export const handlesBlock = (contentBlock) => {
 	return type === BLOCKS.ATOMIC && data.get('name') === NAME;
 };
 
-
+export const className = 'nti-code-block';
 export const component = Editor;
 export const button = Button;
+export const editable = false;
