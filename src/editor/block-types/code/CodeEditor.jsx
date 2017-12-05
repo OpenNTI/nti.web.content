@@ -51,15 +51,15 @@ export default class CodeEditor extends React.Component {
 		const { onFocus, onBlur } = this.props;
 
 		return (
-			<TextArea 
+			<TextArea
 				value={code}
-				onClick={this.focus} 
+				onClick={this.focus}
 				ref={this.attachCodeRef}
-				onChange={this.onChange} 
-				onFocus={onFocus} 
-				onBlur={onBlur} 
+				onChange={this.onChange}
+				onFocus={onFocus}
+				onBlur={onBlur}
+				autoGrow
 			/>
 		);
 	}
 }
-
