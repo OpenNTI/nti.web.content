@@ -81,13 +81,11 @@ class Editor extends Component {
 		const { body, language } = this.state;
 
 		return (
-			<NestedEditorWrapper className="code-block-editor" onClick={this.onClick}>
+			<NestedEditorWrapper tabIndex="0" onBlur={this.onBlur} onFocus={this.onFocus} className="code-block-editor" onClick={this.onClick}>
 				<Controls language={language} onChange={this.onLanguageChange} />
-				<CodeEditor 
-					ref={this.attachCodeRef} 
-					code={body} 
-					onFocus={this.onFocus} 
-					onBlur={this.onBlur} 
+				<CodeEditor
+					ref={this.attachCodeRef}
+					code={body}
 					onChange={this.onCodeChange}
 				/>
 			</NestedEditorWrapper>

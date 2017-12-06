@@ -13,7 +13,6 @@ export default class Controls extends Component {
 
 	constructor (props) {
 		super(props);
-		this.state = { language: props.language };
 	}
 
 	onChange = ({ target: { value }}) => {
@@ -22,14 +21,10 @@ export default class Controls extends Component {
 		if (onChange) {
 			onChange(value);
 		}
-
-		this.setState({
-			language: value
-		});
 	}
 
 	render () {
-		const { language } = this.state;
+		const { language } = this.props;
 
 		return (
 			<div className="code-controls">
