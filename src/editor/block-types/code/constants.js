@@ -1,6 +1,7 @@
 export const LANGUAGES = [
 	'C#',
-	'C, C++',
+	'C',
+	'C++',
 	'Java',
 	'JavaScript',
 	'Python',
