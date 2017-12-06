@@ -7,7 +7,8 @@ const DISABLE_FOR_BLOCKS = {
 	[BLOCK_TYPE.HEADER_ONE]: true,
 	[BLOCK_TYPE.HEADER_TWO]: true,
 	[BLOCK_TYPE.HEADER_THREE]: true,
-	[BLOCK_TYPE.HEADER_FOUR]: true
+	[BLOCK_TYPE.HEADER_FOUR]: true,
+	[BLOCK_TYPE.ATOMIC]: true
 };
 
 function shouldDisableForState (state) {
