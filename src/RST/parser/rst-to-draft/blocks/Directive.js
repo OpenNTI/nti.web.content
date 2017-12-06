@@ -11,7 +11,6 @@ export function buildDirectiveRegex (name) {
 
 const GENERIC_DIRECTIVE = buildDirectiveRegex('.*');
 
-
 export default class Directive extends IndentedBlock {
 	static isNextBlock (inputInterface) {
 		const current = inputInterface.get(0);
@@ -85,7 +84,7 @@ export default class Directive extends IndentedBlock {
 
 
 	getOutput () {
-		const body = this.body.map((x) => x.raw);
+		const body = formatBody(this.body);
 
 		const output = {
 			type: BLOCKS.ATOMIC,
@@ -98,4 +97,15 @@ export default class Directive extends IndentedBlock {
 
 		return {output};
 	}
+}
+
+function formatBody (body) {
+	const shallowestOffset = body.map(x => x.offset).sort()[0];
+
+	return body.map(x => {
+		const offset = x.offset - shallowestOffset;
+		const prefix = offset === 0 ? '' : Array(offset + 1).join(' ');
+
+		return `${prefix}${x.raw}`;
+	});
 }
