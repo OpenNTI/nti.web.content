@@ -11,9 +11,6 @@ export default class Controls extends Component {
 		onRemove: PropTypes.func.isRequired
 	};
 
-	constructor (props) {
-		super(props);
-	}
 
 	onChange = ({ target: { value }}) => {
 		const { onChange } = this.props;
