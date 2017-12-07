@@ -11,6 +11,8 @@ export function buildDirectiveRegex (name) {
 
 const GENERIC_DIRECTIVE = buildDirectiveRegex('.*');
 
+const numberComparator = (a, b) => a - b;
+
 export default class Directive extends IndentedBlock {
 	static isNextBlock (inputInterface) {
 		const current = inputInterface.get(0);
@@ -100,7 +102,7 @@ export default class Directive extends IndentedBlock {
 }
 
 function formatBody (body) {
-	const shallowestOffset = body.map(x => x.offset).sort()[0];
+	const shallowestOffset = body.map(x => x.offset).sort(numberComparator)[0];
 
 	return body.map(x => {
 		const offset = x.offset - shallowestOffset;
