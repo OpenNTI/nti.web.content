@@ -3,13 +3,6 @@ import PropTypes from 'prop-types';
 
 import { LANGUAGES } from './constants';
 
-const LANG_MAP = {
-	'Common Lisp': 'lisp',
-	'Ezhil Ezhil': 'ezhil',
-	'Visual Basic.NET': 'vbnet',
-	'Visual FoxPro': 'foxpro'
-};
-
 export default class Controls extends Component {
 
 	static propTypes = {
@@ -35,9 +28,9 @@ export default class Controls extends Component {
 				<div className="spacer" />
 				<select className="code-language" name="code-language" value={language} onChange={this.onChange}>
 					{
-						LANGUAGES.map(lang => (
-							<option key={lang} value={LANG_MAP[lang] || lang}>
-								{lang}
+						Object.entries(LANGUAGES).map(([display, lang]) => (
+							<option key={display} value={lang}>
+								{display}
 							</option>
 						))
 					}
