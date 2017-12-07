@@ -17,7 +17,8 @@
 
 	select.code-language {
 		// Reset styling
-		background-color: white;
+		background-color: rgba(255, 255, 255, 0);
+		padding-right: 20px;
 		appearance: none;
 		border: none;
 		color: $secondary-grey;
@@ -29,6 +30,12 @@
 		font-size: 0.625rem;
 		text-transform: uppercase;
 		vertical-align: middle;
+	}
+
+	i.dropdown {
+		z-index: -1;
+		position: absolute;
+		right: 60px;
 	}
 
 	.remove {
