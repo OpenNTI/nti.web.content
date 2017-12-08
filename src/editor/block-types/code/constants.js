@@ -65,7 +65,7 @@ export const LANGUAGES = {
 	'CSS+Smarty': 'css+smarty',
 	'CSS+mozpreproc': 'css+mozpreproc',
 	'CUDA': 'cuda',
-	"Cap'n Proto": 'capnp',
+	'Cap\'n Proto': 'capnp',
 	'CapDL': 'capdl',
 	'Ceylon': 'ceylon',
 	'ChaiScript': 'chai',
