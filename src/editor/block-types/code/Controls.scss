@@ -30,6 +30,10 @@
 		font-size: 0.625rem;
 		text-transform: uppercase;
 		vertical-align: middle;
+
+		&::-ms-expand {
+			display: none;
+		}
 	}
 
 	i.dropdown {
