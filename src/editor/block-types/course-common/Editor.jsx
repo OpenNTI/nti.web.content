@@ -1,8 +1,12 @@
 export function onRemove (props) {
-	const {blockProps: {removeBlock}} = props;
+	const {blockProps: {removeBlock, setReadOnly}} = props;
 
 	if (removeBlock) {
 		removeBlock();
+	}
+
+	if (setReadOnly) {
+		setReadOnly(false);
 	}
 }
 
