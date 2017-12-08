@@ -1,6 +1,7 @@
 import StorePrototype from 'nti-lib-store';
 import Logger from 'nti-util-logger';
 import {Errors} from 'nti-web-commons';
+import { scoped } from 'nti-lib-locale';
 
 import {
 	SAVING,
@@ -17,13 +18,30 @@ import {
 	DELETED,
 	RESET_STORE,
 	NEW_RENDER_JOB,
-	RENDER_JOB_CHANGE
+	RENDER_JOB_CHANGE,
+	EMPTY_CODE_BLOCK
 } from './Constants';
 
 const logger = Logger.get('lib:content-editor:Store');
 
+const DEFAULT_TEXT = {
+	emptyCodeBlock: 'Code blocks cannot be empty.'
+};
+const t = scoped('nti-content.editor.Store', DEFAULT_TEXT);
+
 const {Field: {Factory:ErrorFactory}} = Errors;
-const errorFactory = new ErrorFactory();
+
+const errorFactory = new ErrorFactory({
+	overrides: {
+		'ContentValidationError': reason => {
+			if (reason.MimeType === EMPTY_CODE_BLOCK) {
+				return t('emptyCodeBlock');
+			}
+
+			return reason.message;
+		}
+	}
+});
 
 const SHORT = 3000;
 
