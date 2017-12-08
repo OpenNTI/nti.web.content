@@ -19,3 +19,5 @@ export const RESET_STORE = 'content:editor:resetstore';
 
 export const NEW_RENDER_JOB = 'content:editor:newrenderjob';
 export const RENDER_JOB_CHANGE = 'content:editor:renderjobchange';
+
+export const EMPTY_CODE_BLOCK = 'application/vnd.nextthought.content.rstemptycodeblockerror';
