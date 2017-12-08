@@ -28,14 +28,14 @@ export default class Controls extends Component {
 				<div className="spacer" />
 				<select className="code-language" name="code-language" value={language} onChange={this.onChange}>
 					{
-						LANGUAGES.map(lang => (
-							<option key={lang} value={lang}>
-								{lang}
+						Object.entries(LANGUAGES).map(([display, lang]) => (
+							<option key={display} value={lang}>
+								{display}
 							</option>
 						))
 					}
 				</select>
-				<i className="icon-chevron-down" />
+				<i className="dropdown icon-chevron-down" />
 				<div className="remove rm-editor">
 					<i className="icon-bold-x rm-editor" />
 				</div>
