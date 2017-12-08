@@ -16,7 +16,7 @@ function createBlock (insertBlock) {
 		text: '',
 		data: {
 			name: 'code-block',
-			arguments: 'Javascript',
+			arguments: 'java',
 			body: [],
 			options: {}
 		},
