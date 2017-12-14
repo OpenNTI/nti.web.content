@@ -2,8 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {scoped} from 'nti-lib-locale';
 import {Flyout} from 'nti-web-commons';
-
-import {ActiveType, TypeButton, ContextProvider, BLOCKS} from '../../draft-core';
+import {ActiveType, TypeButton, ContextProvider, BLOCKS} from 'nti-web-editor';
 
 const DEFAULT_TEXT = {
 	[BLOCKS.HEADER_TWO]: 'Title',

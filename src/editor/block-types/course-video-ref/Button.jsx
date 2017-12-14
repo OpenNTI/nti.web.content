@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import uuid from 'uuid';
 import {scoped} from 'nti-lib-locale';
 import { Chooser } from 'nti-web-video';
+import {BLOCKS} from 'nti-web-editor';
 
-import {BLOCKS} from '../../../draft-core';
 import Button from '../common/Button';
 import {VIDEO_DELETED_EVENT, emitEvent} from '../Events';
 

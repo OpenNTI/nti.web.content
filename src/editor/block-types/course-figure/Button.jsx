@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {scoped} from 'nti-lib-locale';
 import {ContentResources} from 'nti-web-commons';
+import {BLOCKS} from 'nti-web-editor';
 
-import {BLOCKS} from '../../../draft-core';
 import Button from '../common/Button';
 
 const DEFAULT_TEXT = {
@@ -55,4 +55,3 @@ export default function CourseFigureButton ({course}) {
 		/>
 	);
 }
-

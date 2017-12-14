@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-
-import {ContextProvider} from '../../draft-core';
+import {ContextProvider} from 'nti-web-editor';
 
 import TypeFormat from './TypeFormat';
 import StyleInsertFormat from './StyleInsertFormat';

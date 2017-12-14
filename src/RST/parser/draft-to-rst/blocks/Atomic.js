@@ -1,4 +1,4 @@
-import {BLOCKS} from '../../../../draft-core';
+import {BLOCKS} from 'nti-web-editor';
 
 const BLOCK = Symbol('Block');
 
