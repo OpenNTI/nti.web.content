@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import cx from 'classnames';
 import {EditorState, convertFromRaw, convertToRaw} from 'draft-js';
 import {Selection} from 'nti-web-commons';
+import {Editor, Plugins, BLOCKS, NestedEditorWrapper} from 'nti-web-editor';
 
 import {Parser} from '../../RST';
-import {Editor, Plugins, BLOCKS, NestedEditorWrapper} from '../../draft-core';
 
 function rstToDraft (rst) {
 	const draftState = rst && Parser.convertRSTToDraftState(rst);

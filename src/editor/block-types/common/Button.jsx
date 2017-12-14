@@ -1,8 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
-
-import {Plugins} from '../../../draft-core';
+import {Plugins} from 'nti-web-editor';
 
 const {Button, BlockCount} = Plugins.InsertBlock.components;
 

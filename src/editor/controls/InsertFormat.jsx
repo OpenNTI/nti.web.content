@@ -1,6 +1,5 @@
 import React from 'react';
-
-import {LinkButton} from '../../draft-core';
+import {LinkButton} from 'nti-web-editor';
 
 export default function InsertFormat () {
 	return (

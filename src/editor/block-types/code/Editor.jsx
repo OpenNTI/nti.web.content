@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { NestedEditorWrapper } from 'nti-web-editor';
 
-import { NestedEditorWrapper } from '../../../draft-core';
 import {
 	onFocus,
 	onBlur,
@@ -27,12 +27,12 @@ class Editor extends Component {
 	onFocus = () => onFocus(this.props);
 	onBlur = () => onBlur(this.props);
 	onRemove = () => onRemove(this.props);
-	
+
 	constructor (props) {
 		super(props);
 		this.state = this.getStateFor(props);
 	}
-	
+
 	componentWillReceiveProps (nextProps) {
 		const { block: newBlock } = nextProps;
 		const { block: oldBlock } = this.props;

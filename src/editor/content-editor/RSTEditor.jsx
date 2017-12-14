@@ -3,8 +3,8 @@ import React from 'react';
 import {EditorState, convertFromRaw, convertToRaw} from 'draft-js';
 import {HOC} from 'nti-web-commons';
 import {scoped} from 'nti-lib-locale';
+import {Editor, Plugins, BLOCKS, STYLES} from 'nti-web-editor';
 
-import {Editor, Plugins, BLOCKS, STYLES} from '../../draft-core';
 import {Parser} from '../../RST';
 import {CustomRenderers, CustomStyles} from '../block-types';
 

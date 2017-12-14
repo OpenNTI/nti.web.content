@@ -1,7 +1,7 @@
 import React from 'react';
 import {scoped} from 'nti-lib-locale';
+import {BLOCKS} from 'nti-web-editor';
 
-import {BLOCKS} from '../../../draft-core';
 import Button from '../common/Button';
 
 const DEFAULT_TEXT = {
