@@ -11,7 +11,7 @@ BlockTypes.propTypes = {
 };
 export default function BlockTypes ({contentPackage, course}) {
 	return (
-		<ContextProvider editorId="content-editor">
+		<ContextProvider editorID="content-editor">
 			<div className="content-editor-block-types">
 				{Buttons.map((button, key) => {
 					return React.createElement(button, {key, contentPackage, course});
