@@ -105,8 +105,7 @@ function formatBody (body) {
 	const shallowestOffset = body.map(x => x.offset).sort(numberComparator)[0];
 
 	return body.map(x => {
-		const offset = x.offset - shallowestOffset;
-		const prefix = offset === 0 ? '' : Array(offset + 1).join(' ');
+		const prefix = x.block.substring(shallowestOffset, x.offset);
 
 		return `${prefix}${x.raw}`;
 	});
