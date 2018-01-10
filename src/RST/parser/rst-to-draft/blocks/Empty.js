@@ -1,6 +1,6 @@
 const WHITE_SPACE_ONLY = /^\s+$/;
 
-export default class Empty  {
+export default class Empty {
 	static isNextBlock (inputInterface) {
 		const input = inputInterface.get(0);
 
@@ -9,9 +9,26 @@ export default class Empty  {
 
 
 	static parse (inputInterface, context) {
-		return {block: new this(), context};
+		const input = inputInterface.get(0);
+
+		return {block: new this(input), context};
 	}
 
+	constructor (rawText) {
+		this.rawText = rawText;
+	}
+
+	get text () {
+		return this.block;
+	}
+
+	get raw () {
+		return '';
+	}
+
+	get block () {
+		return this.rawText;
+	}
 
 	isEmpty = true
 }

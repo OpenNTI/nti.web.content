@@ -69,6 +69,9 @@ export default class Directive extends IndentedBlock {
 			this.addField(block);
 		} else if (!block.isEmpty) {
 			this.addToBody(block);
+		} else if (block.isEmpty && block.text !== '') {
+			// blank lines
+			this.addToBody(block);
 		}
 
 		return {block: this, context};
