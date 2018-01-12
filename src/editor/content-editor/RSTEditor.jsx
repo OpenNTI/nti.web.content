@@ -92,8 +92,8 @@ const pastedText = Plugins.FormatPasted.create({
 const customBlocks = Plugins.CustomBlocks.create({customRenderers: CustomRenderers, customStyles: CustomStyles});
 
 const plugins = [
-	Plugins.LimitBlockTypes.create({allowed: ALLOWED_BLOCKS}),
-	Plugins.LimitStyles.create({allowed: ALLOWED_STYLES}),
+	Plugins.LimitBlockTypes.create({allow: ALLOWED_BLOCKS}),
+	Plugins.LimitStyles.create({allow: ALLOWED_STYLES}),
 	Plugins.ExternalLinks.create({allowedInBlockTypes: new Set([BLOCKS.UNSTYLED, BLOCKS.ORDERED_LIST_ITEM, BLOCKS.UNORDERED_LIST_ITEM])}),
 	Plugins.InsertBlock.create(),
 	customBlocks,

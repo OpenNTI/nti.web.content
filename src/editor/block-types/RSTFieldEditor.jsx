@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import cx from 'classnames';
 import {EditorState, convertFromRaw, convertToRaw} from 'draft-js';
 import {Selection} from 'nti-web-commons';
-import {Editor, Plugins, BLOCKS, NestedEditorWrapper} from 'nti-web-editor';
+import {Editor, Plugins, BLOCKS, NestedEditorWrapper, STYLE_SET } from 'nti-web-editor';
 
 import {Parser} from '../../RST';
 
@@ -23,8 +23,8 @@ function draftToRST (editorState) {
 }
 
 const plugins = [
-	Plugins.LimitBlockTypes.create({allowed: new Set([BLOCKS.UNSTYLED])}),
-	Plugins.LimitStyles.create({allowed: new Set([])}),
+	Plugins.LimitBlockTypes.create({allow: new Set([BLOCKS.UNSTYLED])}),
+	Plugins.LimitStyles.create({allow: STYLE_SET}),
 	Plugins.LimitLinks.create(),
 	Plugins.SingleLine.create()
 ];
