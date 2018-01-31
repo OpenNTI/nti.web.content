@@ -1,8 +1,10 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import cx from 'classnames';
-import {scoped} from 'nti-lib-locale';
-import ReactCSSTransitionGroup from 'react-transition-group/CSSTransitionGroup';
+import { scoped } from 'nti-lib-locale';
+import { TransitionGroup, CSSTransition } from 'react-transition-group';
+
+const Transition = (props) => <CSSTransition classNames="fade-in-out" timeout={400} {...props}/> ;
 
 export const CONTENT = 'content';
 export const OPTIONS = 'options';
@@ -77,12 +79,12 @@ export default class ContentOptionSwitcher extends React.Component {
 
 		return (
 			<div className={cls}>
-				<ReactCSSTransitionGroup transitionName="fadeInOut" transitionEnterTimeout={400} transitionLeaveTimeout={400}>
+				<TransitionGroup>
 					{active === CONTENT ?
 						this.renderContent() :
 						this.renderOptions()
 					}
-				</ReactCSSTransitionGroup>
+				</TransitionGroup>
 			</div>
 		);
 	}
@@ -92,18 +94,20 @@ export default class ContentOptionSwitcher extends React.Component {
 		const {content, hideOptions} = this.props;
 
 		return (
-			<div className="content-container" key="content">
-				{hideOptions ?
-					null :
-					(
-						<div className="show-options toggle" onClick={this.showOptions}>
-							<i className="icon-settings small" />
-							<span>{this.getString('showOptions')}</span>
-						</div>
-					)
-				}
-				{content}
-			</div>
+			<Transition key="content">
+				<div className="content-container">
+					{hideOptions ?
+						null :
+						(
+							<div className="show-options toggle" onClick={this.showOptions}>
+								<i className="icon-settings small" />
+								<span>{this.getString('showOptions')}</span>
+							</div>
+						)
+					}
+					{content}
+				</div>
+			</Transition>
 		);
 	}
 
@@ -112,17 +116,19 @@ export default class ContentOptionSwitcher extends React.Component {
 		const {options, hideOptions} = this.props;
 
 		return (
-			<div className="options-container" key="options">
-				{hideOptions ?
-					null :
-					(
-						<div className="show-content toggle" onClick={this.showContent}>
-							<span>{this.getString('showContent')}</span>
-						</div>
-					)
-				}
-				{options}
-			</div>
+			<Transition key="options">
+				<div className="options-container">
+					{hideOptions ?
+						null :
+						(
+							<div className="show-content toggle" onClick={this.showContent}>
+								<span>{this.getString('showContent')}</span>
+							</div>
+						)
+					}
+					{options}
+				</div>
+			</Transition>
 		);
 	}
 }

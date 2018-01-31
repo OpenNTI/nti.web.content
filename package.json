@@ -59,7 +59,7 @@
     "object-hash": "^1.1.5",
     "prop-types": "^15.5.8",
     "punycode": "^1.4.1",
-    "react-transition-group": "^1.1.0",
+    "react-transition-group": "^2.2.1",
     "uuid": "^3.0.0"
   },
   "devDependencies": {
