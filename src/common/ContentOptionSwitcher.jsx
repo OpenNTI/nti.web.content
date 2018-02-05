@@ -14,7 +14,7 @@ const DEFAULT_TEXT = {
 	showContent: 'Done'
 };
 
-const t = scoped('CONTENT_OPTIONS_SWITCHER', DEFAULT_TEXT);
+const t = scoped('nti-content.ContentOptionsSwitcher', DEFAULT_TEXT);
 
 export default class ContentOptionSwitcher extends React.Component {
 	static propTypes = {

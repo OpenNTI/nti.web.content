@@ -11,7 +11,7 @@ import MetaEditor from './MetaEditor';
 const DEFAULT_TEXT = {
 	placeholder: 'Title'
 };
-const t = scoped('CONTENT_TITLE_EDITOR', DEFAULT_TEXT);
+const t = scoped('nti-content.editor.meta-editor.Title', DEFAULT_TEXT);
 
 const plugins = [
 	Plugins.SingleLine.create(),

@@ -8,7 +8,7 @@ const DEFAULT_TEXT = {
 	button: 'Start Editing'
 };
 
-const t = scoped('ASSIGNMENT_CONTROL_BAR', DEFAULT_TEXT);
+const t = scoped('nti-content.AssignmentControlBar', DEFAULT_TEXT);
 
 
 export default class AssignmentControlBar extends React.Component {

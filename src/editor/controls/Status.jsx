@@ -12,7 +12,7 @@ const defaultText = {
 	saved: 'All Changes Saved'
 };
 
-const t = scoped('CONTENT_EDITOR_STATUS', defaultText);
+const t = scoped('nti-content.editor.controls.Status', defaultText);
 
 
 export default class ContentEditorStatus extends React.Component {

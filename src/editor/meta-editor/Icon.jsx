@@ -16,7 +16,7 @@ const DEFAULT_TEXT = {
 	clear: 'Clear Image'
 };
 
-const t = scoped('CONTENT_EDITOR_ICON', DEFAULT_TEXT);
+const t = scoped('nti-content.editor.meta-editor.Icon', DEFAULT_TEXT);
 
 function fileIsImage (file) {
 	return /image\//i.test(file.FileMimeType);

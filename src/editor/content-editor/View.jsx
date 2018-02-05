@@ -20,7 +20,7 @@ const DEFAULT_TEXT = {
 	failedHeader: 'Unable to Load Contents'
 };
 
-const t = scoped('CONTENT_EDITING_EDITOR', DEFAULT_TEXT);
+const t = scoped('nti-content.editor.content-editor.View', DEFAULT_TEXT);
 
 export default class ContentEditor extends React.Component {
 	static propTypes = {

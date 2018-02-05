@@ -19,7 +19,7 @@ const DEFAULT_TEXT = {
 	}
 };
 
-const t = scoped('NTI_CONTENT_EDITOR', DEFAULT_TEXT);
+const t = scoped('nti-content.editor.content-editor', DEFAULT_TEXT);
 
 const selectionManager = new Selection.Manager();
 

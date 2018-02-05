@@ -14,7 +14,7 @@ const DEFAULT_TEXT = {
 	[BLOCKS.UNORDERED_LIST_ITEM]: 'Bulleted List'
 };
 
-const t = scoped('CONTENT_EDITOR_TYPE_FORMAT', DEFAULT_TEXT);
+const t = scoped('nti-content.editor.controls.TypeFormat', DEFAULT_TEXT);
 const typeClass = 'content-editor-type-button';
 const trigger = (<ActiveType className="content-editor-active-type" getString={t} />);
 

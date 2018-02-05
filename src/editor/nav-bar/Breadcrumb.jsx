@@ -8,7 +8,7 @@ const DEFAULT_TEXT = {
 	root: 'Readings'
 };
 
-const t = scoped('CONTENT-EDITOR-NAVBAR-BREADCRUMB', DEFAULT_TEXT);
+const t = scoped('nti-content.editor.content-editor.nav-bar.Breadcrumb', DEFAULT_TEXT);
 
 Breadcrumb.propTypes = {
 	gotoResources: PropTypes.func,

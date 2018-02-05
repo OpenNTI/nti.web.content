@@ -19,7 +19,7 @@ const DEFAULT_TEXT = {
 	failureMessage: 'Failed To Publish.'
 };
 
-const t = scoped('CONTENT_EDITOR_RENDERING_MASK', DEFAULT_TEXT);
+const t = scoped('nti-content.editor.content-editor.RenderingMask', DEFAULT_TEXT);
 
 export default class ContentEditorRenderingMask extends React.Component {
 	static propTypes = {

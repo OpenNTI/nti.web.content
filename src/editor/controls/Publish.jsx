@@ -40,7 +40,7 @@ const DEFAULT_TEXT = {
 	}
 };
 
-const t = scoped('CONTENT_EDITOR_PUBLISH', DEFAULT_TEXT);
+const t = scoped('nti-content.editor.controls.Publish', DEFAULT_TEXT);
 
 export default class ContentEditorPublish extends React.Component {
 	static propTypes = {

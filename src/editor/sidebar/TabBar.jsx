@@ -5,7 +5,7 @@ const DEFAULT_TEXT = {
 	types: 'Types'
 };
 
-const t = scoped('CONTENT_EDITOR_SIDEBAR_TABBAR', DEFAULT_TEXT);
+const t = scoped('nti-content.editor.content-editor.sidebar.TabBar', DEFAULT_TEXT);
 
 export default function TabBar () {
 	return (

@@ -11,7 +11,7 @@ const DEFAULT_TEXT = {
 	placeholder: 'Write a description...'
 };
 
-const t = scoped('CONTENT_EDITOR_TITLE', DEFAULT_TEXT);
+const t = scoped('nti-content.editor.meta-editor.Description', DEFAULT_TEXT);
 
 const plugins = [
 	Plugins.IgnoreDrop.create()
