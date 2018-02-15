@@ -1,0 +1,132 @@
+@import "~nti-style-common";
+
+.recent-content-trigger {
+	color: white;
+	font-size: 12px;
+	line-height: 19px;
+	font-weight: 300;
+
+	.flyout .flyout-arrow::after {
+		background-color: #333;
+	}
+
+	.flyout-inner {
+		font-size: 12px;
+		padding: 4px 8px;
+		border-radius: 3px;
+		background-color: #333;
+
+		.recent-content-info {
+			overflow: hidden;
+			text-overflow: ellipsis;
+			max-width: 200px;
+		}
+	}
+}
+
+.content-nav-menu {
+	background-color: white;
+	border: 1px solid #ccc;
+	box-shadow: 0 7px 15px 0 rgba(0, 0, 0, 0.25);
+	width: 398px;
+
+	.active-content {
+		display: flex;
+		padding: 21px 14px;
+		background-color: #f2faff;
+		box-shadow: inset 0 -1px 0 0 #e2e2e2;
+
+		.content-icon {
+			width: 80px;
+			height: 80px;
+			border-radius: 10px;
+			box-shadow: inset 0 0 2px 0 rgba(0, 0, 0, 0.2);
+			background-size: cover;
+		}
+
+		.content-info {
+			margin-left: 15px;
+
+			.content-header {
+				display: flex;
+
+				.title {
+					line-height: 22px;
+					margin-right: 10px;
+					overflow: hidden;
+					text-overflow: ellipsis;
+					max-width: 240px;
+					word-wrap: no-wrap;
+					white-space: nowrap;
+				}
+
+				.delete-content {
+					cursor: pointer;
+				}
+			}
+
+			.edit {
+				color: $primary-blue;
+				font-size: 14px;
+				font-weight: 300;
+				margin-bottom: 9px;
+				line-height: 19px;
+				cursor: pointer;
+			}
+
+			.publish {
+				color: white;
+				background-color: $primary-blue;
+				padding: 6px 15px;
+				width: 140px;
+				border-radius: 3px;
+				font-size: 14px;
+				text-align: center;
+				cursor: pointer;
+			}
+		}
+	}
+
+	.section-label {
+		font-size: 18px;
+		line-height: 24px;
+		margin-bottom: 15px;
+	}
+
+	.sections {
+		padding: 15px;
+
+		.section {
+			color: #757474;
+			font-size: 14px;
+			line-height: 19px;
+			height: 32px;
+			cursor: pointer;
+
+			&.current {
+				color: $primary-blue;
+			}
+		}
+	}
+
+	.recent-content-items {
+		padding: 15px;
+
+		.recent-content-items-list {
+			display: flex;
+			margin-bottom: 15px;
+
+			.recent-content {
+				.content-icon {
+					width: 40px;
+					height: 40px;
+					background-size: cover;
+					margin-right: 10px;
+					border-radius: 5px;
+					box-shadow: inset 0 0 2px 0 rgba(0, 0, 0, 0.2);
+					cursor: pointer;
+				}
+			}
+		}
+	}
+}
