@@ -3,6 +3,8 @@ import { mount } from 'enzyme';
 
 import Publish from '../Publish';
 
+const wait = n => new Promise(t => setTimeout(t, n));
+
 /* eslint-env jest */
 describe('Publish', () => {
 	const contentPackage = {
@@ -12,15 +14,26 @@ describe('Publish', () => {
 		removeListener: () => {},
 	};
 
-	test('Publish is enabled', () => {
+	test('Publish is enabled', async () => {
 		let cmp = mount(<Publish contentPackage={contentPackage}/>);
 
-		expect(cmp.hasClass('disabled')).toBe(false);
+		await wait(100);
+
+		cmp.update();
+
+		let el = cmp.find('.content-editor-publish-trigger');
+
+		expect(el.hasClass('disabled')).toBe(false);
 	});
 
-	test('Publish is disabled', () => {
+	test('Publish is disabled', async () => {
 		let cmp = mount(<Publish contentPackage={contentPackage} disabled/>);
 
-		expect(cmp.hasClass('disabled')).toBe(true);
+		await wait(100);
+		cmp.update();
+
+		let el = cmp.find('.content-editor-publish-trigger');
+
+		expect(el.hasClass('disabled')).toBe(true);
 	});
 });
