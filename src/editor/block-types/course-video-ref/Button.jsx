@@ -14,7 +14,7 @@ const DEFAULT_TEXT = {
 	label: 'Video'
 };
 
-const t = scoped('nti-content.editor.block-types.course-figure.button', DEFAULT_TEXT);
+const t = scoped('nti-content.editor.block-types.course-video-ref.button', DEFAULT_TEXT);
 
 
 export default class CourseVideoButton extends React.Component {
