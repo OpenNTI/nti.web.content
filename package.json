@@ -40,7 +40,6 @@
     "draft-js-utils": "^0.1.7",
     "filesize": "^3.3.0",
     "html-entities": "^1.2.0",
-    "html-reactifier": "^1.0.1",
     "invariant": "^2.1.1",
     "linkify-it": "^2.0.0",
     "nti-commons": "^2.5.4",
