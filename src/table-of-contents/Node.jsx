@@ -77,6 +77,7 @@ export default class ToCNode extends React.Component {
 	renderLink () {
 		const {root, node} = this.props;
 		const prefix = this.makeHref(`/${root}/`);
+		const getFirstNonAnchorParent = n => (!n || !n.parent || !n.parent.isAnchor()) ? n : getFirstNonAnchorParent(n.parent);
 
 		let {id} = node;
 		let href = prefix;
@@ -84,8 +85,11 @@ export default class ToCNode extends React.Component {
 		if (id && id !== root) {
 			let fragment = '';
 
+
 			if (node.isAnchor()) {
-				id = node.parent.id;
+				let parent = getFirstNonAnchorParent(node) || {};
+
+				id = parent.id;
 				fragment = `#${node.getAchorTarget()}`;
 			}
 
