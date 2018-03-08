@@ -77,7 +77,7 @@ export default class ToCNode extends React.Component {
 	renderLink () {
 		const {root, node} = this.props;
 		const prefix = this.makeHref(`/${root}/`);
-		const getFirstNonAnchorParent = n => (!n || !n.parent || !n.parent.isAnchor()) ? n : getFirstNonAnchorParent(n.parent);
+		const getFirstNonAnchorParent = n => (!n || !n.parent || !n.isAnchor()) ? n : getFirstNonAnchorParent(n.parent);
 
 		let {id} = node;
 		let href = prefix;
