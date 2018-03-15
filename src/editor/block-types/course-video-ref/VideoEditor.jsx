@@ -69,24 +69,21 @@ export default class VideoEditor extends React.Component {
 		const {onFocus, onBlur} = this.props;
 		const msg = 'Enter a link to a YouTube, Vimeo or Kaltura video.';
 
-		return (<div className="video-editor-blank" onClick={this.onClick}>
-			<EmptyState header={msg} className="empty-string" />
-			<div className="video-insert-options">
-				<div className="video-link">
-					<label htmlFor="urlField">Link</label>
-					<div className="video-link-input">
-						<input id="urlField" type="url" placeholder="Enter a link or embed code" ref={this.attachUrlRef} onFocus={onFocus} onKeyDown={this.onKeyDown} onBlur={onBlur} />
-						<a onClick={this.onDone} role="button" className="nti-button primary rounded"><span>Done</span></a>
+		return (
+			<div className="video-editor-blank" onClick={this.onClick}>
+				<EmptyState header={msg} className="empty-string" />
+				<div className="video-insert-options">
+					<div className="video-link">
+						<label htmlFor="urlField">Link</label>
+						<div className="video-link-input">
+							<input id="urlField" type="url" placeholder="Enter a link or embed code" ref={this.attachUrlRef} onFocus={onFocus} onKeyDown={this.onKeyDown} onBlur={onBlur} />
+							<a onClick={this.onDone} role="button" className="nti-button primary rounded"><span>Done</span></a>
+						</div>
 					</div>
+					<span className="error-message">{this.state.errorMsg}</span>
 				</div>
-				<span className="error-message">{this.state.errorMsg}</span>
-				{/*
-				<div className="kaltura-options">
-					<a><i className="icon-folder" />My Videos</a>
-				</div>
-				*/}
 			</div>
-		</div>);
+		);
 	};
 
 	innerComponent = () => {
