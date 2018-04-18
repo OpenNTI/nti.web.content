@@ -1,5 +1,5 @@
 import React from 'react';
-import { StickyElement, StickyContainer } from 'nti-web-commons';
+import { StickyElement, StickyContainer } from '@nti/web-commons';
 
 import Toolbar from './Toolbar';
 

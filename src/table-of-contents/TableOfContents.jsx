@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {scoped} from 'nti-lib-locale';
+import {scoped} from '@nti/lib-locale';
 
 import Tree from './Tree';
 import Node from './Node';
@@ -11,7 +11,7 @@ const DEFAULT_TEXT = {
 	realPageTitle: 'Page %(page)s'
 };
 
-const t = scoped('nti-content.table-of-contents.toc', DEFAULT_TEXT);
+const t = scoped('web-content.table-of-contents.toc', DEFAULT_TEXT);
 
 TableOfContents.propTypes = {
 	toc: PropTypes.object.isRequired,

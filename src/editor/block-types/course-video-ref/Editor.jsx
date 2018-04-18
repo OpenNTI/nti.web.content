@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Video, {Editor} from 'nti-web-video';
-import {getService} from 'nti-web-client';
-import {scoped} from 'nti-lib-locale';
+import Video, {Editor} from '@nti/web-video';
+import {getService} from '@nti/web-client';
+import {scoped} from '@nti/lib-locale';
 
 import {VIDEO_DELETED_EVENT, addListener, removeListener, emitEvent} from '../Events';
 import {
@@ -16,7 +16,7 @@ const DEFAULT_TEXT = {
 	}
 };
 
-const getString = scoped('nti-content.editor.block-types.course-video.VideoEditor', DEFAULT_TEXT);
+const getString = scoped('web-content.editor.block-types.course-video.VideoEditor', DEFAULT_TEXT);
 
 export default class CourseVideoEditor extends React.Component {
 	static propTypes = {

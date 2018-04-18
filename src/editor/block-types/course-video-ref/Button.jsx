@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import uuid from 'uuid';
-import {scoped} from 'nti-lib-locale';
-import { Chooser } from 'nti-web-video';
-import {BLOCKS} from 'nti-web-editor';
+import {scoped} from '@nti/lib-locale';
+import { Chooser } from '@nti/web-video';
+import {BLOCKS} from '@nti/web-editor';
 
 import Button from '../common/Button';
 import {VIDEO_DELETED_EVENT, emitEvent} from '../Events';
@@ -14,7 +14,7 @@ const DEFAULT_TEXT = {
 	label: 'Video'
 };
 
-const t = scoped('nti-content.editor.block-types.course-video-ref.button', DEFAULT_TEXT);
+const t = scoped('web-content.editor.block-types.course-video-ref.button', DEFAULT_TEXT);
 
 
 export default class CourseVideoButton extends React.Component {

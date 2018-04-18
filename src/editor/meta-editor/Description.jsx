@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import {scoped} from 'nti-lib-locale';
-import {Plugins} from 'nti-web-editor';
+import {scoped} from '@nti/lib-locale';
+import {Plugins} from '@nti/web-editor';
 
 import {saveContentPackageDescription} from '../Actions';
 
@@ -11,7 +11,7 @@ const DEFAULT_TEXT = {
 	placeholder: 'Write a description...'
 };
 
-const t = scoped('nti-content.editor.meta-editor.Description', DEFAULT_TEXT);
+const t = scoped('web-content.editor.meta-editor.Description', DEFAULT_TEXT);
 
 const plugins = [
 	Plugins.IgnoreDrop.create()

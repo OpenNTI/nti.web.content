@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import cx from 'classnames';
-import {FixedElement} from 'nti-web-commons';
+import {FixedElement} from '@nti/web-commons';
 
 
 PanelSidebar.propTypes = {

@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import cx from 'classnames';
-import {scoped} from 'nti-lib-locale';
-import {Sequence, Loading, StickyElement} from 'nti-web-commons';
+import {scoped} from '@nti/lib-locale';
+import {Sequence, Loading, StickyElement} from '@nti/web-commons';
 
 import {PUBLISHING, DELETING} from '../Constants';
 import Store from '../Store';
@@ -19,7 +19,7 @@ const DEFAULT_TEXT = {
 	failureMessage: 'Failed To Publish.'
 };
 
-const t = scoped('nti-content.editor.content-editor.RenderingMask', DEFAULT_TEXT);
+const t = scoped('web-content.editor.content-editor.RenderingMask', DEFAULT_TEXT);
 
 export default class ContentEditorRenderingMask extends React.Component {
 	static propTypes = {

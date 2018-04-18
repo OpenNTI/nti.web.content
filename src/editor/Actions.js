@@ -1,5 +1,5 @@
-import {dispatch} from 'nti-lib-dispatcher';
-import {wait} from 'nti-commons';
+import {dispatch} from '@nti/lib-dispatcher';
+import {wait} from '@nti/lib-commons';
 
 import Store from './Store';
 import {

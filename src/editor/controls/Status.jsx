@@ -1,6 +1,6 @@
 import React from 'react';
-import {Errors} from 'nti-web-commons';
-import {scoped} from 'nti-lib-locale';
+import {Errors} from '@nti/web-commons';
+import {scoped} from '@nti/lib-locale';
 
 import {SET_ERROR, SAVING, SAVE_ENDED} from '../Constants';
 import Store from '../Store';
@@ -12,7 +12,7 @@ const defaultText = {
 	saved: 'All Changes Saved'
 };
 
-const t = scoped('nti-content.editor.controls.Status', defaultText);
+const t = scoped('web-content.editor.controls.Status', defaultText);
 
 
 export default class ContentEditorStatus extends React.Component {

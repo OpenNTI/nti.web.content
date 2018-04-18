@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import cx from 'classnames';
-import {scoped} from 'nti-lib-locale';
-import {Flyout, Loading, HOC} from 'nti-web-commons';
+import {scoped} from '@nti/lib-locale';
+import {Flyout, Loading, HOC} from '@nti/web-commons';
 
 import Store from '../Store';
 import {PUBLISHING, RENDER_JOB_CHANGE, SET_ERROR} from '../Constants';
@@ -40,7 +40,7 @@ const DEFAULT_TEXT = {
 	}
 };
 
-const t = scoped('nti-content.editor.controls.Publish', DEFAULT_TEXT);
+const t = scoped('web-content.editor.controls.Publish', DEFAULT_TEXT);
 
 export default class ContentEditorPublish extends React.Component {
 	static propTypes = {

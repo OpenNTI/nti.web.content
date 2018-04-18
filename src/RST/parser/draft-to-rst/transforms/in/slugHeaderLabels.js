@@ -1,4 +1,4 @@
-import {BLOCKS} from 'nti-web-editor';
+import {BLOCKS} from '@nti/web-editor';
 
 const MAX_SLUG_LENGTH = 50;
 

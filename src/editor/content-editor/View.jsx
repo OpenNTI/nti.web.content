@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import cx from 'classnames';
-import {scoped} from 'nti-lib-locale';
-import {Selection, Loading, EmptyState, Errors} from 'nti-web-commons';
+import {scoped} from '@nti/lib-locale';
+import {Selection, Loading, EmptyState, Errors} from '@nti/web-commons';
 
 import Store from '../Store';
 import {SET_ERROR, SAVING} from '../Constants';
@@ -20,7 +20,7 @@ const DEFAULT_TEXT = {
 	failedHeader: 'Unable to Load Contents'
 };
 
-const t = scoped('nti-content.editor.content-editor.View', DEFAULT_TEXT);
+const t = scoped('web-content.editor.content-editor.View', DEFAULT_TEXT);
 
 export default class ContentEditor extends React.Component {
 	static propTypes = {

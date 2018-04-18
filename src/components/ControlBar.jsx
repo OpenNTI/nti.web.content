@@ -1,14 +1,14 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import {ControlBar, Button} from 'nti-web-commons';
-import {scoped} from 'nti-lib-locale';
+import {ControlBar, Button} from '@nti/web-commons';
+import {scoped} from '@nti/lib-locale';
 
 const DEFAULT_TEXT = {
 	preview: 'You\'re currently previewing reading.',
 	button: 'Start Editing'
 };
 
-const t = scoped('nti-content.AssignmentControlBar', DEFAULT_TEXT);
+const t = scoped('web-content.AssignmentControlBar', DEFAULT_TEXT);
 
 
 export default class AssignmentControlBar extends React.Component {

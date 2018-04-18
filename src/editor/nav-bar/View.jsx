@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import {Pager} from 'nti-web-commons';
+import {Pager} from '@nti/web-commons';
 
 import Breadcrumb from './Breadcrumb';
 

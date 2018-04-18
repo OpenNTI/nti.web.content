@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
-import {scoped} from 'nti-lib-locale';
-import {createMediaSourceFromUrl} from 'nti-web-video';
-import {Prompt, DialogButtons, Loading} from 'nti-web-commons';
-import {wait} from 'nti-commons';
+import {scoped} from '@nti/lib-locale';
+import {createMediaSourceFromUrl} from '@nti/web-video';
+import {Prompt, DialogButtons, Loading} from '@nti/web-commons';
+import {wait} from '@nti/lib-commons';
 
 import {normalizeSource, parseEmbedCode} from './util';
 
@@ -16,7 +16,7 @@ const DEFAULT_TEXT = {
 	invalid: 'Invalid Link'
 };
 
-const t = scoped('nti-content.editor.block-types.course-video.Picker', DEFAULT_TEXT);
+const t = scoped('web-content.editor.block-types.course-video.Picker', DEFAULT_TEXT);
 
 
 async function getMediaSource (rawInput) {

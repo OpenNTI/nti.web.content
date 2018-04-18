@@ -1,7 +1,7 @@
-import StorePrototype from 'nti-lib-store';
-import Logger from 'nti-util-logger';
-import {Errors} from 'nti-web-commons';
-import { scoped } from 'nti-lib-locale';
+import StorePrototype from '@nti/lib-store';
+import Logger from '@nti/util-logger';
+import {Errors} from '@nti/web-commons';
+import { scoped } from '@nti/lib-locale';
 
 import {
 	SAVING,
@@ -27,7 +27,7 @@ const logger = Logger.get('lib:content-editor:Store');
 const DEFAULT_TEXT = {
 	emptyCodeBlock: 'Code blocks cannot be empty.'
 };
-const t = scoped('nti-content.editor.Store', DEFAULT_TEXT);
+const t = scoped('web-content.editor.Store', DEFAULT_TEXT);
 
 const {Field: {Factory:ErrorFactory}} = Errors;
 

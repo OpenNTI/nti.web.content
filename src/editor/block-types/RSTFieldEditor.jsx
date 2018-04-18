@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
 import {EditorState, convertFromRaw, convertToRaw} from 'draft-js';
-import {Selection} from 'nti-web-commons';
-import {Editor, Plugins, BLOCKS, NestedEditorWrapper, STYLE_SET } from 'nti-web-editor';
+import {Selection} from '@nti/web-commons';
+import {Editor, Plugins, BLOCKS, NestedEditorWrapper, STYLE_SET } from '@nti/web-editor';
 
 import {Parser} from '../../RST';
 

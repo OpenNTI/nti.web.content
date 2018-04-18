@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {ContentResources} from 'nti-web-commons';
-import {scoped} from 'nti-lib-locale';
+import {ContentResources} from '@nti/web-commons';
+import {scoped} from '@nti/lib-locale';
 
 import {
 	CaptionEditor,
@@ -24,7 +24,7 @@ const DEFAULT_TEXT = {
 	}
 };
 
-const getString = scoped('nti-content.editor.block-types.course-figure.FigureEditor', DEFAULT_TEXT);
+const getString = scoped('web-content.editor.block-types.course-figure.FigureEditor', DEFAULT_TEXT);
 
 function fileIsImage (file) {
 	return /image\//i.test(file.FileMimeType);

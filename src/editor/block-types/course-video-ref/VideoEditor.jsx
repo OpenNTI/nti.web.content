@@ -2,8 +2,8 @@ import url from 'url';
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import {EmptyState} from 'nti-web-commons';
-import Video from 'nti-web-video';
+import {EmptyState} from '@nti/web-commons';
+import Video from '@nti/web-video';
 
 export default class VideoEditor extends React.Component {
 	static propTypes = {

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
-import {scoped} from 'nti-lib-locale';
+import {scoped} from '@nti/lib-locale';
 
 import Node from './Node';
 
@@ -10,7 +10,7 @@ const DEFAULT_TEXT = {
 	noMatch: 'No Matches'
 };
 
-const t = scoped('nti-content.table-of-contents.tree', DEFAULT_TEXT);
+const t = scoped('web-content.table-of-contents.tree', DEFAULT_TEXT);
 
 export default class ToCTree extends React.Component {
 	static propTypes = {

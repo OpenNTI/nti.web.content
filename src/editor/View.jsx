@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import {scoped} from 'nti-lib-locale';
-import {Selection, ControlBar, Prompt} from 'nti-web-commons';
+import {scoped} from '@nti/lib-locale';
+import {Selection, ControlBar, Prompt} from '@nti/web-commons';
 
 import {PanelSidebar} from '../common';
 
@@ -19,7 +19,7 @@ const DEFAULT_TEXT = {
 	}
 };
 
-const t = scoped('nti-content.editor.content-editor', DEFAULT_TEXT);
+const t = scoped('web-content.editor.content-editor', DEFAULT_TEXT);
 
 const selectionManager = new Selection.Manager();
 

@@ -3,9 +3,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
-import {scoped} from 'nti-lib-locale';
-import {ContentResources, HOC} from 'nti-web-commons';
-import {URL} from 'nti-lib-dom';
+import {scoped} from '@nti/lib-locale';
+import {ContentResources, HOC} from '@nti/web-commons';
+import {URL} from '@nti/lib-dom';
 
 import {saveContentPackageIcon} from '../Actions';
 
@@ -16,7 +16,7 @@ const DEFAULT_TEXT = {
 	clear: 'Clear Image'
 };
 
-const t = scoped('nti-content.editor.meta-editor.Icon', DEFAULT_TEXT);
+const t = scoped('web-content.editor.meta-editor.Icon', DEFAULT_TEXT);
 
 function fileIsImage (file) {
 	return /image\//i.test(file.FileMimeType);

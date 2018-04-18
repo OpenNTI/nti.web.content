@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import cx from 'classnames';
-import { scoped } from 'nti-lib-locale';
+import { scoped } from '@nti/lib-locale';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 
 const Transition = (props) => <CSSTransition classNames="fade-in-out" timeout={400} {...props}/> ;
@@ -14,7 +14,7 @@ const DEFAULT_TEXT = {
 	showContent: 'Done'
 };
 
-const t = scoped('nti-content.ContentOptionsSwitcher', DEFAULT_TEXT);
+const t = scoped('web-content.ContentOptionsSwitcher', DEFAULT_TEXT);
 
 export default class ContentOptionSwitcher extends React.Component {
 	static propTypes = {

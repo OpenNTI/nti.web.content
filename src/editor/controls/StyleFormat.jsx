@@ -1,6 +1,6 @@
 import React from 'react';
 import {BLOCK_TYPE} from 'draft-js-utils';
-import {BoldButton, ItalicButton, UnderlineButton} from 'nti-web-editor';
+import {BoldButton, ItalicButton, UnderlineButton} from '@nti/web-editor';
 
 const DISABLE_FOR_BLOCKS = {
 	[BLOCK_TYPE.HEADER_ONE]: true,

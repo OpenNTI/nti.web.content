@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Flyout } from 'nti-web-commons';
-import {rawContent} from 'nti-commons';
+import { Flyout } from '@nti/web-commons';
+import {rawContent} from '@nti/lib-commons';
 
 class Sibling extends React.Component {
 	static propTypes = {

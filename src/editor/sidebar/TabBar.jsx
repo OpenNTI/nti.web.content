@@ -1,11 +1,11 @@
 import React from 'react';
-import {scoped} from 'nti-lib-locale';
+import {scoped} from '@nti/lib-locale';
 
 const DEFAULT_TEXT = {
 	types: 'Types'
 };
 
-const t = scoped('nti-content.editor.content-editor.sidebar.TabBar', DEFAULT_TEXT);
+const t = scoped('web-content.editor.content-editor.sidebar.TabBar', DEFAULT_TEXT);
 
 export default function TabBar () {
 	return (

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {scoped} from 'nti-lib-locale';
-import {createMediaSourceFromUrl, getCanonicalUrlFrom} from 'nti-web-video';
+import {scoped} from '@nti/lib-locale';
+import {createMediaSourceFromUrl, getCanonicalUrlFrom} from '@nti/web-video';
 
 import {VIDEO_DELETED_EVENT, addListener, removeListener} from '../Events';
 import {
@@ -22,7 +22,7 @@ const DEFAULT_TEXT = {
 	}
 };
 
-const getString = scoped('nti-content.editor.block-types.course-video.VideoEditor', DEFAULT_TEXT);
+const getString = scoped('web-content.editor.block-types.course-video.VideoEditor', DEFAULT_TEXT);
 
 const blockType = {
 	getString,

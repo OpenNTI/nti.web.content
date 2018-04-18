@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {scoped} from 'nti-lib-locale';
-import {ContentResources} from 'nti-web-commons';
-import {BLOCKS} from 'nti-web-editor';
+import {scoped} from '@nti/lib-locale';
+import {ContentResources} from '@nti/web-commons';
+import {BLOCKS} from '@nti/web-editor';
 
 import Button from '../common/Button';
 
@@ -10,7 +10,7 @@ const DEFAULT_TEXT = {
 	label: 'Photo'
 };
 
-const t = scoped('nti-content.editor.block-types.course-figure.button', DEFAULT_TEXT);
+const t = scoped('web-content.editor.block-types.course-figure.button', DEFAULT_TEXT);
 
 function fileIsImage (file) {
 	return /image\//i.test(file.FileMimeType);

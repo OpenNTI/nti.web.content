@@ -1,4 +1,4 @@
-import {BLOCKS} from 'nti-web-editor';
+import {BLOCKS} from '@nti/web-editor';
 
 import Button from './Button';
 import Editor from './Editor';

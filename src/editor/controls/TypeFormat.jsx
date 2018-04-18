@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import {scoped} from 'nti-lib-locale';
-import {Flyout} from 'nti-web-commons';
-import {ActiveType, TypeButton, ContextProvider, BLOCKS} from 'nti-web-editor';
+import {scoped} from '@nti/lib-locale';
+import {Flyout} from '@nti/web-commons';
+import {ActiveType, TypeButton, ContextProvider, BLOCKS} from '@nti/web-editor';
 
 const DEFAULT_TEXT = {
 	[BLOCKS.HEADER_TWO]: 'Title',
@@ -14,7 +14,7 @@ const DEFAULT_TEXT = {
 	[BLOCKS.UNORDERED_LIST_ITEM]: 'Bulleted List'
 };
 
-const t = scoped('nti-content.editor.controls.TypeFormat', DEFAULT_TEXT);
+const t = scoped('web-content.editor.controls.TypeFormat', DEFAULT_TEXT);
 const typeClass = 'content-editor-type-button';
 const trigger = (<ActiveType className="content-editor-active-type" getString={t} />);
 

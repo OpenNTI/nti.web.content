@@ -2,19 +2,19 @@
 // import 'babel-polyfill';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {decodeFromURI} from 'nti-lib-ntiids';
-import {getService} from 'nti-web-client';
-import {ConflictResolutionHandler} from 'nti-web-commons';
+import {decodeFromURI} from '@nti/lib-ntiids';
+import {getService} from '@nti/web-client';
+import {ConflictResolutionHandler} from '@nti/web-commons';
 
 // import {Flyout} from '../../src/table-of-contents/';
 import {Editor} from '../../src';
 // // import RSTTest from '../../src/RST/test';
 
 // import 'normalize.css';
-import 'nti-style-common/fonts.scss';
-import 'nti-style-common/all.scss';
-import 'nti-web-commons/lib/index.css';
-import 'nti-web-video/lib/index.css';
+import '@nti/style-common/fonts.scss';
+import '@nti/style-common/all.scss';
+import '@nti/web-commons/lib/index.css';
+import '@nti/web-video/lib/index.css';
 
 window.$AppConfig = window.$AppConfig || {server: '/dataserver2/'};
 

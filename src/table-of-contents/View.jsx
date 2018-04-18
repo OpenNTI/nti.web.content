@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
-import {Search, Loading, Error as Err, Banner} from 'nti-web-commons';
+import {Search, Loading, Error as Err, Banner} from '@nti/web-commons';
 
 import TableOfContents from './TableOfContents';
 

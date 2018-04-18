@@ -1,9 +1,9 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {EditorState, convertFromRaw, convertToRaw} from 'draft-js';
-import {HOC} from 'nti-web-commons';
-import {scoped} from 'nti-lib-locale';
-import {Editor, Plugins, BLOCKS, STYLES} from 'nti-web-editor';
+import {HOC} from '@nti/web-commons';
+import {scoped} from '@nti/lib-locale';
+import {Editor, Plugins, BLOCKS, STYLES} from '@nti/web-editor';
 
 import {Parser} from '../../RST';
 import {CustomRenderers, CustomStyles} from '../block-types';
@@ -12,7 +12,7 @@ const DEFAULT_TEXT = {
 	placeholder: 'Start writing or add an image...'
 };
 
-const t = scoped('nti-content.editor.content-editor.rsteditor', DEFAULT_TEXT);
+const t = scoped('web-content.editor.content-editor.rsteditor', DEFAULT_TEXT);
 
 const {ItemChanges} = HOC;
 
