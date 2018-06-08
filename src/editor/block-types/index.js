@@ -5,6 +5,7 @@ import * as OrderedList from './ordered-list';
 import * as UnorderedList from './unordered-list';
 import * as BlockQuote from './block-quote';
 import * as Code from './code';
+import * as UnknownBlock from './unknown-block';
 
 const TYPES = [
 	CourseFigure,
@@ -13,7 +14,8 @@ const TYPES = [
 	UnorderedList,
 	OrderedList,
 	BlockQuote,
-	Code
+	Code,
+	UnknownBlock
 ];
 
 export const Buttons = TYPES.reduce((acc, type) => {

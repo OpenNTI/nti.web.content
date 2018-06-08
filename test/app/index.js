@@ -15,6 +15,7 @@ import '@nti/style-common/fonts.scss';
 import '@nti/style-common/all.scss';
 import '@nti/web-commons/lib/index.css';
 import '@nti/web-video/lib/index.css';
+import '@nti/web-editor/lib/index.css';
 
 window.$AppConfig = window.$AppConfig || {server: '/dataserver2/'};
 
