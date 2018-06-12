@@ -2,6 +2,7 @@ import * as CourseFigure from './course-figure';
 import * as CourseVideo from './course-video';
 import * as CourseVideoRef from './course-video-ref';
 import * as OrderedList from './ordered-list';
+import * as Sidebar from './sidebar';
 import * as UnorderedList from './unordered-list';
 import * as BlockQuote from './block-quote';
 import * as Code from './code';
@@ -15,6 +16,7 @@ const TYPES = [
 	OrderedList,
 	BlockQuote,
 	Code,
+	Sidebar,
 	UnknownBlock
 ];
 
