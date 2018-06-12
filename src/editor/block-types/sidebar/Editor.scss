@@ -1,0 +1,29 @@
+@import '~@nti/style-common';
+
+.nti-sidebar {
+	margin: 0;
+	background: rgba(235, 235, 235, 0.3);
+}
+
+.content-editing-sidebar-editor {
+	.DraftEditor-root {
+		min-height: 200px;
+		padding-top: 0;
+		padding-left: 0;
+		padding-right: 0;
+		font: normal normal 0.875rem/2.2 $body-font-family;
+		color: $primary-grey;
+
+		.public-DraftEditor-content {
+			padding: 1.25rem;
+
+			& > div, & > div > div {
+				margin: 0.875rem 0;
+			}
+		}
+	}
+
+	ul, ol {
+		padding: 0 0 0 2.5rem;
+	}
+}
