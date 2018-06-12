@@ -1,6 +1,7 @@
 import {BLOCKS} from '@nti/web-editor';
 
 import Editor from './Editor';
+import Button from './Button';
 
 const NAME = 'sidebar';
 
@@ -13,5 +14,6 @@ export const handlesBlock = (contentBlock) => {
 
 export const className = 'nti-sidebar';
 export const component = Editor;
+export const button = Button;
 export const editable = false;
 
