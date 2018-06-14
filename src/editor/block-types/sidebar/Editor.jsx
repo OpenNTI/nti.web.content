@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import TitleEditor from './parts/TitleEditor';
 import BodyEditor from './parts/BodyEditor';
 
 function getBodyFromBlock (block) {
@@ -8,6 +9,13 @@ function getBodyFromBlock (block) {
 	const body = data.get('body') || [];
 
 	return body.join('\n');
+}
+
+
+function getTitleFromBlock (block) {
+	const data = block.get('data');
+
+	return data.get('arguments') || '';
 }
 
 export default class NTISidebar extends React.Component {
@@ -20,7 +28,7 @@ export default class NTISidebar extends React.Component {
 		})
 	}
 
-	state = {}
+	state = {body: '', title: ''}
 
 	componentDidMount () {
 		this.setupFor(this.props);
@@ -39,17 +47,18 @@ export default class NTISidebar extends React.Component {
 		const {block} = this.props;
 
 		this.setState({
-			body: getBodyFromBlock(block)
+			body: getBodyFromBlock(block),
+			title: getTitleFromBlock(block)
 		});
 	}
 
 
 	setReadOnly = (...args) => {
-		const {blockProps: {setReadOnly}} = this.props;
+		// const {blockProps: {setReadOnly}} = this.props;
 
-		if (setReadOnly) {
-			setReadOnly(...args);
-		}
+		// if (setReadOnly) {
+		// 	setReadOnly(...args);
+		// }
 	}
 
 
@@ -59,17 +68,34 @@ export default class NTISidebar extends React.Component {
 		if (setBlockData) {
 			setBlockData({
 				body: value.split('\n')
-			});
+			}, true);
+		}
+	}
+
+
+	onTitleChange = (value) => {
+		const {blockProps: {setBlockData}} = this.props;
+
+		if (setBlockData) {
+			setBlockData({
+				arguments: value
+			}, true);
 		}
 	}
 
 
 	render () {
 		const {blockId} = this.props;
-		const {body} = this.state;
+		const {body, title} = this.state;
 
 		return (
 			<div className="content-editing-sidebar-editor">
+				<TitleEditor
+					value={title}
+					blockId={blockId}
+					onChange={this.onTitleChange}
+					setReadOnly={this.setReadOnly}
+				/>
 				<BodyEditor
 					value={body}
 					blockId={blockId}

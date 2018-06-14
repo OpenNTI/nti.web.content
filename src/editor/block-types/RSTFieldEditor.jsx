@@ -1,26 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
-import {EditorState, convertFromRaw, convertToRaw} from 'draft-js';
 import {Selection} from '@nti/web-commons';
 import {Editor, Plugins, BLOCKS, NestedEditorWrapper, STYLE_SET } from '@nti/web-editor';
 
-import {Parser} from '../../RST';
-
-function rstToDraft (rst) {
-	const draftState = rst && Parser.convertRSTToDraftState(rst);
-	const {blocks} = draftState || {blocks: []};
-
-	return blocks && blocks.length ?
-		EditorState.createWithContent(convertFromRaw(draftState)) :
-		EditorState.createEmpty();
-}
-
-function draftToRST (editorState) {
-	const currentContent = editorState && editorState.getCurrentContent();
-
-	return currentContent ? Parser.convertDraftStateToRST(convertToRaw(currentContent)) : '';
-}
+import {rstToDraft, draftToRST} from './utils';
 
 const plugins = [
 	Plugins.LimitBlockTypes.create({allow: new Set([BLOCKS.UNSTYLED])}),
@@ -36,7 +20,14 @@ export default class RSTFieldEditor extends React.Component {
 		fieldId: PropTypes.string,
 		onChange: PropTypes.func,
 		onFocus: PropTypes.func,
-		onBlur: PropTypes.func
+		onBlur: PropTypes.func,
+		setReadOnly: PropTypes.func,
+		contentChangeBuffer: PropTypes.number
+	}
+
+
+	static defaultProps = {
+		contentChangeBuffer: 0
 	}
 
 
@@ -120,6 +111,22 @@ export default class RSTFieldEditor extends React.Component {
 		}
 	}
 
+	onStartEditing = () => {
+		const {setReadOnly} = this.props;
+
+		if (setReadOnly) {
+			setReadOnly(true);
+		}
+	}
+
+	onStopEditing = () => {
+		const {setReadOnly} = this.props;
+
+		if (setReadOnly) {
+			setReadOnly(false);
+		}
+	}
+
 	onContentChange = (editorState) => {
 		const {onChange, value:oldValue} = this.props;
 		const newValue = draftToRST(editorState);
@@ -132,7 +139,7 @@ export default class RSTFieldEditor extends React.Component {
 
 
 	render () {
-		const {className, fieldId, ...otherProps} = this.props;
+		const {className, fieldId, contentChangeBuffer, ...otherProps} = this.props;
 		const {editorState, selectableValue} = this.state;
 		const cls = cx('rst-field-editor', className);
 
@@ -141,7 +148,7 @@ export default class RSTFieldEditor extends React.Component {
 
 		return (
 			<Selection.Component className={cls} value={selectableValue} id={fieldId}>
-				<NestedEditorWrapper className="rst-field-nested-wrapper">
+				<NestedEditorWrapper className="rst-field-nested-wrapper" onFocus={this.onStartEditing} onBlur={this.onStopEditing}>
 					<Editor
 						ref={this.attachEditorRef}
 						editorState={editorState}
@@ -149,7 +156,7 @@ export default class RSTFieldEditor extends React.Component {
 						onFocus={this.onEditorFocus}
 						onBlur={this.onEditorBlur}
 						onContentChange={this.onContentChange}
-						contentChangeBuffer={0}
+						contentChangeBuffer={contentChangeBuffer}
 						{...otherProps}
 					/>
 				</NestedEditorWrapper>
