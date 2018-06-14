@@ -9,7 +9,7 @@
 		font: normal normal 0.875rem/2.2 $body-font-family;
 		color: $primary-grey;
 
-		.public-DraftEditor-content {
+		.public-DraftEditor-content, .public-DraftEditorPlaceholder-root {
 			padding: 0 1.25rem;
 
 			& > div, & > div > div {
