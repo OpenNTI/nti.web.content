@@ -24,7 +24,8 @@ export default class NTISidebar extends React.Component {
 		blockId: PropTypes.string,
 		blockProps: PropTypes.shape({
 			setReadOnly: PropTypes.func,
-			setBlockData: PropTypes.func
+			setBlockData: PropTypes.func,
+			removeBlock: PropTypes.func
 		})
 	}
 
@@ -84,12 +85,27 @@ export default class NTISidebar extends React.Component {
 	}
 
 
+	onRemove = () => {
+		const {blockProps: {removeBlock}} = this.props;
+
+		if (removeBlock) {
+			removeBlock();
+		}
+	}
+
+
 	render () {
 		const {blockId} = this.props;
 		const {body, title} = this.state;
 
 		return (
 			<div className="content-editing-sidebar-editor">
+				<div className="controls">
+					<div className="spacer" />
+					<div className="remove" onClick={this.onRemove}>
+						<i className="icon-bold-x" />
+					</div>
+				</div>
 				<TitleEditor
 					value={title}
 					blockId={blockId}
