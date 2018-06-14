@@ -108,6 +108,9 @@ export default class OrderedListItem extends UnorderedListItem {
 		return this.parts.text;
 	}
 
+	get raw () {
+		return this.parts.text.text;
+	}
 
 	get listStyle () {
 		return this.parts.listStyle;

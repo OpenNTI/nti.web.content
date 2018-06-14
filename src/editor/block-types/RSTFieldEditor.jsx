@@ -131,7 +131,7 @@ export default class RSTFieldEditor extends React.Component {
 		const {onChange, value:oldValue} = this.props;
 		const newValue = draftToRST(editorState);
 
-		if (onChange && newValue !== oldValue) {
+		if (onChange && newValue.trim() !== oldValue.trim()) {
 			this.pendingSaves.push(newValue);
 			onChange(newValue);
 		}
