@@ -1,9 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {Selection} from '@nti/web-commons';
+import {scoped} from '@nti/lib-locale';
 import {Editor, Plugins, BLOCKS, NestedEditorWrapper, STYLE_SET } from '@nti/web-editor';
 
 import {rstToDraft, draftToRST} from '../../utils';
+
+const t = scoped('content.editor.block-types.sidebar.BodyEditor', {
+	placeholder: 'Add content...'
+});
 
 const plugins = [
 	Plugins.LimitBlockTypes.create({allow: new Set([BLOCKS.UNSTYLED, BLOCKS.ORDERED_LIST_ITEM, BLOCKS.UNORDERED_LIST_ITEM])}),
@@ -119,7 +124,7 @@ export default class NTISidebarBody extends React.Component {
 							onBlur={this.onEditorBlur}
 							onContentChange={this.onContentChange}
 							contentChagneBuffer={300}
-							placeholder="Body"
+							placeholder={t('placeholder')}
 						/>
 					)}
 				</NestedEditorWrapper>
