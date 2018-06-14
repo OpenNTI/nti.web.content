@@ -123,7 +123,7 @@ export default class NTISidebarBody extends React.Component {
 							onFocus={this.onEditorFocus}
 							onBlur={this.onEditorBlur}
 							onContentChange={this.onContentChange}
-							contentChagneBuffer={300}
+							contentChangeBuffer={300}
 							placeholder={t('placeholder')}
 						/>
 					)}
