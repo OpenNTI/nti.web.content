@@ -5,7 +5,7 @@ import {BLOCKS} from '@nti/web-editor';
 import Button from '../common/Button';
 
 const t = scoped('web-content.editor.block-types.sidebar.button', {
-	label: 'Sidebar'
+	label: 'Call Out'
 });
 
 function createBlock (insertBlock) {
@@ -14,7 +14,7 @@ function createBlock (insertBlock) {
 		text: '',
 		data: {
 			name: 'sidebar',
-			arguments: 'Sidebar',
+			arguments: '',
 			body: [],
 			options: {}
 		}
