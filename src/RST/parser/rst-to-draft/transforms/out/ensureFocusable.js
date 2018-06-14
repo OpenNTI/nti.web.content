@@ -28,7 +28,7 @@ export default function (output) {
 		newBlocks.push(block);
 	}
 
-	if (newBlocks[newBlocks.length - 1].type === BLOCKS.ATOMIC) {
+	if (newBlocks.length && newBlocks[newBlocks.length - 1].type === BLOCKS.ATOMIC) {
 		newBlocks.push(getEmptyParagraph());
 	}
 
