@@ -1,25 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {Selection} from '@nti/web-commons';
-import {EditorState, convertFromRaw, convertToRaw} from 'draft-js';
 import {Editor, Plugins, BLOCKS, NestedEditorWrapper, STYLE_SET } from '@nti/web-editor';
 
-import {Parser} from '../../../../RST';
-
-function rstToDraft (rst) {
-	const draftState = rst && Parser.convertRSTToDraftState(rst);
-	const {blocks} = draftState || {blocks: []};
-
-	return blocks && blocks.length ?
-		EditorState.createWithContent(convertFromRaw(draftState)) :
-		EditorState.createEmpty();
-}
-
-function draftToRST (editorState) {
-	const currentContent = editorState && editorState.getCurrentContent();
-
-	return currentContent ? Parser.convertDraftStateToRST(convertToRaw(currentContent)) : '';
-}
+import {rstToDraft, draftToRST} from '../../utils';
 
 const plugins = [
 	Plugins.LimitBlockTypes.create({allow: new Set([BLOCKS.UNSTYLED, BLOCKS.ORDERED_LIST_ITEM, BLOCKS.UNORDERED_LIST_ITEM])}),
@@ -125,7 +109,7 @@ export default class NTISidebarBody extends React.Component {
 
 		return (
 			<Selection.Component className="content-editing-sidebar-body-editor" value={selectableValue} id={`${blockId}-body-editor`}>
-				<NestedEditorWrapper onFocus={this.startEditing} onBlur={this.stopEditingo}>
+				<NestedEditorWrapper onFocus={this.startEditing} onBlur={this.stopEditing}>
 					{editorState && (
 						<Editor
 							ref={this.attachEditorRef}
@@ -135,6 +119,7 @@ export default class NTISidebarBody extends React.Component {
 							onBlur={this.onEditorBlur}
 							onContentChange={this.onContentChange}
 							contentChagneBuffer={300}
+							placeholder="Body"
 						/>
 					)}
 				</NestedEditorWrapper>
