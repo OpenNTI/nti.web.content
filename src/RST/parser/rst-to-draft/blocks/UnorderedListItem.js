@@ -27,6 +27,10 @@ export default class UnorderedListItem extends IndentedBlock {
 		return this.parts.text;
 	}
 
+	get raw () {
+		return this.parts.text.text;
+	}
+
 
 	shouldAppendBlock (block) {
 		return block && block.isParagraph && this.isSameOffset(block);
