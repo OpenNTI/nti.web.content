@@ -18,19 +18,21 @@
 	}
 
 	.right.controls {
-		position: relative;
 		padding-right: 10px;
 		white-space: nowrap;
 		height: 59px;
 		float: right;
+		display: flex;
+		flex-direction: row;
+		align-items: center;
 
 		.page {
+			flex: 0 0 auto;
 			vertical-align: top;
 			line-height: 59px;
 			display: inline-block;
 			font-style: italic;
 			color: $primary-grey;
-			margin-right: 15px;
 
 			span {
 				font-weight: 600;
@@ -38,6 +40,7 @@
 		}
 
 		.prev, .next {
+			flex: 0 0 auto;
 			cursor: pointer;
 			display: inline-block;
 			width: 40px;
@@ -46,6 +49,9 @@
 			line-height: 0;
 			opacity: 0.65;
 			color: #3fb3f6;
+			position: relative;
+			background-repeat: no-repeat;
+			background-position: center center;
 
 			&.disabled {
 				cursor: default;
@@ -58,16 +64,7 @@
 		}
 
 		.prev {
-			&::after {
-				content: '';
-				overflow: hidden;
-				top: 22px;
-				left: 60px;
-				width: 22px;
-				height: 12px;
-				position: absolute;
-				background-image: url(assets/arrow-up.png);
-			}
+			background-image: url(assets/arrow-up.png);
 
 			&.disabled::after {
 				background-image: url(assets/arrow-up_inactive.png);
@@ -75,16 +72,7 @@
 		}
 
 		.next {
-			&::after {
-				content: '';
-				overflow: hidden;
-				top: 22px;
-				left: 100px;
-				width: 22px;
-				height: 12px;
-				position: absolute;
-				background-image: url(assets/arrow-down.png);
-			}
+			background-image: url(assets/arrow-down.png);
 
 			&.disabled::after {
 				background-image: url(assets/arrow-down_inactive.png);

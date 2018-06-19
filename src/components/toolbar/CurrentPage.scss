@@ -1,0 +1,12 @@
+@import "~@nti/style-common";
+
+.nti-content-toolbar-current-page {
+	display: inline-block;
+
+	.nti-select-input {
+		.options {
+			max-height: 20vh;
+			overflow: auto;
+		}
+	}
+}

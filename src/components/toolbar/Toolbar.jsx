@@ -1,9 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import {scoped} from '@nti/lib-locale';
 
 import {Flyout as TocFlyout} from '../../table-of-contents/';
 
 import Breadcrumb from './Breadcrumb';
+import CurrentPage from './CurrentPage';
+
+const t = scoped('content.toolbar.Toolbar', {
+	'separator': ' of '
+});
 
 export default class Toolbar extends React.Component {
 	static propTypes = {
@@ -51,15 +57,18 @@ export default class Toolbar extends React.Component {
 
 
 	renderPage () {
-		if(!this.state.pageSource) {
+		const {doNavigation} = this.props;
+		const {pageSource} = this.state;
+
+		if(!pageSource) {
 			return null;
 		}
 
 		return (
 			<div className="page">
-				<span className="currentPage">{this.state.pageSource.getPageNumber()}
-				</span> of <span className="total">{this.state.pageSource.getTotal()}
-				</span>
+				<CurrentPage pageSource={pageSource} doNavigation={doNavigation} />
+				<span className="separator">{t('separator')}</span>
+				<span className="total">{this.state.pageSource.getTotal()}</span>
 			</div>
 		);
 	}
