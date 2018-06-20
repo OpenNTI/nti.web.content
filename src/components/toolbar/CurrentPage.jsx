@@ -46,7 +46,7 @@ export default class CurrentPage extends React.Component {
 		const pages = pageSource.getAllPages();
 
 		return (
-			<Input.Select className="page-select" value={current} searchable onChange={this.selectPage}>
+			<Input.Select className="page-select" optionsClassName="page-select-options-list" value={current} searchable onChange={this.selectPage}>
 				{pages.map((page, key) => (<Input.Select.Option key={key} value={page}>{page}</Input.Select.Option>))}
 			</Input.Select>
 		);
