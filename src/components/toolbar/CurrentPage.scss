@@ -2,11 +2,39 @@
 
 .nti-content-toolbar-current-page {
 	display: inline-block;
+	width: 60px;
 
 	.nti-select-input {
-		.options {
-			max-height: 20vh;
-			overflow: auto;
+		text-align: right;
+
+		.select-label {
+			.selected-option .nti-select-input-option {
+				padding-right: 0.5rem;
+			}
+
+			.nti-text-input {
+				padding-right: 0.625rem;
+			}
+
+			&.focused {
+				.selected-option {
+					display: none;
+				}
+
+				.nti-text-input {
+					text-align: right;
+				}
+			}
+		}
+
+		.icon-chevron-down {
+			display: none;
 		}
 	}
+}
+
+.page-select-options-list {
+	max-height: 20vh;
+	margin-left: 2px;
+	overflow: auto;
 }
