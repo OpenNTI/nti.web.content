@@ -105,10 +105,10 @@ export default class Directive extends IndentedBlock {
 }
 
 function formatBody (body) {
-	const shallowestOffset = body.map(x => x.offset).sort(numberComparator)[0];
+	const shallowestOffset = body.map(x => x.depth).sort(numberComparator)[0];
 
 	return body.map(x => {
-		const prefix = x.block.substring(shallowestOffset, x.offset);
+		const prefix = x.block.substring(shallowestOffset + 1, x.offset);
 
 		return `${prefix}${x.raw}`;
 	});
