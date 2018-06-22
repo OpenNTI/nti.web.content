@@ -10,13 +10,6 @@ const t = scoped('content.editor.block-types.sidebar.BodyEditor', {
 	placeholder: 'Add content...'
 });
 
-const plugins = [
-	Plugins.LimitBlockTypes.create({allow: new Set([BLOCKS.UNSTYLED, BLOCKS.ORDERED_LIST_ITEM, BLOCKS.UNORDERED_LIST_ITEM])}),
-	Plugins.LimitStyles.create({allow: STYLE_SET}),
-	Plugins.BlockBreakOut.create(),
-	Plugins.ExternalLinks.create({allowedInBlockTypes: new Set([BLOCKS.UNSTYLED, BLOCKS.ORDERED_LIST_ITEM, BLOCKS.UNORDERED_LIST_ITEM])})
-];
-
 export default class NTISidebarBody extends React.Component {
 	static propTypes = {
 		value: PropTypes.string,
@@ -27,6 +20,20 @@ export default class NTISidebarBody extends React.Component {
 
 	state = {}
 	pendingSaves = []
+
+	constructor (props) {
+		super(props);
+
+		this.state = {
+			plugins: [
+				Plugins.LimitBlockTypes.create({allow: new Set([BLOCKS.UNSTYLED, BLOCKS.ORDERED_LIST_ITEM, BLOCKS.UNORDERED_LIST_ITEM])}),
+				Plugins.LimitStyles.create({allow: STYLE_SET}),
+				Plugins.BlockBreakOut.create(),
+				Plugins.ExternalLinks.create({allowedInBlockTypes: new Set([BLOCKS.UNSTYLED, BLOCKS.ORDERED_LIST_ITEM, BLOCKS.UNORDERED_LIST_ITEM])})
+			]
+		};
+	}
+
 
 	isPendingSave (value) {
 		return this.pendingSaves.some(save => save === value);
@@ -110,7 +117,7 @@ export default class NTISidebarBody extends React.Component {
 
 	render () {
 		const {blockId} = this.props;
-		const {editorState, selectableValue} = this.state;
+		const {editorState, selectableValue, plugins} = this.state;
 
 		return (
 			<Selection.Component className="content-editing-sidebar-body-editor" value={selectableValue} id={`${blockId}-body-editor`}>
