@@ -15,6 +15,7 @@ export default class ContentMetaEditor extends React.Component {
 		className: PropTypes.string,
 		fieldName: PropTypes.string,
 		onChange: PropTypes.func,
+		onContentChange: PropTypes.func,
 		readOnly: PropTypes.bool
 	}
 
@@ -73,8 +74,28 @@ export default class ContentMetaEditor extends React.Component {
 	onEditorChange = () => {
 		const {error} = this.state;
 
+
 		if (error && error.clear) {
 			error.clear();
+		}
+	}
+
+	onContentChange = (...args) => {
+		const {contentPackage, onContentChange} = this.props;
+		const {NTIID} = contentPackage || {};
+		const contentError = NTIID && Store.getErrorFor(NTIID, 'content');
+		const publishError = NTIID && Store.getErrorFor(NTIID, 'publish');
+
+		if (contentError && contentError.clear) {
+			contentError.clear();
+		}
+
+		if (publishError && publishError.clear) {
+			publishError.clear();
+		}
+
+		if (onContentChange) {
+			onContentChange(...args);
 		}
 	}
 
@@ -87,7 +108,7 @@ export default class ContentMetaEditor extends React.Component {
 
 		return (
 			<Selection.Component className={cls} id={selectableID} value={selectableValue}>
-				<PlaintextEditor {...otherProps} onChange={this.onEditorChange} onEditorFocus={this.onEditorFocus} readOnly={readOnly} />
+				<PlaintextEditor {...otherProps} onContentChange={this.onContentChange} onChange={this.onEditorChange} onEditorFocus={this.onEditorFocus} readOnly={readOnly} />
 				{error && (<ErrorCmp className="content-editor-meta-error" error={error} />)}
 			</Selection.Component>
 		);
