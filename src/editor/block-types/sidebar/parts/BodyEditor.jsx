@@ -10,7 +10,11 @@ const t = scoped('content.editor.block-types.sidebar.BodyEditor', {
 	placeholder: 'Add content...'
 });
 
+const BLOCK_ID_TO_BODY_STATE = {};
+
 export default class NTISidebarBody extends React.Component {
+	static BLOCK_ID_TO_BODY_STATE = BLOCK_ID_TO_BODY_STATE
+
 	static propTypes = {
 		value: PropTypes.string,
 		blockId: PropTypes.string,
@@ -49,6 +53,12 @@ export default class NTISidebarBody extends React.Component {
 		this.setupFor(this.props);
 	}
 
+	componentWillUnmount () {
+		const {blockId} = this.props;
+
+		delete BLOCK_ID_TO_BODY_STATE[blockId];
+	}
+
 
 	componentDidUpdate (prevProps) {
 		const {value:oldValue} = prevProps;
@@ -65,10 +75,13 @@ export default class NTISidebarBody extends React.Component {
 
 
 	setupFor (props) {
-		const {value} = this.props;
+		const {value, blockId} = this.props;
+		const editorState = rstToDraft(value);
+
+		BLOCK_ID_TO_BODY_STATE[blockId] = editorState;
 
 		this.setState({
-			editorState: rstToDraft(value)
+			editorState
 		});
 	}
 
@@ -106,11 +119,12 @@ export default class NTISidebarBody extends React.Component {
 
 
 	onContentChange = (editorState) => {
-		const {value:oldValue, onChange} = this.props;
+		const {value:oldValue, onChange, blockId} = this.props;
 		const newValue = draftToRST(editorState);
 
 		if (onChange && newValue !== oldValue)	{
 			this.pendingSaves.push(newValue);
+			BLOCK_ID_TO_BODY_STATE[blockId] = editorState;
 			onChange(newValue);
 		}
 	}

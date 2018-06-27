@@ -21,7 +21,6 @@ function getTitleFromBlock (block) {
 export default class NTISidebar extends React.Component {
 	static propTypes = {
 		block: PropTypes.object,
-		blockId: PropTypes.string,
 		blockProps: PropTypes.shape({
 			setReadOnly: PropTypes.func,
 			setBlockData: PropTypes.func,
@@ -95,8 +94,9 @@ export default class NTISidebar extends React.Component {
 
 
 	render () {
-		const {blockId} = this.props;
+		const {block} = this.props;
 		const {body, title} = this.state;
+		const blockId = block.getKey();
 
 		return (
 			<div className="content-editing-sidebar-editor">
