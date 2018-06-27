@@ -15,7 +15,9 @@ export default class FigureEditor extends React.Component {
 		const {url} = this.props;
 
 		return (
-			<div className="figure-editor" style={{backgroundImage: `url(${url})`}} />
+			<div className="nti-content-editor-figure-editor">
+				<img src={url} />
+			</div>
 		);
 	}
 }
