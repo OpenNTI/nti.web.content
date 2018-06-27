@@ -19,21 +19,34 @@ import {
 	RESET_STORE,
 	NEW_RENDER_JOB,
 	RENDER_JOB_CHANGE,
-	EMPTY_CODE_BLOCK
+	EMPTY_CODE_BLOCK,
+	RST_VALIDATION_ERROR
 } from './Constants';
 
 const logger = Logger.get('lib:content-editor:Store');
 
 const DEFAULT_TEXT = {
-	emptyCodeBlock: 'Code blocks cannot be empty.'
+	emptyCodeBlock: 'Code blocks cannot be empty.',
+	missingSidebarTitle: 'Sidebars must have a title.',
+	missingSidebarContent: 'Sidebars cannot be empty.'
 };
 const t = scoped('web-content.editor.Store', DEFAULT_TEXT);
 
 const {Field: {Factory:ErrorFactory}} = Errors;
 
+const ERROR_MESSAGE_MAP = {
+	'Content block expected for the "sidebar" directive; none found.': () => t('missingSidebarContent'),
+	'Error in "sidebar" directive:': () => t('missingSidebarTitle')
+};
+
 const errorFactory = new ErrorFactory({
 	overrides: {
 		'ContentValidationError': reason => {
+			debugger;
+			if (ERROR_MESSAGE_MAP[reason.message]) {
+				return ERROR_MESSAGE_MAP[reason.message]();
+			}
+
 			if (reason.MimeType === EMPTY_CODE_BLOCK) {
 				return t('emptyCodeBlock');
 			}
