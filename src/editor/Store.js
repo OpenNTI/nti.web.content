@@ -19,8 +19,7 @@ import {
 	RESET_STORE,
 	NEW_RENDER_JOB,
 	RENDER_JOB_CHANGE,
-	EMPTY_CODE_BLOCK,
-	RST_VALIDATION_ERROR
+	EMPTY_CODE_BLOCK
 } from './Constants';
 
 const logger = Logger.get('lib:content-editor:Store');
@@ -42,7 +41,6 @@ const ERROR_MESSAGE_MAP = {
 const errorFactory = new ErrorFactory({
 	overrides: {
 		'ContentValidationError': reason => {
-			debugger;
 			if (ERROR_MESSAGE_MAP[reason.message]) {
 				return ERROR_MESSAGE_MAP[reason.message]();
 			}
