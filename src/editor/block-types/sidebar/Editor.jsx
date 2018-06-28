@@ -19,6 +19,8 @@ function getTitleFromBlock (block) {
 }
 
 export default class NTISidebar extends React.Component {
+	static getBodyFromBlock = getBodyFromBlock
+
 	static propTypes = {
 		block: PropTypes.object,
 		blockProps: PropTypes.shape({

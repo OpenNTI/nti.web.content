@@ -1,8 +1,9 @@
 import {BLOCKS} from '@nti/web-editor';
 
+import {rstToDraft} from '../utils';
+
 import Editor from './Editor';
 import Button from './Button';
-import BodyEditor from './parts/BodyEditor';
 
 const NAME = 'sidebar';
 
@@ -15,9 +16,9 @@ export const handlesBlock = (contentBlock) => {
 
 export const getNestedState = (contentBlock) => {
 	if (handlesBlock(contentBlock)) {
-		const key = contentBlock.getKey();
+		const body = Editor.getBodyFromBlock(contentBlock);
 
-		return BodyEditor.BLOCK_ID_TO_BODY_STATE[key];
+		return rstToDraft(body);
 	}
 };
 
