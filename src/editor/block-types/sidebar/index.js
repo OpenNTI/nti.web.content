@@ -26,5 +26,3 @@ export const className = 'nti-sidebar';
 export const component = Editor;
 export const button = Button;
 export const editable = false;
-
-

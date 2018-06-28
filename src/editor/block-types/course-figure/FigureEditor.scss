@@ -1,6 +1,14 @@
+@import "~@nti/style-common";
+
 .nti-content-editor-figure-editor {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background: $panel-background;
+	min-height: 200px;
+
 	img {
-		width: 100%;
+		max-width: 100%;
 		height: auto;
 	}
 }
