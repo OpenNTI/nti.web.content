@@ -15,27 +15,6 @@
 		height: 3rem;
 	}
 
-	select.code-language {
-		// Reset styling
-		background-color: rgba(255, 255, 255, 0);
-		padding-right: 20px;
-		appearance: none;
-		border: none;
-		color: $secondary-grey;
-		font-weight: bold;
-		line-height: 14px;
-		text-align: right;
-		padding-left: 5px;
-		cursor: pointer;
-		font-size: 0.625rem;
-		text-transform: uppercase;
-		vertical-align: middle;
-
-		&::-ms-expand {
-			display: none;
-		}
-	}
-
 	i.dropdown {
 		z-index: -1;
 		position: absolute;
@@ -55,4 +34,9 @@
 		text-align: center;
 		margin-left: 10px;
 	}
+}
+
+.code-language-options {
+	max-height: 200px;
+    overflow: auto;
 }
