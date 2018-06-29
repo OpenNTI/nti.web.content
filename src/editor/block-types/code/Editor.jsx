@@ -11,6 +11,12 @@ import {
 import CodeEditor from './CodeEditor';
 import Controls from './Controls';
 
+const LANG_CLASSES = [
+	'nti-select-input-option',
+	'selected-option',
+	'icon-chevron-down'
+];
+
 class Editor extends Component {
 
 	static propTypes = {
@@ -24,6 +30,7 @@ class Editor extends Component {
 	}
 
 	attachCodeRef = x => this.code = x;
+	attachLangRef = x => this.langSelect = x;
 	onFocus = () => onFocus(this.props);
 	onBlur = () => onBlur(this.props);
 	onRemove = () => onRemove(this.props);
@@ -72,21 +79,24 @@ class Editor extends Component {
 
 		if (targetCls.contains('rm-editor')) {
 			this.onRemove();
-		} else if (this.code && !targetCls.contains('code-language')) {
+		} else if (this.code && !targetCls.contains('nti-select-input-option')) {
 			this.code.focus();
+		} else if (this.langSelect && LANG_CLASSES.some(v => targetCls.contains(v))) {
+			this.langSelect.onLabelClick();
 		}
 	}
 
 	render () {
 		const { body, language } = this.state;
-
 		return (
-			<NestedEditorWrapper tabIndex="0" onBlur={this.onBlur} onFocus={this.onFocus} className="code-block-editor" onClick={this.onClick}>
-				<Controls language={language} onChange={this.onLanguageChange} />
+			<NestedEditorWrapper tabIndex="0" onBlur={this.onBlur} onFocus={this.onFocus} onClick={this.onClick} className="code-block-editor">
+				<Controls language={language} onChange={this.onLanguageChange} attachLangRef={this.attachLangRef} />
 				<CodeEditor
 					ref={this.attachCodeRef}
-					code={body}
+					code={Array.isArray(body) ? '' : body}
 					onChange={this.onCodeChange}
+					onBlur={this.onBlur}
+					onFocus={this.onFocus}
 				/>
 			</NestedEditorWrapper>
 		);

@@ -1,18 +1,21 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
+import { Input } from '@nti/web-commons';
 
 import { LANGUAGES } from './constants';
+
+const SelectInput = Input.Select;
+
 
 export default class Controls extends Component {
 
 	static propTypes = {
 		language: PropTypes.string.isRequired,
 		onChange: PropTypes.func.isRequired,
-		onRemove: PropTypes.func.isRequired
+		attachLangRef: PropTypes.func.isRequired
 	};
 
-
-	onChange = ({ target: { value }}) => {
+	onChange = (value) => {
 		const { onChange } = this.props;
 
 		if (onChange) {
@@ -26,15 +29,21 @@ export default class Controls extends Component {
 		return (
 			<div className="code-controls">
 				<div className="spacer" />
-				<select className="code-language" name="code-language" value={language} onChange={this.onChange}>
-					{
-						Object.entries(LANGUAGES).map(([display, lang]) => (
-							<option key={display} value={lang}>
+				<SelectInput
+					className="code-language"
+					value={language}
+					onChange={this.onChange}
+					ref={this.props.attachLangRef}
+					optionsClassName="code-language-options"
+				>
+					{Object.entries(LANGUAGES).map(([display, lang]) => {
+						return (
+							<SelectInput.Option key={display} value={lang}>
 								{display}
-							</option>
-						))
-					}
-				</select>
+							</SelectInput.Option>
+						);
+					})}
+				</SelectInput>
 				<i className="dropdown icon-chevron-down" />
 				<div className="remove rm-editor">
 					<i className="icon-bold-x rm-editor" />
