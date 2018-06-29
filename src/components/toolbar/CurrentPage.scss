@@ -1,9 +1,7 @@
 @import "~@nti/style-common";
 
 .nti-content-toolbar-current-page {
-	display: inline-flex;
-	justify-content: flex-end;
-	align-items: center;
+	display: inline-block;
 	width: 60px;
 	text-align: right;
 
