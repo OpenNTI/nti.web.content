@@ -55,7 +55,7 @@
     "classnames": "^2.0.0",
     "draft-js": "^0.10.0",
     "draft-js-plugins-editor": "^2.0.0-rc8",
-    "draft-js-utils": "^0.1.7",
+    "draft-js-utils": "^1.2.0",
     "filesize": "^3.3.0",
     "html-entities": "^1.2.0",
     "invariant": "^2.1.1",
