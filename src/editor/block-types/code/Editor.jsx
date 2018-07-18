@@ -69,7 +69,8 @@ class Editor extends Component {
 	onLanguageChange = (language) => {
 		const { blockProps: { setBlockData } } = this.props;
 		if (setBlockData) {
-			setBlockData({ arguments: language });
+			setBlockData({ arguments: language }, true);
+			this.code.focus();
 		}
 	}
 
