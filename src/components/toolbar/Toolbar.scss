@@ -15,6 +15,7 @@
 		.path-items {
 			flex: 1 1 auto;
 			display: flex;
+			max-width: 575px;
 
 			.table-of-contents-flyout-trigger {
 				flex: 0 0 auto;
