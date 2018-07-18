@@ -23,7 +23,7 @@ export default class Breadcrumb extends React.Component {
 				item={part}
 				key={index}
 				bcKey={index}
-				message={index === arr.length - 1 && this.props.message}/>);
+				message={index === arr.length - 1 ? this.props.message : null}/>);
 	}
 
 	render () {

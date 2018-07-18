@@ -23,11 +23,9 @@
 }
 
 .content-toolbar .path-items {
-	width: 570px;
 	height: 59px;
-	display: -ms-flexbox;
 	display: flex;
-	-ms-box-orient: horizontal;
+	flex-direction: row;
 	flex-wrap: nowrap;
 	text-transform: uppercase;
 
@@ -50,15 +48,12 @@
 	}
 
 	.breadcrumb {
-		-ms-box-orient: horizontal;
-		display: -ms-flexbox;
 		display: flex;
+		flex-direction: row;
 		flex-wrap: nowrap;
 		//font: normal 500 1em/59px $font;
 		font-weight: 500;
 		font-size: 12px;
-		max-width: 500px;
-		width: 60%;
 
 		&, * {
 			color: $primary-blue;

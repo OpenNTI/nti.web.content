@@ -151,10 +151,10 @@ export default class Toolbar extends React.Component {
 
 	render () {
 		return (
-			<div className="content-toolbar">
+			<div className="nti-content-toolbar content-toolbar">
 				<div className="toolbar">
-					{this.renderControls()}
 					{this.renderHeader()}
+					{this.renderControls()}
 				</div>
 			</div>
 		);
