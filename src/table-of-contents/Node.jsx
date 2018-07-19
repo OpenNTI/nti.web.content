@@ -90,7 +90,7 @@ export default class ToCNode extends React.Component {
 				let parent = getFirstNonAnchorParent(node) || {};
 
 				id = parent.id;
-				fragment = `#${node.getAchorTarget()}`;
+				fragment = `#${node.getAnchorTarget()}`;
 			}
 
 			href = `${prefix}${encodeForURI(id)}/${fragment}`;
