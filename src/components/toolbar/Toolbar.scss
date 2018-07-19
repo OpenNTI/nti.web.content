@@ -47,6 +47,12 @@
 
 				span {
 					font-weight: 600;
+					display: inline-block;
+					vertical-align: middle;
+
+					&.separator {
+						padding: 0 0.3rem;
+					}
 				}
 			}
 
