@@ -4,7 +4,7 @@ import {Selection} from '@nti/web-commons';
 import {scoped} from '@nti/lib-locale';
 import {Editor, Plugins, BLOCKS, NestedEditorWrapper, STYLE_SET } from '@nti/web-editor';
 
-import {rstToDraft, draftToRST} from '../../utils';
+import {rstToDraft, draftToRST, stopInsertDrop} from '../../utils';
 
 const t = scoped('content.editor.block-types.sidebar.BodyEditor', {
 	placeholder: 'Add content...'
@@ -33,6 +33,7 @@ export default class NTISidebarBody extends React.Component {
 				Plugins.LimitBlockTypes.create({allow: new Set([BLOCKS.UNSTYLED, BLOCKS.ORDERED_LIST_ITEM, BLOCKS.UNORDERED_LIST_ITEM])}),
 				Plugins.LimitStyles.create({allow: STYLE_SET}),
 				Plugins.BlockBreakOut.create(),
+				{handleDrop: stopInsertDrop}
 				// Plugins.ExternalLinks.create({allowedInBlockTypes: new Set([BLOCKS.UNSTYLED, BLOCKS.ORDERED_LIST_ITEM, BLOCKS.UNORDERED_LIST_ITEM])})
 			]
 		};
@@ -128,6 +129,7 @@ export default class NTISidebarBody extends React.Component {
 			onChange(newValue);
 		}
 	}
+
 
 	render () {
 		const {blockId} = this.props;

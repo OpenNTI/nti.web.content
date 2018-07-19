@@ -4,13 +4,14 @@ import cx from 'classnames';
 import {Selection} from '@nti/web-commons';
 import {Editor, Plugins, BLOCKS, NestedEditorWrapper, STYLE_SET } from '@nti/web-editor';
 
-import {rstToDraft, draftToRST} from './utils';
+import {rstToDraft, draftToRST, stopInsertDrop} from './utils';
 
 const plugins = [
 	Plugins.LimitBlockTypes.create({allow: new Set([BLOCKS.UNSTYLED])}),
 	Plugins.LimitStyles.create({allow: STYLE_SET}),
 	Plugins.LimitLinks.create(),
-	Plugins.SingleLine.create()
+	Plugins.SingleLine.create(),
+	{handleDrop: stopInsertDrop}
 ];
 
 export default class RSTFieldEditor extends React.Component {
