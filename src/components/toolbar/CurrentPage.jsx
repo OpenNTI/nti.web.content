@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Input} from '@nti/web-commons';
+import {Input, VisibleComponentTracker} from '@nti/web-commons';
 
 export default class CurrentPage extends React.Component {
 	static propTypes = {
@@ -10,6 +10,60 @@ export default class CurrentPage extends React.Component {
 			getRouteForPage: PropTypes.func
 		}).isRequired,
 		doNavigation: PropTypes.func
+	}
+
+	state = {}
+
+
+	componentDidMount () {
+		this.setupFor(this.props);
+
+		const {pageSource} = this.props;
+
+		if (pageSource.getAllPages) {
+			VisibleComponentTracker.addGroupListener('real-page-numbers', this.onVisibleChange);
+		}
+	}
+
+
+	componentWillUnmount () {
+		const {pageSource} = this.props;
+
+		if (pageSource.getAllPages) {
+			VisibleComponentTracker.removeGroupListener('real-page-numbers', this.onVisibleChange);
+		}
+	}
+
+
+	componentDidUpdate (prevProps) {
+		const {pageSource} = this.props;
+		const {pageSource:prevPageSource} = this.props;
+
+		if (pageSource !== prevPageSource) {
+			this.setupFor(this.props);
+		}
+	}
+
+
+	setupFor (props = this.props) {
+		const {pageSource} = this.props;
+
+		this.setState({
+			currentPage: pageSource.getPageNumber()
+		});
+	}
+
+
+	onVisibleChange = (visible) => {
+		console.log('ON VISIBLE CHANGE: ', visible);//eslint-disable-line
+
+		const page = visible && visible[0] && visible[0].data.pageNumber;
+
+		if (page) {
+			this.setState({
+				currentPage: page
+			});
+		}
 	}
 
 
@@ -42,11 +96,11 @@ export default class CurrentPage extends React.Component {
 
 
 	renderAllPages (pageSource) {
-		const current = pageSource.getPageNumber();
+		const {currentPage} = this.state;
 		const pages = pageSource.getAllPages();
 
 		return (
-			<Input.Select className="page-select" optionsClassName="page-select-options-list" value={current} searchable onChange={this.selectPage}>
+			<Input.Select className="page-select" optionsClassName="page-select-options-list" value={currentPage} searchable onChange={this.selectPage}>
 				{pages.map((page, key) => (<Input.Select.Option key={key} value={page}>{page}</Input.Select.Option>))}
 			</Input.Select>
 		);
