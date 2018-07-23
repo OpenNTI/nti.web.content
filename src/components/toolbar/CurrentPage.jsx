@@ -55,8 +55,6 @@ export default class CurrentPage extends React.Component {
 
 
 	onVisibleChange = (visible) => {
-		console.log('ON VISIBLE CHANGE: ', visible);//eslint-disable-line
-
 		const page = visible && visible[0] && visible[0].data.pageNumber;
 
 		if (page) {
