@@ -1,0 +1,48 @@
+@import "~@nti/style-common";
+
+.nti-content-toolbar-pager-currentPage {
+	display: inline-block;
+	vertical-align: middle;
+	width: 60px;
+	text-align: right;
+
+	.real-page-link a {
+		max-width: 50px;
+		display: block;
+		color: black;
+	}
+
+	.nti-select-input {
+		text-align: right;
+
+		.select-label {
+			.selected-option .nti-select-input-option {
+				padding-right: 0.5rem;
+			}
+
+			.nti-text-input {
+				padding-right: 0.625rem;
+			}
+
+			&.focused {
+				.selected-option {
+					display: none;
+				}
+
+				.nti-text-input {
+					text-align: right;
+				}
+			}
+		}
+
+		.icon-chevron-down {
+			display: none;
+		}
+	}
+}
+
+.page-select-options-list {
+	max-height: 20vh;
+	margin-left: 2px;
+	overflow: auto;
+}

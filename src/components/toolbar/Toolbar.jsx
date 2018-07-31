@@ -1,15 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {scoped} from '@nti/lib-locale';
-
-import {Flyout as TocFlyout} from '../../table-of-contents/';
 
 import Breadcrumb from './Breadcrumb';
-import CurrentPage from './CurrentPage';
+import Pager from '../../toolbar/Pager';
+import { Flyout as TocFlyout } from '../../table-of-contents/';
 
-const t = scoped('content.toolbar.Toolbar', {
-	'separator': ' of '
-});
 
 export default class Toolbar extends React.Component {
 	static propTypes = {
@@ -22,7 +17,9 @@ export default class Toolbar extends React.Component {
 		hideHeader: PropTypes.bool,
 		doNavigation: PropTypes.func,
 		selectTocNode: PropTypes.func,
-		message: PropTypes.object
+		message: PropTypes.object,
+		currentPage: PropTypes.string,
+		rootId: PropTypes.string
 	}
 
 	constructor (props) {
@@ -55,80 +52,16 @@ export default class Toolbar extends React.Component {
 		this.props.doNavigation && this.props.doNavigation(title, route, precache);
 	}
 
-
-	renderPage () {
-		const {doNavigation} = this.props;
-		const {pageSource} = this.state;
-
-		if(!pageSource) {
-			return null;
-		}
-
-		return (
-			<div className="page">
-				<CurrentPage pageSource={pageSource} doNavigation={doNavigation} />
-				<span className="separator">{t('separator')}</span>
-				<span className="total">{this.state.pageSource.getTotal()}</span>
-			</div>
-		);
-	}
-
-	goToPrevious = () => {
-		const { pageSource } = this.state;
-		const { doNavigation } = this.props;
-
-		if(pageSource && pageSource.previous) {
-			const previous = pageSource.getPrevious(),
-				title = pageSource.getPreviousTitle(),
-				precache = pageSource.getPreviousPrecache();
-
-			return doNavigation(title, previous, precache);
-		}
-
-		return;
-	}
-
-	renderPrev () {
-		const { pageSource } = this.state;
-
-		const className = 'prev' + (pageSource && pageSource.previous && pageSource.getPrevious() ? '' : ' disabled');
-
-		return (<div onClick={this.goToPrevious} className={className}/>);
-	}
-
-	goToNext = () => {
-		const { pageSource } = this.state;
-		const { doNavigation } = this.props;
-
-		if(pageSource && pageSource.next) {
-			const next = pageSource.getNext(),
-				title = pageSource.getNextTitle(),
-				precache = pageSource.getNextPrecache();
-
-			return doNavigation(title, next, precache);
-		}
-
-		return;
-	}
-
-	renderNext () {
-		const { pageSource } = this.state;
-
-		const className = 'next' + (pageSource && pageSource.next && pageSource.getNext() ? '' : ' disabled');
-
-		return (<div onClick={this.goToNext} className={className}/>);
-	}
-
 	renderControls () {
 		if(this.props.hideControls) {
 			return null;
 		}
 
+		const { contentPackage, rootId, currentPage } = this.props;
+
 		return (
 			<div className="right controls">
-				{this.renderPage()}
-				{this.renderPrev()}
-				{this.renderNext()}
+				<Pager  contentPackage={contentPackage} rootId={rootId} currentPage={currentPage} />
 			</div>
 		);
 	}
