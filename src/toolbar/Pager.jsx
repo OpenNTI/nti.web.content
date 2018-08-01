@@ -2,10 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { scoped } from '@nti/lib-locale';
 import { Loading } from '@nti/web-commons';
-import {LinkTo} from '@nti/web-routing';
-import cx from 'classnames';
 
 import CurrentPage from './CurrentPage';
+import Control from './Control';
 
 const t = scoped('content.toolbar.Toolbar', {
 	separator: ' of '
@@ -64,7 +63,6 @@ export default class Pager extends React.Component {
 		} catch (error) {
 			this.setState({ loading: false, error: true });
 		}
-
 	}
 
 	render () {
@@ -78,9 +76,6 @@ export default class Pager extends React.Component {
 			return null;
 		}
 
-		const prevClassName = cx('prev', { 'disabled': !prev, 'real-page': allPages });
-		const nextClassName = cx('next', { 'disabled': !next, 'real-page': allPages });
-
 		return (
 			<div className="pager-controls">
 				<div className="page">
@@ -88,12 +83,8 @@ export default class Pager extends React.Component {
 					<span className="separator">{t('separator')}</span>
 					<span className="total">{total}</span>
 				</div>
-				<LinkTo.Object context="previous-page" object={prev}>
-					<div className={prevClassName} />
-				</LinkTo.Object>
-				<LinkTo.Object context="next-page" object={next}>
-					<div className={nextClassName} />
-				</LinkTo.Object>
+				<Control cxt="previous-page" obj={prev} className="prev" allPages={allPages} />
+				<Control cxt="next-page" obj={next} className="next" allPages={allPages} />
 			</div>
 		);
 	}
