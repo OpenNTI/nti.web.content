@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { scoped } from '@nti/lib-locale';
 import { Loading } from '@nti/web-commons';
+import Logger from '@nti/util-logger';
 
 import CurrentPage from './CurrentPage';
 import Control from './Control';
@@ -9,6 +10,7 @@ import Control from './Control';
 const t = scoped('content.toolbar.Toolbar', {
 	separator: ' of '
 });
+const logger = Logger.get('lib:content-toolbar:Pager');
 
 export default class Pager extends React.Component {
 	static propTypes = {
@@ -43,7 +45,7 @@ export default class Pager extends React.Component {
 			const tocs = await cPackage.getTablesOfContents();
 
 			const toc = tocs && tocs.filter(x => x.getNode(rootId))[0];
-			const page = toc && toc.getPageSource();
+			const page = toc && toc.getPageSource(rootId);
 			const context = page && page.getPagesAround(currentPage);
 
 			const { realPageIndex } = toc;
@@ -61,6 +63,7 @@ export default class Pager extends React.Component {
 				loading: false
 			});
 		} catch (error) {
+			logger.error(error);
 			this.setState({ loading: false, error: true });
 		}
 	}
