@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 
 import Breadcrumb from './Breadcrumb';
 import Pager from '../../toolbar/Pager';
+import NonContentPager from './Pager';
+
 import { Flyout as TocFlyout } from '../../table-of-contents/';
 
 
@@ -57,11 +59,12 @@ export default class Toolbar extends React.Component {
 			return null;
 		}
 
-		const { contentPackage, rootId, currentPage } = this.props;
+		const { contentPackage, rootId, currentPage, pageSource, doNavigation } = this.props;
 
 		return (
 			<div className="right controls">
-				<Pager  contentPackage={contentPackage} rootId={rootId} currentPage={currentPage} />
+				{!pageSource && <Pager  contentPackage={contentPackage} rootId={rootId} currentPage={currentPage} />}
+				{pageSource && <NonContentPager pageSource={pageSource} doNavigation={doNavigation} />}
 			</div>
 		);
 	}
