@@ -1,0 +1,11 @@
+.stream-view {
+	display: flex;
+	width: 1024px;
+	.stream-content {
+		width: 75%;
+	}
+	.stream-sidebar {
+		padding-left: 6px;
+		width: 25%;
+	}
+}
