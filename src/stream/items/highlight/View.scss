@@ -1,0 +1,61 @@
+.stream-highlight {
+	background: #fff;
+	border: 1px solid #eaeaea;
+
+	.heading {
+		padding: 0 20px;
+		border-style: solid;
+		border-color: #eaeaea;
+		border-width: 0 0 1px 0;
+		font: normal 500 14px/38px "Open Sans", sans-serif;
+		color: #b8b8b8;
+	}
+
+	.body {
+		margin: 20px;
+
+		.application-highlight {
+			cursor: pointer;
+			position: relative;
+			margin: 0 0 20px 0;
+			left: -3px;
+			font: normal 400 14px/16px "Open Sans", sans-serif;
+
+			&.plain {
+				&.colored {
+					background-color: #e3f4fe;
+					box-shadow: 0 0 3px 0 #e3f4fe;
+
+					.yellow {
+						background-color: #faf8c2;
+						box-shadow: 0 0 3px 0 #faf8c2;
+					}
+
+					&.yellow.highlight-mouse-over {
+						background-color: #f9f6af;
+					}
+
+					&.green {
+						background-color: #c9f7d9;
+						box-shadow: 0 0 3px 0 #c9f7d9;
+					}
+
+					&.green.highlight-mouse-over {
+						background-color: #b7f5cc;
+					}
+
+					&.highlight-mouse-over {
+						background-color: #cfecfd;
+					}
+				}
+
+				&:not(.colored),
+				&:not(.colored) .math {
+					background: none;
+					color: #494949;
+					border-bottom: 1px solid #9fd9fa;
+				}
+		}
+		}
+	}
+}
