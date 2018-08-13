@@ -7,6 +7,10 @@ import { ContentIcon } from '../common';
 
 @Registry.register('application/vnd.nextthought.note')
 class Note extends React.Component {
+	static propTypes = {
+		item: PropTypes.object.isRequired
+	}
+
 	render () {
 		const { item } = this.props;
 		return (
