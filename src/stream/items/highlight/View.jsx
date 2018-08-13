@@ -1,9 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
-import { DateTime, DisplayName, Ellipsed, AssetIcon } from '@nti/web-commons';
+import { DateTime, DisplayName, Ellipsed } from '@nti/web-commons';
 
 import Registry from '../Registry';
+import Breadcrumb from '../../breadcrumb';
 
 @Registry.register('application/vnd.nextthought.highlight')
 class Highlight extends React.Component {
@@ -14,11 +15,12 @@ class Highlight extends React.Component {
 			}),
 			creator: PropTypes.string,
 			selectedText: PropTypes.string
-		})
+		}),
+		context: PropTypes.object
 	}
 
 	render () {
-		const { item } = this.props;
+		const { item, context } = this.props;
 		let { presentationProperties } = item;
 		let colorName = (presentationProperties || {}).highlightColorName;
 
@@ -30,6 +32,7 @@ class Highlight extends React.Component {
 		);
 		return (
 			<div className="stream-highlight">
+				<Breadcrumb item={item} context={context} />
 				<div className="heading">
 					<DisplayName entity={item.creator} /> created a highlight on <DateTime date={item.date} />
 				</div>

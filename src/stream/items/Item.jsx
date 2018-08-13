@@ -12,6 +12,7 @@ export default class StreamItem extends React.Component {
 
 	static propTypes = {
 		item: PropTypes.object,
+		context: PropTypes.object,
 		readOnly: PropTypes.bool
 	}
 
@@ -23,7 +24,7 @@ export default class StreamItem extends React.Component {
 
 	render () {
 		const {
-			props: { item },
+			props: { item, context },
 			state: { error }
 		} = this;
 
@@ -36,7 +37,7 @@ export default class StreamItem extends React.Component {
 		const Cmp = registry.getItemFor(item.MimeType);
 
 		return (
-			<Cmp item={item} />
+			<Cmp item={item} context={context} />
 		);
 	}
 }
