@@ -28,8 +28,7 @@ class Test extends React.Component {
 
 	async setup () {
 		const service = await getService();
-		const bundle = await service.getObject('tag:nextthought.com,2011-10:IFSTA-Bundle-IFSTA_Book_Aircraft_Rescue_and_Fire_Fighting_Sixth_Edition');
-		const context = await service.getPageInfo(bundle.ContentPackages[0].NTIID, null, null, null, bundle);
+		const context = await service.getObject('tag:nextthought.com,2011-10:IFSTA-Bundle-IFSTA_Book_Aircraft_Rescue_and_Fire_Fighting_Sixth_Edition');
 		this.setState({ context });
 	}
 
