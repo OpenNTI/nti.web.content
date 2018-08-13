@@ -42,7 +42,7 @@ class View extends React.Component {
 	}
 
 	render () {
-		const { items } = this.props;
+		const { items, context } = this.props;
 
 		if (!items || items.length === 0) {
 			return (
@@ -55,7 +55,7 @@ class View extends React.Component {
 		return (
 			<div className="stream-view">
 				<div className="stream-content">
-					{filtered.map(item => <StreamItem key={item.NTIID} item={item} />)}
+					{filtered.map(item => <StreamItem key={item.NTIID} item={item} context={context} />)}
 				</div>
 				<div className="stream-sidebar">
 					<Sidebar />

@@ -1,0 +1,63 @@
+@import '~@nti/style-common';
+
+.nti-content-breadcrumb {
+	.breadcrumb-list {
+		list-style: none;
+		padding: 0;
+		margin: 0 0.625rem;
+		position: relative;
+		text-transform: uppercase;
+		font-size: 0.5rem;
+		font-weight: 400;
+		display: flex;
+		flex-direction: row;
+		flex-wrap: wrap;
+
+		.crumb {
+			position: relative;
+			display: inline-flex;
+			flex-direction: row;
+			flex-wrap: nowrap;
+
+			&:not(.last)::after {
+				flex: 0 0 auto;
+				content: '/';
+				padding: 0 0.3em;
+			}
+
+			&, span {
+				flex: 0 1 auto;
+				white-space: nowrap;
+				overflow: hidden;
+				text-overflow: ellipsis;
+			}
+
+			&.last {
+				flex: 0 0 auto;
+			}
+		}
+	}
+
+	.placeholder {
+		.crumb {
+			span {
+				display: inline-block;
+				width: 100%;
+				height: 0.75rem;
+				background: $tertiary-grey;
+				opacity: 0.5;
+				text-indent: -1000px;
+				overflow: hidden;
+				line-height: 0;
+
+				&::before {
+					content: 'WWWWWWWWW';
+				}
+			}
+
+			&.last span {
+				background: $primary-blue;
+			}
+		}
+	}
+}
