@@ -72,29 +72,29 @@ export default class Breadcrumb extends React.Component {
 
 
 	async loadBreadcrumb (props) {
-		// const {item, context, showPrompt} = props;
+		const {item, context, showPrompt} = props;
 
-		// try {
-		// 	const breadcrumbs = await getBreadcrumb(item);
-		// 	const breadcrumb = (breadcrumbs || [])[0];
-		// 	const indexOfContext = context ? breadcrumb.findIndex((b) => b.NTIID === context.NTIID) : -1;
+		try {
+			const breadcrumbs = await getBreadcrumb(item);
+			const breadcrumb = (breadcrumbs || [])[0];
+			const indexOfContext = context ? breadcrumb.findIndex((b) => b.NTIID === context.NTIID) : -1;
 
-		// 	this.setState({
-		// 		breadcrumb: indexOfContext < 0 ? breadcrumb : breadcrumb.slice(indexOfContext + 1),
-		// 		error: null
-		// 	});
-		// } catch (e) {
-		// 	if (e && e.statusCode === 403 && e.Items && showPrompt) {
-		// 		this.setState({
-		// 			breadcrumb: [e.Items],
-		// 			error: null
-		// 		});
-		// 	} else {
-		// 		this.setState({
-		// 			error: e
-		// 		});
-		// 	}
-		// }
+			this.setState({
+				breadcrumb: indexOfContext < 0 ? breadcrumb : breadcrumb.slice(indexOfContext + 1),
+				error: null
+			});
+		} catch (e) {
+			if (e && e.statusCode === 403 && e.Items && showPrompt) {
+				this.setState({
+					breadcrumb: [e.Items],
+					error: null
+				});
+			} else {
+				this.setState({
+					error: e
+				});
+			}
+		}
 	}
 
 
@@ -128,7 +128,7 @@ export default class Breadcrumb extends React.Component {
 				<ul className="breadcrumb-list placeholder">
 					<li className="crumb" style={width(33)}><span /></li>
 					<li className="crumb next-to-last" style={width(22)}><span /></li>
-					<li className="crumb last" style={width(55)}><span /></li>
+					<li className="crumb last" style={width(45)}><span /></li>
 				</ul>
 			</LinkTo.Object>
 		);

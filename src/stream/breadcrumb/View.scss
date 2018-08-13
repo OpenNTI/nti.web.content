@@ -3,12 +3,13 @@
 .nti-content-breadcrumb {
 	.breadcrumb-list {
 		list-style: none;
-		padding: 0;
-		margin: 0 0.625rem;
+		padding: 0.625rem 1.25rem;
+		margin: 0;
 		position: relative;
 		text-transform: uppercase;
-		font-size: 0.5rem;
-		font-weight: 400;
+		font-size: 0.625rem;
+		font-weight: 700;
+		color: $tertiary-grey;
 		display: flex;
 		flex-direction: row;
 		flex-wrap: wrap;
@@ -34,6 +35,7 @@
 
 			&.last {
 				flex: 0 0 auto;
+				color: $primary-blue;
 			}
 		}
 	}
