@@ -44,7 +44,6 @@ export default class Controls extends Component {
 						);
 					})}
 				</SelectInput>
-				<i className="dropdown icon-chevron-down" />
 				<div className="remove rm-editor">
 					<i className="icon-bold-x rm-editor" />
 				</div>

@@ -80,7 +80,7 @@ class Editor extends Component {
 
 		if (targetCls.contains('rm-editor')) {
 			this.onRemove();
-		} else if (this.code && !targetCls.contains('nti-select-input-option')) {
+		} else if (this.code && !targetCls.contains('nti-select-input-option') && !targetCls.contains('icon-chevron-down')) {
 			this.code.focus();
 		} else if (this.langSelect && LANG_CLASSES.some(v => targetCls.contains(v))) {
 			this.langSelect.onLabelClick();
