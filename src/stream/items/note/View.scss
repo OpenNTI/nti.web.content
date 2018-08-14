@@ -1,0 +1,10 @@
+@import '~@nti/style-common';
+
+.nti-content-stream-note {
+	background: white;
+
+	.note-breadcrumb {
+		padding: 0.625rem 20px;
+		box-shadow: inset 0 -1px 0 0 $border-grey-light;
+	}
+}

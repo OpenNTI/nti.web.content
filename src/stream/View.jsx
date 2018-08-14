@@ -63,9 +63,15 @@ class View extends React.Component {
 					</div>
 				)}
 				{items && items.length > 0 && (
-					<div className="stream-content">
-						{filtered.map(item => <StreamItem key={item.NTIID} item={item} context={context} />)}
-					</div>
+					<ul className="stream-content">
+						{filtered.map(item => {
+							return (
+								<li key={item.NTIID}>
+									<StreamItem key={item.NTIID} item={item} context={context} />
+								</li>
+							);
+						})}
+					</ul>
 				)}
 				<div className="stream-sidebar">
 					<Sidebar onChange={this.onChange} />
