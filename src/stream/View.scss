@@ -3,6 +3,13 @@
 	width: 1024px;
 	padding-top: 20px;
 
+	.loading-container {
+		width: 75%;
+		position: relative;
+		min-height: 200px;
+		background: white;
+	}
+
 	.stream-content {
 		width: 75%;
 		list-style: none;

@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Loading } from '@nti/web-commons';
 
 import Store from './Store';
 import StreamItem from './items';
@@ -19,7 +20,8 @@ class View extends React.Component {
 		store: PropTypes.shape({
 			load: PropTypes.func.isRequired
 		}),
-		items: PropTypes.array
+		items: PropTypes.array,
+		loading: PropTypes.bool
 	};
 
 	state = {
@@ -48,13 +50,18 @@ class View extends React.Component {
 	}
 
 	render () {
-		const { items, context } = this.props;
+		const { items, context, loading } = this.props;
 		const filtered = items && items.filter(item => item && StreamItem.canRender(item));
 		const { openSearch } = this.state;
 
 		return (
 			<div className="stream-view">
-				{(!items || items.length === 0) && (
+				{loading && (
+					<div className="loading-container">
+						<Loading.Mask />
+					</div>
+				)}
+				{(!items || items.length === 0) && !loading && (
 					<div className="stream-content-empty">
 						<div className="stream-empty-container">
 							<div className="stream-empty-header">{openSearch ? 'Your notebook is empty.' : 'No Results'}</div>
@@ -62,7 +69,7 @@ class View extends React.Component {
 						</div>
 					</div>
 				)}
-				{items && items.length > 0 && (
+				{(items && items.length > 0 && !loading) (
 					<ul className="stream-content">
 						{filtered.map(item => {
 							return (
