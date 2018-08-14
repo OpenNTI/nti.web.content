@@ -66,6 +66,14 @@ export default class StreamStore extends Stores.SimpleStore {
 		this.reload();
 	}
 
+	setSortOn (sortOn) {
+		this.params = {
+			...this.params,
+			sortOn
+		};
+		this.reload();
+	}
+
 	async reload () {
 		this.set('loading', true);
 		this.set('error', false);

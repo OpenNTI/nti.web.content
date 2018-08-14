@@ -22,7 +22,9 @@ class View extends React.Component {
 		items: PropTypes.array
 	};
 
-	state = {};
+	state = {
+		openSearch: true
+	};
 
 	componentDidMount () {
 		const { context, store } = this.props;
@@ -41,15 +43,23 @@ class View extends React.Component {
 		}
 	}
 
+	onChange = (openSearch) => {
+		this.setState({ openSearch });
+	}
+
 	render () {
 		const { items, context } = this.props;
 		const filtered = items && items.filter(item => item && StreamItem.canRender(item));
+		const { openSearch } = this.state;
 
 		return (
 			<div className="stream-view">
 				{(!items || items.length === 0) && (
 					<div className="stream-content-empty">
-						Empty
+						<div className="stream-empty-container">
+							<div className="stream-empty-header">{openSearch ? 'Your notebook is empty.' : 'No Results'}</div>
+							<div className="stream-empty-text">{openSearch ? 'Your discussions, bookmarks, and other \n actvity will be collected here.' : 'Try expanding your filters to view more items.'}</div>
+						</div>
 					</div>
 				)}
 				{items && items.length > 0 && (
@@ -58,7 +68,7 @@ class View extends React.Component {
 					</div>
 				)}
 				<div className="stream-sidebar">
-					<Sidebar />
+					<Sidebar onChange={this.onChange} />
 				</div>
 			</div>
 		);

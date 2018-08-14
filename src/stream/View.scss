@@ -11,6 +11,19 @@
 		width: 75%;
 		background: white;
 		text-align: center;
+
+		.stream-empty-container {
+			margin-top: 185px;
+			color: #B8B8B8;
+			font-weight: 100;
+
+			.stream-empty-header {
+				font-size: 36px;
+				font-weight: 300;
+				line-height: 49px;
+				margin-bottom: 15px;
+			}
+		}
 	}
 
 	.stream-sidebar {

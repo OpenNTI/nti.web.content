@@ -32,53 +32,78 @@ const sortByOptions = [
 	{ value: 'RecursiveLikeCount', label: 'Most Liked' }
 ];
 
+const allTypes = typeOptions.map(x => x.value);
+
 import Store from '../Store';
 
 @Store.connect({
-	setBatchAfter: 'setBatchAfter'
+	setBatchAfter: 'setBatchAfter',
+	setSortOn: 'setSortOn'
 })
 class Sidebar extends React.Component {
 	static propTypes = {
-		setBatchAfter: PropTypes.func.isRequired
+		setBatchAfter: PropTypes.func.isRequired,
+		setSortOn: PropTypes.func.isRequired,
+		onChange: PropTypes.func.isRequired
 	}
 
 	state = {
 		accepts: [],
 		batchAfter: DATE_FILTER_VALUES.ANYTIME,
-		sort: SORT.CREATED_TIME
+		sortOn: SORT.CREATED_TIME
 	};
 
+	componentDidMount () {
+		this.isOpenSearch();
+	}
+
+	isOpenSearch () {
+		const { accepts, batchAfter, sortOn } = this.state;
+		debugger;
+		this.props.onChange(accepts.length === 0 && batchAfter === DATE_FILTER_VALUES.ANYTIME && sortOn === SORT.CREATED_TIME);
+	}
+
 	onDateChange = option => {
-		this.setState({ batchAfter: option.value });
+		this.setState({ batchAfter: option.value }, () => {
+			this.isOpenSearch();
+		});
 		this.props.setBatchAfter(option.value);
 	};
 
 	onTypeChange = (option, selected) => {
+		const { accepts } = this.state;
 		if (selected) {
 			this.setState({
-				typeFilters: [...this.state.typeFilters, option.value]
+				accepts: [...accepts, option.value]
+			}, () => {
+				this.isOpenSearch();
 			});
 		} else {
-			const newFilters = this.state.typeFilters.slice();
-			const index = this.state.typeFilters.indexOf(option.value);
+			const newFilters = accepts.slice();
+			const index = accepts.indexOf(option.value);
 			newFilters.splice(index, 1);
-			this.setState({ accepts: newFilters });
+			this.setState({ accepts: newFilters }, () => {
+				this.isOpenSearch();
+			});
 		}
 	};
 
 	onSortByChange = ({ target: { value } }) => {
-		this.setState({ sort: value });
+		this.setState({ sortOn: value }, () => {
+			this.isOpenSearch();
+		});
+		this.props.setSortOn(value);
 	};
 
-	render() {
-		const { accepts, batchAfter, sort } = this.state;
+	render () {
+		const { accepts, batchAfter, sortOn } = this.state;
 
 		return (
 			<Stream.FilterSidebar>
 				<div className="select-title">SORT BY</div>
 				<Select
 					className="stream-sidebar-sort"
-					value={sort}
+					value={sortOn}
 					onChange={this.onSortByChange}
 				>
 					{sortByOptions.map(({ value, label }) => (
@@ -94,7 +119,7 @@ class Sidebar extends React.Component {
 				/>
 				<Stream.TypeFilter
 					title="ACTIVITY TYPE"
-					values={accepts}
+					values={accepts.length === 0 ? allTypes : accepts}
 					onChange={this.onTypeChange}
 					options={typeOptions}
 				/>
