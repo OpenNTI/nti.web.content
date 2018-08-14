@@ -69,7 +69,7 @@ class View extends React.Component {
 						</div>
 					</div>
 				)}
-				{(items && items.length > 0 && !loading) (
+				{(items && items.length > 0 && !loading) && (
 					<ul className="stream-content">
 						{filtered.map(item => {
 							return (
