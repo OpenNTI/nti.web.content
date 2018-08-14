@@ -1,9 +1,18 @@
 .stream-view {
 	display: flex;
 	width: 1024px;
+	padding-top: 20px;
+
 	.stream-content {
 		width: 75%;
 	}
+
+	.stream-content-empty {
+		width: 75%;
+		background: white;
+		text-align: center;
+	}
+
 	.stream-sidebar {
 		padding-left: 6px;
 		width: 25%;

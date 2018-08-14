@@ -1,5 +1,6 @@
 import { Stores } from '@nti/lib-store';
 import Logger from '@nti/util-logger';
+import { Stream } from '@nti/web-commons';
 
 const PAGE_SIZE = 10;
 
@@ -38,6 +39,8 @@ const BATCH_AFTER = {
 // 	LIKE: ''
 // };
 
+
+
 export default class StreamStore extends Stores.SimpleStore {
 	constructor () {
 		super();
@@ -45,7 +48,7 @@ export default class StreamStore extends Stores.SimpleStore {
 		this.params = {
 			batchSize: 20,
 			sortOn: SORT_ON.DATE_CREATED,
-			batchAfter: BATCH_AFTER.ANYTIME,
+			batchAfter: Stream.getDate(BATCH_AFTER.ANYTIME),
 			accept: []
 		};
 
@@ -53,6 +56,36 @@ export default class StreamStore extends Stores.SimpleStore {
 		this.set('error', false);
 		this.set('items', []);
 		this.set('hasMore', false);
+	}
+
+	setBatchAfter (batchAfter) {
+		this.params = {
+			...this.params,
+			batchAfter: Stream.getDate(batchAfter)
+		};
+		this.reload();
+	}
+
+	async reload () {
+		this.set('loading', true);
+		this.set('error', false);
+		this.emitChange('loading', 'error', 'forum', 'dataSource');
+		try {
+			const dataSource = this.get('dataSource');
+			const page = await dataSource.loadPage(0, this.params);
+
+			this.set('loading', false);
+			this.set('lastPage', 0);
+			this.set('items', page.Items);
+			this.set('hasMore', page.Items.length >= PAGE_SIZE);
+			this.emitChange('loading', 'items', 'hasMore');
+		} catch (e) {
+			logger.error(e);
+			this.set('loading', false);
+			this.set('error', true);
+			this.set('hasMore', false);
+			this.emitChange('loading', 'error', 'hasMore');
+		}
 	}
 
 	async load (context) {

@@ -40,7 +40,7 @@ export default class RecentReplies extends React.Component {
 	};
 
 	render () {
-		const { loading, replies } = this.state;
+		const { loading } = this.state;
 
 		if (loading) {
 			return <Loading.Ellipse />;

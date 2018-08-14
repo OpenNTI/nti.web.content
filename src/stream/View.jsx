@@ -43,20 +43,20 @@ class View extends React.Component {
 
 	render () {
 		const { items, context } = this.props;
-
-		if (!items || items.length === 0) {
-			return (
-				<div>empty</div>
-			);
-		}
-
-		const filtered = items.filter(item => item && StreamItem.canRender(item));
+		const filtered = items && items.filter(item => item && StreamItem.canRender(item));
 
 		return (
 			<div className="stream-view">
-				<div className="stream-content">
-					{filtered.map(item => <StreamItem key={item.NTIID} item={item} context={context} />)}
-				</div>
+				{(!items || items.length === 0) && (
+					<div className="stream-content-empty">
+						Empty
+					</div>
+				)}
+				{items && items.length > 0 && (
+					<div className="stream-content">
+						{filtered.map(item => <StreamItem key={item.NTIID} item={item} context={context} />)}
+					</div>
+				)}
 				<div className="stream-sidebar">
 					<Sidebar />
 				</div>

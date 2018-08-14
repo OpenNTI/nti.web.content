@@ -1,5 +1,5 @@
 import React from 'react';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import { Stream, Select } from '@nti/web-commons';
 
 const SORT = {
@@ -19,7 +19,7 @@ const dateOptions = [
 ];
 
 const typeOptions = [
-	{ label: 'Discussions', value: 'discussions' },
+	{ label: 'Notes', value: 'notes' },
 	{ label: 'Bookmarks', value: 'bookmarks' },
 	{ label: 'Highlights', value: 'highlights' },
 	{ label: 'Likes', value: 'likes' }
@@ -32,7 +32,16 @@ const sortByOptions = [
 	{ value: 'RecursiveLikeCount', label: 'Most Liked' }
 ];
 
+import Store from '../Store';
+
+@Store.connect({
+	setBatchAfter: 'setBatchAfter'
+})
 class Sidebar extends React.Component {
+	static propTypes = {
+		setBatchAfter: PropTypes.func.isRequired
+	}
+
 	state = {
 		accepts: [],
 		batchAfter: DATE_FILTER_VALUES.ANYTIME,
@@ -41,6 +50,7 @@ class Sidebar extends React.Component {
 
 	onDateChange = option => {
 		this.setState({ batchAfter: option.value });
+		this.props.setBatchAfter(option.value);
 	};
 
 	onTypeChange = (option, selected) => {
@@ -60,13 +70,17 @@ class Sidebar extends React.Component {
 		this.setState({ sort: value });
 	};
 
-	render () {
+	render() {
 		const { accepts, batchAfter, sort } = this.state;
 
 		return (
 			<Stream.FilterSidebar>
 				<div className="select-title">SORT BY</div>
-				<Select value={sort} onChange={this.onSortByChange}>
+				<Select
+					className="stream-sidebar-sort"
+					value={sort}
+					onChange={this.onSortByChange}
+				>
 					{sortByOptions.map(({ value, label }) => (
 						<option key={value} value={value}>
 							{label}

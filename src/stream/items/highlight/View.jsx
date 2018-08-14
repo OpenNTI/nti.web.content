@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
-import { DateTime, DisplayName, Ellipsed } from '@nti/web-commons';
+import { DateTime, DisplayName, Ellipsed, Presentation } from '@nti/web-commons';
+import { LinkTo } from '@nti/web-routing';
 
 import Registry from '../Registry';
 import Breadcrumb from '../../breadcrumb';
@@ -30,15 +31,25 @@ class Highlight extends React.Component {
 			colorName,
 			{ colored: colorName }
 		);
+
 		return (
 			<div className="stream-highlight">
-				<Breadcrumb item={item} context={context} />
 				<div className="heading">
-					<DisplayName entity={item.creator} /> created a highlight on <DateTime date={item.date} />
+					<DisplayName tag="a" entity={item.creator} /> created a highlight on <DateTime date={item.date} />
 				</div>
-				{/* <Breadcrumb item={item} /> */}
-				<div className="body">
-					<Ellipsed tag="span" className={css} measureOverflow="parent" dangerouslySetInnerHTML={{ __html: Ellipsed.trim(item.selectedText, 200, true) }} />
+
+				<div className="highlight-container">
+					<Presentation.Asset item={context} propName="src" type="landing">
+						<img className="highlight-icon" />
+					</Presentation.Asset>
+					<div className="highlight-content">
+						<Breadcrumb item={item} context={context} />
+						<LinkTo.Object object={item} context="stream-highlight">
+							<div className="body">
+								<Ellipsed tag="span" className={css} measureOverflow="parent" dangerouslySetInnerHTML={{ __html: Ellipsed.trim(item.selectedText, 200, true) }} />
+							</div>
+						</LinkTo.Object>
+					</div>
 				</div>
 			</div>
 		);
