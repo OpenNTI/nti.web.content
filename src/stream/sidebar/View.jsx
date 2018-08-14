@@ -19,10 +19,10 @@ const dateOptions = [
 ];
 
 const typeOptions = [
-	{ label: 'Notes', value: 'notes' },
-	{ label: 'Bookmarks', value: 'bookmarks' },
-	{ label: 'Highlights', value: 'highlights' },
-	{ label: 'Likes', value: 'likes' }
+	{ label: 'Notes', value: 'NOTES' },
+	{ label: 'Bookmarks', value: 'BOOKMARKS' },
+	{ label: 'Highlights', value: 'HIGHLIGHTS' },
+	{ label: 'Likes', value: 'LIKES' }
 ];
 
 const sortByOptions = [
@@ -38,29 +38,36 @@ import Store from '../Store';
 
 @Store.connect({
 	setBatchAfter: 'setBatchAfter',
-	setSortOn: 'setSortOn'
+	setSortOn: 'setSortOn',
+	setExclude: 'setExclude'
 })
 class Sidebar extends React.Component {
 	static propTypes = {
 		setBatchAfter: PropTypes.func.isRequired,
 		setSortOn: PropTypes.func.isRequired,
-		onChange: PropTypes.func.isRequired
-	}
+		onChange: PropTypes.func.isRequired,
+		setExclude: PropTypes.func.isRequired
+	};
 
 	state = {
-		accepts: [],
+		excludes: [],
+		accepts: allTypes,
 		batchAfter: DATE_FILTER_VALUES.ANYTIME,
 		sortOn: SORT.CREATED_TIME
 	};
 
-	componentDidMount () {
+	componentDidMount() {
 		this.isOpenSearch();
 	}
 
-	isOpenSearch () {
-		const { accepts, batchAfter, sortOn } = this.state;
+	isOpenSearch() {
+		const { excludes, batchAfter, sortOn } = this.state;
 
-		this.props.onChange(accepts.length === 0 && batchAfter === DATE_FILTER_VALUES.ANYTIME && sortOn === SORT.CREATED_TIME);
+		this.props.onChange(
+			excludes.length === 0 &&
+				batchAfter === DATE_FILTER_VALUES.ANYTIME &&
+				sortOn === SORT.CREATED_TIME
+		);
 	}
 
 	onDateChange = option => {
@@ -71,20 +78,25 @@ class Sidebar extends React.Component {
 	};
 
 	onTypeChange = (option, selected) => {
-		const { accepts } = this.state;
+		const { excludes } = this.state;
 		if (selected) {
-			this.setState({
-				accepts: [...accepts, option.value]
-			}, () => {
-				this.isOpenSearch();
-			});
-		} else {
-			const newFilters = accepts.slice();
-			const index = accepts.indexOf(option.value);
+			const newFilters = excludes.slice();
+			const index = excludes.indexOf(option.value);
 			newFilters.splice(index, 1);
-			this.setState({ accepts: newFilters }, () => {
+			this.setState({ excludes: newFilters }, () => {
 				this.isOpenSearch();
 			});
+			this.props.setExclude(newFilters);
+		} else {
+			this.setState(
+				{
+					excludes: [...excludes, option.value]
+				},
+				() => {
+					this.isOpenSearch();
+				}
+			);
+			this.props.setExclude([...excludes, option.value]);
 		}
 	};
 
@@ -95,8 +107,8 @@ class Sidebar extends React.Component {
 		this.props.setSortOn(value);
 	};
 
-	render () {
-		const { accepts, batchAfter, sortOn } = this.state;
+	render() {
+		const { excludes, batchAfter, sortOn } = this.state;
 
 		return (
 			<Stream.FilterSidebar>
@@ -119,7 +131,11 @@ class Sidebar extends React.Component {
 				/>
 				<Stream.TypeFilter
 					title="ACTIVITY TYPE"
-					values={accepts.length === 0 ? allTypes : accepts}
+					values={
+						excludes.length === 0
+							? allTypes
+							: allTypes.filter(x => !excludes.includes(x))
+					}
 					onChange={this.onTypeChange}
 					options={typeOptions}
 				/>

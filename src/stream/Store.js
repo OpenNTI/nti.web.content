@@ -26,20 +26,14 @@ const BATCH_AFTER = {
 	PAST_YEAR: 'pastyear'
 };
 
-// const ACCEPT = {
-// 	DISCUSSION: [
-// 		'application/vnd.nextthought.forums.dflheadlinetopic',
-// 		'application/vnd.nextthought.forums.communityheadlinetopic',
-// 		'application/vnd.nextthought.forums.generalforumcomment',
-// 		'application/vnd.nextthought.forums.communityheadlinetopic'
-// 	],
-// 	BOOKMARK: 'application/vnd.nextthought.bookmark',
-// 	HIGHLIGHT: 'application/vnd.nextthought.highlight',
-// 	NOTE: 'application/vnd.nextthought.note',
-// 	LIKE: ''
-// };
+const EXCLUDE = {
+	BOOKMARKS: 'application/vnd.nextthought.bookmark',
+	HIGHLIGHTS: 'application/vnd.nextthought.highlight',
+	NOTES: 'application/vnd.nextthought.note',
+	LIKES: ''
+};
 
-
+const FILTERS = ['BOOKMARKS','LIKES'];
 
 export default class StreamStore extends Stores.SimpleStore {
 	constructor () {
@@ -49,7 +43,8 @@ export default class StreamStore extends Stores.SimpleStore {
 			batchSize: 20,
 			sortOn: SORT_ON.DATE_CREATED,
 			batchAfter: Stream.getDate(BATCH_AFTER.ANYTIME),
-			accept: []
+			exclude: [],
+			filter: []
 		};
 
 		this.set('loading', true);
@@ -70,6 +65,14 @@ export default class StreamStore extends Stores.SimpleStore {
 		this.params = {
 			...this.params,
 			sortOn
+		};
+		this.reload();
+	}
+
+	setExclude (exclude) {
+		this.params = {
+			...this.params,
+			exclude: exclude.map(x => EXCLUDE[x]).join(',')
 		};
 		this.reload();
 	}
