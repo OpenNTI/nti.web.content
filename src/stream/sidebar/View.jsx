@@ -59,7 +59,7 @@ class Sidebar extends React.Component {
 
 	isOpenSearch () {
 		const { accepts, batchAfter, sortOn } = this.state;
-		debugger;
+
 		this.props.onChange(accepts.length === 0 && batchAfter === DATE_FILTER_VALUES.ANYTIME && sortOn === SORT.CREATED_TIME);
 	}
 
