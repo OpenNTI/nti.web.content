@@ -7,7 +7,7 @@
 		border-style: solid;
 		border-color: #eaeaea;
 		border-width: 0 0 1px 0;
-		font: normal 500 14px/38px "Open Sans", sans-serif;
+		font: normal 500 14px/38px 'Open Sans', sans-serif;
 		color: #b8b8b8;
 		-webkit-font-smoothing: antialiased;
 		-moz-osx-font-smoothing: grayscale;
@@ -17,11 +17,30 @@
 		min-height: 100px;
 		display: flex;
 		padding: 20px;
+		position: relative;
+
+		.bookmark-charms {
+			z-index: 1;
+			position: absolute;
+			top: 0;
+			right: 0;
+
+			.bookmark-favorite {
+				background-image: url(./favorite_active.png);
+				background-repeat: no-repeat;
+				margin: 0 10px 0 0;
+				padding: 0;
+				height: 24px;
+				width: 14px;
+				vertical-align: top;
+			}
+		}
 
 		.bookmark-icon {
 			width: 54px;
 			height: 66px;
-			box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.3), -1px 1px 3px 0 rgba(0, 0, 0, 0.35);
+			box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.3),
+				-1px 1px 3px 0 rgba(0, 0, 0, 0.35);
 		}
 
 		.bookmark-context {
