@@ -39,9 +39,11 @@ class Highlight extends React.Component {
 				</div>
 
 				<div className="highlight-container">
-					<Presentation.Asset item={context} propName="src" type="landing">
-						<img className="highlight-icon" />
-					</Presentation.Asset>
+					<LinkTo.Object object={context} context="stream-context">
+						<Presentation.Asset item={context} propName="src" type="landing">
+							<img className="highlight-icon" />
+						</Presentation.Asset>
+					</LinkTo.Object>
 					<div className="highlight-content">
 						<Breadcrumb item={item} context={context} />
 						<LinkTo.Object object={item} context="stream-highlight">
