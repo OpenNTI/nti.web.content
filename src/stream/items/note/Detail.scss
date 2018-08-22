@@ -2,7 +2,61 @@
 
 .nti-content-stream-note-details {
 	position: relative;
-	padding: 20px;
+
+	.detail {
+		border-top: 1px solid #ccc;
+		padding: 20px;
+		position: relative;
+	}
+
+	.meta {
+		.name-wrapper {
+			time {
+				color: #b8b8b8;
+				text-transform: uppercase;
+				font-weight: 600;
+				font-size: 0.625rem;
+			}
+
+			address.username {
+				font-style: normal;
+				font-size: 0.75rem;
+				color: $primary-grey;
+				font-weight: 400;
+			}
+		}
+	}
+
+	.context {
+		padding: 0 1rem 1rem 1rem;
+		position: relative;
+		background: #fbfbfb;
+		color: $primary-grey;
+		&:after, &:before {
+			bottom: -1px;
+			left: 30px;
+			border: solid transparent;
+			content: " ";
+			height: 0;
+			width: 0;
+			position: absolute;
+			z-index: 1;
+		}
+
+		&:after {
+			border-color: rgba(255, 255, 255, 0);
+			border-bottom-color: #fff;
+			border-width: 8px;
+			margin-left: -8px;
+		}
+
+		&:before {
+			border-color: rgba(204, 204, 204, 0);
+			border-bottom-color: #ccc;
+			border-width: 9px;
+			margin-left: -9px;
+		}
+	}
 
 	.title-container {
 		margin-right: 45px;
@@ -18,6 +72,7 @@
 			.avatar {
 				width: 100%;
 				height: 100%;
+				border-radius: 5px;
 			}
 		}
 
@@ -60,12 +115,13 @@
 		padding: 20px 0;
 
 		.whiteboard {
-			max-width: 200px;
 			margin: 0.1875rem;
 			margin-bottom: 0.5rem;
 			border: 1px solid $border-grey-alt;
 			box-shadow: 0.125rem 0.1875rem 0.0625rem 0 rgba(0,0,0,0.13);
 			border-radius: 1px;//iOS fix for box-shadow
+			text-align: center;
+			padding: 10px;
 		}
 	}
 }
