@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { DateTime, DisplayName, Presentation } from '@nti/web-commons';
 import { getService } from '@nti/web-client';
+import { LinkTo } from '@nti/web-routing';
 
 import Registry from '../Registry';
 import Breadcrumb from '../../breadcrumb';
@@ -47,15 +48,20 @@ class Bookmark extends React.Component {
 				<div className="heading">
 					<DisplayName tag="a" entity={item.creator} /> created a bookmark on <DateTime date={item.date} />
 				</div>
-				<div className="bookmark-content">
-					<Presentation.Asset item={context} propName="src" type="thumb">
-						<img className="bookmark-icon" />
-					</Presentation.Asset>
-					<div className="bookmark-context">
-						<Breadcrumb context={context} item={item} />
-						<div className="page-title">{page && page.Title}</div>
+				<LinkTo.Object object={item} context="stream-bookmark">
+					<div className="bookmark-content">
+						<div className="bookmark-charms">
+							<div className="bookmark-favorite" />
+						</div>
+						<Presentation.Asset item={context} propName="src" type="thumb">
+							<img className="bookmark-icon" />
+						</Presentation.Asset>
+						<div className="bookmark-context">
+							<Breadcrumb context={context} item={item} />
+							<div className="page-title">{page && page.Title}</div>
+						</div>
 					</div>
-				</div>
+				</LinkTo.Object>
 			</div>
 		);
 	}
