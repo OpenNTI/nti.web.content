@@ -34,19 +34,9 @@ const sortByOptions = [
 
 const allTypes = typeOptions.map(x => x.value);
 
-import Store from '../Store';
-
-@Store.connect({
-	setBatchAfter: 'setBatchAfter',
-	setSortOn: 'setSortOn',
-	setExclude: 'setExclude'
-})
 class Sidebar extends React.Component {
 	static propTypes = {
-		setBatchAfter: PropTypes.func.isRequired,
-		setSortOn: PropTypes.func.isRequired,
-		onChange: PropTypes.func.isRequired,
-		setExclude: PropTypes.func.isRequired
+		onChange: PropTypes.func.isRequired
 	};
 
 	state = {
@@ -56,25 +46,16 @@ class Sidebar extends React.Component {
 		sortOn: SORT.CREATED_TIME
 	};
 
-	componentDidMount() {
-		this.isOpenSearch();
-	}
-
-	isOpenSearch() {
+	isOpenSearch () {
 		const { excludes, batchAfter, sortOn } = this.state;
-
-		this.props.onChange(
-			excludes.length === 0 &&
-				batchAfter === DATE_FILTER_VALUES.ANYTIME &&
-				sortOn === SORT.CREATED_TIME
-		);
+		const isOpenSearch = (excludes.length === 0 && batchAfter === DATE_FILTER_VALUES.ANYTIME && sortOn === SORT.CREATED_TIME);
+		this.props.onChange({ exclude: excludes, batchAfter, sortOn }, isOpenSearch);
 	}
 
 	onDateChange = option => {
 		this.setState({ batchAfter: option.value }, () => {
 			this.isOpenSearch();
 		});
-		this.props.setBatchAfter(option.value);
 	};
 
 	onTypeChange = (option, selected) => {
@@ -86,17 +67,12 @@ class Sidebar extends React.Component {
 			this.setState({ excludes: newFilters }, () => {
 				this.isOpenSearch();
 			});
-			this.props.setExclude(newFilters);
 		} else {
-			this.setState(
-				{
-					excludes: [...excludes, option.value]
-				},
+			this.setState({ excludes: [...excludes, option.value]},
 				() => {
 					this.isOpenSearch();
 				}
 			);
-			this.props.setExclude([...excludes, option.value]);
 		}
 	};
 
@@ -104,10 +80,9 @@ class Sidebar extends React.Component {
 		this.setState({ sortOn: value }, () => {
 			this.isOpenSearch();
 		});
-		this.props.setSortOn(value);
 	};
 
-	render() {
+	render () {
 		const { excludes, batchAfter, sortOn } = this.state;
 
 		return (
