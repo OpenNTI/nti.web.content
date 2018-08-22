@@ -1,4 +1,3 @@
-import { Stores } from '@nti/lib-store';
 import Logger from '@nti/util-logger';
 import { Stream } from '@nti/web-commons';
 
@@ -35,118 +34,49 @@ const EXCLUDE = {
 
 const FILTERS = ['BOOKMARKS','LIKES'];
 
-export default class StreamStore extends Stores.SimpleStore {
-	constructor () {
-		super();
+const FILTER_MAP = {
+	'BOOKMARKS': 'Bookmarks',
+	'LIKES': 'Favorite'
+};
+
+export default class StreamStore {
+	constructor (context, params = {}) {
+
+		this.loadDataSource = context.getStreamDataSource();
+		this.cache = {};
+
+		const filters = (params.exclude || []).filter(x => FILTERS.includes(x)).map(x => FILTER_MAP[x]).join(',');
 
 		this.params = {
 			batchSize: 20,
 			sortOn: SORT_ON.DATE_CREATED,
-			batchAfter: Stream.getDate(BATCH_AFTER.ANYTIME),
-			exclude: [],
-			filter: []
+			...params,
+			batchAfter: Stream.getDate(params.batchAfter || BATCH_AFTER.ANYTIME),
+			exclude: (params.exclude || []).map(x => EXCLUDE[x]).join(','),
+			filters
 		};
 
-		this.set('loading', true);
-		this.set('error', false);
-		this.set('items', []);
-		this.set('hasMore', false);
-	}
-
-	setBatchAfter (batchAfter) {
-		this.params = {
-			...this.params,
-			batchAfter: Stream.getDate(batchAfter)
-		};
-		this.reload();
-	}
-
-	setSortOn (sortOn) {
-		this.params = {
-			...this.params,
-			sortOn
-		};
-		this.reload();
-	}
-
-	setExclude (exclude) {
-		this.params = {
-			...this.params,
-			exclude: exclude.map(x => EXCLUDE[x]).join(',')
-		};
-		this.reload();
-	}
-
-	async reload () {
-		this.set('loading', true);
-		this.set('error', false);
-		this.emitChange('loading', 'error', 'forum', 'dataSource');
-		try {
-			const dataSource = this.get('dataSource');
-			const page = await dataSource.loadPage(0, this.params);
-
-			this.set('loading', false);
-			this.set('lastPage', 0);
-			this.set('items', page.Items);
-			this.set('hasMore', page.Items.length >= PAGE_SIZE);
-			this.emitChange('loading', 'items', 'hasMore');
-		} catch (e) {
-			logger.error(e);
-			this.set('loading', false);
-			this.set('error', true);
-			this.set('hasMore', false);
-			this.emitChange('loading', 'error', 'hasMore');
+		if (filters.length > 0) {
+			this.params.filterOperator = 'union';
 		}
 	}
 
-	async load (context) {
-		const dataSource = await context.getStreamDataSource();
+	async getTotalCount () {
+		const dataSource = await this.loadDataSource;
+		const page = await dataSource.loadPage(0, this.params);
 
-		this.set('context', context);
-		this.set('dataSource', dataSource);
-		this.set('loading', true);
-		this.set('error', false);
-		this.emitChange('loading', 'error', 'forum', 'dataSource');
-
-		try {
-			const page = await dataSource.loadPage(0, this.params);
-
-			this.set('loading', false);
-			this.set('lastPage', 0);
-			this.set('items', page.Items);
-			this.set('hasMore', page.Items.length >= PAGE_SIZE);
-			this.emitChange('loading', 'items', 'hasMore');
-		} catch (e) {
-			logger.error(e);
-			this.set('loading', false);
-			this.set('error', true);
-			this.set('hasMore', false);
-			this.emitChange('loading', 'error', 'hasMore');
-		}
+		return page.TotalPageCount;
 	}
 
-	async loadNextPage () {
-		const lastPage = this.get('lastPage');
-		const dataSource = this.get('dataSource');
-		const items = this.get('items');
 
-		this.set('loading', true);
-		this.set('error', false);
-		this.emitChange('loading', 'error');
-
-		try {
-			const page = await dataSource.loadPage(lastPage + 1, this.params);
-
-			this.set('loading', false);
-			this.set('lastPage', lastPage + 1);
-			this.set('items', [...items, ...page.Items]);
-			this.set('hasMore', page.Items.length >= PAGE_SIZE);
-			this.emitChange('loading', 'items', 'hasMore');
-		} catch (e) {
-			this.set('loading', false);
-			this.set('error', true);
-			this.set('hasMore', false);
-			this.emitChange('loading', 'error', 'hasMore');
+	async loadPage (pageNumber) {
+		if (this.cache[pageNumber]) {
+			return this.cache[pageNumber];
 		}
+
+		const dataSource = await this.loadDataSource;
+		const page = await dataSource.loadPage(pageNumber - 1, this.params);
+		this.cache[pageNumber] = page;
+		return page;
 	}
 }

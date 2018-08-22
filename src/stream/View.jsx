@@ -1,89 +1,104 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Loading } from '@nti/web-commons';
+import { Loading, Layouts } from '@nti/web-commons';
 
 import Store from './Store';
-import StreamItem from './items';
 import Sidebar from './sidebar';
+import Page from './Page';
 
-@Store.connect({
-	loading: 'loading',
-	items: 'items',
-	error: 'error',
-	hasMore: 'hasMore'
-})
+const { InfiniteLoad } = Layouts;
+const PAGE_HEIGHT = 210;
+
 class View extends React.Component {
 	static propTypes = {
 		context: PropTypes.shape({
 			getStreamDataSource: PropTypes.func.isRequired
 		}).isRequired,
-		store: PropTypes.shape({
-			load: PropTypes.func.isRequired
-		}),
-		items: PropTypes.array,
-		loading: PropTypes.bool
 	};
 
 	state = {
-		openSearch: true
+		openSearch: true,
 	};
 
 	componentDidMount () {
-		const { context, store } = this.props;
+		const { context} = this.props;
 
 		if (context) {
-			store.load(context);
+			this.setState({
+				store: new Store(context)
+			});
 		}
 	}
 
 	componentDidUpdate (prevProps) {
-		const { context: newContext, store } = this.props;
+		const { context: newContext } = this.props;
 		const { context: oldContext } = prevProps;
 
 		if (oldContext !== newContext) {
-			store.load(newContext);
+			this.setState({
+				store: new Store(newContext)
+			});
 		}
 	}
 
-	onChange = (openSearch) => {
-		this.setState({ openSearch });
+	onChange = (params, openSearch) => {
+		this.setState({
+			openSearch,
+			store: null
+		}, () => {
+			this.setState({ store: new Store(this.props.context, params)});
+		});
+	}
+
+	renderPage = (props) => {
+		const { context } = this.props;
+
+		return (
+			<Page {...props} context={context} />
+		);
+	}
+
+	renderEmpty () {
+		const { openSearch } = this.state;
+		return (
+			<div className="stream-content-empty">
+				<div className="stream-empty-container">
+					<div className="stream-empty-header">{openSearch ? 'Your notebook is empty.' : 'No Results'}</div>
+					<div className="stream-empty-text">{openSearch ? 'Your discussions, bookmarks, and other \n actvity will be collected here.' : 'Try expanding your filters to view more items.'}</div>
+				</div>
+			</div>
+		);
+	}
+
+	renderLoading () {
+		return (
+			<div className="loading-container">
+				<Loading.Mask />
+			</div>
+		);
 	}
 
 	render () {
-		const { items, context, loading } = this.props;
-		const filtered = items && items.filter(item => item && StreamItem.canRender(item));
-		const { openSearch } = this.state;
+		const { store } = this.state;
 
 		return (
-			<div className="stream-view">
-				{loading && (
-					<div className="loading-container">
-						<Loading.Mask />
-					</div>
-				)}
-				{(!items || items.length === 0) && !loading && (
-					<div className="stream-content-empty">
-						<div className="stream-empty-container">
-							<div className="stream-empty-header">{openSearch ? 'Your notebook is empty.' : 'No Results'}</div>
-							<div className="stream-empty-text">{openSearch ? 'Your discussions, bookmarks, and other \n actvity will be collected here.' : 'Try expanding your filters to view more items.'}</div>
-						</div>
-					</div>
-				)}
-				{(items && items.length > 0 && !loading) && (
-					<ul className="stream-content">
-						{filtered.map(item => {
-							return (
-								<li key={item.NTIID}>
-									<StreamItem key={item.NTIID} item={item} context={context} />
-								</li>
-							);
-						})}
-					</ul>
-				)}
-				<div className="stream-sidebar">
+			<Layouts.NavContent.Container className="stream-view">
+				<Layouts.NavContent.Content className="content">
+					{!store && this.renderLoading()}
+					{store && (
+						<InfiniteLoad.Store
+							store={store}
+							defaultPageHeight={PAGE_HEIGHT}
+							renderPage={this.renderPage}
+							renderLoading={this.renderLoading}
+							renderEmpty={this.renderEmpty}
+						/>
+					)}
+				</Layouts.NavContent.Content>
+				<Layouts.NavContent.Nav className="nav-bar">
 					<Sidebar onChange={this.onChange} />
-				</div>
-			</div>
+				</Layouts.NavContent.Nav>
+			</Layouts.NavContent.Container>
 		);
 	}
 }
