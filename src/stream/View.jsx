@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Loading, Layouts } from '@nti/web-commons';
+import { Loading, Layouts, Stream } from '@nti/web-commons';
 
 import Store from './Store';
 import Sidebar from './sidebar';
@@ -8,6 +8,13 @@ import Page from './Page';
 
 const { InfiniteLoad } = Layouts;
 const PAGE_HEIGHT = 210;
+const { DATE_FILTER_VALUES } = Stream;
+const SORT = {
+	CREATED_TIME: 'CreatedTime',
+	RECENT_ACTIVITY: 'LastModified',
+	MOST_COMMENTED: 'ReferencedByCount',
+	MOST_LIKED: 'RecursiveLikeCount'
+};
 
 class View extends React.Component {
 	static propTypes = {
@@ -18,6 +25,16 @@ class View extends React.Component {
 
 	state = {
 		openSearch: true,
+		params: {
+			types: {
+				NOTES: true,
+				BOOKMARKS: true,
+				HIGHLIGHTS: true,
+				LIKES: true,
+			},
+			batchAfter: DATE_FILTER_VALUES.ANYTIME,
+			sortOn: SORT.CREATED_TIME
+		}
 	};
 
 	componentDidMount () {
@@ -25,7 +42,7 @@ class View extends React.Component {
 
 		if (context) {
 			this.setState({
-				store: new Store(context)
+				store: new Store(context, this.state.params)
 			});
 		}
 	}
@@ -41,12 +58,12 @@ class View extends React.Component {
 		}
 	}
 
-	onChange = (params, openSearch) => {
+	onChange = (params) => {
 		this.setState({
-			openSearch,
+			params,
 			store: null
 		}, () => {
-			this.setState({ store: new Store(this.props.context, params)});
+			this.setState({ store: new Store(this.props.context, this.state.params)});
 		});
 	}
 
@@ -79,7 +96,7 @@ class View extends React.Component {
 	}
 
 	render () {
-		const { store } = this.state;
+		const { store, params } = this.state;
 
 		return (
 			<Layouts.NavContent.Container className="stream-view">
@@ -96,7 +113,7 @@ class View extends React.Component {
 					)}
 				</Layouts.NavContent.Content>
 				<Layouts.NavContent.Nav className="nav-bar">
-					<Sidebar onChange={this.onChange} />
+					<Sidebar onChange={this.onChange} {...params} />
 				</Layouts.NavContent.Nav>
 			</Layouts.NavContent.Container>
 		);

@@ -2,13 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Stream, Select } from '@nti/web-commons';
 
-const SORT = {
-	CREATED_TIME: 'CreatedTime',
-	RECENT_ACTIVITY: 'LastModified',
-	MOST_COMMENTED: 'ReferencedByCount',
-	MOST_LIKED: 'RecursiveLikeCount'
-};
-
 const { DATE_FILTER_VALUES } = Stream;
 const dateOptions = [
 	{ label: 'Anytime', value: DATE_FILTER_VALUES.ANYTIME },
@@ -32,58 +25,35 @@ const sortByOptions = [
 	{ value: 'RecursiveLikeCount', label: 'Most Liked' }
 ];
 
-const allTypes = typeOptions.map(x => x.value);
 
 class Sidebar extends React.Component {
 	static propTypes = {
-		onChange: PropTypes.func.isRequired
+		onChange: PropTypes.func.isRequired,
+		types: PropTypes.object,
+		sortOn: PropTypes.string,
+		batchAfter: PropTypes.string
 	};
-
-	state = {
-		excludes: [],
-		accepts: allTypes,
-		batchAfter: DATE_FILTER_VALUES.ANYTIME,
-		sortOn: SORT.CREATED_TIME
-	};
-
-	isOpenSearch () {
-		const { excludes, batchAfter, sortOn } = this.state;
-		const isOpenSearch = (excludes.length === 0 && batchAfter === DATE_FILTER_VALUES.ANYTIME && sortOn === SORT.CREATED_TIME);
-		this.props.onChange({ exclude: excludes, batchAfter, sortOn }, isOpenSearch);
-	}
 
 	onDateChange = option => {
-		this.setState({ batchAfter: option.value }, () => {
-			this.isOpenSearch();
-		});
+		this.props.onChange({ ...this.props, batchAfter: option.value });
 	};
 
 	onTypeChange = (option, selected) => {
-		const { excludes } = this.state;
-		if (selected) {
-			const newFilters = excludes.slice();
-			const index = excludes.indexOf(option.value);
-			newFilters.splice(index, 1);
-			this.setState({ excludes: newFilters }, () => {
-				this.isOpenSearch();
-			});
-		} else {
-			this.setState({ excludes: [...excludes, option.value]},
-				() => {
-					this.isOpenSearch();
-				}
-			);
-		}
-	};
-
-	onSortByChange = ({ target: { value } }) => {
-		this.setState({ sortOn: value }, () => {
-			this.isOpenSearch();
+		this.props.onChange({
+			...this.props,
+			types: {
+				...this.props.types,
+				[option.value]: selected
+			}
 		});
 	};
 
+	onSortByChange = ({ target: { value } }) => {
+		this.props.onChange({ ...this.props, sortOn: value });
+	};
+
 	render () {
-		const { excludes, batchAfter, sortOn } = this.state;
+		const { batchAfter, sortOn, types } = this.props;
 
 		return (
 			<Stream.FilterSidebar>
@@ -106,11 +76,7 @@ class Sidebar extends React.Component {
 				/>
 				<Stream.TypeFilter
 					title="ACTIVITY TYPE"
-					values={
-						excludes.length === 0
-							? allTypes
-							: allTypes.filter(x => !excludes.includes(x))
-					}
+					values={Object.keys(types).filter(x => types[x])}
 					onChange={this.onTypeChange}
 					options={typeOptions}
 				/>

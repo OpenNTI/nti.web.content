@@ -5,17 +5,6 @@ const PAGE_SIZE = 10;
 
 const logger = Logger.get('lib:stream-Store');
 
-/**
- *
- */
-
-const SORT_ON = {
-	DATE_CREATED: 'CreatedTime',
-	LAST_MODIFIED: 'LastModified',
-	MOST_COMMENTED: 'ReferencedByCount',
-	MOST_LIKED: 'RecursiveLikeCount'
-};
-
 const BATCH_AFTER = {
 	ANYTIME: null,
 	PAST_WEEK: 'pastweek',
@@ -25,19 +14,10 @@ const BATCH_AFTER = {
 	PAST_YEAR: 'pastyear'
 };
 
-const EXCLUDE = {
-	BOOKMARKS: 'application/vnd.nextthought.bookmark',
-	HIGHLIGHTS: 'application/vnd.nextthought.highlight',
-	NOTES: 'application/vnd.nextthought.note',
-	LIKES: ''
-};
-
-const FILTERS = ['BOOKMARKS','LIKES'];
-
-const FILTER_MAP = {
-	'BOOKMARKS': 'Bookmarks',
-	'LIKES': 'Favorite'
-};
+const HIGHLIGHTS = 'application/vnd.nextthought.highlight';
+const NOTES = 'application/vnd.nextthought.note';
+const LIKES = 'Favorite';
+const BOOKMARKS = 'Bookmarks';
 
 export default class StreamStore {
 	constructor (context, params = {}) {
@@ -45,20 +25,33 @@ export default class StreamStore {
 		this.loadDataSource = context.getStreamDataSource();
 		this.cache = {};
 
-		const filters = (params.exclude || []).filter(x => FILTERS.includes(x)).map(x => FILTER_MAP[x]).join(',');
+		const { types } = params;
+		let accepts = [];
+		let filters = [];
+
+		if (types.NOTES) {
+			accepts.push(NOTES);
+		}
+
+		if (types.HIGHLIGHTS) {
+			accepts.push(HIGHLIGHTS);
+		}
+
+		if (types.LIKES) {
+			filters.push(LIKES);
+		}
+
+		if (types.BOOKMARKS) {
+			filters.push(BOOKMARKS);
+		}
 
 		this.params = {
 			batchSize: 20,
-			sortOn: SORT_ON.DATE_CREATED,
-			...params,
 			batchAfter: Stream.getDate(params.batchAfter || BATCH_AFTER.ANYTIME),
-			exclude: (params.exclude || []).map(x => EXCLUDE[x]).join(','),
-			filters
+			sortOn: params.sortOn,
+			accept: accepts.join(', '),
+			...(filters.length > 0 && { filter: filters.join(', '), filterOperator: 'union' }),
 		};
-
-		if (filters.length > 0) {
-			this.params.filterOperator = 'union';
-		}
 	}
 
 	async getTotalCount () {
