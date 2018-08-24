@@ -53,7 +53,7 @@ class View extends React.Component {
 
 		if (oldContext !== newContext) {
 			this.setState({
-				store: new Store(newContext)
+				store: new Store(newContext, this.state.params)
 			});
 		}
 	}
@@ -75,7 +75,7 @@ class View extends React.Component {
 		);
 	}
 
-	renderEmpty () {
+	renderEmpty = () => {
 		const { openSearch } = this.state;
 		return (
 			<div className="stream-content-empty">

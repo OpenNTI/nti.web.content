@@ -47,9 +47,15 @@ export default class StreamStore {
 
 	async getTotalCount () {
 		const dataSource = await this.loadDataSource;
-		const page = await dataSource.loadPage(0, this.params);
 
-		return page.TotalPageCount;
+		try {
+			const page = await dataSource.loadPage(0, this.params);
+
+			return page.TotalPageCount;
+		}
+		catch (e) {
+			return 0;
+		}
 	}
 
 
