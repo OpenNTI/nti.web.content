@@ -14,8 +14,7 @@ const dateOptions = [
 const typeOptions = [
 	{ label: 'Notes', value: 'NOTES' },
 	{ label: 'Bookmarks', value: 'BOOKMARKS' },
-	{ label: 'Highlights', value: 'HIGHLIGHTS' },
-	{ label: 'Likes', value: 'LIKES' }
+	{ label: 'Highlights', value: 'HIGHLIGHTS' }
 ];
 
 const sortByOptions = [
