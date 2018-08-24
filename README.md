@@ -25,7 +25,7 @@ module-dir:
  │  ├ SomeComponent.jsx
  │  ├ SomeComponent.scss
  │  └ index.js
- ├ something-usefull
+ ├ something-useful
  │  ├ ...
  │  └ index.js
  ├ Actions.js   (only functions, each MUST do work then dispatch. No sub-Action files. All module actions go here.)
