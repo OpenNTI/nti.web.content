@@ -1,10 +1,6 @@
 import Logger from '@nti/util-logger';
 import { Stream } from '@nti/web-commons';
 
-const PAGE_SIZE = 10;
-
-const logger = Logger.get('lib:stream-Store');
-
 const BATCH_AFTER = {
 	ANYTIME: null,
 	PAST_WEEK: 'pastweek',
@@ -16,7 +12,6 @@ const BATCH_AFTER = {
 
 const HIGHLIGHTS = 'application/vnd.nextthought.highlight';
 const NOTES = 'application/vnd.nextthought.note';
-const LIKES = 'Favorite';
 const BOOKMARKS = 'Bookmarks';
 
 export default class StreamStore {
@@ -37,10 +32,6 @@ export default class StreamStore {
 			accepts.push(HIGHLIGHTS);
 		}
 
-		if (types.LIKES) {
-			filters.push(LIKES);
-		}
-
 		if (types.BOOKMARKS) {
 			filters.push(BOOKMARKS);
 		}
@@ -49,8 +40,8 @@ export default class StreamStore {
 			batchSize: 20,
 			batchAfter: Stream.getDate(params.batchAfter || BATCH_AFTER.ANYTIME),
 			sortOn: params.sortOn,
-			accept: accepts.join(', '),
-			...(filters.length > 0 && { filter: filters.join(', '), filterOperator: 'union' }),
+			accept: accepts.join(','),
+			...(filters.length > 0 && { filter: filters.join(','), filterOperator: 'union' }),
 		};
 	}
 
