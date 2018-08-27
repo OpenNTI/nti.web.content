@@ -86,10 +86,10 @@
 .stream-dialog-container {
 	display: flex;
 	justify-content: flex-end;
-	padding: rem-calc(10px);
+	padding: rem-calc(6px);
 	margin-bottom: rem-calc(10px);
 	background: white;
-
+    border-top: 1px solid #e3e3e3;
 	.filter-trigger {
 		height: 30px;
 		width: 65px;
