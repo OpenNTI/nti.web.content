@@ -108,11 +108,11 @@ class Sidebar extends React.Component {
 		return (
 			<Flyout.Triggered
 				className="stream-filter"
-				trigger={this.renderTrigger}
+				trigger={this.renderTrigger()}
 				horizontalAlign={Flyout.ALIGNMENTS.RIGHT}
 				verticalAlign={Flyout.ALIGNMENTS.BOTTOM}
-				sizing={Flyout.SIZES.MATCH_SIDE}
 				ref={this.attachFilterRef}
+				arrow
 			>
 				<div>
 					{this.renderFilter()}
