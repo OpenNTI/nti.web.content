@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Loading, Layouts, Stream } from '@nti/web-commons';
+import { Loading, Layouts, Stream, FixedElement } from '@nti/web-commons';
 
 import Store from './Store';
 import Sidebar from './sidebar';
@@ -113,7 +113,9 @@ class View extends React.Component {
 					)}
 				</Layouts.NavContent.Content>
 				<Layouts.NavContent.Nav className="nav-bar">
-					<Sidebar onChange={this.onChange} {...params} />
+					<FixedElement>
+						<Sidebar onChange={this.onChange} {...params} />
+					</FixedElement>
 				</Layouts.NavContent.Nav>
 			</Layouts.NavContent.Container>
 		);
