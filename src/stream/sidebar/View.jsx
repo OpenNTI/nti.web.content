@@ -1,85 +1,134 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Stream, Select } from '@nti/web-commons';
+import { Prompt, Flyout } from '@nti/web-commons';
+import { scoped } from '@nti/lib-locale';
 
-const { DATE_FILTER_VALUES } = Stream;
-const dateOptions = [
-	{ label: 'Anytime', value: DATE_FILTER_VALUES.ANYTIME },
-	{ label: 'Past Week', value: DATE_FILTER_VALUES.PAST_WEEK },
-	{ label: 'Past Month', value: DATE_FILTER_VALUES.PAST_MONTH },
-	{ label: 'Past 3 Months', value: DATE_FILTER_VALUES.PAST_THREE_MONTHS },
-	{ label: 'Past Year', value: DATE_FILTER_VALUES.PAST_YEAR }
-];
+import FilterSidebar from './FilterSidebar';
+const { Dialog } = Prompt;
 
-const typeOptions = [
-	{ label: 'Notes', value: 'NOTES' },
-	{ label: 'Bookmarks', value: 'BOOKMARKS' },
-	{ label: 'Highlights', value: 'HIGHLIGHTS' }
-];
-
-const sortByOptions = [
-	{ label: 'Date Created', value: 'CreatedTime' },
-	{ value: 'LastModified', label: 'Recent Activity' },
-	{ value: 'ReferencedByCount', label: 'Most Commented' },
-	{ value: 'RecursiveLikeCount', label: 'Most Liked' }
-];
+const t = scoped('nti-web-content.stream.sidebar', {
+	filterHeader: 'Filters',
+	done: 'Done'
+});
 
 
 class Sidebar extends React.Component {
 	static propTypes = {
 		onChange: PropTypes.func.isRequired,
-		types: PropTypes.object,
-		sortOn: PropTypes.string,
-		batchAfter: PropTypes.string
+		params: PropTypes.shape({
+			types: PropTypes.object,
+			sortOn: PropTypes.string,
+			batchAfter: PropTypes.string
+		}),
+		type: PropTypes.oneOf(['dialog', 'flyout'])
 	};
 
+	state = {
+		showDialog: false
+	};
+
+	attachFilterRef = x => this.filterFlyout = x;
+
 	onDateChange = option => {
-		this.props.onChange({ ...this.props, batchAfter: option.value });
+		this.props.onChange({ ...this.props.params, batchAfter: option.value });
 	};
 
 	onTypeChange = (option, selected) => {
 		this.props.onChange({
-			...this.props,
+			...this.props.params,
 			types: {
-				...this.props.types,
+				...this.props.params.types,
 				[option.value]: selected
 			}
 		});
 	};
 
 	onSortByChange = ({ target: { value } }) => {
-		this.props.onChange({ ...this.props, sortOn: value });
+		this.props.onChange({ ...this.props.params, sortOn: value });
 	};
 
-	render () {
-		const { batchAfter, sortOn, types } = this.props;
-
+	renderFilter = () => {
+		const { params } = this.props;
+		debugger;
 		return (
-			<Stream.FilterSidebar>
-				<div className="select-title">SORT BY</div>
-				<Select
-					className="stream-sidebar-sort"
-					value={sortOn}
-					onChange={this.onSortByChange}
-				>
-					{sortByOptions.map(({ value, label }) => (
-						<option key={value} value={value}>
-							{label}
-						</option>
-					))}
-				</Select>
-				<Stream.DateRange
-					value={batchAfter}
-					onChange={this.onDateChange}
-					options={dateOptions}
-				/>
-				<Stream.TypeFilter
-					title="ACTIVITY TYPE"
-					values={Object.keys(types).filter(x => types[x])}
-					onChange={this.onTypeChange}
-					options={typeOptions}
-				/>
-			</Stream.FilterSidebar>
+			<FilterSidebar
+				params={params}
+				onTypeChange={this.onTypeChange}
+				onDateChange={this.onDateChange}
+				onSortByChange={this.onSortByChange}
+			/>
+		);
+	};
+
+	toggleFilterMenu = () => {
+		this.setState({ showDialog: !this.state.showDialog });
+	};
+
+	renderDialog () {
+		const { showDialog } = this.state;
+		return (
+			<React.Fragment>
+				<div className="stream-dialog-container">
+					<div className="filter-trigger" onClick={this.toggleFilterMenu}>
+						Filters
+					</div>
+				</div>
+
+				{showDialog && (
+					<Dialog className="stream-dialog">
+						<div className="filter-menu-container">
+							<div className="controls">
+								<div className="header">
+									{t('filterHeader')}
+								</div>
+								<div
+									className="confirm"
+									onClick={this.toggleFilterMenu}
+								>
+									{t('done')}
+								</div>
+							</div>
+							{this.renderFilter()}
+						</div>
+					</Dialog>
+				)}
+			</React.Fragment>
+		);
+	}
+
+	renderTrigger () {
+		return (
+			<div className="stream-filter-trigger-container">
+				<div className="stream-filter-trigger">Filters</div>
+			</div>
+		);
+	}
+
+	renderFlyout = () => {
+		return (
+			<Flyout.Triggered
+				className="stream-filter"
+				trigger={this.renderTrigger}
+				horizontalAlign={Flyout.ALIGNMENTS.RIGHT}
+				verticalAlign={Flyout.ALIGNMENTS.BOTTOM}
+				sizing={Flyout.SIZES.MATCH_SIDE}
+				ref={this.attachFilterRef}
+			>
+				<div>
+					{this.renderFilter()}
+				</div>
+			</Flyout.Triggered>
+		);
+	}
+
+	render () {
+		const { type } = this.props;
+		return (
+			<React.Fragment>
+				{type === 'dialog' && this.renderDialog()}
+				{type === 'flyout' && this.renderFlyout()}
+				{!type && this.renderFilter()}
+			</React.Fragment>
 		);
 	}
 }

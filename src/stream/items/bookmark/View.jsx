@@ -46,7 +46,7 @@ class Bookmark extends React.Component {
 		return (
 			<div className="stream-bookmark">
 				<div className="heading">
-					<DisplayName tag="a" entity={item.creator} /> created a bookmark on <DateTime date={item.date} />
+					<DisplayName tag="a" entity={item.creator} /> created a bookmark on <DateTime date={item.getCreatedTime()} />
 				</div>
 				<LinkTo.Object object={item} context="stream-bookmark">
 					<div className="bookmark-content">

@@ -1,3 +1,5 @@
+@import "~@nti/style-common";
+
 .select-title {
 	font-size: 10px;
     text-transform: uppercase;
@@ -7,7 +9,95 @@
     margin-top: 16px;
 }
 
-.stream-sidebar .filter-sidebar .nti-select-native-wrapper {
+.filter-sidebar .nti-select-native-wrapper {
 	width: 90%;
     margin: 0 auto;
+}
+
+.compact {
+	.stream-filter-trigger-container {
+		padding: 10px;
+		display: flex;
+		justify-content: flex-end;
+
+		.stream-filter-trigger {
+			cursor: pointer;
+			font-size: 14px;
+			display: inline-block;
+			margin-right: 0.5rem;
+			height: 40px;
+			line-height: 40px;
+			border: 1px solid #e2e2e2;
+			border-radius: 3px;
+			padding: 0 1.5rem;
+			color: #757474;
+			background: white;
+		}
+	}
+}
+
+
+.stream-dialog {
+
+	dialog.modal-content {
+		width: 100%;
+		height: 100%;
+	}
+
+	.filter-menu-container {
+		height: 100%;
+		background-color: white;
+
+		.controls {
+			height: 50px;
+			line-height: 50px;
+			font-weight: 300;
+			position: relative;
+			text-align: center;
+			background-color: white;
+			border-bottom: solid 1px #ddd;
+
+			.header {
+				display: block;
+				overflow: hidden;
+				position: relative;
+				text-overflow: ellipsis;
+				white-space: nowrap;
+				color: #494949;
+				font-size: 1.125rem;
+				font-weight: bold;
+				line-height: 2.8125rem;
+				margin: 0 auto;
+				width: 50%;
+				font-family: "Open Sans Condensed";
+			}
+
+			.confirm {
+				color: #3fb3f6;
+				position: absolute;
+				right: 10px;
+				top: 0;
+				line-height: 2.8125rem;
+			}
+		}
+	}
+}
+
+.stream-dialog-container {
+	display: flex;
+	justify-content: flex-end;
+	padding: rem-calc(10px);
+	margin-bottom: rem-calc(10px);
+	background: white;
+
+	.filter-trigger {
+		height: 30px;
+		width: 65px;
+		border-radius: 3px;
+		text-align: center;
+		line-height: 30px;
+		text-transform: uppercase;
+		font-size: 12px;
+		color: $primary-blue;
+	}
 }

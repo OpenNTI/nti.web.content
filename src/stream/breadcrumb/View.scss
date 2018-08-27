@@ -18,7 +18,7 @@
 			display: inline-flex;
 			flex-direction: row;
 			flex-wrap: nowrap;
-
+			max-width: 100%;
 			&:not(.last)::after {
 				flex: 0 0 auto;
 				content: '/';
