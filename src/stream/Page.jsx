@@ -7,7 +7,7 @@ import StreamItem from './items';
 class Page extends React.Component {
 	static propTypes ={
 		page: PropTypes.shape({
-			Items: PropTypes.object
+			Items: PropTypes.array
 		}),
 		context: PropTypes.object,
 		loading: PropTypes.bool
