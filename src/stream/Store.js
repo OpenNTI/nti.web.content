@@ -40,6 +40,7 @@ export default class StreamStore {
 			batchSize: 20,
 			batchAfter: Stream.getDate(params.batchAfter || BATCH_AFTER.ANYTIME),
 			sortOn: params.sortOn,
+			sortOrder: params.sortOrder,
 			accept: accepts.join(','),
 			...(filters.length > 0 && { filter: filters.join(','), filterOperator: 'union' }),
 		};

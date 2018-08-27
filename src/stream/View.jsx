@@ -16,6 +16,11 @@ const SORT = {
 	MOST_LIKED: 'RecursiveLikeCount'
 };
 
+const SORT_ORDER = {
+	ASCENDING: 'ascending',
+	DESCENDING: 'descending'
+};
+
 class View extends React.Component {
 	static propTypes = {
 		context: PropTypes.shape({
@@ -33,7 +38,8 @@ class View extends React.Component {
 				LIKES: true,
 			},
 			batchAfter: DATE_FILTER_VALUES.ANYTIME,
-			sortOn: SORT.CREATED_TIME
+			sortOn: SORT.CREATED_TIME,
+			sortOrder: SORT_ORDER.DESCENDING
 		}
 	};
 
