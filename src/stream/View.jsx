@@ -46,6 +46,7 @@ class View extends React.Component {
 				NOTES: true,
 				BOOKMARKS: true,
 				HIGHLIGHTS: true,
+				THOUGHTS: true,
 				LIKES: true,
 			},
 			batchAfter: DATE_FILTER_VALUES.ANYTIME,
