@@ -8,4 +8,10 @@
 		padding: 0.625rem 20px;
 		box-shadow: inset 0 -1px 0 0 $border-grey-light;
 	}
+
+	.context {
+		.discussion-context-view {
+			overflow-y: auto;
+		}
+	}
 }
