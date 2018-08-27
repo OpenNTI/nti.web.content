@@ -6,8 +6,8 @@ import Store from './Store';
 import Sidebar from './sidebar';
 import Page from './Page';
 
-const { InfiniteLoad } = Layouts;
-const PAGE_HEIGHT = 210;
+const { InfiniteLoad, Responsive } = Layouts;
+const PAGE_HEIGHT = 400;
 const { DATE_FILTER_VALUES } = Stream;
 const SORT = {
 	CREATED_TIME: 'CreatedTime',
@@ -15,10 +15,21 @@ const SORT = {
 	MOST_COMMENTED: 'ReferencedByCount',
 	MOST_LIKED: 'RecursiveLikeCount'
 };
-
 const SORT_ORDER = {
 	ASCENDING: 'ascending',
 	DESCENDING: 'descending'
+};
+
+const isLargeView = ({ containerWidth }) => {
+	return containerWidth >= 1024;
+};
+
+const isMediumView = ({ containerWidth }) => {
+	return containerWidth < 1024 && containerWidth >= 400;
+};
+
+const isSmallView = ({ containerWidth }) => {
+	return containerWidth < 400;
 };
 
 class View extends React.Component {
@@ -93,37 +104,62 @@ class View extends React.Component {
 		);
 	}
 
-	renderLoading () {
+	renderStream = () => {
+		const { store } = this.state;
 		return (
-			<div className="loading-container">
-				<Loading.Mask />
+			<div className="stream-view">
+				{!store && (
+					<div className="loading-container">
+						<Loading.Mask />
+					</div>
+				)}
+				{store && (
+					<InfiniteLoad.Store
+						store={store}
+						defaultPageHeight={PAGE_HEIGHT}
+						renderPage={this.renderPage}
+						renderLoading={this.renderLoading}
+						renderEmpty={this.renderEmpty}
+					/>
+				)}
 			</div>
 		);
 	}
 
-	render () {
-		const { store, params } = this.state;
+	renderCompact = ({ type }) => {
+		const { params } = this.state;
+		return (
+			<div className="compact">
+				<Sidebar type={type} onChange={this.onChange} params={params} />
+				{this.renderStream()}
+			</div>
+		);
+	}
+
+	renderFull = () => {
+		const { params } = this.state;
 
 		return (
 			<Layouts.NavContent.Container className="stream-view">
 				<Layouts.NavContent.Content className="content">
-					{!store && this.renderLoading()}
-					{store && (
-						<InfiniteLoad.Store
-							store={store}
-							defaultPageHeight={PAGE_HEIGHT}
-							renderPage={this.renderPage}
-							renderLoading={this.renderLoading}
-							renderEmpty={this.renderEmpty}
-						/>
-					)}
+					{this.renderStream()}
 				</Layouts.NavContent.Content>
 				<Layouts.NavContent.Nav className="nav-bar">
 					<FixedElement>
-						<Sidebar onChange={this.onChange} {...params} />
+						<Sidebar onChange={this.onChange} params={params} />
 					</FixedElement>
 				</Layouts.NavContent.Nav>
 			</Layouts.NavContent.Container>
+		);
+	}
+
+	render () {
+		return (
+			<Responsive.Container>
+				<Responsive.Item query={isLargeView} render={this.renderFull}  />
+				<Responsive.Item query={isMediumView} render={this.renderCompact} type="flyout"  />
+				<Responsive.Item query={isSmallView} render={this.renderCompact} type="dialog"  />
+			</Responsive.Container>
 		);
 	}
 }

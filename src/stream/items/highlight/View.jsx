@@ -35,7 +35,7 @@ class Highlight extends React.Component {
 		return (
 			<div className="stream-highlight">
 				<div className="heading">
-					<DisplayName tag="a" entity={item.creator} /> created a highlight on <DateTime date={item.date} />
+					<DisplayName tag="a" entity={item.creator} /> created a highlight on <DateTime date={item.getCreatedTime()} />
 				</div>
 
 				<div className="highlight-container">
