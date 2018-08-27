@@ -49,7 +49,7 @@ class Sidebar extends React.Component {
 
 	renderFilter = () => {
 		const { params } = this.props;
-		debugger;
+
 		return (
 			<FilterSidebar
 				params={params}
