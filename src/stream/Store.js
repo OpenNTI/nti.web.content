@@ -13,6 +13,7 @@ const BATCH_AFTER = {
 const HIGHLIGHTS = 'application/vnd.nextthought.highlight';
 const NOTES = 'application/vnd.nextthought.note';
 const BOOKMARKS = 'Bookmarks';
+const LIKES = 'Like';
 
 export default class StreamStore {
 	constructor (context, params = {}) {
@@ -34,6 +35,10 @@ export default class StreamStore {
 
 		if (types.BOOKMARKS) {
 			filters.push(BOOKMARKS);
+		}
+
+		if (types.LIKES) {
+			filters.push(LIKES);
 		}
 
 		this.params = {
