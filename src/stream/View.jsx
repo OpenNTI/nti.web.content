@@ -127,11 +127,11 @@ class View extends React.Component {
 	}
 
 	renderCompact = ({ type }) => {
-		const { params } = this.state;
+		const { params, showDialog } = this.state;
 		return (
 			<div className="compact">
-				<Sidebar type={type} onChange={this.onChange} params={params} />
-				{this.renderStream()}
+				<Sidebar type={type} onChange={this.onChange} params={params} onDialogVisibilityChange={newVisibility => this.setState({showDialog: newVisibility})} />
+				{!showDialog && this.renderStream()}
 			</div>
 		);
 	}

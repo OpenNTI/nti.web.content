@@ -20,7 +20,8 @@ class Sidebar extends React.Component {
 			sortOn: PropTypes.string,
 			batchAfter: PropTypes.string
 		}),
-		type: PropTypes.oneOf(['dialog', 'flyout'])
+		type: PropTypes.oneOf(['dialog', 'flyout']),
+		onDialogVisibilityChange: PropTypes.func
 	};
 
 	state = {
@@ -61,7 +62,13 @@ class Sidebar extends React.Component {
 	};
 
 	toggleFilterMenu = () => {
-		this.setState({ showDialog: !this.state.showDialog });
+		this.setState({ showDialog: !this.state.showDialog }, () => {
+			const {onDialogVisibilityChange} = this.props;
+
+			if(onDialogVisibilityChange) {
+				onDialogVisibilityChange(this.state.showDialog);
+			}
+		});
 	};
 
 	renderDialog () {
