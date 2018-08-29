@@ -54,6 +54,13 @@ export default class StreamStore {
 	async getTotalCount () {
 		const dataSource = await this.loadDataSource;
 
+		const hasFilters = (this.params.filter && this.params.filter.length > 0)
+			|| (this.params.accept && this.params.accept !== '');
+
+		if(!hasFilters) {
+			return 0;
+		}
+
 		try {
 			const page = await dataSource.loadPage(0, this.params);
 
