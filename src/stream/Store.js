@@ -57,7 +57,7 @@ export default class StreamStore {
 		try {
 			const page = await dataSource.loadPage(0, this.params);
 
-			return page.TotalPageCount;
+			return page.Items.length === 0 ? 0 : page.TotalPageCount;
 		}
 		catch (e) {
 			return 0;

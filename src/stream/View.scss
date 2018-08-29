@@ -22,6 +22,10 @@
 	.stream-content-empty {
 		background: white;
 		text-align: center;
+		min-height: 300px;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
 
 		.stream-empty-container {
 			color: #B8B8B8;

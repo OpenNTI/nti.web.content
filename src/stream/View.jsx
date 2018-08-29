@@ -104,15 +104,19 @@ class View extends React.Component {
 		);
 	}
 
+	renderLoading () {
+		return (
+			<div className="loading-container">
+				<Loading.Mask />
+			</div>
+		);
+	}
+
 	renderStream = () => {
 		const { store } = this.state;
 		return (
 			<div className="stream-infinite-scroll">
-				{!store && (
-					<div className="loading-container">
-						<Loading.Mask />
-					</div>
-				)}
+				{!store && this.renderLoading()}
 				{store && (
 					<InfiniteLoad.Store
 						store={store}
