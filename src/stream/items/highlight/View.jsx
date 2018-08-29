@@ -37,7 +37,7 @@ class Highlight extends React.Component {
 				<div className="heading">
 					<LinkTo.Object object={{ Username: item.creator, isUser: true }} context="stream-profile">
 						<DisplayName tag="a" entity={item.creator} />
-					</ LinkTo.Object> created a highlight on <DateTime date={item.getCreatedTime()} />
+					</LinkTo.Object> created a highlight on <DateTime date={item.getCreatedTime()} />
 				</div>
 				<div className="highlight-container">
 					<LinkTo.Object object={context} context="stream-context">
