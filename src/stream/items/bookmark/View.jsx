@@ -33,7 +33,7 @@ class Bookmark extends React.Component {
 
 	loadPage = async (props = this.props) => {
 		const service = await getService();
-		const page = await service.getObject(props.item.containerId);
+		const page = await service.getObject(props.item.ContainerId);
 		this.setState({
 			page
 		});
@@ -46,7 +46,9 @@ class Bookmark extends React.Component {
 		return (
 			<div className="stream-bookmark">
 				<div className="heading">
-					<DisplayName tag="a" entity={item.creator} /> created a bookmark on <DateTime date={item.getCreatedTime()} />
+					<LinkTo.Object object={{ Username: item.creator, isUser: true }} context="stream-profile">
+						<DisplayName tag="a" entity={item.creator} />
+					</LinkTo.Object> created a bookmark on <DateTime date={item.getCreatedTime()} />
 				</div>
 				<LinkTo.Object object={item} context="stream-bookmark">
 					<div className="bookmark-content">

@@ -35,9 +35,10 @@ class Highlight extends React.Component {
 		return (
 			<div className="stream-highlight">
 				<div className="heading">
-					<DisplayName tag="a" entity={item.creator} /> created a highlight on <DateTime date={item.getCreatedTime()} />
+					<LinkTo.Object object={{ Username: item.creator, isUser: true }} context="stream-profile">
+						<DisplayName tag="a" entity={item.creator} />
+					</ LinkTo.Object> created a highlight on <DateTime date={item.getCreatedTime()} />
 				</div>
-
 				<div className="highlight-container">
 					<LinkTo.Object object={context} context="stream-context">
 						<Presentation.Asset item={context} propName="src" type="thumb">
