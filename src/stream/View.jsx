@@ -70,7 +70,11 @@ class View extends React.Component {
 
 		if (oldContext !== newContext) {
 			this.setState({
-				store: new Store(newContext, this.state.params)
+				store: null
+			}, () => {
+				this.setState({
+					store: new Store(newContext, this.state.params)
+				});
 			});
 		}
 	}
