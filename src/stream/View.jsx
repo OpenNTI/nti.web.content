@@ -102,7 +102,7 @@ class View extends React.Component {
 			<div className="stream-content-empty">
 				<div className="stream-empty-container">
 					<div className="stream-empty-header">{openSearch ? 'Your notebook is empty.' : 'No Results'}</div>
-					<div className="stream-empty-text">{openSearch ? 'Your discussions, bookmarks, and other \n actvity will be collected here.' : 'Try expanding your filters to view more items.'}</div>
+					<div className="stream-empty-text">{openSearch ? 'Your notes, bookmarks, and other \n actvity will be collected here.' : 'Try expanding your filters to view more items.'}</div>
 				</div>
 			</div>
 		);
