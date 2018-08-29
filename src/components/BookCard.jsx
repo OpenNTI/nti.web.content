@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import cx from 'classnames';
 import {LinkTo} from '@nti/web-routing';
 
-import defaultImage from '../assets/default-card-image.png';
+import defaultImage from './assets/default-card-image.png';
 
 BookCard.propTypes = {
 	className: PropTypes.string,
