@@ -3,8 +3,6 @@ import PropTypes from 'prop-types';
 import cx from 'classnames';
 import {LinkTo} from '@nti/web-routing';
 
-import defaultImage from './assets/default-card-image.png';
-
 BookCard.propTypes = {
 	className: PropTypes.string,
 	bundle: PropTypes.object.isRequired
@@ -17,7 +15,7 @@ export default function BookCard ({className, bundle, ...props}) {
 		<LinkTo.Object object={bundle}>
 			<div className={cx('book-card', className)} {...props} >
 				<div className="bundle-card-image">
-					<img src={defaultImage} />
+					<div className="bundle-card-image-background" />
 				</div>
 				<label>
 					<h3 className="book-title">{title}</h3>
