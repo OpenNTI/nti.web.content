@@ -14,6 +14,10 @@ const logger = Logger.get('lib:content-toolbar:Pager');
 
 export default class Pager extends React.Component {
 	static propTypes = {
+		// TODO: The pager should only take a pageSource prop.
+		// We can make a PageSource factory on `content.Package`/Bundle (in lib-interfaces) that returns the
+		// pageSource for the currentPage (given a pageId... it can return a traditional pageSource or a
+		// RealPageAugmentedPageSource -- name is a wip :P )
 		contentPackage: PropTypes.shape({
 			getTablesOfContents: PropTypes.func
 		}).isRequired,
@@ -39,6 +43,10 @@ export default class Pager extends React.Component {
 		this.setState({ loading: true });
 
 		const { contentPackage, rootId, currentPage } = this.props;
+
+		// TODO: These computations belong in a PageSource. We should create a new model called something like
+		// ReapPageNumberPageSource. Where the existing PageSource interface falls short, we should extend it...
+		// I Really want to keep one component for paging... and keep logic like this in models.
 
 		try {
 			const cPackage = await contentPackage;
