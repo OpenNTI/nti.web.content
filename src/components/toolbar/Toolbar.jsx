@@ -66,7 +66,7 @@ export default class Toolbar extends React.Component {
 				{pageSource ? (
 					<Pager pageSource={pageSource} doNavigation={doNavigation} />
 				) : (
-				 	<PagerOfRealPages
+					<PagerOfRealPages
 						contentPackage={contentPackage}
 						currentPage={currentPage}
 						rootId={rootId}
