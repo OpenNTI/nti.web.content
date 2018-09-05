@@ -8,7 +8,7 @@ import Logger from '@nti/util-logger';
 import Registry from '../Registry';
 import Breadcrumb from '../../breadcrumb';
 
-const logger = Logger.get('content.stream.items:Bookmark');
+const logger = Logger.get('content:stream:items:Bookmark');
 
 @Registry.register('application/vnd.nextthought.bookmark')
 class Bookmark extends React.Component {
