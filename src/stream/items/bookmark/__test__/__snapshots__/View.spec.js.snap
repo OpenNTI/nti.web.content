@@ -1,0 +1,78 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Bookmark renders correctly 1`] = `
+<div
+  className="stream-bookmark"
+>
+  <div
+    className="heading"
+  >
+    <div
+      className="nti-link-to-path"
+      to="#"
+    >
+      <a
+        className="username"
+        rel="author"
+      >
+        Tim Jones
+      </a>
+    </div>
+     created a bookmark on 
+    <time
+      dateTime="2018-08-30T19:00:00-05:00"
+    >
+      August 30, 2018
+    </time>
+  </div>
+  <div
+    className="nti-link-to-path"
+    to="/object/user4-OID-0x04e6fa%3A5573657273%3AnywS9Pjp8FE"
+  >
+    <div
+      className="bookmark-content"
+    >
+      <div
+        className="bookmark-charms"
+      >
+        <div
+          className="bookmark-favorite"
+        />
+      </div>
+      <img
+        className="bookmark-icon"
+        src=""
+      />
+      <div
+        className="bookmark-context"
+      >
+        <div
+          className="nti-content-breadcrumb"
+        >
+          <div
+            className="nti-link-to-path"
+            to="/object/user4-OID-0x04e6fa%3A5573657273%3AnywS9Pjp8FE"
+          >
+            <ul
+              className="breadcrumb-list"
+            >
+              <li
+                className="crumb last"
+              >
+                <span>
+                  Engine Types adn Applications
+                </span>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div
+          className="page-title"
+        >
+          Test
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
