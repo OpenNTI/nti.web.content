@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {Avatar} from '@nti/web-commons';
+import {LinkTo} from '@nti/web-routing';
 
 import {Panel} from '../common';
 import Registry from '../Registry';
@@ -20,9 +21,11 @@ class BlogItem extends React.Component {
 
 		return (
 			<Panel className="blog-item">
-				<Avatar entity={user} />
-				<div className="title">{title}</div>
-				<Meta item={item} />
+				<LinkTo.Object className="object-link" object={item} context="stream-blog">
+					<Avatar entity={user} />
+					<div className="title">{title}</div>
+					<Meta item={item} />
+				</LinkTo.Object>
 			</Panel>
 		);
 	}

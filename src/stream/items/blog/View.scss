@@ -1,0 +1,23 @@
+.nti-content-stream-panel.blog-item {
+	position: relative;
+	padding-left: 93px;
+	min-height: 97px;
+
+	.avatar {
+		position: absolute;
+		left: 18px;
+		top: 18px;
+		width: 60px;
+	}
+
+	.title {
+		font-size: 1.25rem;
+		font-weight: 300;
+		line-height: 1.5;
+	}
+
+	a {
+		text-decoration: none;
+		color: inherit;
+	}
+}

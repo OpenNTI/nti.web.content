@@ -1,0 +1,23 @@
+@import "~@nti/style-common";
+
+.blog-item-meta {
+	color: $tertiary-grey;
+	font-size: 0.75rem;
+	font-weight: 400;
+	display: flex;
+
+	> * {
+		flex: 0 0 auto;
+
+		&:not(:last-child) {
+			&::after {
+				content: '·';
+				margin: 0 0.5em;
+			}
+		}
+	}
+
+	.count {
+		color: $primary-blue;
+	}
+}
