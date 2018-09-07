@@ -76,18 +76,18 @@
 			}
 
 			.prev {
-				background-image: url(assets/arrow-up.png);
+				background-image: url('../../assets/arrow-up.png');
 
 				&.disabled {
-					background-image: url(assets/arrow-up_inactive.png);
+					background-image: url('../../assets/arrow-up_inactive.png');
 				}
 			}
 
 			.next {
-				background-image: url(assets/arrow-down.png);
+				background-image: url('../../assets/arrow-down.png');
 
 				&.disabled {
-					background-image: url(assets/arrow-down_inactive.png);
+					background-image: url('../../assets/arrow-down_inactive.png');
 				}
 			}
 		}
