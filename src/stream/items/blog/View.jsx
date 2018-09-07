@@ -17,7 +17,7 @@ class BlogItem extends React.Component {
 	}
 
 	render () {
-		const {item, item: {title, Creator: user}} = this.props;
+		const {item, item: {title, creator: user}} = this.props;
 
 		return (
 			<Panel className="blog-item">
