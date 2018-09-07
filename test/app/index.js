@@ -9,14 +9,6 @@ import {getService} from '@nti/web-client';
 import {Stream} from '../../src';
 // // import RSTTest from '../../src/RST/test';
 
-// import 'normalize.css';
-import '@nti/style-common/fonts.scss';
-import '@nti/style-common/all.scss';
-import '@nti/web-commons/lib/index.css';
-import '@nti/web-video/lib/index.css';
-import '@nti/web-editor/lib/index.css';
-import './index.css';
-
 window.$AppConfig = window.$AppConfig || {server: '/dataserver2/'};
 
 class Test extends React.Component {
