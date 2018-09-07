@@ -1,9 +1,5 @@
 @import "~@nti/style-common";
 
-.sticky .nti-content-toolbar .toolbar {
-	padding-left: 10px;
-}
-
 .nti-content-toolbar {
 	.toolbar {
 		padding: 0 10px;
@@ -56,6 +52,22 @@
 				}
 			}
 
+			.prev {
+				background-image: url('../../assets/arrow-up.png');
+
+				&.disabled {
+					background-image: url('../../assets/arrow-up_inactive.png');
+				}
+			}
+
+			.next {
+				background-image: url('../../assets/arrow-down.png');
+
+				&.disabled {
+					background-image: url('../../assets/arrow-down_inactive.png');
+				}
+			}
+
 			.prev, .next {
 				flex: 0 0 auto;
 				cursor: pointer;
@@ -74,26 +86,13 @@
 					opacity: 1;
 				}
 			}
-
-			.prev {
-				background-image: url('../../assets/arrow-up.png');
-
-				&.disabled {
-					background-image: url('../../assets/arrow-up_inactive.png');
-				}
-			}
-
-			.next {
-				background-image: url('../../assets/arrow-down.png');
-
-				&.disabled {
-					background-image: url('../../assets/arrow-down_inactive.png');
-				}
-			}
 		}
 	}
 }
 
+.sticky .nti-content-toolbar .toolbar {
+	padding-left: 10px;
+}
 // .content-toolbar {
 // 	.path-items {
 // 		.table-of-contents-flyout-trigger {
