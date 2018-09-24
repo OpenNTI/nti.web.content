@@ -20,7 +20,7 @@ const sortByOptions = [
 	{ label: 'Date Created', value: 'CreatedTime' },
 	{ value: 'LastModified', label: 'Recent Activity' },
 	{ value: 'ReferencedByCount', label: 'Most Commented' },
-	{ value: 'RecursiveLikeCount', label: 'Most Liked' }
+	{ value: 'LikeCount', label: 'Most Liked' }
 ];
 
 class FilterSidebar extends React.Component {
