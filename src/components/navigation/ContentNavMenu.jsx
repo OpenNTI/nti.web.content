@@ -93,7 +93,8 @@ export default class ContentNavMenu extends React.Component {
 		onVisibilityChanged: PropTypes.func,
 		onEdit: PropTypes.func,
 		onPublish: PropTypes.func,
-		isAdministrator: PropTypes.bool
+		isAdministrator: PropTypes.bool,
+		isEditor: PropTypes.bool
 	}
 
 	static COURSE = COURSE_TYPE;
@@ -105,7 +106,7 @@ export default class ContentNavMenu extends React.Component {
 	}
 
 	renderActiveContent () {
-		const { activeContent, isAdministrator, onEdit, onPublish, onDelete, type } = this.props;
+		const { activeContent, isAdministrator, isEditor, onEdit, onPublish, onDelete, type } = this.props;
 
 		if(!activeContent || !type) {
 			return null;
@@ -125,8 +126,8 @@ export default class ContentNavMenu extends React.Component {
 							)
 							: null}
 					</div>
-					{onEdit && isAdministrator ? (<div className="edit" onClick={onEdit}>{t('edit', {type})}</div>) : null}
-					{onPublish && isAdministrator ? (<div className="publish" onClick={onPublish}>{t('publish', {type})}</div>) : null}
+					{onEdit && isEditor ? (<div className="edit" onClick={onEdit}>{t('edit', {type})}</div>) : null}
+					{onPublish && isEditor ? (<div className="publish" onClick={onPublish}>{t('publish', {type})}</div>) : null}
 				</div>
 			</div>
 		);
