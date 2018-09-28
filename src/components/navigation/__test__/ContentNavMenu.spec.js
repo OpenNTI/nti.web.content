@@ -83,7 +83,8 @@ describe('ContentNavMenu test', () => {
 				onDelete={onDelete}
 				onPublish={onPublish}
 				type={ContentNavMenu.COURSE}
-				isAdministrator/>
+				isAdministrator
+				isEditor/>
 		);
 
 		verifyContents(cmp);
