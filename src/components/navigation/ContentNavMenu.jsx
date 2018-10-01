@@ -68,6 +68,7 @@ class RecentContentItem extends React.Component {
 				className="recent-content-trigger"
 				trigger={this.renderContent()}
 				verticalAlign={Flyout.ALIGNMENTS.TOP}
+				horizontalAlign={Flyout.ALIGNMENTS.LEFT}
 				ref={this.attachFlyoutRef}
 				hover
 				arrow
