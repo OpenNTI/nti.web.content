@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Loading, Layouts, Stream, FixedElement } from '@nti/web-commons';
+import { Loading, Layouts, Stream, StickyContainer, StickyElement } from '@nti/web-commons';
 
 import Store from './Store';
 import Sidebar from './sidebar';
@@ -149,16 +149,18 @@ class View extends React.Component {
 		const { params } = this.state;
 
 		return (
-			<Layouts.NavContent.Container className="stream-view">
-				<Layouts.NavContent.Content className="content">
-					{this.renderStream()}
-				</Layouts.NavContent.Content>
-				<Layouts.NavContent.Nav className="nav-bar">
-					<FixedElement>
-						<Sidebar onChange={this.onChange} params={params} />
-					</FixedElement>
-				</Layouts.NavContent.Nav>
-			</Layouts.NavContent.Container>
+			<StickyContainer>
+				<Layouts.NavContent.Container className="stream-view">
+					<Layouts.NavContent.Content className="content">
+						{this.renderStream()}
+					</Layouts.NavContent.Content>
+					<Layouts.NavContent.Nav className="nav-bar">
+						<StickyElement>
+							<Sidebar onChange={this.onChange} params={params} />
+						</StickyElement>
+					</Layouts.NavContent.Nav>
+				</Layouts.NavContent.Container>
+			</StickyContainer>
 		);
 	}
 
