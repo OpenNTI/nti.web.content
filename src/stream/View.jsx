@@ -37,23 +37,40 @@ class View extends React.Component {
 		context: PropTypes.shape({
 			getStreamDataSource: PropTypes.func.isRequired
 		}).isRequired,
+		typeOptions: PropTypes.arrayOf(PropTypes.shape({
+			label: PropTypes.string,
+			value: PropTypes.string
+		})),
+		sortByOptions: PropTypes.arrayOf(PropTypes.shape({
+			label: PropTypes.string,
+			value: PropTypes.string
+		})),
 	};
 
-	state = {
-		openSearch: true,
-		params: {
-			types: {
-				NOTES: true,
-				BOOKMARKS: true,
-				HIGHLIGHTS: true,
-				THOUGHTS: true,
-				LIKES: true,
-			},
-			batchAfter: DATE_FILTER_VALUES.ANYTIME,
-			sortOn: SORT.CREATED_TIME,
-			sortOrder: SORT_ORDER.DESCENDING
-		}
-	};
+	static defaultProps = {
+		typeOptions: [
+			{ label: 'Notes', value: 'NOTES' },
+			{ label: 'Bookmarks', value: 'BOOKMARKS' },
+			{ label: 'Highlights', value: 'HIGHLIGHTS' },
+			{ label: 'Likes', value: 'LIKES' }
+		]
+	}
+
+	constructor (props) {
+		super(props);
+		let types = {};
+		props.typeOptions.forEach(x => types[x.value] = true);
+
+		this.state = {
+			openSearch: true,
+			params: {
+				types,
+				batchAfter: DATE_FILTER_VALUES.ANYTIME,
+				sortOn: SORT.CREATED_TIME,
+				sortOrder: SORT_ORDER.DESCENDING
+			}
+		};
+	}
 
 	componentDidMount () {
 		const { context} = this.props;
@@ -137,9 +154,17 @@ class View extends React.Component {
 
 	renderCompact = ({ type }) => {
 		const { params, showDialog } = this.state;
+		const { typeOptions, sortByOptions } = this.props;
 		return (
 			<div className="compact">
-				<Sidebar type={type} onChange={this.onChange} params={params} onDialogVisibilityChange={newVisibility => this.setState({showDialog: newVisibility})} />
+				<Sidebar
+					type={type}
+					onChange={this.onChange}
+					params={params}
+					onDialogVisibilityChange={newVisibility => this.setState({showDialog: newVisibility})}
+					typeOptions={typeOptions}
+					sortByOptions={sortByOptions}
+				/>
 				{!showDialog && this.renderStream()}
 			</div>
 		);
@@ -147,7 +172,7 @@ class View extends React.Component {
 
 	renderFull = () => {
 		const { params } = this.state;
-
+		const { typeOptions, sortByOptions } = this.props;
 		return (
 			<StickyContainer>
 				<Layouts.NavContent.Container className="stream-view">
@@ -156,7 +181,12 @@ class View extends React.Component {
 					</Layouts.NavContent.Content>
 					<Layouts.NavContent.Nav className="nav-bar">
 						<StickyElement>
-							<Sidebar onChange={this.onChange} params={params} />
+							<Sidebar
+								onChange={this.onChange}
+								params={params}
+								typeOptions={typeOptions}
+								sortByOptions={sortByOptions}
+							/>
 						</StickyElement>
 					</Layouts.NavContent.Nav>
 				</Layouts.NavContent.Container>
