@@ -1,0 +1,1 @@
+export ThoughtPrompt from './ThoughtPrompt';
