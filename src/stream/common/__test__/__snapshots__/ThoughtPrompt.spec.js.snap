@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Thought Prompt Simple 1`] = `
+<div
+  className="new-thought"
+>
+  <div
+    className="prompt"
+  >
+    Write something...
+  </div>
+</div>
+`;
