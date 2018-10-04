@@ -20,6 +20,14 @@ class Sidebar extends React.Component {
 			sortOn: PropTypes.string,
 			batchAfter: PropTypes.string
 		}),
+		typeOptions: PropTypes.arrayOf(PropTypes.shape({
+			label: PropTypes.string,
+			value: PropTypes.string
+		})),
+		sortByOptions: PropTypes.arrayOf(PropTypes.shape({
+			label: PropTypes.string,
+			value: PropTypes.string
+		})),
 		type: PropTypes.oneOf(['dialog', 'flyout']),
 		onDialogVisibilityChange: PropTypes.func
 	};
@@ -49,7 +57,7 @@ class Sidebar extends React.Component {
 	};
 
 	renderFilter = () => {
-		const { params } = this.props;
+		const { params, typeOptions, sortByOptions } = this.props;
 
 		return (
 			<FilterSidebar
@@ -57,6 +65,8 @@ class Sidebar extends React.Component {
 				onTypeChange={this.onTypeChange}
 				onDateChange={this.onDateChange}
 				onSortByChange={this.onSortByChange}
+				typeOptions={typeOptions}
+				sortByOptions={sortByOptions}
 			/>
 		);
 	};

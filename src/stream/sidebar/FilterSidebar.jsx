@@ -10,18 +10,6 @@ const dateOptions = [
 	{ label: 'Past 3 Months', value: DATE_FILTER_VALUES.PAST_THREE_MONTHS },
 	{ label: 'Past Year', value: DATE_FILTER_VALUES.PAST_YEAR }
 ];
-const typeOptions = [
-	{ label: 'Notes', value: 'NOTES' },
-	{ label: 'Bookmarks', value: 'BOOKMARKS' },
-	{ label: 'Highlights', value: 'HIGHLIGHTS' },
-	{ label: 'Likes', value: 'LIKES' }
-];
-const sortByOptions = [
-	{ label: 'Date Created', value: 'CreatedTime' },
-	{ value: 'LastModified', label: 'Recent Activity' },
-	{ value: 'ReferencedByCount', label: 'Most Commented' },
-	{ value: 'LikeCount', label: 'Most Liked' }
-];
 
 class FilterSidebar extends React.Component {
 	static propTypes = {
@@ -32,11 +20,34 @@ class FilterSidebar extends React.Component {
 			types: PropTypes.object,
 			sortOn: PropTypes.string,
 			batchAfter: PropTypes.string
-		})
+		}),
+		typeOptions: PropTypes.arrayOf(PropTypes.shape({
+			label: PropTypes.string,
+			value: PropTypes.string
+		})),
+		sortByOptions: PropTypes.arrayOf(PropTypes.shape({
+			label: PropTypes.string,
+			value: PropTypes.string
+		}))
+	}
+
+	static defaultProps = {
+		typeOptions: [
+			{ label: 'Notes', value: 'NOTES' },
+			{ label: 'Bookmarks', value: 'BOOKMARKS' },
+			{ label: 'Highlights', value: 'HIGHLIGHTS' },
+			{ label: 'Likes', value: 'LIKES' }
+		],
+		sortByOptions: [
+			{ label: 'Date Created', value: 'CreatedTime' },
+			{ value: 'LastModified', label: 'Recent Activity' },
+			{ value: 'ReferencedByCount', label: 'Most Commented' },
+			{ value: 'LikeCount', label: 'Most Liked' }
+		]
 	}
 
 	render () {
-		const { params: { batchAfter, sortOn, types }, onSortByChange, onDateChange, onTypeChange } = this.props;
+		const { params: { batchAfter, sortOn, types }, onSortByChange, onDateChange, onTypeChange, typeOptions, sortByOptions } = this.props;
 
 		return (
 			<Stream.FilterSidebar>
