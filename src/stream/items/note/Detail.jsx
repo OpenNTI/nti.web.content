@@ -6,9 +6,11 @@ import {Panel as Body} from '@nti/web-modeled-content';
 import {scoped} from '@nti/lib-locale';
 import { Context } from '@nti/web-discussions';
 import { LinkTo } from '@nti/web-routing';
+import { getService } from '@nti/web-client';
 
 const t = scoped('content.stream.items.note.Detail', {
-	postedBy: 'Posted by %(name)s'
+	postedBy: 'Posted by %(name)s',
+	duration: '%(duration)s ago'
 });
 
 export default class NoteDetils extends React.Component {
@@ -16,17 +18,46 @@ export default class NoteDetils extends React.Component {
 		item: PropTypes.shape({
 			body: PropTypes.any.isRequired,
 			isReply: PropTypes.func.isRequired,
-			creator: PropTypes.string.isRequired
+			creator: PropTypes.string.isRequired,
+			inReplyTo: PropTypes.string,
+			getID: PropTypes.func.isRequired,
+			title: PropTypes.string
 		}).isRequired
 	}
 
-	getDisplayName = (data) => t('postedBy', data)
+	state = {
+		reply: null
+	}
+
+	componentDidMount () {
+		this.resolveReply();
+	}
+
+	componentDidUpdate (prevProps) {
+		if (prevProps.item.getID() !== this.props.item.getID()) {
+			this.resolveReply();
+		}
+	}
+
+	resolveReply = async () => {
+		const { item } = this.props;
+
+		if (!item.isReply()) { return; }
+
+		const service = await getService();
+		const reply = await service.getObject(item.inReplyTo);
+		this.setState({ reply });
+	}
+
+	getDisplayName = (data) => t('postedBy', data);
 
 	render () {
 		const {item} = this.props;
+		const {reply} = this.state;
 		const {body, creator, title, placeholder} = item;
 		const created = item.getCreatedTime();
 		const isReply = item.isReply();
+		const other = (reply && reply.creator) || '';
 
 		return (
 			<div className={cx('nti-content-stream-note-details', {'is-reply': isReply})}>
@@ -52,9 +83,13 @@ export default class NoteDetils extends React.Component {
 											<LinkTo.Object object={{ Username: creator, isUser: true }} context="stream-profile">
 												<DisplayName entity={creator} />
 											</LinkTo.Object>
+											<span className="replied-to"> replied to </span>
+											<LinkTo.Object object={{ Username: other, isUser: true }} context="stream-profile">
+												<DisplayName entity={other} />
+											</LinkTo.Object>
 										</li>
 										<li>
-											<DateTime date={created} relative />
+											{t('duration', { duration: DateTime.getNaturalDuration(Date.now() - created, 1)})}
 										</li>
 									</ul>
 								) :
@@ -66,7 +101,7 @@ export default class NoteDetils extends React.Component {
 											</LinkTo.Object>
 										</li>
 										<li>
-											<DateTime date={created} relative />
+											{t('duration', { duration: DateTime.getNaturalDuration(Date.now() - created, 1) })}
 										</li>
 									</ul>
 								)

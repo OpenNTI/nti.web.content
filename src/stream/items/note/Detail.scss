@@ -10,14 +10,17 @@
 	}
 
 	.meta {
-		.name-wrapper {
-			time {
-				color: #b8b8b8;
-				text-transform: uppercase;
-				font-weight: 600;
-				font-size: 0.625rem;
-			}
+		time {
+			color: #b8b8b8;
+			text-transform: uppercase;
+			font-weight: 600;
+			font-size: 0.625rem;
+			color: #b8b8b8;
+			font-weight: 400;
+			-webkit-font-smoothing: antialiased;
+		}
 
+		.name-wrapper {
 			address.username {
 				font-style: normal;
 				font-size: 0.75rem;
@@ -101,6 +104,10 @@
 
 				&:not(:first-of-type) {
 					@extend %middot-before;
+				}
+
+				span.replied-to {
+					color: #b8b8b8;
 				}
 			}
 		}
