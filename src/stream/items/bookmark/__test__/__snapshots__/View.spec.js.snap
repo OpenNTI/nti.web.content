@@ -41,7 +41,7 @@ exports[`Bookmark renders correctly 1`] = `
       </div>
       <img
         className="bookmark-icon"
-        src=""
+        src="/content/sites/ifsta.nextthought.com/ContentPackageBundles/Aircraft%20Rescue%20and%20Fire%20Fighting%20Sixth%20Edition/presentation-assets/webapp/v1/contentpackage-thumb-60x60.png?t=1527882586"
       />
       <div
         className="bookmark-context"

@@ -1,0 +1,83 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Stream: Highlight General Snapshot 1`] = `
+<div
+  className="stream-highlight"
+>
+  <div
+    className="heading"
+  >
+    <div
+      className="nti-link-to-path"
+      to="#"
+    >
+      <a
+        className="username"
+        rel="author"
+      >
+        Tim Jones
+      </a>
+    </div>
+     created a highlight on 
+    <time
+      dateTime="1970-01-18T13:33:13-06:00"
+    >
+      January 18, 1970
+    </time>
+  </div>
+  <div
+    className="highlight-container"
+  >
+    <div
+      className="nti-link-to-path"
+      to="/object/IFSTA-Bundle-IFSTA_Book_Aircraft_Rescue_and_Fire_Fighting_Sixth_Edition"
+    >
+      <img
+        className="highlight-icon"
+        src="/content/sites/ifsta.nextthought.com/ContentPackageBundles/Aircraft%20Rescue%20and%20Fire%20Fighting%20Sixth%20Edition/presentation-assets/webapp/v1/contentpackage-thumb-60x60.png?t=1527882586"
+      />
+    </div>
+    <div
+      className="highlight-content"
+    >
+      <div
+        className="nti-content-breadcrumb"
+      >
+        <div
+          className="nti-link-to-path"
+          to="/object/josh.birdwell%40nextthought.com-OID-0x05a7b0%3A5573657273%3AkUvXvKw8HbW"
+        >
+          <ul
+            className="breadcrumb-list"
+          >
+            <li
+              className="crumb last"
+            >
+              <span>
+                Types of Aircraft
+              </span>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div
+        className="nti-link-to-path"
+        to="/object/josh.birdwell%40nextthought.com-OID-0x05a7b0%3A5573657273%3AkUvXvKw8HbW"
+      >
+        <div
+          className="body"
+        >
+          <span
+            className="application-highlight plain blue colored"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "Wide-body aircraft, such as the B-767, B-777, and A-340, have two, three, or four jet engines and may carry over 64,000 gallons (256 000 L) of jet fuel (Figures 3.2a). Wide-body aircraft cabins...",
+              }
+            }
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

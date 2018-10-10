@@ -52,7 +52,7 @@ describe('Bookmark', () => {
 				'Last Modified': 1527882586,
 				'PlatformName': 'webapp',
 				'Version': 1,
-				'href': ''
+				'href': '/content/sites/ifsta.nextthought.com/ContentPackageBundles/Aircraft%20Rescue%20and%20Fire%20Fighting%20Sixth%20Edition/presentation-assets/webapp/v1/'
 			}]
 		};
 		const bookmarkCmp = renderer.create(<Bookmark item={item} context={context} />);
