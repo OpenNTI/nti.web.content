@@ -15,9 +15,10 @@ class Highlight extends React.Component {
 				highlightColorName: PropTypes.string
 			}),
 			creator: PropTypes.string,
-			selectedText: PropTypes.string
+			selectedText: PropTypes.string,
+			getCreatedTime: PropTypes.func.isRequired
 		}),
-		context: PropTypes.object
+		context: PropTypes.object,
 	}
 
 	render () {
