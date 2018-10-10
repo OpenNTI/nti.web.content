@@ -41,7 +41,7 @@ export default class Breadcrumb extends React.Component {
 		 * @type {Object}
 		 */
 		context: PropTypes.shape({
-			NTIID: PropTypes.string
+			NTIID: PropTypes.string.isRequired
 		}),
 
 		/**
