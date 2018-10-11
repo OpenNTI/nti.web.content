@@ -1,0 +1,185 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Stream: Sidebar General Snapshot 1`] = `
+<div
+  className="filter-sidebar"
+>
+  <div
+    className="select-title"
+  >
+    SORT BY
+  </div>
+  <div
+    className="nti-select-native-wrapper"
+  >
+    <span
+      className="icon-chevron-down small"
+      role="presentation"
+    />
+    <span
+      className="nti-select-value"
+      role="presentation"
+    >
+      Date Created
+    </span>
+    <select
+      className="nti-select-native stream-sidebar-sort"
+      onChange={[Function]}
+      value="CreatedTime"
+    >
+      <option
+        value="CreatedTime"
+      >
+        Date Created
+      </option>
+      <option
+        value="LastModified"
+      >
+        Recent Activity
+      </option>
+      <option
+        value="ReferencedByCount"
+      >
+        Most Commented
+      </option>
+      <option
+        value="LikeCount"
+      >
+        Most Liked
+      </option>
+    </select>
+  </div>
+  <div
+    className="stream-date-range"
+  >
+    <div
+      className="option-title"
+    >
+      Date Range
+    </div>
+    <div
+      className="option date-filter selected"
+      onClick={[Function]}
+    >
+      Anytime
+    </div>
+    <div
+      className="option date-filter"
+      onClick={[Function]}
+    >
+      Past Week
+    </div>
+    <div
+      className="option date-filter"
+      onClick={[Function]}
+    >
+      Past Month
+    </div>
+    <div
+      className="option date-filter"
+      onClick={[Function]}
+    >
+      Past 3 Months
+    </div>
+    <div
+      className="option date-filter"
+      onClick={[Function]}
+    >
+      Past Year
+    </div>
+  </div>
+  <div
+    className="stream-type-filter"
+  >
+    <div
+      className="option-title"
+    >
+      ACTIVITY TYPE
+    </div>
+    <div
+      className="option type-filter selected"
+    >
+      <label
+        className="checkbox-component"
+      >
+        <input
+          checked={true}
+          onChange={[Function]}
+          type="checkbox"
+        />
+        <span
+          className="label"
+        />
+      </label>
+      <span
+        onClick={[Function]}
+      >
+        Notes
+      </span>
+    </div>
+    <div
+      className="option type-filter selected"
+    >
+      <label
+        className="checkbox-component"
+      >
+        <input
+          checked={true}
+          onChange={[Function]}
+          type="checkbox"
+        />
+        <span
+          className="label"
+        />
+      </label>
+      <span
+        onClick={[Function]}
+      >
+        Bookmarks
+      </span>
+    </div>
+    <div
+      className="option type-filter selected"
+    >
+      <label
+        className="checkbox-component"
+      >
+        <input
+          checked={true}
+          onChange={[Function]}
+          type="checkbox"
+        />
+        <span
+          className="label"
+        />
+      </label>
+      <span
+        onClick={[Function]}
+      >
+        Highlights
+      </span>
+    </div>
+    <div
+      className="option type-filter selected"
+    >
+      <label
+        className="checkbox-component"
+      >
+        <input
+          checked={true}
+          onChange={[Function]}
+          type="checkbox"
+        />
+        <span
+          className="label"
+        />
+      </label>
+      <span
+        onClick={[Function]}
+      >
+        Likes
+      </span>
+    </div>
+  </div>
+</div>
+`;
