@@ -10,4 +10,4 @@ export * from './components/toolbar';
 export * from './toolbar';
 export TranscriptedVideo from './transcripted-video';
 export Stream from './stream';
-export * as Widgets from './widgets';
+export Viewer from './viewer';
