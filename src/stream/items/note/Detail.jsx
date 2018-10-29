@@ -8,10 +8,14 @@ import { Context } from '@nti/web-discussions';
 import { LinkTo } from '@nti/web-routing';
 import { getService } from '@nti/web-client';
 
+import {ItemLinks} from '../common';
+
 const t = scoped('content.stream.items.note.Detail', {
 	postedBy: 'Posted by %(name)s',
 	duration: '%(duration)s ago'
 });
+
+
 
 export default class NoteDetils extends React.Component {
 	static propTypes = {
@@ -75,7 +79,6 @@ export default class NoteDetils extends React.Component {
 							</LinkTo.Object>
 						</div>
 						<div className="meta">
-							{isReply ? null : (<h1 className="title">{title}</h1>)}
 							{isReply ?
 								(
 									<ul className="reply-name-wrapper">
@@ -94,21 +97,25 @@ export default class NoteDetils extends React.Component {
 									</ul>
 								) :
 								(
-									<ul className="name-wrapper">
-										<li>
-											<LinkTo.Object object={{ Username: creator, isUser: true }} context="stream-profile">
-												<DisplayName entity={creator} localeKey={this.getDisplayName} />
-											</LinkTo.Object>
-										</li>
-										<li>
-											{t('duration', { duration: DateTime.getNaturalDuration(Date.now() - created, 1) })}
-										</li>
-									</ul>
+									<>
+										<h1 className="title">{title}</h1>
+										<ul className="name-wrapper">
+											<li>
+												<LinkTo.Object object={{ Username: creator, isUser: true }} context="stream-profile">
+													<DisplayName entity={creator} localeKey={this.getDisplayName} />
+												</LinkTo.Object>
+											</li>
+											<li>
+												{t('duration', { duration: DateTime.getNaturalDuration(Date.now() - created, 1) })}
+											</li>
+										</ul>
+									</>
 								)
 							}
 						</div>
 					</div>
 					{!placeholder && (<div className="note-content"><Body body={body} /></div>)}
+					<ItemLinks item={item} />
 				</div>
 			</div>
 		);

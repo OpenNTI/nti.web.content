@@ -5,7 +5,7 @@ import { DateTime, DisplayName, Ellipsed, Presentation } from '@nti/web-commons'
 import { LinkTo } from '@nti/web-routing';
 
 import Registry from '../Registry';
-import Breadcrumb from '../../breadcrumb';
+import {Breadcrumb} from '../common';
 
 @Registry.register('application/vnd.nextthought.highlight')
 class Highlight extends React.Component {
@@ -19,6 +19,16 @@ class Highlight extends React.Component {
 			getCreatedTime: PropTypes.func.isRequired
 		}),
 		context: PropTypes.object,
+	}
+
+	shouldComponentUpdate (nextProps) {
+		const { item: nextItem } = nextProps;
+		const { item } = this.props;
+		if (item.getID() === nextItem.getID() && item.selectedText === nextItem.selectedText) {
+			return false;
+		}
+
+		return false;
 	}
 
 	render () {

@@ -19,7 +19,11 @@ const t = scoped('web-content.blog.meta', DEFAULT_TEXT);
 export default class Meta extends React.Component {
 
 	static propTypes = {
-		item: PropTypes.object.isRequired
+		item: PropTypes.shape({
+			getCreatedTime: PropTypes.func.isRequired,
+			LikeCount: PropTypes.number,
+			PostCount: PropTypes.number
+		}).isRequired
 	}
 
 	render () {

@@ -1,20 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Loading, Layouts, Stream, StickyContainer, StickyElement } from '@nti/web-commons';
+import { Layouts, Stream, StickyContainer, StickyElement } from '@nti/web-commons';
 
 import Store from './Store';
 import Sidebar from './sidebar';
 import Page from './Page';
+import { ThoughtPrompt, Loading } from './components';
 
 const { InfiniteLoad, Responsive } = Layouts;
 const PAGE_HEIGHT = 400;
 const { DATE_FILTER_VALUES } = Stream;
-const SORT = {
-	CREATED_TIME: 'CreatedTime',
-	RECENT_ACTIVITY: 'LastModified',
-	MOST_COMMENTED: 'ReferencedByCount',
-	MOST_LIKED: 'RecursiveLikeCount'
-};
+
 const SORT_ORDER = {
 	ASCENDING: 'ascending',
 	DESCENDING: 'descending'
@@ -53,6 +49,12 @@ class View extends React.Component {
 			{ label: 'Bookmarks', value: 'BOOKMARKS' },
 			{ label: 'Highlights', value: 'HIGHLIGHTS' },
 			{ label: 'Likes', value: 'LIKES' }
+		],
+		sortByOptions: [
+			{ label: 'Date Created', value: 'CreatedTime' },
+			{ value: 'LastModified', label: 'Recent Activity' },
+			{ value: 'ReferencedByCount', label: 'Most Commented' },
+			{ value: 'LikeCount', label: 'Most Liked' }
 		]
 	}
 
@@ -66,14 +68,14 @@ class View extends React.Component {
 			params: {
 				types,
 				batchAfter: DATE_FILTER_VALUES.ANYTIME,
-				sortOn: SORT.CREATED_TIME,
+				sortOn: props.sortByOptions[0].value,
 				sortOrder: SORT_ORDER.DESCENDING
 			}
 		};
 	}
 
 	componentDidMount () {
-		const { context} = this.props;
+		const { context } = this.props;
 
 		if (context) {
 			this.setState({
@@ -106,13 +108,9 @@ class View extends React.Component {
 		});
 	}
 
-	renderPage = (props) => {
-		const { context } = this.props;
-
-		return (
-			<Page {...props} context={context} />
-		);
-	}
+	renderPage = props => (
+		<Page {...props} context={this.props.context} />
+	)
 
 	renderEmpty = () => {
 		const { openSearch } = this.state;
@@ -126,25 +124,17 @@ class View extends React.Component {
 		);
 	}
 
-	renderLoading () {
-		return (
-			<div className="loading-container">
-				<Loading.Mask />
-			</div>
-		);
-	}
-
 	renderStream = () => {
 		const { store } = this.state;
 		return (
 			<div className="stream-infinite-scroll">
-				{!store && this.renderLoading()}
+				{!store && <Loading />}
 				{store && (
 					<InfiniteLoad.Store
 						store={store}
 						defaultPageHeight={PAGE_HEIGHT}
 						renderPage={this.renderPage}
-						renderLoading={this.renderLoading}
+						renderLoading={() => <Loading />}
 						renderEmpty={this.renderEmpty}
 					/>
 				)}
@@ -172,11 +162,12 @@ class View extends React.Component {
 
 	renderFull = () => {
 		const { params } = this.state;
-		const { typeOptions, sortByOptions } = this.props;
+		const { typeOptions, sortByOptions, showThought } = this.props;
 		return (
 			<StickyContainer>
 				<Layouts.NavContent.Container className="stream-view">
 					<Layouts.NavContent.Content className="content">
+						{showThought && <ThoughtPrompt />}
 						{this.renderStream()}
 					</Layouts.NavContent.Content>
 					<Layouts.NavContent.Nav className="nav-bar">

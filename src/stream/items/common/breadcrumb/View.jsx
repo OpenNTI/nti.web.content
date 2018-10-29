@@ -9,9 +9,9 @@ import {LinkTo} from '@nti/web-routing';
 const logger = Logger.get('content:stream:breadcrumb');
 
 function getBreadcrumb (item) {
-	return (item || {}).getContextPath ?
-		item.getContextPath() :
-		Promise.reject('Item doesn\'t have a getContextPath method.');
+	if (!item || !item.getContextPath) { return Promise.reject('Item doesn\'t have a getContextPath method.'); }
+
+	return item.getContextPath();
 }
 
 function getTitle (item) {
@@ -63,13 +63,21 @@ export default class Breadcrumb extends React.Component {
 
 	componentDidUpdate (prevProps) {
 		const {item, context} = this.props;
-		const {item:prevItem, context:prevContext} = prevProps;
+		const {item: prevItem, context: prevContext} = prevProps;
 
 		if (item !== prevItem || context !== prevContext) {
 			this.loadBreadcrumb(this.props);
 		}
 	}
 
+	shouldComponentUpdate (nextProps, nextState) {
+		const { breadcrumb, error } = this.state;
+		if (!breadcrumb && !nextState.breadcrumb && error === nextState.error) {
+			return false;
+		}
+
+		return true;
+	}
 
 	async loadBreadcrumb (props) {
 		const {item, context, showPrompt} = props;
@@ -96,13 +104,6 @@ export default class Breadcrumb extends React.Component {
 			}
 		}
 	}
-
-
-	fallbackText (item, error) {
-		logger.error('%o Breadcrumb Error: %o', item, error);
-		return '';
-	}
-
 
 	render () {
 		const {className} = this.props;
@@ -136,7 +137,7 @@ export default class Breadcrumb extends React.Component {
 
 
 	renderError (error) {
-		const {showPrompt, item} = this.props;
+		const {showPrompt} = this.props;
 
 		if (showPrompt && error.statusCode === 403) {
 			//TODO: render the content acquire prompt
@@ -144,7 +145,7 @@ export default class Breadcrumb extends React.Component {
 
 		return (
 			<ul className="breadcrumb-list">
-				<li>{this.fallbackText(item, error)}</li>
+				<li />
 			</ul>
 		);
 	}

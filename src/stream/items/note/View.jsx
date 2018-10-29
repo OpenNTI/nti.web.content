@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import Breadcrumb from '../../breadcrumb';
+import {Breadcrumb} from '../common';
 import Registry from '../Registry';
 
 import Detail from './Detail';

@@ -1,4 +1,3 @@
-import Logger from '@nti/util-logger';
 import { Stream } from '@nti/web-commons';
 
 const BATCH_AFTER = {
@@ -10,14 +9,19 @@ const BATCH_AFTER = {
 	PAST_YEAR: 'pastyear'
 };
 
-const HIGHLIGHTS = 'application/vnd.nextthought.highlight';
-const NOTES = 'application/vnd.nextthought.note';
-const BOOKMARKS = 'Bookmarks';
-const LIKES = 'Like';
+const acceptsMimeTypeMap = {
+	HIGHLIGHTS: 'application/vnd.nextthought.highlight',
+	NOTES: 'application/vnd.nextthought.note',
+	THOUGHTS: 'application/vnd.nextthought.forums.personalblogentry'
+};
+
+const filtersMap = {
+	BOOKMARKS: 'Bookmarks',
+	LIKES: 'Like'
+};
 
 export default class StreamStore {
 	constructor (context, params = {}) {
-
 		this.loadDataSource = context.getStreamDataSource();
 		this.cache = {};
 
@@ -25,24 +29,16 @@ export default class StreamStore {
 		let accepts = [];
 		let filters = [];
 
-		if (types.NOTES) {
-			accepts.push(NOTES);
-		}
-
-		if (types.HIGHLIGHTS) {
-			accepts.push(HIGHLIGHTS);
-		}
-
-		if (types.BOOKMARKS) {
-			filters.push(BOOKMARKS);
-		}
-
-		if (types.LIKES) {
-			filters.push(LIKES);
-		}
+		Object.keys(types).forEach(x => {
+			if (types[x] && acceptsMimeTypeMap[x]) {
+				accepts.push(acceptsMimeTypeMap[x]);
+			} else if (types[x] && filtersMap[x]) {
+				filters.push(filtersMap[x]);
+			}
+		});
 
 		this.params = {
-			batchSize: 20,
+			batchSize: 10,
 			batchAfter: Stream.getDate(params.batchAfter || BATCH_AFTER.ANYTIME),
 			sortOn: params.sortOn,
 			sortOrder: params.sortOrder,
@@ -53,18 +49,14 @@ export default class StreamStore {
 
 	async getTotalCount () {
 		const dataSource = await this.loadDataSource;
+		const { filter, accept } = this.params;
+		const hasFilters = (filter && filter.length > 0) || (accept && accept !== '');
 
-		const hasFilters = (this.params.filter && this.params.filter.length > 0)
-			|| (this.params.accept && this.params.accept !== '');
-
-		if(!hasFilters) {
-			return 0;
-		}
+		if(!hasFilters) { return 0; }
 
 		try {
-			const page = await dataSource.loadPage(0, this.params);
-
-			return page.Items.length === 0 ? 0 : page.TotalPageCount;
+			const { Items, TotalPageCount } = await dataSource.loadPage(0, this.params);
+			return Items.length === 0 ? 0 : TotalPageCount;
 		}
 		catch (e) {
 			return 0;

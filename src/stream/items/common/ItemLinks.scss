@@ -1,0 +1,33 @@
+.item-links {
+	opacity: 1;
+    padding: 0;
+	color: #3fb3f6;
+	display: flex;
+
+	div {
+		font: normal 400 14px/20px "Open Sans", sans-serif;
+		cursor: pointer;
+		height: 20px;
+		opacity: 0.75;
+		padding: 0 0 0 0.5em;
+		margin: 0;
+
+		&:after {
+			font: normal 600 14px/20px "Open Sans", sans-serif;
+			position: static;
+			content: '\00B7';
+			text-decoration: none;
+			padding: 0 0 0 0.5em;
+			background: none;
+		}
+
+		&:last-of-type::after {
+          content: '';
+		  display: none;
+		}
+
+		&:hover {
+			opacity: 1;
+		}
+	}
+}

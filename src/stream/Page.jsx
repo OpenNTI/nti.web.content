@@ -1,13 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-
 import StreamItem from './items';
 
 class Page extends React.Component {
 	static propTypes ={
 		page: PropTypes.shape({
-			Items: PropTypes.array
+			Items: PropTypes.arrayOf(PropTypes.shape({
+				NTIID: PropTypes.string.isRequired
+			}))
 		}),
 		context: PropTypes.object,
 		loading: PropTypes.bool
@@ -20,17 +21,15 @@ class Page extends React.Component {
 			return null;
 		}
 
-		const items = page && page.Items;
-		const filtered = items && items.filter(item => item && StreamItem.canRender(item));
+		const filtered = (page.Items && page.Items.filter(item => StreamItem.canRender(item))) || [];
+
 		return (
 			<ul className="stream-content">
-				{filtered.map(item => {
-					return (
-						<li key={item.NTIID}>
-							<StreamItem key={item.NTIID} item={item} context={context} />
-						</li>
-					);
-				})}
+				{filtered.map(item => (
+					<li key={item.NTIID}>
+						<StreamItem key={item.NTIID} item={item} context={context} />
+					</li>
+				))}
 			</ul>
 		);
 	}

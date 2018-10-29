@@ -13,7 +13,23 @@ export default
 class BlogItem extends React.Component {
 
 	static propTypes = {
-		item: PropTypes.object
+		item: PropTypes.shape({
+			getCreatedTime: PropTypes.func.isRequired,
+			LikeCount: PropTypes.number,
+			PostCount: PropTypes.number,
+			getID: PropTypes.func.isRequired,
+			creator: PropTypes.string.isRequired
+		}).isRequired
+	}
+
+	shouldComponentUpdate (nextProps) {
+		const { item: nextItem } = nextProps;
+		const { item: { title, LikeCount, PostCount }} = this.props;
+		if (this.props.item.getID() === nextItem.getID() && title === nextItem.title && LikeCount === nextItem.LikeCount && PostCount === nextItem.PostCount) {
+			return false;
+		}
+
+		return true;
 	}
 
 	render () {

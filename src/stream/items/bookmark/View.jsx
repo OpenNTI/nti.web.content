@@ -6,7 +6,7 @@ import { LinkTo } from '@nti/web-routing';
 import Logger from '@nti/util-logger';
 
 import Registry from '../Registry';
-import Breadcrumb from '../../breadcrumb';
+import {Breadcrumb} from '../common';
 
 const logger = Logger.get('content:stream:items:Bookmark');
 

@@ -9,11 +9,13 @@ import {getService} from '@nti/web-client';
 import {Stream} from '../../src';
 // // import RSTTest from '../../src/RST/test';
 
-window.$AppConfig = window.$AppConfig || {server: '/dataserver2/'};
+window.$AppConfig = window.$AppConfig || { server: '/dataserver2/', username: 'josh.birdwell@nextthought.com' };
 
 class Test extends React.Component {
 
-	state = {}
+	state = {
+		loading: true
+	}
 
 	static childContextTypes = {
 		router: PropTypes.object
@@ -51,15 +53,16 @@ class Test extends React.Component {
 		const service = await getService();
 		const context = await service.getObject('tag:nextthought.com,2011-10:IFSTA-Bundle-IFSTA_Book_Aircraft_Rescue_and_Fire_Fighting_Sixth_Edition');
 
-		this.setState({ context });
+		this.setState({ context, loading: false });
 	}
 
 	render () {
-		const {context} = this.state;
+		const {context, loading} = this.state;
 
 		return (
 			<div className="test-container">
 				{context && <Stream context={context} />}
+				{loading && <div>Loading...</div>}
 			</div>
 		);
 	}
