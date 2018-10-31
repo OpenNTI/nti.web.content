@@ -50,7 +50,7 @@ export default class Pager extends React.Component {
 
 		try {
 			const cPackage = await contentPackage;
-			const tocs = await cPackage.getTablesOfContents();
+			const tocs = cPackage && await cPackage.getTablesOfContents();
 
 			const toc = tocs && tocs.filter(x => x.getNode(rootId))[0];
 			const page = toc && toc.getPageSource(rootId);
