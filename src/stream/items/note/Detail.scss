@@ -1,6 +1,6 @@
 @import '~@nti/style-common';
 
-.nti-content-stream-note-details {
+.stream-note-details {
 	position: relative;
 
 	.detail {
@@ -9,7 +9,7 @@
 		position: relative;
 	}
 
-	.meta {
+	.note-meta {
 		time {
 			color: #b8b8b8;
 			text-transform: uppercase;
@@ -83,7 +83,7 @@
 			}
 		}
 
-		.meta {
+		.note-meta {
 			flex: 1 1 auto;
 
 			.title {

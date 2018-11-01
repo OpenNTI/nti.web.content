@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import {Avatar} from '@nti/web-commons';
 import {LinkTo} from '@nti/web-routing';
 
-import {Panel} from '../common';
+import {Panel} from '../components';
 import Registry from '../Registry';
 
 import Meta from './Meta';

@@ -5,7 +5,7 @@ import { DateTime, DisplayName, Ellipsed, Presentation } from '@nti/web-commons'
 import { LinkTo } from '@nti/web-routing';
 
 import Registry from '../Registry';
-import {Breadcrumb} from '../common';
+import {Breadcrumb} from '../components';
 
 @Registry.register('application/vnd.nextthought.highlight')
 class Highlight extends React.Component {

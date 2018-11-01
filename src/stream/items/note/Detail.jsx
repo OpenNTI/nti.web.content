@@ -1,21 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
-import {LuckyCharms, Avatar, DisplayName, DateTime} from '@nti/web-commons';
+import {LuckyCharms} from '@nti/web-commons';
 import {Panel as Body} from '@nti/web-modeled-content';
-import {scoped} from '@nti/lib-locale';
 import { Context } from '@nti/web-discussions';
 import { LinkTo } from '@nti/web-routing';
 import { getService } from '@nti/web-client';
 
-import {ItemLinks} from '../common';
+import {ItemLinks, Avatar} from '../components';
 
-const t = scoped('content.stream.items.note.Detail', {
-	postedBy: 'Posted by %(name)s',
-	duration: '%(duration)s ago'
-});
-
-
+import Meta from './Meta';
 
 export default class NoteDetils extends React.Component {
 	static propTypes = {
@@ -53,18 +47,14 @@ export default class NoteDetils extends React.Component {
 		this.setState({ reply });
 	}
 
-	getDisplayName = (data) => t('postedBy', data);
-
 	render () {
 		const {item} = this.props;
 		const {reply} = this.state;
-		const {body, creator, title, placeholder} = item;
-		const created = item.getCreatedTime();
+		const {body, creator, placeholder} = item;
 		const isReply = item.isReply();
-		const other = (reply && reply.creator) || '';
 
 		return (
-			<div className={cx('nti-content-stream-note-details', {'is-reply': isReply})}>
+			<div className={cx('stream-note-details', {'is-reply': isReply})}>
 				<LinkTo.Object object={item} context="stream-context">
 					<div className="context">
 						<Context item={item} />
@@ -73,48 +63,14 @@ export default class NoteDetils extends React.Component {
 				<div className="detail">
 					<div className="title-container">
 						<LuckyCharms item={item} />
-						<div className="avatar-container">
-							<LinkTo.Object object={{ Username: creator, isUser: true }} context="stream-profile">
-								<Avatar entity={creator} />
-							</LinkTo.Object>
-						</div>
-						<div className="meta">
-							{isReply ?
-								(
-									<ul className="reply-name-wrapper">
-										<li>
-											<LinkTo.Object object={{ Username: creator, isUser: true }} context="stream-profile">
-												<DisplayName entity={creator} />
-											</LinkTo.Object>
-											<span className="replied-to"> replied to </span>
-											<LinkTo.Object object={{ Username: other, isUser: true }} context="stream-profile">
-												<DisplayName entity={other} />
-											</LinkTo.Object>
-										</li>
-										<li>
-											{t('duration', { duration: DateTime.getNaturalDuration(Date.now() - created, 1)})}
-										</li>
-									</ul>
-								) :
-								(
-									<>
-										<h1 className="title">{title}</h1>
-										<ul className="name-wrapper">
-											<li>
-												<LinkTo.Object object={{ Username: creator, isUser: true }} context="stream-profile">
-													<DisplayName entity={creator} localeKey={this.getDisplayName} />
-												</LinkTo.Object>
-											</li>
-											<li>
-												{t('duration', { duration: DateTime.getNaturalDuration(Date.now() - created, 1) })}
-											</li>
-										</ul>
-									</>
-								)
-							}
-						</div>
+						<Avatar creator={creator} />
+						<Meta item={item} reply={reply} />
 					</div>
-					{!placeholder && (<div className="note-content"><Body body={body} /></div>)}
+					{!placeholder && (
+						<div className="note-content">
+							<Body body={body} />
+						</div>
+					)}
 					<ItemLinks item={item} />
 				</div>
 			</div>
