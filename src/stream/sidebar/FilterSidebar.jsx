@@ -46,6 +46,13 @@ class FilterSidebar extends React.Component {
 		]
 	}
 
+	shouldComponentUpdate (nextProps) {
+		if (JSON.stringify(nextProps.params) === JSON.stringify(this.props.params)) {
+			return false;
+		}
+		return true;
+	}
+
 	render () {
 		const { params: { batchAfter, sortOn, types }, onSortByChange, onDateChange, onTypeChange, typeOptions, sortByOptions } = this.props;
 
