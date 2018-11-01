@@ -12,8 +12,8 @@ export default class ContentViewerStore extends Stores.BoundStore {
 		});
 
 		try {
-			const {contentPackage, pageId} = this.binding;
-			const pageDescriptor = await loadPageDescriptor(pageId, contentPackage);
+			const {bundle, pageId} = this.binding;
+			const pageDescriptor = await loadPageDescriptor(pageId, bundle);
 
 			this.set({
 				loading: false,
@@ -30,7 +30,10 @@ export default class ContentViewerStore extends Stores.BoundStore {
 
 	setContentBody (contentBody) {
 		setImmediate(() => {
-			this.set({contentBody});
+			this.set({
+				contentBody,
+				prestineContentBody: contentBody && contentBody.cloneNode(true)
+			});
 		});
 	}
 }

@@ -1,0 +1,75 @@
+@import "~@nti/style-common";
+
+@mixin highlight-colors($onParentSelector: true, $selector:'') {
+	@each $item in $highlight-colors {
+		$name: nth($item, 1);
+		$menu_color: nth($item, 2);
+		$hover_color: nth($item, 3);
+		$highlight_color: lighten(nth($item, 3), 4%);
+
+		$prefix: if($onParentSelector, '&', '');
+
+		$withColor: "#{$prefix}.#{$name} #{$selector}";
+		$withOutColor: "#{$prefix} #{$selector}";
+
+		$computedSelector: if($name=='blue', $withOutColor, $withColor);
+
+		.no-touch #{$computedSelector} {
+			transition: box-shadow 0.2s;
+			box-shadow: none;
+
+			&:hover {
+				box-shadow: 0 0 4px rgba(0, 0, 0, 0.4);
+			}
+		}
+
+		#{$computedSelector} {
+			background-color: $highlight_color;
+			box-shadow: 0 0 3px 0 $highlight_color;
+		}
+	}
+}
+
+.application-highlight {
+	&.suppressed {
+		//do nothing special when range is suppressed.
+	}
+
+	& + li.part,
+	& + li.exercise {
+		&::before, &::after {
+			z-index: 1;
+			color: #076da7;
+		}
+	}
+
+	&.plain {
+		overflow: hidden;
+
+		&, * {
+			position: relative;
+		}
+
+		.math & {
+			display: inline-block;
+		}
+
+		&.colored {
+			@include highlight-colors();
+		}
+
+		&:not(.colored), &.shared-with-me {
+			&, .math {
+				background: none;
+				color: $primary-grey;
+				border-bottom: 1px solid #9fd9fa;
+			}
+
+			& & {//the "& &" is intentional
+				&, .math {
+					border-bottom: none;
+				}
+			}
+		}
+	}
+}
