@@ -2,6 +2,6 @@ import './highlight';
 import './note';
 import './bookmark';
 import './blog';
-import './common';
+import './discussion';
 
 export default from './Item';
