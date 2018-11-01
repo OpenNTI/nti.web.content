@@ -12,7 +12,8 @@ const BATCH_AFTER = {
 const acceptsMimeTypeMap = {
 	HIGHLIGHTS: 'application/vnd.nextthought.highlight',
 	NOTES: 'application/vnd.nextthought.note',
-	THOUGHTS: 'application/vnd.nextthought.forums.personalblogentry'
+	THOUGHTS: 'application/vnd.nextthought.forums.personalblogentry',
+	DISCUSSIONS: 'application/vnd.nextthought.forums.communityheadlinetopic'
 };
 
 const filtersMap = {
