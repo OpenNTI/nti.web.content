@@ -5,6 +5,7 @@ import {Connectors} from '@nti/lib-store';
 import {preresolveLocatorInfo} from '@nti/lib-anchors';
 
 import {getType} from './types';
+import Gutter from './Gutter';
 
 const logger = Logger.get('content:components:viewer-parts:annotations');
 const INITIAL_STATE = () => ({annotations: {}});
@@ -172,10 +173,12 @@ class NTIContentViewerAnnotations extends React.Component {
 
 	render () {
 		const {children} = this.props;
+		const {annotations} = this.state;
 
 		return (
-			<div>
+			<div className="nti-content-with-annotations-container">
 				{children}
+				<Gutter annotations={annotations} />
 			</div>
 		);
 	}

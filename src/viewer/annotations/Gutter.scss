@@ -1,0 +1,16 @@
+.nti-content-annotations-gutter {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: auto;
+	right: 0;
+
+
+	.note-here {
+		position: absolute;
+		right: 0;
+		width: 20px;
+		height: 20px;
+		background-color: blue;
+	}
+}
