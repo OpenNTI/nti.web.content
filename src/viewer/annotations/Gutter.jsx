@@ -18,7 +18,8 @@ function lineInfoEqual (a, b) {
 }
 
 function getStylesForLine (line, contentBody) {
-	const top = line.rect.top - contentBody.offsetTop;
+	//TODO: investigate why contentBody clientTop and offsetTop, but the bounding rect's top is 15
+	const top = line.rect.top - contentBody.getBoundingClientRect().top;
 
 	return {
 		top: `${Math.max(0, Math.round(top))}px`

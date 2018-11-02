@@ -2,12 +2,14 @@ export default {
 	shouldUse: () => typeof document !== 'undefined' && document.caretRangeFromPoint,
 
 	computeRange: (y, container) => {
+		const doc = container.ownerDocument;
+
 		const page = container.querySelector('.page-contents');
 		const rect = page && page.getBoundingClientRect();
 		const xStart = rect ? rect.left : 0;
 		const xEnd = rect && (rect.left + rect.width);
-		const range = container.ownerDocument.caretRangeFromPoint(xStart, y);
-		const rangeEnd = container.ownerDocument.caretRangeFromPoint(xEnd, y);
+		const range = doc.caretRangeFromPoint(xStart, y);
+		const rangeEnd = doc.caretRangeFromPoint(xEnd, y);
 
 		if (!range) { return null; }
 
@@ -23,6 +25,9 @@ export default {
 		if (range.collapsed) {
 			return null;
 		}
+
+		getSelection().removeAllRanges();
+		getSelection().addRange(range);
 
 		return range;
 	}
