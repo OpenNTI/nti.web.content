@@ -1,51 +1,59 @@
-.stream-infinite-scroll {
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
-
-	.loading-container {
-		position: relative;
-		min-height: 200px;
-		background: white;
+.stream-view {
+	.content {
+		width: 74.5%;
 	}
 
-	.stream-content {
-		list-style: none;
-		margin: 0;
-		padding: 0;
+	.stream-infinite-scroll {
+		-webkit-font-smoothing: antialiased;
+		-moz-osx-font-smoothing: grayscale;
 
-		li {
-			padding: 0;
-			margin-bottom: 5px;
+		.loading-container {
+			position: relative;
+			min-height: 200px;
+			background: white;
 		}
-	}
 
-	.stream-content-empty {
-		background: white;
-		text-align: center;
-		min-height: 300px;
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		align-items: center;
-		height: 50%;
+		.stream-content {
+			list-style: none;
+			margin: 0;
+			padding: 0;
 
-		.stream-empty-container {
-			color: #B8B8B8;
-			font-weight: 100;
+			li {
+				padding: 0;
+				margin-bottom: 5px;
+			}
+		}
 
-			.stream-empty-header {
-				font-size: 36px;
-				font-weight: 300;
-				line-height: 49px;
-				margin-bottom: 15px;
+		.stream-content-empty {
+			background: white;
+			text-align: center;
+			min-height: 300px;
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			align-items: center;
+			height: 50%;
+
+			.stream-empty-container {
+				color: #B8B8B8;
+				font-weight: 100;
+
+				.stream-empty-header {
+					font-size: 36px;
+					font-weight: 300;
+					line-height: 49px;
+					margin-bottom: 15px;
+				}
+			}
+		}
+
+		.filter-sidebar {
+			.nti-select-native-wrapper {
+				width: 90%;
+				margin: auto;
 			}
 		}
 	}
 
-	.filter-sidebar {
-		.nti-select-native-wrapper {
-			width: 90%;
-			margin: auto;
-		}
-	}
 }
+
