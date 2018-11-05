@@ -41,6 +41,13 @@ class NTIContentAnnotationsGutter extends React.Component {
 		this.setupFor(this.props);
 	}
 
+
+	componentWillUnmount () {
+		if (this.cleanup) {
+			this.cleanup();
+		}
+	}
+
 	componentDidUpdate (prevProps) {
 		const {contentBody} = this.props;
 		const {contentBody: prevContentBody} = prevProps;
@@ -56,11 +63,22 @@ class NTIContentAnnotationsGutter extends React.Component {
 
 		if (!contentBody) { return; }
 
+		if (this.cleanup) { this.cleanup(); }
+
 		contentBody.addEventListener('mousemove', this.onMouseMove);
+		contentBody.addEventListener('mouseout', this.onMouseOut);
+
+		this.cleanup = () => {
+			contentBody.removeEventListener('mousemove', this.onMouseMove);
+			contentBody.removeEventListener('mouseout', this.onMouseOut);
+			delete this.cleanup;
+		};
 	}
 
 
 	onMouseMove = (e) => {
+		clearTimeout(this.hideOnMouseOutTimeout);
+
 		const {contentBody} = this.props;
 		const {clientY} = e;
 
@@ -73,6 +91,16 @@ class NTIContentAnnotationsGutter extends React.Component {
 				noteHerePosition: getStylesForLine(newLineInfo, contentBody)
 			});
 		}
+	}
+
+	onMouseOut = (e) => {
+		clearTimeout(this.hideOnMouseOutTimeout);
+
+		this.hideOnMouseOutTimeout = setTimeout(() => {
+			this.setState({
+				lineInfo: null
+			});
+		}, 100);
 	}
 
 
