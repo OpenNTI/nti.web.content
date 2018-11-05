@@ -14,12 +14,10 @@ const getDisplayName = (data) => t('postedBy', data);
 export default function Meta ({ item, reply }) {
 	const { creator, title } = item;
 	const created = item.getCreatedTime();
-	const other = (reply && reply.creator) || '';
-	const isReply = item.isReply();
 
 	return (
-		<div className="note-meta">
-			{isReply ?
+		<div className="meta">
+			{item.isReply() ?
 				(
 					<ul className="reply-name-wrapper">
 						<li>
@@ -27,12 +25,12 @@ export default function Meta ({ item, reply }) {
 								<DisplayName entity={creator} />
 							</LinkTo.Object>
 							<span className="replied-to"> replied to </span>
-							<LinkTo.Object object={{ Username: other, isUser: true }} context="stream-profile">
-								<DisplayName entity={other} />
+							<LinkTo.Object object={{ Username: reply.creator, isUser: true }} context="stream-profile">
+								<DisplayName entity={reply.creator} />
 							</LinkTo.Object>
 						</li>
 						<li>
-							{t('duration', { duration: DateTime.getNaturalDuration(Date.now() - created, 1) })}
+							<time>{t('duration', { duration: DateTime.getNaturalDuration(Date.now() - created, 1) })}</time>
 						</li>
 					</ul>
 				) :
@@ -46,7 +44,7 @@ export default function Meta ({ item, reply }) {
 								</LinkTo.Object>
 							</li>
 							<li>
-								{t('duration', { duration: DateTime.getNaturalDuration(Date.now() - created, 1) })}
+								<time>{t('duration', { duration: DateTime.getNaturalDuration(Date.now() - created, 1) })}</time>
 							</li>
 						</ul>
 					</>

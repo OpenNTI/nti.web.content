@@ -60,16 +60,14 @@ export default class NoteDetils extends React.Component {
 						<Context item={item} />
 					</div>
 				</LinkTo.Object>
-				<div className="detail">
+				<div className="item">
+					<LuckyCharms item={item} />
 					<div className="title-container">
-						<LuckyCharms item={item} />
 						<Avatar creator={creator} />
 						<Meta item={item} reply={reply} />
 					</div>
 					{!placeholder && (
-						<div className="note-content">
-							<Body body={body} />
-						</div>
+						<Body body={body} />
 					)}
 					<ItemLinks item={item} />
 				</div>
