@@ -5,7 +5,7 @@ import { LinkTo } from '@nti/web-routing';
 import { scoped } from '@nti/lib-locale';
 import { Panel as Body } from '@nti/web-modeled-content';
 
-const t = scoped('content.stream.items.note.Detail', {
+const t = scoped('content.stream.items.discussion', {
 	duration: '%(duration)s ago'
 });
 

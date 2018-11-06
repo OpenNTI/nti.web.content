@@ -23,7 +23,7 @@
 
 			.subject {
 				display: block;
-				color: #494949;
+				color: $primary-grey;
 				font: normal 300 28px/35px "Open Sans", sans-serif;
 				max-width: 570px;
 				overflow: hidden;
@@ -60,7 +60,7 @@
 			width: 100%;
 			margin: 20px 0;
 			font: normal 400 16px "Open Sans", sans-serif;
-			color: #494949;
+			color: $primary-grey;
 		}
 	}
 }
