@@ -10,16 +10,23 @@ import { Breadcrumb, Avatar } from '../components';
 import Registry from '../Registry';
 
 const t = scoped('content.stream.items.discussion-reply', {
-	commented: ' commented on the discussion: '
+	commented: ' commented on the %(type)s: '
 });
 
+const ITEM_MAP = {
+	'application/vnd.nextthought.forums.personalblogcomment': 'thought',
+	'application/vnd.nextthought.forums.generalforumcomment': 'discussion'
+};
+
 @Registry.register('application/vnd.nextthought.forums.generalforumcomment')
+@Registry.register('application/vnd.nextthought.forums.personalblogcomment')
 class DiscussionReply extends React.Component {
 	static propTypes = {
 		item: PropTypes.shape({
 			creator: PropTypes.string.isRequired,
 			title: PropTypes.string.isRequired,
-			getID: PropTypes.func.isRequired
+			getID: PropTypes.func.isRequired,
+			MimeType: PropTypes.string.isRequired
 		}).isRequired,
 		context: PropTypes.object.isRequired
 	}
@@ -52,7 +59,7 @@ class DiscussionReply extends React.Component {
 		const { creator, body } = item;
 		const { title = '' } = post;
 		const date = item.getCreatedTime();
-
+		const type = ITEM_MAP[item.MimeType] || 'discussion';
 		return (
 			<div className="stream-discussion-reply">
 				<Breadcrumb className="discussion-reply-breadcrumb" item={item} context={context} />
@@ -64,7 +71,7 @@ class DiscussionReply extends React.Component {
 								<LinkTo.Object object={{ Username: creator, isUser: true }} context="stream-profile">
 									<DisplayName entity={creator} />
 								</LinkTo.Object>
-								{t('commented')}
+								{t('commented', { type })}
 								<LinkTo.Object className="discussion-title" object={item} context="discussion">
 									{title}
 								</LinkTo.Object>
