@@ -1,20 +1,67 @@
+@import "~@nti/style-common";
+
 .markupframe {
+	position: relative;
+	display: inline-block;
+	border: 1px solid $border-grey;
+
+	&.card {
+		overflow: hidden;
+		border: 0;
+
+		a.content-link.related-work-ref {
+			height: 100%;
+			padding: 15px 0 0 165px;
+
+			.file-type.icon {
+				background-size: cover;
+				width: 152px;
+				height: 100%;
+			}
+		}
+
+		img[id], .bar {
+			//This is for anchors
+			visibility: hidden;
+			position: absolute;
+			top: 0;
+		}
+	}
+
+	&.bare {
+		border: none;
+	}
+
+	.application-highlight & {
+		margin-right: 1rem;
+	}
+
 	.wrapper {
-		display: block;
+		display: inline-block;
 		position: relative;
 
 		.zoom {
 			position: absolute;
 			width: 2rem;
 			height: 2rem;
-			bottom: 6px;
+			bottom: 0;
 			right: 0;
 
 			&.icon-search {
 				text-shadow: 1px 2px 1px white, -1px -2px 1px white;
-				color: #757474;
+				color: $secondary-grey;
 				font-size: 1.4rem;
 			}
 		}
+	}
+
+	.bar {
+		border-top: 1px solid $border-grey;
+		cursor: default;
+		display: block;
+		position: relative;
+		padding: 0 0.875rem 1.25rem;
+		background: $panel-background;
+		min-height: 2.3125rem;
 	}
 }

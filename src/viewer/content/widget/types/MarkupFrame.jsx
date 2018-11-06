@@ -1,117 +1,134 @@
 import React, {Fragment} from 'react';
 import PropTypes from 'prop-types';
-import cx from 'classnames';
-import {Card, Zoomable} from '@nti/web-commons';
 import {rawContent, isEmpty} from '@nti/lib-commons';
+import {Card} from '@nti/web-commons';
+import {scoped} from '@nti/lib-locale';
+import cx from 'classnames';
 
 import Registry from './Registry';
 
 const PRESENTATION_CARD = 'presentation-card';
 
+const t = scoped('content.viewer.content.widget.types.MarkupFrame', {
+	enlarge: 'Enlarge',
+	comment: 'Comment'
+});
+
+function getWidth (img, widget) {
+	const styleWidth = img && img.style && img.style.width;
+
+	if (styleWidth != null) {
+		return parseInt(styleWidth, 10);
+	}
+
+	const attrWidth = img.getAttribute('width');
+
+	if (attrWidth != null) {
+		return parseInt(attrWidth, 10);
+	}
+
+	return widget ? widget.clientWidth : Infinity;
+}
+
 @Registry.register(Registry.buildHandler(/nti-data-markup(dis|en)abled/i))
 class MarkupFrameWidget extends React.Component {
-	propTypes = {
+	static propTypes = {
 		part: PropTypes.object
 	}
 
-	attachRef = x => this.image = x
+	state = {}
 
-
-	state = { zoomed: false }
-
-
-	onZoom = () => {
-		const {image} = this;
-		if(image && image.src) {
-			this.setState({
-				zoomed: true
-			});
-		}
+	attachImage = (img) => {
+		this.image = img;
 	}
 
 
-	unZoom = () => {
-		this.setState({
-			zoomed: false
-		});
-	}
+	onZoom = () => {}
 
 
-	onLoad = () => {
-		const {image: i} = this;
-		if (i) {
-			this.setState({forceZoomable: true});
-		}
-	}
+	onLoad = () => {}
 
 
 	render () {
-		let {item, itemprop, isSlide, parentType} = this.props.part;
-
-		let {zoomable, markable} = item;
-
-		let title = item.title;
-		let caption = item.caption;
-
-		let noDetails = isEmpty(title) && isEmpty(caption);
-		let bare = noDetails && !markable && !isSlide;
-
-		const isCard = parentType === PRESENTATION_CARD;
-
-		//force zoom if the image has been scaled down and only if the frame will show.
-		if (this.state.forceZoomable) {
-			zoomable = true;
-		}
-
-		//FIXME: The Item may not be an image, it could also be a video embed, a slide, or an iframe.
-
-		const className = cx('markupframe', {bare, card: isCard});
+		const {zoomed} = this.state;
 
 		return (
-			<span itemProp={itemprop} className={className}>
-				<span onClick={this.onZoom}>
-					<span className="wrapper">
-						<img id={item.id} src={item.src} crossOrigin={item.crossorigin} ref={this.attachRef} onLoad={this.onLoad}/>
-						{!zoomable || isCard ? null : (
-							<a title="Zoom"
-								className="zoom icon-search"
-								data-non-anchorable="true"
-								onClick={this.onZoom} />
+			<>
+				{this.renderFrame()}
+				{zoomed && (this.renderZoomed())}
+			</>
+		);
+	}
+
+
+	renderFrame () {
+		const {part: {item, itemprop, isSlide, parentType}, node} = this.props;
+		const {forceZoomable} = this.state;
+		const {zoomable, markable, title, caption, dom} = item;
+		const isZoomable = zoomable || forceZoomable;
+		const width = getWidth(dom, node);
+
+		const noDetails = isEmpty(title) && isEmpty(caption);
+		const bare = noDetails && !markable && !isSlide;
+		const isCard = parentType === PRESENTATION_CARD;
+		const isNarrow = !isCard && width < 116;
+		const styles = {};
+
+		const cls = cx('markupframe', {bare, card: isCard, 'is-zoomable': isZoomable});
+
+		if (!isCard && width > 30 && width < Infinity) {
+			styles.width = `${width}px`;
+		}
+
+		return (
+			<span itemProp={itemprop} className={cls} onClick={this.onZoom} style={styles}>
+				<span className="wrapper">
+					{!zoomable || isCard ? null : (
+						<a title={t('enlarge')} className="zoom" data-non-anchorable="true">
+							<i className="icon-search" />
+						</a>
+					)}
+					<img id={item.id} src={item.src} crossOrigin={item.crossorigin} ref={this.attachImage} onLoad={this.onLoad} />
+				</span>
+				{bare ? null : (
+					<span className="bar" data-non-anchorable="true" data-no-anchors-within="true" unselectable="true">
+						{!isSlide ? null : (<a href="#slide" className="bar-cell slide" />)}
+						{noDetails && !markable ? null : (
+							<span className="bar-cell">
+								<span className="image-title" {...rawContent(title)} />
+								<span className="image-caption" {...rawContent(caption)} />
+								{markable && (
+									<a href="#mark" className="mark">
+										<i className="icon-create" />
+										<span>{!isNarrow && t('comment')}</span>
+									</a>
+								)}
+							</span>
 						)}
 					</span>
-
-					{bare ? null : (
-						<span className="bar" data-non-anchorable="true" data-no-anchors-within="true" unselectable="true">
-							{!isSlide ? null : ( <a href="#slide" className="bar-cell slide"/> )}
-							{noDetails && !markable ? null : (
-								<span className="bar-cell">
-									<span className="image-title" {...rawContent(title)}/>
-									<span className="image-caption" {...rawContent(caption)}/>
-									{markable && ( <a href="#mark" className="mark"/> )}
-								</span>
-							)}
-						</span>
-					)}
-
-					{isCard && (
-						<Fragment>
-							<Card
-								internalOverride
-								onClick={this.onZoom}
-								icon={item.src}
-								item={{
-									title,
-									desc: caption,
-									icon: item.src
-								}}
-							/>
-							{markable && ( <a href="#mark" className="mark"/> )}
-						</Fragment>
-					)}
-				</span>
-				{this.state.zoomed && <Zoomable src={item.src} onClose={this.unZoom} />}
+				)}
+				{isCard && (
+					<>
+						<Card
+							internalOverride
+							onClick={this.onZoom}
+							icon={item.src}
+							item={{
+								title,
+								desc: caption,
+								icon: item.src
+							}}
+						/>
+						{markable && (<a href="#mark" className="mark" />)}
+					</>
+				)}
 			</span>
 		);
+	}
+
+
+	renderZoomed () {
+
 	}
 }
 
