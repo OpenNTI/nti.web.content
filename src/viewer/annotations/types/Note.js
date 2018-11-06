@@ -47,8 +47,6 @@ class Note extends Highlight {
 
 
 	resolveVerticalLocation () {
-		if (this.record.title === 'Test Note') { debugger; }
-
 		let range = this.getRange();
 		let rect = safeBoundingBoxForRange(range);
 		if (!rect) {
