@@ -1,0 +1,20 @@
+.markupframe {
+	.wrapper {
+		display: block;
+		position: relative;
+
+		.zoom {
+			position: absolute;
+			width: 2rem;
+			height: 2rem;
+			bottom: 6px;
+			right: 0;
+
+			&.icon-search {
+				text-shadow: 1px 2px 1px white, -1px -2px 1px white;
+				color: #757474;
+				font-size: 1.4rem;
+			}
+		}
+	}
+}
