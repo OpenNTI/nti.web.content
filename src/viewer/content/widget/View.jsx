@@ -12,16 +12,17 @@ function getElementById (id) {
 ContentViewerWidget.propTypes = {
 	part: PropTypes.shape({
 		guid: PropTypes.string.isRequired
-	}).isRequired
+	}).isRequired,
+	bundle: PropTypes.object
 };
-function ContentViewerWidget ({part, ...otherProps}) {
+function ContentViewerWidget ({part, bundle, ...otherProps}) {
 	//While its probably technically more correct to get the element from the content body,
 	//since we are using an id its faster to use document.getElementById
 	const node = getElementById(part.guid);
 	const Cmp = getCmpFor(part);
 
 	return ReactDOM.createPortal(
-		(<Cmp part={part} node={node} />),
+		(<Cmp part={part} node={node} contentPackage={bundle}/>),
 		node
 	);
 }
