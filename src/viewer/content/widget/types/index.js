@@ -1,5 +1,11 @@
+import './MarkupFrame';
 import Default from './Default';
+import Registry from './Registry';
 
-export function getCmpFor () {
-	return Default;
+const registry = Registry.getInstance();
+
+export function getCmpFor (part) {
+	const cmp = registry.getItemFor(part);
+
+	return cmp || Default;
 }
