@@ -177,8 +177,10 @@ class NTIContentViewerAnnotations extends React.Component {
 
 		return (
 			<div className="nti-content-with-annotations-container">
-				{children}
-				<Gutter annotations={annotations} />
+				<div className="annotated-content">
+					{children}
+					<Gutter annotations={annotations} />
+				</div>
 			</div>
 		);
 	}

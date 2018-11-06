@@ -13,6 +13,7 @@ export default class ContentViewerStore extends Stores.BoundStore {
 
 		try {
 			const {bundle, pageId} = this.binding;
+			//TODO: don't load annotations unless the view is configured to
 			const pageDescriptor = await loadPageDescriptor(pageId, bundle);
 
 			this.set({

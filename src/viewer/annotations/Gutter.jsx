@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {Connectors} from '@nti/lib-store';
 
-import {findLineInContainer}  from './line-resolution';
+import {findLineInContainer, resolveBins}  from './line-resolution';
 
 function lineInfoEqual (a, b) {
 	if ((a && !b) || (!a && b)) { return false; }
@@ -30,6 +30,7 @@ function getStylesForLine (line, contentBody) {
 class NTIContentAnnotationsGutter extends React.Component {
 	static propTypes = {
 		items: PropTypes.object,
+		annotations: PropTypes.object,//annotation dictionary {[obj.id]: obj}
 
 		contentBody: PropTypes.object
 	}
@@ -38,7 +39,8 @@ class NTIContentAnnotationsGutter extends React.Component {
 
 
 	componentDidMount () {
-		this.setupFor(this.props);
+		this.setupListeners(this.props);
+		this.setupAnnotations(this.props);
 	}
 
 
@@ -49,16 +51,43 @@ class NTIContentAnnotationsGutter extends React.Component {
 	}
 
 	componentDidUpdate (prevProps) {
-		const {contentBody} = this.props;
-		const {contentBody: prevContentBody} = prevProps;
+		const {contentBody, annotations} = this.props;
+		const {contentBody: prevContentBody, annotations: prevAnnotations} = prevProps;
 
 		if (contentBody !== prevContentBody) {
-			this.setupFor(this.props);
+			this.setupListeners(this.props);
+		}
+
+		if (annotations !== prevAnnotations) {
+			this.setupAnnotations(this.props);
 		}
 	}
 
 
-	setupFor (props) {
+	setupAnnotations (props) {
+		const {annotations} = props;
+		const items = annotations && Object.values(annotations);
+
+		if (!items || items.length <= 0) { return; }
+
+
+		const {bins, shouldRetry} = resolveBins(items);
+
+		if (shouldRetry) {
+			this.setState({bins: null}, () => {
+				setTimeout(() => {
+					this.setupAnnotations(props);
+				}, 200);
+			});
+		}
+
+		this.setState({bins});
+	}
+
+
+	setupListeners (props) {
+		//NOTE: if we end up needing to deal with state in this method,
+		//we might want to try to combine it with setupAnnotations.
 		const {contentBody} = props;
 
 		if (!contentBody) { return; }
@@ -85,7 +114,12 @@ class NTIContentAnnotationsGutter extends React.Component {
 		const {lineInfo:oldLineInfo} = this.state;
 		const newLineInfo = findLineInContainer(clientY, contentBody);
 
-		if (!lineInfoEqual(oldLineInfo, newLineInfo)) {
+		if (!newLineInfo) {
+			this.setState({
+				lineInfo: null,
+				noteHerePosition: null
+			});
+		}else if (!lineInfoEqual(oldLineInfo, newLineInfo)) {
 			this.setState({
 				lineInfo: newLineInfo,
 				noteHerePosition: getStylesForLine(newLineInfo, contentBody)
@@ -105,16 +139,38 @@ class NTIContentAnnotationsGutter extends React.Component {
 
 
 	render () {
-		const {lineInfo, noteHerePosition} = this.state;
+		const {lineInfo, noteHerePosition, bins} = this.state;
 
 		return (
 			<div className="nti-content-annotations-gutter">
+				{bins && this.renderBins(bins)}
 				{lineInfo && (
 					<div className="note-here" style={noteHerePosition}>
 						{noteHerePosition.top}
 					</div>
 				)}
 			</div>
+		);
+	}
+
+
+	renderBins (bins) {
+		const positions = Object.keys(bins);
+
+		return (
+			<>
+				{positions.map((y) => {
+					const bin = bins[y];
+					const top = {top: `${y}px`};
+					const count = (bin || []).length;
+
+					return (
+						<span key={y} className="gutter-bin" style={top}>
+							{count > 99 ? '99+' : count}
+						</span>
+					);
+				})}
+			</>
 		);
 	}
 }
