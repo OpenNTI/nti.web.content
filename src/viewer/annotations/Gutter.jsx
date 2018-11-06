@@ -142,7 +142,7 @@ class NTIContentAnnotationsGutter extends React.Component {
 		const {lineInfo, noteHerePosition, bins} = this.state;
 
 		return (
-			<div className="nti-content-annotations-gutter">
+			<div className="nti-content-annotations-gutter" onMouseMove={this.onMouseMove} onMouseOut={this.onMouseOut}>
 				{bins && this.renderBins(bins)}
 				{lineInfo && (
 					<div className="note-here" style={noteHerePosition}>
