@@ -1,7 +1,9 @@
 @import "~@nti/style-common";
 
 .breadcrumb-sibling-menu {
-	min-width: 400px;
+	&:not(.flyout-trigger) {
+		min-width: 400px;
+	}
 
 	.breadcrumb-dropdown-view {
 		max-height: calc(100vh - 210px);
