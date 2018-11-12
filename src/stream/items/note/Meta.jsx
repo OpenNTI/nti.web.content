@@ -11,7 +11,7 @@ const t = scoped('content.stream.items.note.Detail', {
 
 const getDisplayName = (data) => t('postedBy', data);
 
-export default function Meta ({ item, reply }) {
+export default function Meta ({ item, reply = {} }) {
 	const { creator, title } = item;
 	const created = item.getCreatedTime();
 
@@ -25,8 +25,8 @@ export default function Meta ({ item, reply }) {
 								<DisplayName entity={creator} />
 							</LinkTo.Object>
 							<span className="replied-to"> replied to </span>
-							<LinkTo.Object object={{ Username: reply.creator, isUser: true }} context="stream-profile">
-								<DisplayName entity={reply.creator} />
+							<LinkTo.Object object={{ Username: reply && reply.creator, isUser: true }} context="stream-profile">
+								<DisplayName entity={reply && reply.creator} />
 							</LinkTo.Object>
 						</li>
 						<li>

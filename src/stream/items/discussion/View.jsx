@@ -5,12 +5,14 @@ import { LinkTo } from '@nti/web-routing';
 import { scoped } from '@nti/lib-locale';
 import { Panel as Body } from '@nti/web-modeled-content';
 
+import { Breadcrumb, Avatar, ItemLinks } from '../components';
+import Registry from '../Registry';
+
+import Comment from './Comment';
+
 const t = scoped('content.stream.items.discussion', {
 	duration: '%(duration)s ago'
 });
-
-import { Breadcrumb, Avatar } from '../components';
-import Registry from '../Registry';
 
 @Registry.register('application/vnd.nextthought.forums.communityheadlinetopic')
 class Discussion extends React.Component {
@@ -21,13 +23,39 @@ class Discussion extends React.Component {
 			title: PropTypes.string.isRequired,
 			headline: PropTypes.shape({
 				body: PropTypes.array.isRequired
-			}).isRequired
+			}).isRequired,
+			PostCount: PropTypes.number,
+			getID: PropTypes.func.isRequired
 		}).isRequired,
 		context: PropTypes.object
 	}
 
+	state = {
+		comments: []
+	}
+
+	componentDidMount = () => {
+		this.recentComments();
+	}
+
+	componentDidUpdate = (prevProps, prevState) => {
+		if (prevProps.item.getID() !== this.props.item.getID()) {
+			this.recentComments();
+		}
+	}
+
+	recentComments = async () => {
+		const { item, item: { PostCount } } = this.props;
+
+		if (PostCount > 0 && item.hasLink('Contents')) {
+			const { Items } = await item.getContents();
+			this.setState({ comments: Items });
+		}
+	}
+
 	render () {
 		const { item, context } = this.props;
+		const { comments } = this.state;
 		const { creator, title } = item;
 		const created = item.getCreatedTime();
 
@@ -36,7 +64,6 @@ class Discussion extends React.Component {
 				<Breadcrumb className="discussion-breadcrumb" item={item} context={context} />
 				<div className="item">
 					<LuckyCharms item={item} />
-
 					<Avatar creator={creator} />
 					<div className="discussion-meta">
 						<div className="subject">{title}</div>
@@ -50,7 +77,9 @@ class Discussion extends React.Component {
 						</div>
 					</div>
 					<Body className="body" body={item.headline && item.headline.body} />
+					<ItemLinks item={item} comment={item.PostCount} />
 				</div>
+				{comments.map(x => <Comment item={x} key={x.getID()} />)}
 			</div>
 		);
 	}

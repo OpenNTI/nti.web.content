@@ -39,8 +39,8 @@ export default class Meta extends React.Component {
 
 		return (
 			<div className="blog-item-meta">
+				<div className="count comments">{t('comments', { count: comments })}</div>
 				<div className="count likes">{t('likes', {count: likes})}</div>
-				<div className="count comments">{t('comments', {count: comments})}</div>
 				<DateTime date={created} format="MMMM D, YYYY" />
 			</div>
 		);

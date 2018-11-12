@@ -1,0 +1,44 @@
+@import '~@nti/style-common';
+
+.stream-reply-item {
+    padding: 20px;
+    min-height: 100px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    position: relative;
+    background: #fbfbfb;
+    border: 1px solid #eaeaea;
+    border-left: none;
+    border-right: none;
+
+	.item-container {
+		display: flex;
+		width: 100%;
+
+		.stream-avatar {
+			width: 35px;
+			height: 35px;
+			margin-right: 10px;
+		}
+
+		.meta {
+			flex-grow: 1;
+			display: flex;
+			flex-wrap: wrap;
+			align-items: center;
+
+			.username {
+				color: $primary-blue;
+				margin-right: 5px;
+			}
+
+			.body {
+				width: 100%;
+				color: #494949;
+				font: normal 500 14px/20px "Open Sans", sans-serif;
+				align-self: flex-start;
+			}
+		}
+	}
+}

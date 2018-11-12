@@ -1,12 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { DisplayName, DateTime, Like } from '@nti/web-commons';
+import { DisplayName, Like } from '@nti/web-commons';
 import { LinkTo } from '@nti/web-routing';
 import { scoped } from '@nti/lib-locale';
 import { Panel as Body } from '@nti/web-modeled-content';
 import { getService } from '@nti/web-client';
 
-import { Breadcrumb, Avatar } from '../components';
+import { Breadcrumb, Avatar, Date } from '../components';
 import Registry from '../Registry';
 
 const t = scoped('content.stream.items.discussion-reply', {
@@ -75,7 +75,7 @@ class DiscussionReply extends React.Component {
 								<LinkTo.Object className="discussion-title" object={item} context="discussion">
 									{title}
 								</LinkTo.Object>
-								<time>{DateTime.format(date, 'MMMM D, YYYY')}</time>
+								<Date date={date} />
 							</div>
 						</div>
 						<Like item={item} />

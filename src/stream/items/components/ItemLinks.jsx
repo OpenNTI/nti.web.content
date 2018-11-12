@@ -16,15 +16,16 @@ const DEFAULT_TEXT = {
 	deleteMessage: 'The following action will delete your item.'
 };
 
-const t = scoped('web-content.ContentOptionsSwitcher', DEFAULT_TEXT);
+const t = scoped('web-content.stream.ItemLinks', DEFAULT_TEXT);
 
 export default class ItemLinks extends React.Component {
 	static propTypes = {
 		item: PropTypes.shape({
 			ReferencedByCount: PropTypes.number,
 			hasLink: PropTypes.func.isRequired,
-			delete: PropTypes.func.isRequired
-		}).isRequired
+			delete: PropTypes.func.isRequired,
+		}).isRequired,
+		comment: PropTypes.number
 	}
 
 	onDelete = async () => {
@@ -38,13 +39,13 @@ export default class ItemLinks extends React.Component {
 
 	render () {
 		const { item } = this.props;
-		const { ReferencedByCount: comment, creator } = item;
+		const { ReferencedByCount: comment = 0, creator } = item;
 		const appuser = getAppUsername();
 		const isMe = appuser === creator;
 
 		return (
 			<div className="item-links">
-				<div className="comments">{t('comments', { count: comment })}</div>
+				<div className="comments">{t('comments', { count: this.props.comment || comment })}</div>
 				{isMe && (
 					<>
 						<div className="edit">Edit</div>

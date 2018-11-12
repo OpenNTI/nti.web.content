@@ -1,0 +1,8 @@
+@import '~@nti/style-common';
+
+time.stream-item-date {
+	color: $tertiary-grey;
+	text-transform: uppercase;
+	font: normal 600 10px "Open Sans", sans-serif;
+	display: block;
+}
