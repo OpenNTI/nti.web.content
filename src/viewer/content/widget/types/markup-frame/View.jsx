@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {isEmpty} from '@nti/lib-commons';
-import {Card, Prompt, ZoomableContent} from '@nti/web-commons';
+import {Card} from '@nti/web-commons';
 import {scoped} from '@nti/lib-locale';
 import cx from 'classnames';
 
