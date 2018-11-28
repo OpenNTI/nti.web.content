@@ -26,8 +26,8 @@ export default {
 			return null;
 		}
 
-		getSelection().removeAllRanges();
-		getSelection().addRange(range);
+		// getSelection().removeAllRanges();
+		// getSelection().addRange(range);
 
 		return range;
 	}

@@ -32,6 +32,14 @@
 		border: none;
 	}
 
+	&.is-narrow {
+		.bar {
+			.comment-label {
+				display: none;
+			}
+		}
+	}
+
 	.application-highlight & {
 		margin-right: 1rem;
 	}
@@ -55,13 +63,5 @@
 		}
 	}
 
-	.bar {
-		border-top: 1px solid $border-grey;
-		cursor: default;
-		display: block;
-		position: relative;
-		padding: 0 0.875rem 1.25rem;
-		background: $panel-background;
-		min-height: 2.3125rem;
-	}
+
 }

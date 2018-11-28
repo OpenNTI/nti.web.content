@@ -1,11 +1,14 @@
-import React, {Fragment} from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import {rawContent, isEmpty} from '@nti/lib-commons';
-import {Card} from '@nti/web-commons';
+import {isEmpty} from '@nti/lib-commons';
+import {Card, Prompt, ZoomableContent} from '@nti/web-commons';
 import {scoped} from '@nti/lib-locale';
 import cx from 'classnames';
 
-import Registry from './Registry';
+import Registry from '../Registry';
+
+import Bar from './Bar';
+import Zoomed from './Zoomed';
 
 const PRESENTATION_CARD = 'presentation-card';
 
@@ -43,29 +46,30 @@ class MarkupFrameWidget extends React.Component {
 	}
 
 
-	onZoom = () => {}
+	onZoom = () => {
+		if (this.image && this.image.src) {
+			this.setState({
+				zoomed: true
+			});
+		}
+	}
+
+
+	onZoomClosed = () => {
+		this.setState({
+			zoomed: false
+		});
+	}
 
 
 	onLoad = () => {}
 
 
 	render () {
-		const {zoomed} = this.state;
-
-		return (
-			<>
-				{this.renderFrame()}
-				{zoomed && (this.renderZoomed())}
-			</>
-		);
-	}
-
-
-	renderFrame () {
 		const {part: {item, itemprop, isSlide, parentType}, node} = this.props;
-		const {forceZoomable} = this.state;
+		const {zoomed} = this.state;
 		const {zoomable, markable, title, caption, dom} = item;
-		const isZoomable = zoomable || forceZoomable;
+		const isZoomable = zoomable || markable;
 		const width = getWidth(dom, node);
 
 		const noDetails = isEmpty(title) && isEmpty(caption);
@@ -74,7 +78,7 @@ class MarkupFrameWidget extends React.Component {
 		const isNarrow = !isCard && width < 116;
 		const styles = {};
 
-		const cls = cx('markupframe', {bare, card: isCard, 'is-zoomable': isZoomable});
+		const cls = cx('markupframe', {bare, card: isCard, 'is-zoomable': isZoomable, 'is-narrow': isNarrow});
 
 		if (!isCard && width > 30 && width < Infinity) {
 			styles.width = `${width}px`;
@@ -83,30 +87,14 @@ class MarkupFrameWidget extends React.Component {
 		return (
 			<span itemProp={itemprop} className={cls} onClick={this.onZoom} style={styles}>
 				<span className="wrapper">
-					{!zoomable || isCard ? null : (
+					{!isZoomable || isCard ? null : (
 						<a title={t('enlarge')} className="zoom" data-non-anchorable="true">
 							<i className="icon-search" />
 						</a>
 					)}
 					<img id={item.id} src={item.src} crossOrigin={item.crossorigin} ref={this.attachImage} onLoad={this.onLoad} />
 				</span>
-				{bare ? null : (
-					<span className="bar" data-non-anchorable="true" data-no-anchors-within="true" unselectable="true">
-						{!isSlide ? null : (<a href="#slide" className="bar-cell slide" />)}
-						{noDetails && !markable ? null : (
-							<span className="bar-cell">
-								<span className="image-title" {...rawContent(title)} />
-								<span className="image-caption" {...rawContent(caption)} />
-								{markable && (
-									<a href="#mark" className="mark">
-										<i className="icon-create" />
-										<span>{!isNarrow && t('comment')}</span>
-									</a>
-								)}
-							</span>
-						)}
-					</span>
-				)}
+				<Bar {...this.props} />
 				{isCard && (
 					<>
 						<Card
@@ -122,13 +110,9 @@ class MarkupFrameWidget extends React.Component {
 						{markable && (<a href="#mark" className="mark" />)}
 					</>
 				)}
+				{zoomed && (<Zoomed onClose={this.onZoomClosed} {...this.props} />)}
 			</span>
 		);
-	}
-
-
-	renderZoomed () {
-
 	}
 }
 
