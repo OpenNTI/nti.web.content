@@ -18,12 +18,15 @@ class NTIContentViewer extends React.Component {
 	static propTypes = {
 		pageId: PropTypes.string.isRequired,
 		bundle: PropTypes.object.isRequired,
+
+		contextMenu: PropTypes.bool,
 		annotations: PropTypes.bool,
 		analytics: PropTypes.bool
 	}
 
 
 	static defaultProps = {
+		contextMenu: true,
 		annotations: true,
 		analytics: true
 	}

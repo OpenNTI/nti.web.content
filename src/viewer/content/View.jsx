@@ -1,9 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
+import {getEventTarget} from '@nti/lib-dom';
 import {rawContent} from '@nti/lib-commons';
 import {NTIContent, Loading} from '@nti/web-commons';
+import isTouch from '@nti/util-detection-touch';
 import {Connectors} from '@nti/lib-store';
+
+import {snapSelectionToWord} from '../utils';
 
 import Widget from './widget';
 
@@ -51,12 +55,35 @@ class ContentViewer extends React.Component {
 	}
 
 
+	detectSelection = (e) => {
+		//don't show the selection for inputs or contenteditbles
+		if (getEventTarget(e, 'input') || getEventTarget(e, '[contenteditable]')) {
+			return;
+		}
+
+		const selection = global.getSelection();
+		const originalRange = selection && selection.rangeCount ? selection.getRangeAt(0) : null;
+
+		if (!originalRange || originalRange.collapsed) { return; }
+
+
+		const expandedSelection = snapSelectionToWord(selection);
+		const expandedRange = expandedSelection && expandedSelection.rangeCount ? expandedSelection.getRangeAt(0) : null;
+
+		return expandedRange;
+	}
+
+
 	render () {
 		const {className, loading, error, pageDescriptor} = this.props;
 		const isLoading = loading || (!error && !pageDescriptor);
 
+		const listeners = {
+			[isTouch ? 'onTouchEnd' : 'onMouseUp']: this.detectSelection
+		};
+
 		return (
-			<div className={cx('nti-content-viewer', className)} {...this.getOtherProps()}>
+			<div className={cx('nti-content-viewer', className)} {...this.getOtherProps()} {...listeners} >
 				{isLoading && (<Loading.Mask />)}
 				{!isLoading && error && (<div>Error...</div>)}
 				{!isLoading && !error && this.renderPage()}
