@@ -1,4 +1,5 @@
 import isSelectionBackwards from './is-selection-backwards';
+import expandSelectionToIncludeMath from './expand-selection-to-include-math';
 
 /**
  * Taken partially from nti.web.app/src/main/js/legacy/util/Anchors#snapSelectionToWord
@@ -40,5 +41,5 @@ export default function snapSelectionToWord (selection) {
 	selection.modify('extend', directions.char.extend, 'character');
 	selection.modify('extend', directions.word.extend, 'word');
 
-	return selection;
+	return expandSelectionToIncludeMath(selection);
 }
