@@ -12,7 +12,7 @@ import {snapSelectionToWord} from '../utils';
 import Widget from './widget';
 
 export default
-@Connectors.Any.connect(['loading', 'error', 'pageDescriptor', 'setContentBody'])
+@Connectors.Any.connect(['loading', 'error', 'pageDescriptor', 'setContentBody', 'setUserSelection'])
 class ContentViewer extends React.Component {
 	static deriveBindingFromProps ({bundle, pageId}) {
 		return {
@@ -25,13 +25,15 @@ class ContentViewer extends React.Component {
 		className: PropTypes.string,
 		bundle: PropTypes.object.isRequired,
 		pageId: PropTypes.string.isRequired,
+		onUserSelectionChanged: PropTypes.func,
+
 
 		loading: PropTypes.bool,
 		error: PropTypes.any,
 		pageDescriptor: PropTypes.object,
-		setContentBody: PropTypes.func
+		setContentBody: PropTypes.func,
+		setUserSelection: PropTypes.func
 	}
-
 
 	attachContentBody = (node) => {
 		const {setContentBody} = this.props;
@@ -61,6 +63,9 @@ class ContentViewer extends React.Component {
 			return;
 		}
 
+		const {onUserSelectionChanged, setUserSelection} = this.props;
+		const capture = { srcElement: e.srcElement, target: e.target};
+
 		const selection = global.getSelection();
 		const originalRange = selection && selection.rangeCount ? selection.getRangeAt(0) : null;
 
@@ -70,7 +75,17 @@ class ContentViewer extends React.Component {
 		const expandedSelection = snapSelectionToWord(selection);
 		const expandedRange = expandedSelection && expandedSelection.rangeCount ? expandedSelection.getRangeAt(0) : null;
 
-		return expandedRange;
+		if (onUserSelectionChanged) {
+			onUserSelectionChanged(capture, expandedRange);
+		}
+
+		if (setUserSelection) {
+			setUserSelection({
+				event: capture,
+				range: expandedRange,
+				selection: expandedSelection
+			});
+		}
 	}
 
 

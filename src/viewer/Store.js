@@ -37,4 +37,9 @@ export default class ContentViewerStore extends Stores.BoundStore {
 			});
 		});
 	}
+
+
+	setUserSelection (userSelection) {
+		this.set({userSelection});
+	}
 }

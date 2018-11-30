@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 import Annotations from './annotations';
 import Content from './content';
+import ContextMenu from './context-menu';
 import Store from './Store';
 
 export default
@@ -32,9 +33,17 @@ class NTIContentViewer extends React.Component {
 	}
 
 	render () {
-		const {annotations, ...otherProps} = this.props;
+		const {annotations, contextMenu, ...otherProps} = this.props;
 
 		let content = (<Content {...otherProps} />);
+
+		if (contextMenu) {
+			content = (
+				<ContextMenu {...otherProps}>
+					{content}
+				</ContextMenu>
+			);
+		}
 
 		if (annotations) {
 			content = (
