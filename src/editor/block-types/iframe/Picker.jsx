@@ -158,8 +158,10 @@ export default class IframePicker extends React.Component {
 			const attributes = iframe && iframe.attributes || {};
 			let advancedProperties = {};
 
-			for(let attribute of attributes) {
-				advancedProperties[attribute.name] = attribute.value || true;
+			for(let attribute in attributes) {
+				if(attribute) {
+					advancedProperties[attribute.name] = attribute.value || true;
+				}
 			}
 
 			for (let prop of nonAdvanced) {
@@ -272,7 +274,7 @@ export default class IframePicker extends React.Component {
 							<Checkbox checked={sandbox} onChange={this.onSandboxChange} className="sandbox" label={t('sandbox')}/>
 						</>
 					)}
-					{invalid && failedSave && (<span className="error">{t('invalid')}</span>)}
+					{invalid && (<span className="error">{t('invalid')}</span>)}
 				</div>
 				{link && !invalid && (
 					<Advanced
