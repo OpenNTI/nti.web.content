@@ -238,7 +238,6 @@ export default class IframePicker extends React.Component {
 			title,
 			width,
 			height,
-			failedSave,
 			allowFullScreen,
 			sandbox,
 			advancedProperties,
