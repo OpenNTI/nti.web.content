@@ -1,0 +1,41 @@
+@import "~@nti/style-common";
+
+.content-editor-iframe-advanced-pair {
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-start;
+	align-items: middle;
+
+	.name, .value {
+		flex: 0 0 auto;
+		width: 200px;
+	}
+
+	.name {
+		.nti-text-input {
+			width: 100%;
+			border-radius: 2px 0 0 2px;
+			border-right-width: 0;
+		}
+	}
+
+	.value {
+		.nti-text-input {
+			width: 100%;
+			border-radius: 0 2px 2px 0;
+		}
+	}
+
+	.remove {
+		flex: 0 0 auto;
+		width: 34px;
+		height: 34px;
+		text-align: center;
+		line-height: 34px;
+		cursor: pointer;
+
+		i {
+			font-size: 0.875rem;
+		}
+	}
+}

@@ -180,10 +180,12 @@ export default class ContentEditorBlockTypeIframeAdvanced extends React.Componen
 	renderProperties (pairs) {
 		return (
 			<ul>
-				<li className="labels">
-					<span className="name">{t('name')}</span>
-					<span className="value">{t('value')}</span>
-				</li>
+				{pairs.length > 0 && (
+					<li className="labels">
+						<span className="name">{t('name')}</span>
+						<span className="value">{t('value')}</span>
+					</li>
+				)}
 				{pairs.map((pair, index) => {
 					return (
 						<li key={index}>

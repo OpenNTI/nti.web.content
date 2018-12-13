@@ -38,19 +38,20 @@ const t = scoped('web-content.editor.block-types.iframe.Picker', DEFAULT_TEXT);
 
 function getStateForValue (value = {}) {
 	const nonAdvanced = ['title', 'height', 'width', 'no-sandboxing', 'allowfullscreen'];
-	const advancedProperties = {...(value.attributes || {})};
+	const attributes = value.attributes || {};
+	const advancedProperties = {...(attributes || {})};
 
 	for (let prop of nonAdvanced) {
 		delete advancedProperties[prop];
 	}
 
 	return {
-		link: value && value.src || '',
-		title: value && value.attributes.title || '',
-		height: value && value.attributes.height || '',
-		width: value && value.attributes.width || '',
-		sandbox: value && value.attributes['no-sandboxing'] === 'false' || false,
-		allowFullScreen: value && value.attributes.allowfullscreen === 'true' || false,
+		link: value.src || '',
+		title: attributes.title || '',
+		height: attributes.height || '',
+		width: attributes.width || '',
+		sandbox: attributes['no-sandboxing'] === 'false' || false,
+		allowFullScreen: attributes.allowfullscreen === 'true' || false,
 		advancedProperties
 	};
 }
@@ -114,8 +115,8 @@ export default class IframePicker extends React.Component {
 		let attributes = {
 			...advancedProperties,
 			title: title || '',
-			width: width || '100%',
-			height: height || '100%',
+			width,
+			height,
 			allowfullscreen: allowFullScreen.toString(),
 			'no-sandboxing': noSandbox.toString()
 		};

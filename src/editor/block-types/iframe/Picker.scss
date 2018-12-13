@@ -25,11 +25,12 @@
 
 		.panel-title-bar {
 			border-bottom: 1px solid $border-grey-light;
+			margin-bottom: 2rem;
 		}
 
 		.picker {
 			background: $panel-background;
-			padding: 2rem 1.25rem;
+			padding: 0 1.25rem;
 
 			.link-label {
 				display: block;
@@ -119,6 +120,7 @@
 
 
 		.dialog-buttons {
+			margin-top: 2rem;
 			background: $panel-background;
 		}
 
