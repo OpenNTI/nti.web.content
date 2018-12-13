@@ -155,7 +155,7 @@ export default class IframePicker extends React.Component {
 			const iframe = div.querySelector('iframe');
 
 			const nonAdvanced = ['src', 'title', 'height', 'width', 'no-sandboxing', 'allowfullscreen'];
-			const attributes = iframe.attributes || {};
+			const attributes = iframe && iframe.attributes || {};
 			let advancedProperties = {};
 
 			for(let attribute of attributes) {
