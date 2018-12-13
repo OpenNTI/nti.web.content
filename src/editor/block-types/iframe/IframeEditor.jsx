@@ -32,13 +32,15 @@ export default class IframeEditor extends React.Component {
 			if(!iframe['allow']) {
 				iframe['allow'] = iframe['allowfullscreen'] === 'true' ? 'fullscreen' : '';
 			} else {
-				iframe['allow'] = iframe['allowfullscreen'] === 'true' ? iframe['allow'] + '; fullscreen' : iframe['allow'];
+				iframe['allow'] = (iframe['allowfullscreen'] === 'true' && !iframe['allow'].includes('fullscreen')) ? iframe['allow'] + '; fullscreen' : iframe['allow'];
 			}
 
 			iframe['sandbox'] = iframe['no-sandboxing'] === 'true' ? 'allow-same-origin allow-scripts' : sandboxValues;
+			iframe['width'] = iframe['width'] === '' ? '100%' : iframe['width'];
+			iframe['height'] = iframe['height'] === '' ? '100%' : iframe['height'];
 		}
 
-		hasData = iframe['src'] && iframe['height'] && iframe['width'];
+		hasData = iframe['src'] && iframe['width'] && iframe['height'];
 
 		return hasData
 			? (

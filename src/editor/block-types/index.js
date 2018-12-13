@@ -16,9 +16,9 @@ const TYPES = [
 	UnorderedList,
 	OrderedList,
 	BlockQuote,
-	Code,
 	Sidebar,
 	Iframe,
+	Code,
 	UnknownBlock
 ];
 

@@ -151,6 +151,18 @@ export default class IframePicker extends React.Component {
 			div.innerHTML = value;
 			const iframe = div.querySelector('iframe');
 
+			const nonAdvanced = ['src', 'title', 'height', 'width', 'no-sandboxing', 'allowfullscreen'];
+			const attributes = iframe.attributes || {};
+			let advancedProperties = {};
+
+			for(let attribute of attributes) {
+				advancedProperties[attribute.name] = attribute.value || true;
+			}
+
+			for (let prop of nonAdvanced) {
+				delete advancedProperties[prop];
+			}
+
 			const width = iframe ? iframe.getAttribute('width') : '';
 			const height = iframe ? iframe.getAttribute('height') : '';
 			const title = iframe ? iframe.getAttribute('title') : '';
@@ -166,6 +178,7 @@ export default class IframePicker extends React.Component {
 					title,
 					allowFullScreen,
 					sandbox,
+					advancedProperties,
 					invalid: false
 				});
 			} else {
