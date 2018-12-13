@@ -3,6 +3,7 @@ import { EventEmitter } from 'events';
 const MODIFICATION_BUS = new EventEmitter();
 
 export const VIDEO_DELETED_EVENT = 'video-deleted';
+export const IFRAME_DELETED_EVENT = 'iframe-deleted';
 
 export function addListener (event, handlerFn) {
 	MODIFICATION_BUS.addListener(event, handlerFn);

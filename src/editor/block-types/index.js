@@ -7,6 +7,7 @@ import * as UnorderedList from './unordered-list';
 import * as BlockQuote from './block-quote';
 import * as Code from './code';
 import * as UnknownBlock from './unknown-block';
+import * as Iframe from './iframe';
 
 const TYPES = [
 	CourseFigure,
@@ -17,6 +18,7 @@ const TYPES = [
 	BlockQuote,
 	Code,
 	Sidebar,
+	Iframe,
 	UnknownBlock
 ];
 
