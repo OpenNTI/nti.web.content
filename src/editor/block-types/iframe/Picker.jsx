@@ -48,8 +48,8 @@ function getStateForValue (value = {}) {
 	return {
 		link: value.src || '',
 		title: attributes.title || '',
-		height: attributes.height || '',
-		width: attributes.width || '',
+		height: parseInt(attributes.height, 10) || '',
+		width: parseInt(attributes.width, 10) || '',
 		sandbox: attributes['no-sandboxing'] === 'false' || false,
 		allowFullScreen: attributes.allowfullscreen === 'true' || false,
 		advancedProperties

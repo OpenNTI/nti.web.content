@@ -18,7 +18,6 @@ export default class IframeEditor extends React.Component {
 	innerComponent = () => {
 		const {iframeObj} = this.props;
 		let iframe, hasData;
-
 		if(iframeObj) {
 			iframe = document.createElement('iframe');
 			iframe['src'] = iframeObj.src;
@@ -30,7 +29,7 @@ export default class IframeEditor extends React.Component {
 				}
 			}
 
-			iframe['allowfullscreen'] = iframe['allowfullscreen'] === 'true';
+			iframe['allow'] = iframe['allowfullscreen'] === 'true' ? 'fullscreen' : '';
 			iframe['sandbox'] = iframe['no-sandboxing'] === 'true' ? 'allow-same-origin allow-scripts' : sandboxValues;
 		}
 

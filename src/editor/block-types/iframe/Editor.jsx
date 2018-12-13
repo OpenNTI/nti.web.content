@@ -72,7 +72,7 @@ export default class CourseIframeEditor extends React.Component {
 		const body = data.get('body');
 		let options = data.get('options');
 
-		const iframeObj = {src: data.get('arguments'), title: body[0], attributes: options.toJS ? options.toJS() : options};
+		const iframeObj = {src: data.get('arguments'), attributes: options.toJS ? options.toJS() : options};
 
 		return {
 			iframeObj,
@@ -113,12 +113,14 @@ export default class CourseIframeEditor extends React.Component {
 			.then(iframeObjEdit => {
 				if (setBlockData) {
 					setBlockData({
-						body: [iframeObjEdit.title || ''],
+						name: 'nti:embedwidget',
+						body: [],
 						arguments: iframeObjEdit.src,
 						options: iframeObjEdit.attributes
 					});
 				}
-			});
+			})
+			.catch(e => {});
 	}
 
 	onClick = (e) => {

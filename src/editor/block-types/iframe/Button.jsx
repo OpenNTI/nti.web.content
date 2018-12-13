@@ -43,7 +43,8 @@ export default class IframeButton extends React.Component {
 						options: iframeObj.attributes
 					}
 				}, false, true);
-			});
+			})
+			.catch(e => {});
 	};
 
 	render = () => {
