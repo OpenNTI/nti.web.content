@@ -29,7 +29,12 @@ export default class IframeEditor extends React.Component {
 				}
 			}
 
-			iframe['allow'] = iframe['allowfullscreen'] === 'true' ? 'fullscreen' : '';
+			if(!iframe['allow']) {
+				iframe['allow'] = iframe['allowfullscreen'] === 'true' ? 'fullscreen' : '';
+			} else {
+				iframe['allow'] = iframe['allowfullscreen'] === 'true' ? iframe['allow'] + '; fullscreen' : iframe['allow'];
+			}
+
 			iframe['sandbox'] = iframe['no-sandboxing'] === 'true' ? 'allow-same-origin allow-scripts' : sandboxValues;
 		}
 
