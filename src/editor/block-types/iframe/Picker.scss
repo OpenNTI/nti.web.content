@@ -79,43 +79,6 @@
 					color: $secondary-grey;
 				}
 			}
-
-			.advanced {
-				margin-top: 10px;
-				padding: 5px 20px;
-				cursor: pointer;
-				transform: translate3d(0, 0, 0);
-				color: #757474;
-				position: relative;
-				font-size: 0.625rem;
-				font-weight: bold;
-				text-transform: uppercase;
-				background: #fbfbfb;
-				margin-bottom: -1px;
-				text-align: left;
-				border: 1px solid rgb(238, 238, 238);
-				border-radius: 3px;
-
-				&::after {
-					content: "+";
-					font-size: 0.95rem;
-					font-weight: bold;
-					color: #757474;
-					transition: transform 0.5s ease-in-out;
-					position: absolute;
-					right: 20px;
-					font-family: monospace;
-				}
-
-				&.is-expanded {
-					transition: background 0.5s;
-
-					&::after {
-						content: "-";
-						transform: rotate(-360deg);
-					}
-				}
-			}
 		}
 
 		.dialog-buttons {
