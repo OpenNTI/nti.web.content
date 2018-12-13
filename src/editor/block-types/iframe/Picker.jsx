@@ -114,7 +114,7 @@ export default class IframePicker extends React.Component {
 
 		let attributes = {
 			...advancedProperties,
-			title: title || '',
+			title,
 			width,
 			height,
 			allowfullscreen: allowFullScreen.toString(),
