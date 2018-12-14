@@ -4,7 +4,7 @@ import {Input} from '@nti/web-commons';
 import {scoped} from '@nti/lib-locale';
 
 const t = scoped('content.editor.block-types.iframe.Advanced.pair', {
-	keyName: 'Name',
+	keyName: 'Key Name',
 	value: 'Value'
 });
 
