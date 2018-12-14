@@ -4,7 +4,7 @@ import {Input} from '@nti/web-commons';
 import {scoped} from '@nti/lib-locale';
 
 const t = scoped('content.editor.block-types.iframe.Advanced.pair', {
-	name: 'Name',
+	keyName: 'Name',
 	value: 'Value'
 });
 
@@ -22,7 +22,7 @@ export default class IframeAdvancedKeyPair extends React.Component {
 	}
 
 
-	onNameChange = (newName) => {
+	onKeyNameChange = (newName) => {
 		const {onChange, pair, index} = this.props;
 
 		if (onChange) {
@@ -55,8 +55,8 @@ export default class IframeAdvancedKeyPair extends React.Component {
 
 		return (
 			<div className="content-editor-iframe-advanced-pair">
-				<div className="name">
-					<Input.Text placeholder={t('name')} value={key || ''} onChange={this.onNameChange} />
+				<div className="nti-name">
+					<Input.Text placeholder={t('keyName')} value={key || ''} onChange={this.onKeyNameChange} />
 				</div>
 				<div className="value">
 					<Input.Text placeholder={t('value')} value={value || ''} onChange={this.onValueChange} />
