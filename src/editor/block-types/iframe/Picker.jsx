@@ -158,7 +158,7 @@ export default class IframePicker extends React.Component {
 			const attributes = iframe ? iframe.attributes : {};
 			let advancedProperties = {};
 
-			for(let attribute of attributes) {
+			for(let attribute of Array.from(attributes)) {
 				if(attribute) {
 					advancedProperties[attribute.name] = attribute.value || true;
 				}
