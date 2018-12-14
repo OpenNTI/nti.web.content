@@ -176,7 +176,7 @@ export default class IframePicker extends React.Component {
 			const src = iframe && iframe.src;
 
 			width = width > 671 ? 671 : width;
-			height = height > 500 ? 500 : height;
+			height = height > 400 ? 400 : height;
 
 			if(src && secureUrl.test(src)) {
 				this.setState({
@@ -205,7 +205,7 @@ export default class IframePicker extends React.Component {
 	}
 
 	onHeightChange = (height) => {
-		height = height > 500 ? 500 : height;
+		height = height > 400 ? 400 : height;
 
 		this.setState({height});
 	}
