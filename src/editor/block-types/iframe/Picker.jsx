@@ -196,10 +196,14 @@ export default class IframePicker extends React.Component {
 	}
 
 	onWidthChange = (width) => {
+		width = width > 671 ? 671 : width;
+
 		this.setState({width});
 	}
 
 	onHeightChange = (height) => {
+		height = height > 500 ? 500 : height;
+
 		this.setState({height});
 	}
 
@@ -263,10 +267,10 @@ export default class IframePicker extends React.Component {
 							</Input.Label>
 							<div className="sizes">
 								<Input.Label className="width-label" label={t('width.label')}>
-									<Input.Number value={width} placeholder={t('width.placeholder')} min={0} onChange={this.onWidthChange} />
+									<Input.Number value={width} placeholder={t('width.placeholder')} min={0} max={671} onChange={this.onWidthChange} />
 								</Input.Label>
 								<Input.Label className="height-label" label={t('height.label')}>
-									<Input.Number value={height} placeholder={t('height.placeholder')} min={0} onChange={this.onHeightChange} />
+									<Input.Number value={height} placeholder={t('height.placeholder')} min={0} max={500} onChange={this.onHeightChange} />
 								</Input.Label>
 							</div>
 							<Checkbox checked={allowFullScreen} onChange={this.onFullScreenChange} className="allow-full-screen" label={t('allowFullScreen')}/>
