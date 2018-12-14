@@ -168,12 +168,15 @@ export default class IframePicker extends React.Component {
 				delete advancedProperties[prop];
 			}
 
-			const width = iframe ? iframe.getAttribute('width') : '';
-			const height = iframe ? iframe.getAttribute('height') : '';
+			let width = iframe ? iframe.getAttribute('width') : '';
+			let height = iframe ? iframe.getAttribute('height') : '';
 			const title = iframe ? iframe.getAttribute('title') : '';
 			const allowFullScreen = iframe && iframe.hasAttribute('allowfullscreen');
 			const sandbox = iframe && iframe.hasAttribute('sandbox');
 			const src = iframe && iframe.src;
+
+			width = width > 671 ? 671 : width;
+			height = height > 500 ? 500 : height;
 
 			if(src && secureUrl.test(src)) {
 				this.setState({
