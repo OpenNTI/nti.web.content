@@ -50,7 +50,7 @@ async function resolvePath (parts, contentPackage) {
 
 
 function getSize (width, height, maxWidth) {
-	if (!width || !maxWidth || width < maxWidth) {
+	if (!width || !maxWidth || width <= maxWidth) {
 		return {width: width || '100%', height};
 	}
 
@@ -58,7 +58,7 @@ function getSize (width, height, maxWidth) {
 
 	return {
 		width: maxWidth,
-		height: aspect / maxWidth
+		height: maxWidth / aspect
 	};
 }
 
