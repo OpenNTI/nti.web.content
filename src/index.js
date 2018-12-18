@@ -7,3 +7,4 @@ export BookCard from './components/BookCard';
 export * from './components/toolbar';
 export * from './toolbar';
 export Stream from './stream';
+export * as Widgets from './widgets';

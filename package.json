@@ -49,8 +49,8 @@
     "@nti/util-logger": "^1.0.0",
     "@nti/web-client": "^1.1.3",
     "@nti/web-commons": "0.x.x",
-    "@nti/web-editor": "0.x.x",
     "@nti/web-discussions": "0.x.x",
+    "@nti/web-editor": "0.x.x",
     "@nti/web-modeled-content": "^1.11.0",
     "@nti/web-routing": "0.x.x",
     "@nti/web-video": "^1.4.0",
@@ -66,6 +66,7 @@
     "object-hash": "^1.1.5",
     "prop-types": "^15.5.8",
     "punycode": "^1.4.1",
+    "query-string": "^6.2.0",
     "react-transition-group": "^2.2.1",
     "uuid": "^3.0.0"
   },
