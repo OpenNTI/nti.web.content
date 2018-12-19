@@ -6,12 +6,12 @@
 	justify-content: flex-start;
 	align-items: middle;
 
-	.name, .value {
+	.nti-name, .value {
 		flex: 0 0 auto;
 		width: 200px;
 	}
 
-	.name {
+	.nti-name {
 		.nti-text-input {
 			width: 100%;
 			border-radius: 2px 0 0 2px;
