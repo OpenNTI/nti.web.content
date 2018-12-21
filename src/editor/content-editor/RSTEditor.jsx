@@ -95,7 +95,7 @@ const customBlocks = Plugins.CustomBlocks.create({customRenderers: CustomRendere
 const plugins = [
 	Plugins.LimitBlockTypes.create({allow: ALLOWED_BLOCKS}),
 	Plugins.LimitStyles.create({allow: ALLOWED_STYLES}),
-	Plugins.ExternalLinks.create({allowedInBlockTypes: new Set([BLOCKS.UNSTYLED, BLOCKS.ORDERED_LIST_ITEM, BLOCKS.UNORDERED_LIST_ITEM])}),
+	Plugins.ExternalLinks.create({allowedInBlockTypes: new Set([BLOCKS.UNSTYLED, BLOCKS.ORDERED_LIST_ITEM, BLOCKS.UNORDERED_LIST_ITEM, BLOCKS.BLOCKQUOTE])}),
 	Plugins.InsertBlock.create(),
 	customBlocks,
 	pastedText,
