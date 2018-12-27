@@ -1,13 +1,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import isTouch from '@nti/util-detection-touch';
 import {Connectors} from '@nti/lib-store';
+
+import MouseContext from './mouse';
 
 @Connectors.Any.connect(['userSelection'])
 class ContentViewerContextMenu extends React.Component {
 	static propTypes = {
 		children: PropTypes.node,
 
-		userSelection: PropTypes.object
+		userSelection: PropTypes.shape({
+			event: PropTypes.object.isRequired,
+			range: PropTypes.object.isRequired,
+			selection: PropTypes.object.isRequired
+		})
 	}
 
 
@@ -23,8 +30,10 @@ class ContentViewerContextMenu extends React.Component {
 	}
 
 
-	renderSelection ({range}) {
-		console.log('Selection Change: ', range.toString());//eslint-disable-line
+	renderSelection (selection) {
+		return isTouch ?
+			null :
+			(<MouseContext userSelection={selection} />);
 	}
 }
 

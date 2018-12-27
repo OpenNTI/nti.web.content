@@ -58,19 +58,37 @@ class ContentViewer extends React.Component {
 
 
 	detectSelection = (e) => {
+		const {onUserSelectionChanged, setUserSelection} = this.props;
+		const unsetSelection = () => {
+			if (onUserSelectionChanged) {
+				onUserSelectionChanged(null);
+			}
+
+			if (setUserSelection) {
+				setUserSelection(null);
+			}
+		};
+
 		//don't show the selection for inputs or contenteditbles
 		if (getEventTarget(e, 'input') || getEventTarget(e, '[contenteditable]')) {
+			unsetSelection();
 			return;
 		}
 
-		const {onUserSelectionChanged, setUserSelection} = this.props;
-		const capture = { srcElement: e.srcElement, target: e.target};
+		const capture = {
+			srcElement: e.srcElement,
+			target: e.target,
+			clientX: e.clientX,
+			clientY: e.clientY
+		};
 
 		const selection = global.getSelection();
 		const originalRange = selection && selection.rangeCount ? selection.getRangeAt(0) : null;
 
-		if (!originalRange || originalRange.collapsed) { return; }
-
+		if (!originalRange || originalRange.collapsed) {
+			unsetSelection();
+			return;
+		}
 
 		const expandedSelection = snapSelectionToWord(selection);
 		const expandedRange = expandedSelection && expandedSelection.rangeCount ? expandedSelection.getRangeAt(0) : null;
