@@ -1,15 +1,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import isTouch from '@nti/util-detection-touch';
-import {Connectors} from '@nti/lib-store';
 
+import Store from '../Store';
+
+import {hasContextToShow} from './utils';
 import MouseContext from './mouse';
+import TouchContext from './touch';
 
-@Connectors.Any.connect(['userSelection'])
+@Store.monitor(['userSelection', 'pageDescriptor'])
 class ContentViewerContextMenu extends React.Component {
 	static propTypes = {
 		children: PropTypes.node,
+		annotations: PropTypes.bool,
 
+		pageDescriptor: PropTypes.object,
 		userSelection: PropTypes.shape({
 			event: PropTypes.object.isRequired,
 			range: PropTypes.object.isRequired,
@@ -19,21 +24,26 @@ class ContentViewerContextMenu extends React.Component {
 
 
 	render () {
-		const {children, userSelection} = this.props;
+		const {children, pageDescriptor, userSelection, annotations} = this.props;
+		const shouldShow = userSelection && pageDescriptor && hasContextToShow(userSelection, pageDescriptor, annotations);
 
 		return (
 			<>
 				{children}
-				{userSelection && this.renderSelection(userSelection)}
+				{shouldShow && this.renderSelection(userSelection)}
 			</>
 		);
 	}
 
 
 	renderSelection (selection) {
+		const otherProps = {...this.props};
+
+		delete otherProps.children;
+
 		return isTouch ?
-			null :
-			(<MouseContext userSelection={selection} />);
+			(<TouchContext userSelection={selection} {...otherProps} />) :
+			(<MouseContext userSelection={selection} {...otherProps} />);
 	}
 }
 

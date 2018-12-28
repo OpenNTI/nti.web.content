@@ -1,0 +1,15 @@
+.context-menu-highlights {
+	.options {
+		list-style: none;
+		padding: 0;
+		margin: 0;
+		display: flex;
+
+		li {
+			flex: 0 0 auto;
+			width: 40px;
+			height: 40px;
+			border-radius: 50%;
+		}
+	}
+}

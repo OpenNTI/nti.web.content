@@ -5,14 +5,14 @@ import {getEventTarget} from '@nti/lib-dom';
 import {rawContent} from '@nti/lib-commons';
 import {NTIContent, Loading} from '@nti/web-commons';
 import isTouch from '@nti/util-detection-touch';
-import {Connectors} from '@nti/lib-store';
 
 import {snapSelectionToWord} from '../utils';
+import Store from '../Store';
 
 import Widget from './widget';
 
 export default
-@Connectors.Any.connect(['loading', 'error', 'pageDescriptor', 'setContentBody', 'setUserSelection'])
+@Store.monitor(['loading', 'error', 'pageDescriptor', 'setContentBody', 'setUserSelection'])
 class ContentViewer extends React.Component {
 	static deriveBindingFromProps ({bundle, pageId}) {
 		return {

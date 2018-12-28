@@ -1,8 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Logger from '@nti/util-logger';
-import {Connectors} from '@nti/lib-store';
 import {preresolveLocatorInfo} from '@nti/lib-anchors';
+
+import Store from '../Store';
 
 import {getType} from './types';
 import Gutter from './Gutter';
@@ -40,7 +41,7 @@ function getStoreFrom ({pageDescriptor}) {
 }
 
 export default
-@Connectors.Any.connect(['pageDescriptor', 'contentBody', 'prestineContentBody'])
+@Store.monitor(['pageDescriptor', 'contentBody', 'prestineContentBody'])
 class NTIContentViewerAnnotations extends React.Component {
 	static propTypes = {
 		pageId: PropTypes.string,

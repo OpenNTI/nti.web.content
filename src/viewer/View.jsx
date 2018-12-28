@@ -39,7 +39,7 @@ class NTIContentViewer extends React.Component {
 
 		if (contextMenu) {
 			content = (
-				<ContextMenu {...otherProps}>
+				<ContextMenu {...otherProps} annotations={annotations}>
 					{content}
 				</ContextMenu>
 			);
