@@ -33,9 +33,10 @@ export default class ContextMenuHighlights extends React.Component {
 							<li
 								key={key}
 								data-option-name={name}
-								style={{backgroundColor: `#${color}`}}
 								onClick={this.selectOption}
-							/>
+							>
+								<div className="color" style={{backgroundColor: `#${color}`}} />
+							</li>
 						);
 					})}
 				</ul>

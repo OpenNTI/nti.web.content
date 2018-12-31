@@ -1,0 +1,22 @@
+@import '~@nti/style-common';
+
+.context-menu-definition {
+	cursor: pointer;
+
+
+	.definition-button.narrow {
+		padding: 1px 5px 0;
+		font-size: 1.25rem;
+		line-height: rem-calc(35px);//perfectly centered looks not centered so offset it a bit
+		color: white;
+		cursor: pointer;
+
+		.no-touch & {
+			color: rgba(255, 255, 255, 0.75);
+
+			&:hover {
+				color: rgba(255, 255, 255, 1);
+			}
+		}
+	}
+}

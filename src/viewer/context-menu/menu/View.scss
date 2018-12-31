@@ -1,0 +1,39 @@
+%trailing-seperator {
+	content: '';
+	position: absolute;
+	top: 5px;
+	bottom: 5px;
+	left: auto;
+	right: 0;
+	width: 2px;
+	background: rgba(128, 128, 128, 0.2);
+}
+
+.nti-content-context-menu {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+
+	&.mouse {
+		.context-menu-highlights {
+			flex: 1 1 auto;
+			position: relative;
+
+			&::after {
+				@extend %trailing-seperator;
+			}
+		}
+
+		.context-menu-definition {
+			flex: 0 0 auto;
+			position: relative;
+		}
+	}
+
+
+	&.touch {
+		.context-menu-definition {
+			width: 100px;
+		}
+	}
+}

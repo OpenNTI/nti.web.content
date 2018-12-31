@@ -1,4 +1,9 @@
 .nti-content-mouse-context-menu {
+
+	.flyout-inner {
+		border-radius: 4px;
+	}
+
 	&.left {
 		margin-left: -20px;
 	}

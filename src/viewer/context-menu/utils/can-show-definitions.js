@@ -1,3 +1,3 @@
 export default function canShowDefinitions (pageDescriptor) {
-	return pageDescriptor.hasLink('Glossary');
+	return pageDescriptor && pageDescriptor.pageInfo && pageDescriptor.pageInfo.hasLink('Glossary');
 }
