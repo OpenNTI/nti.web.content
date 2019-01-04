@@ -1,0 +1,106 @@
+@import '~@nti/style-common';
+
+.content-navigation-content-switcher-active-item {
+	.item {
+		display: flex;
+		flex-direction: row;
+		align-items: flex-start;
+		padding: 1.25rem 1rem;
+		background-color: #f2faff;
+		box-shadow: inset 0 -1px 0 0 $border-grey-light;
+
+		.icon {
+			display: inline-block;
+			flex: 0 0 auto;
+			width: 80px;
+			height: 80px;
+			border-radius: 10px;
+			box-shadow: inset 0 0 2px 0 rgba(0, 0, 0, 0.2);
+		}
+
+		.info {
+			flex: 1 1 auto;
+			margin-left: 15px;
+
+			.header {
+				display: flex;
+				flex-direction: row;
+				align-items: center;
+
+				.title {
+					margin-right: 10px;
+					max-width: 240px;
+					font: normal 400 1rem/1.3 $body-font-family;
+					color: $primary-grey;
+					text-overflow: ellipsis;
+					overflow: hidden;
+					word-wrap: nowrap;
+					white-space: nowrap;
+				}
+
+				.delete {
+					.icon-delete {
+						display: block;
+					}
+
+					color: $primary-grey;
+					width: 1.3rem;
+					padding: 0.125rem 0;
+					text-align: center;
+					cursor: pointer;
+				}
+			}
+
+			.edit {
+				display: inline-block;
+				font: normal 300 0.875rem/1.3 $body-font-family;
+				color: $primary-blue;
+				cursor: pointer;
+				margin-bottom: 7px;
+			}
+
+			.publish .nti-button {
+				padding: 0.5rem 0.875rem;
+				min-width: 140px;
+				font-size: 0.875rem;
+				font-weight: 400;
+			}
+		}
+
+
+	}
+
+	.family {
+		padding: 1rem;
+		box-shadow: inset 0 -1px 0 0 $border-grey-light;
+
+		.heading {
+			color: $primary-grey;
+			font: normal 400 1.125rem/1.3 $body-font-family;
+			margin-bottom: 0.625rem;
+		}
+
+		ul {
+			list-style: none;
+			padding: 0;
+			margin: 0;
+
+			li {
+				padding: 0;
+				margin: 0;
+			}
+
+			.family-item-link {
+				display: inline-block;
+				color: $secondary-grey;
+				font: normal 400 0.875rem/1.35 $body-font-family;
+				padding: 0.5rem 0;
+				cursor: pointer;
+
+				&.current {
+					color: $primary-blue;
+				}
+			}
+		}
+	}
+}

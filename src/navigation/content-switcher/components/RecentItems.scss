@@ -1,0 +1,48 @@
+@import '~@nti/style-common';
+
+.content-navigation-switcher-recent-items {
+	padding: 1rem;
+
+	.group {
+		.heading {
+			color: $primary-grey;
+			font: normal 400 1.125rem/1.3 $body-font-family;
+			margin-bottom: rem-calc(11px);
+		}
+
+		ul {
+			display: flex;
+			flex-direction: row;
+			list-style: none;
+			padding: 0;
+			margin: rem-calc(0 -5px 11px);
+
+			li {
+				padding: 0;
+				margin: rem-calc(5px 5px);
+			}
+		}
+	}
+
+	.content-navigation-switcher-recent-item {
+		width: 40px;
+		height: 40px;
+		overflow: hidden;
+		border-radius: 5px;
+
+		.icon {
+			width: 100%;
+		}
+	}
+}
+
+.content-navigation-switcher-recent-item-flyout {
+	color: white;
+	font: normal 300 0.75rem/1.6 $body-font-family;
+
+	.flyout-inner {
+		font-size: 12px;
+		padding: 0.25rem 0.5rem;
+		border-radius: 3px;
+	}
+}
