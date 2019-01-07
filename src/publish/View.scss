@@ -1,0 +1,58 @@
+@import '~@nti/style-common';
+
+.nti-content-publishing {
+	width: 90vw;
+	max-width: 768px;
+	background: white;
+
+	.heading {
+		background: linear-gradient(270deg, #3fb3f6 0%, #157aff 100%);
+		color: white;
+		padding: 2rem 1.25rem 3rem;
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+
+		.text {
+			display: inline-block;
+			flex: 1 1 auto;
+			font: normal 300 1.75rem/1.3 $body-font-family;
+		}
+
+		.icon-light-x {
+			font-size: 2rem;
+			cursor: pointer;
+		}
+	}
+
+
+	.content {
+		min-height: 200px;
+		position: relative;
+		padding: 1.25rem;
+	}
+
+
+	.loading-error {
+		display: block;
+		color: $primary-red;
+		text-align: center;
+		padding: 3rem 0;
+	}
+
+	.saving-error {
+		display: block;
+		position: absolute;
+		top: 0;
+		left: 0;
+		color: $primary-red;
+		padding: 0.5rem 1.25rem;
+	}
+
+}
+
+.content-publish-window {
+	& > .icon-close {
+		display: none;
+	}
+}
