@@ -59,11 +59,16 @@
 				margin-bottom: 7px;
 			}
 
-			.publish .nti-button {
+			.publish {
+				font: normal 400 0.875rem/1rem "Open Sans", "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
+				color: white;
+			    text-decoration: none;
+			    display: inline-block;
+			    cursor: pointer;
+			    border-radius: 4px;
+			    background-color: $primary-blue;
 				padding: 0.5rem 0.875rem;
 				min-width: 140px;
-				font-size: 0.875rem;
-				font-weight: 400;
 			}
 		}
 

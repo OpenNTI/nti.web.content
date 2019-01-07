@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
-import {Presentation, Button} from '@nti/web-commons';
+import {Presentation} from '@nti/web-commons';
 import {LinkTo} from '@nti/web-routing';
 import {scoped} from '@nti/lib-locale';
 
@@ -17,17 +17,6 @@ const t = scoped('content.navigation.content-switcher.ActiveItem', {
 	section: 'Sections'
 });
 
-function getItemToLinkTo (item) {
-	if (!item.family) { return item; }
-
-	for (let fam of item.family) {
-		if (fam.current) {
-			return fam;
-		}
-	}
-
-	return item;
-}
 
 export default class ContentNavigationSwitcherActiveItem extends React.Component {
 	static propTypes = {
@@ -55,7 +44,6 @@ export default class ContentNavigationSwitcherActiveItem extends React.Component
 
 
 	renderActive (item) {
-		const link = getItemToLinkTo(item);
 		const getString = (key) => t(`${item.type || 'course'}.${key}`);
 
 		return (
@@ -67,21 +55,19 @@ export default class ContentNavigationSwitcherActiveItem extends React.Component
 					<div className="header">
 						<div className="title">{item.title}</div>
 						{item.canDelete &&  (
-							<LinkTo.Object className="delete" object={link} context="delete">
+							<LinkTo.Object className="delete" object={item} context="delete">
 								<i className="icon-delete" />
 							</LinkTo.Object>
 						)}
 					</div>
 					{item.canEdit && (
-						<LinkTo.Object className="edit" object={link} context="edit">
+						<LinkTo.Object className="edit" object={item} context="edit">
 							<span>{getString('edit')}</span>
 						</LinkTo.Object>
 					)}
 					{item.canPublish && (
-						<LinkTo.Object className="publish" object={link} context="publish">
-							<Button rounded>
-								<span>{getString('publish')}</span>
-							</Button>
+						<LinkTo.Object className="publish" object={item} context="publish">
+							<span>{getString('publish')}</span>
 						</LinkTo.Object>
 					)}
 				</div>

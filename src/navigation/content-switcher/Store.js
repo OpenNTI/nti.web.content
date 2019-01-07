@@ -46,6 +46,7 @@ class ContentSwitcherStore extends Stores.SimpleStore {
 
 	async setActiveContent (content, route) {
 		try {
+			await this.stateInitialized;
 			const items = await insertInto(this.get('items'), content, route);
 
 			this.set({
@@ -59,6 +60,7 @@ class ContentSwitcherStore extends Stores.SimpleStore {
 
 	async updateContent (content, route) {
 		try {
+			await this.stateInitialized;
 			const items = await updateData(this.get('items'), content, route);
 
 			this.set({

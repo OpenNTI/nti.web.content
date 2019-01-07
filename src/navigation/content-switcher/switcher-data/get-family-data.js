@@ -13,7 +13,7 @@ async function getFamilyMembers (family, content, route) {
 			const current = currentEntry.getID() === entry.getID();
 
 			acc.push({
-				id: entry.getID(),
+				id: current ? content.getID() : entry.getID(),
 				title: entry.ProviderUniqueID,
 				current,
 				MimeType: entry.MimeType,
