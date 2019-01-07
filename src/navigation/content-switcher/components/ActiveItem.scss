@@ -59,9 +59,16 @@
 				margin-bottom: 7px;
 			}
 
+			.edit-placeholder {
+				display: block;
+				margin-bottom: 7px;
+				height: 1rem;
+			}
+
 			.publish {
 				font: normal 400 0.875rem/1rem "Open Sans", "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
 				color: white;
+				text-align: center;
 			    text-decoration: none;
 			    display: inline-block;
 			    cursor: pointer;

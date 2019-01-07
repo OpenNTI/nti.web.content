@@ -65,6 +65,9 @@ export default class ContentNavigationSwitcherActiveItem extends React.Component
 							<span>{getString('edit')}</span>
 						</LinkTo.Object>
 					)}
+					{!item.canEdit && (
+						<span className="edit-placeholder" />
+					)}
 					{item.canPublish && (
 						<LinkTo.Object className="publish" object={item} context="publish">
 							<span>{getString('publish')}</span>
