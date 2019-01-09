@@ -1,5 +1,5 @@
-import {Stores, Mixins} from '@nti/lib-store';
-import {mixin} from '@nti/lib-decorators';
+import {Stores, Interfaces} from '@nti/lib-store';
+import {getAppUserScopedStorage} from '@nti/web-client';
 
 import {insertInto, updateData} from './switcher-data';
 
@@ -23,7 +23,32 @@ function trimItems (items) {
 	return trimmed;
 }
 
-@mixin(Mixins.Stateful)
+function Storage () {
+	let storage;
+
+	return {
+		read: (key) => {
+			storage = storage || getAppUserScopedStorage();
+
+			const value = storage.getItem(key);
+
+			try {
+				const json = JSON.parse(value);
+
+				return json;
+			} catch (e) {
+				return {};
+			}
+		},
+		write: (key, value) => {
+			storage = storage || getAppUserScopedStorage();
+
+			return storage.setItem(key, JSON.stringify(value));
+		}
+	};
+}
+
+@Interfaces.Stateful('content-switcher', ['items'], Storage())
 class ContentSwitcherStore extends Stores.SimpleStore {
 	static Singleton = true
 
@@ -46,7 +71,6 @@ class ContentSwitcherStore extends Stores.SimpleStore {
 
 	async setActiveContent (content, route) {
 		try {
-			await this.stateInitialized;
 			const items = await insertInto(this.get('items'), content, route);
 
 			this.set({
@@ -60,7 +84,6 @@ class ContentSwitcherStore extends Stores.SimpleStore {
 
 	async updateContent (content, route) {
 		try {
-			await this.stateInitialized;
 			const items = await updateData(this.get('items'), content, route);
 
 			this.set({
