@@ -210,6 +210,18 @@ export default class EmbeddedWidget extends React.Component {
 	}
 
 
+	getStyleObject (styleString) {
+		let style = {};
+		let attributes = styleString.split(';');
+
+		for (let i = 0; i < attributes.length; i++) {
+			let entry = attributes[i].split(/:(.+)/);
+			style[entry.splice(0,1)[0]] = entry.join('');
+		}
+
+		return style;
+	}
+
 	render () {
 		const {source, size} = this.state;
 
@@ -260,13 +272,7 @@ export default class EmbeddedWidget extends React.Component {
 		const allowfullscreenProps = allowfullscreen ? ALLOW_FULLSCREEN : {};
 
 		if(otherAttrs['style'] && typeof otherAttrs['style'] === 'string') {
-			let attributes = otherAttrs['style'].split(';');
-
-			for (let i = 0; i < attributes.length; i++) {
-				let entry = attributes[i].split(/:(.+)/);
-				style[entry.splice(0,1)[0]] = entry.join('');
-			}
-
+			style = this.getStyleObject(otherAttrs['style']);
 			delete otherAttrs['style'];
 		}
 
