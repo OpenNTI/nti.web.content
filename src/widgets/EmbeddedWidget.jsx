@@ -251,15 +251,35 @@ export default class EmbeddedWidget extends React.Component {
 			otherAttrs
 		} = this.state;
 
+		let frameBorder = 0;
+		let style = {};
+
 		if (splash && defer !== false) { return null; }
 
 		const sandboxProps = sameOrigin && !nosandbox ? SANDBOX : {};
 		const allowfullscreenProps = allowfullscreen ? ALLOW_FULLSCREEN : {};
 
+		if(otherAttrs['style'] && typeof otherAttrs['style'] === 'string') {
+			let attributes = otherAttrs['style'].split(';');
+
+			for (let i = 0; i < attributes.length; i++) {
+				let entry = attributes[i].split(/:(.+)/);
+				style[entry.splice(0,1)[0]] = entry.join('');
+			}
+
+			delete otherAttrs['style'];
+		}
+
+		if(otherAttrs['frameborder']) {
+			frameBorder = otherAttrs['frameborder'];
+			delete otherAttrs['frameborder'];
+		}
+
 		return (
 			<iframe
 				src={source}
-				frameBorder="no"
+				frameBorder={frameBorder}
+				style={style}
 				scrolling="no"
 				seamless
 				{...size}
