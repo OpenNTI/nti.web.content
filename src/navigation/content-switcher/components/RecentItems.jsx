@@ -13,6 +13,21 @@ const t = scoped('content.navigation.content-switcher.RecentItems', {
 	}
 });
 
+function getTitle (item) {
+	const {family} = item;
+	let title = item.title;
+
+	if (family && family.length) {
+		family.map((fam, index) => {
+			if(fam.current) {
+				title = fam.title;
+			}
+		});
+	}
+
+	return title;
+}
+
 export default class ContentNavigationSwitcherRecentItems extends React.Component {
 	static propTypes = {
 		items: PropTypes.arrayOf(
@@ -89,7 +104,7 @@ export default class ContentNavigationSwitcherRecentItems extends React.Componen
 			>
 				<div>
 					<div className="content-navigation-switcher-recent-item-info">
-						{item.title}
+						{getTitle(item)}
 					</div>
 				</div>
 			</Flyout.Triggered>
