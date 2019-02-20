@@ -21,11 +21,33 @@ function isSameOrigin (uri, as) {
 }
 
 
-async function resolveSplash (splash, contentPackage) {
-	if (!splash || !contentPackage || Path.isAbsolute(splash)) { return splash; }
+async function resolveForRoots (path, roots) {
+	for (let root of roots) {
+		if (!root.resolveContentURL) { continue; }
+
+		try {
+			const resolved = await root.resolveContentURL(path);
+
+			return resolved;
+		} catch (e) {
+			continue;
+		}
+	}
+
+	throw new Error('Unable to resolve path for root');
+}
+
+
+async function resolveSplash (splash, contentPackage, page) {
+	const roots = [];
+
+	if (page) { roots.push(page); }
+	if (contentPackage) { roots.push(contentPackage); }
+
+	if (!splash || !roots.length || Path.isAbsolute(splash)) { return splash; }
 
 	try {
-		const resolved = await contentPackage.resolveContentURL(splash);
+		const resolved = await resolveForRoots(splash, roots);
 
 		return resolved;
 	} catch (e) {
@@ -34,11 +56,16 @@ async function resolveSplash (splash, contentPackage) {
 }
 
 
-async function resolvePath (parts, contentPackage) {
+async function resolvePath (parts, contentPackage, page) {
 	if (Path.isAbsolute(parts.pathname)) { return parts.format(); }
 
+	const roots = [];
+
+	if (page) { roots.push(page); }
+	if (contentPackage) { roots.push(contentPackage); }
+
 	try {
-		const resolved = await contentPackage.resolveContentURL(parts.pathname);
+		const resolved = await resolveForRoots(parts.pathname, roots);
 
 		parts.pathname = resolved;
 
@@ -92,6 +119,7 @@ export default class EmbeddedWidget extends React.Component {
 	static propTypes = {
 		item: PropTypes.object,
 		contentPackage: PropTypes.object,
+		page: PropTypes.object,
 		maxWidth: PropTypes.number,
 		onHeightChange: PropTypes.func
 	}
@@ -125,7 +153,7 @@ export default class EmbeddedWidget extends React.Component {
 
 
 	async setup (props = this.props) {
-		const {contentPackage, item = {}, maxWidth} = this.props;
+		const {contentPackage, page, item = {}, maxWidth} = this.props;
 		const idKey = this.getIdKey();
 		const {
 			defer,
@@ -149,8 +177,8 @@ export default class EmbeddedWidget extends React.Component {
 			parts.search = QueryString.stringify(q);
 		}
 
-		const splashURL = await resolveSplash(splash, contentPackage);
-		const path = await resolvePath(parts, contentPackage);
+		const splashURL = await resolveSplash(splash, contentPackage, page);
+		const path = await resolvePath(parts, contentPackage, page);
 		const size = getSize(width, height, maxWidth);
 		const sameOrigin = isSameOrigin(path, (global.location || {}).origin);
 
