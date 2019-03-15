@@ -16,6 +16,10 @@ export default class CourseChooser extends React.Component {
 		this.setCourse(courseId);
 	}
 
+	componentWillUnmount () {
+		this.unmounted = true;
+	}
+
 	onClick = () => this.setCourse()
 
 	setCourse = async (id) => {
@@ -27,10 +31,12 @@ export default class CourseChooser extends React.Component {
 			const service = await getService();
 			const course = await service.getObject(courseId);
 
-			this.setState({course});
-
-			if (onChange) {
-				onChange(course);
+			if (!this.unmounted) {
+				this.setState({course});
+	
+				if (onChange) {
+					onChange(course);
+				}
 			}
 		}
 		catch (e) {
