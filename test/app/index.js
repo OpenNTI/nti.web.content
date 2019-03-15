@@ -2,8 +2,9 @@
 // import 'babel-polyfill';
 import React from 'react';
 import ReactDOM from 'react-dom';
+import './index.css';
 
-import Test from './stream';
+import Test from './transcripted-video-test';
 
 window.$AppConfig = window.$AppConfig || {server: '/dataserver2/'};
 
