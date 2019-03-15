@@ -1,0 +1,48 @@
+.transcript {
+	margin: 0.625rem 1rem 0 0.625rem;
+
+	color: #b8b8b8;
+	// position: relative;
+
+	hr.break {
+		border: 0;
+	}
+
+	.cues {
+		position: relative;
+		overflow: hidden;
+
+		a {
+			& + a::before { content: ' '; }
+
+			color: inherit;
+			// display: block;
+			font-size: 0.9em;
+			margin-bottom: 0.5rem;
+
+			&.active {color: #fff;}
+		}
+	}
+
+	a.slide {
+		&, & > img {
+			display: block;
+			margin: 1.5em auto;
+		}
+
+		img {
+			height: auto;
+			width: 700px;
+			max-width: 100vw;
+		}
+	}
+
+	.gutter {
+		right: 0.5rem;
+
+		.bin {
+			background: rgba(51,51,51,0.95);
+			transform: translate3d(0, -0.35rem, 0);
+		}
+	}
+}

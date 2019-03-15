@@ -1,0 +1,39 @@
+.cue {
+	color: var(--secondary-grey, #757474);
+	display: inline;
+	margin-right: 0.25em;
+	text-decoration: none;
+	border-radius: 1px;
+	transition: background-color 1s, box-shadow 1s;
+}
+
+.cue:hover {
+	--color: rgba(73, 73, 73, 0.1); /* 10% primary grey */
+
+	background-color: var(--color);
+	box-shadow: 0 0 0 4px var(--color);
+	transition: background-color 0.5s, box-shadow 0.5s;
+}
+
+.active.cue {
+	--color: rgba(63, 179, 246, 0.25); /* 25% primary blue */
+
+	background-color: var(--color);
+	box-shadow: 0 0 0 4px var(--color);
+	transition: background-color 0.5s, box-shadow 0.5s;
+}
+
+.cue.slide {
+	display: block;
+	margin: 1rem 0;
+}
+
+.cue.slide:first-child {
+	margin-top: 0;
+}
+
+.cue.slide img {
+	display: block;
+	max-width: 100%;
+	box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.15);
+}

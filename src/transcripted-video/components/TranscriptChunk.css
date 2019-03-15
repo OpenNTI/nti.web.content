@@ -1,0 +1,19 @@
+.chunk {
+	display: grid;
+	grid-template-columns: 80px 1fr 40px; /* time, text, notes */
+	gap: 1rem;
+	margin-bottom: 1rem;
+	position: relative;
+}
+
+.chunk-start-time span {
+	background: #f5f5f5;
+	border-radius: 2px;
+	padding: 0.5em 1em;
+	display: inline-block;
+	line-height: 1;
+}
+
+.cues {
+	margin: 0;
+}

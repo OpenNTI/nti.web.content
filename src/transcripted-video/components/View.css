@@ -1,0 +1,12 @@
+.transcripted-video-container {
+	max-width: 1024px;
+	margin: 0 auto;
+}
+
+.transcripted-video > .content {
+	position: relative;
+	max-width: 800px;
+	margin: 0 auto;
+	background: white;
+	color: var(--primary-grey, #757474);
+}

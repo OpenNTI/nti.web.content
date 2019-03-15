@@ -1,0 +1,19 @@
+.transcript {
+	color: var(--secondary-grey, #757474);
+	font-size: 0.875rem;
+	line-height: 2;
+	padding: 2.25rem;
+	padding-right: 1rem;
+}
+
+.title {
+	font-size: 1rem;
+	font-weight: normal;
+	margin: 0 0 1rem;
+}
+
+.chunks, .cues {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}

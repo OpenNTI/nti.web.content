@@ -1,0 +1,13 @@
+.container {
+	background: #333;
+	color: white;
+}
+
+.controls {
+	max-height: 0;
+	overflow: hidden;
+}
+
+.controls.visible {
+	max-height: none;
+}
