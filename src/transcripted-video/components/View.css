@@ -9,4 +9,26 @@
 	margin: 0 auto;
 	background: white;
 	color: var(--primary-grey, #757474);
+	display: flex;
+	flex-direction: column-reverse;
+}
+
+.popout {
+	position: sticky;
+	top: 0;
+	animation: transcripted-video-popout 1s forwards paused;
+	border: 4px solid;
+	overflow: hidden;
+}
+
+@keyframes transcripted-video-popout {
+	0% {
+		border-color: red;
+		max-height: 1000px;
+	}
+
+	100% {
+		border-color: blue;
+		max-height: 200px;
+	}
 }

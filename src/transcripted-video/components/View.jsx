@@ -2,13 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {Layouts, Error, Loading} from '@nti/web-commons';
 import {decodeFromURI} from '@nti/lib-ntiids';
-import {Component as Video} from '@nti/web-video';
 import classnames from 'classnames/bind';
 
 import Store from '../Store';
 
-import styles from './View.css';
 import Transcript from './Transcript';
+import Video from './Video';
+import styles from './View.css';
 
 const cx = classnames.bind(styles);
 
@@ -125,7 +125,6 @@ class View extends React.Component {
 									? <Loading.Spinner />
 									: (
 										<>
-											<Video src={video} onTimeUpdate={this.onTimeUpdate} ref={this.videoRef} analyticsData={analyticsData} />
 											<Transcript
 												transcript={transcript}
 												currentTime={currentTime}
@@ -134,6 +133,7 @@ class View extends React.Component {
 												notesFilter={notesFilter}
 												setNotesFilter={setNotesFilter}
 											/>
+											<Video src={video} onTimeUpdate={this.onTimeUpdate} ref={this.videoRef} analyticsData={analyticsData} />
 										</>
 									)
 						}
