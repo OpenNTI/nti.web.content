@@ -2,9 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {Layouts, Error, Loading} from '@nti/web-commons';
 import {decodeFromURI} from '@nti/lib-ntiids';
+import {Component as Video} from '@nti/web-video';
 import classnames from 'classnames/bind';
 
-import Video from '../../VideoWithAnalytics';
 import Store from '../Store';
 
 import styles from './View.css';
