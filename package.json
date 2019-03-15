@@ -69,7 +69,8 @@
     "punycode": "^1.4.1",
     "query-string": "^6.2.0",
     "react-transition-group": "^2.2.1",
-    "uuid": "^3.0.0"
+    "uuid": "^3.0.0",
+    "vtt.js": "^0.13.0"
   },
   "devDependencies": {
     "@nti/cmp-scripts": "^2.0.6",
