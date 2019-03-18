@@ -66,7 +66,7 @@ export default function stickyOffsetMonitor (Cmp) {
 
 			if (previousPct == null || p !== previousPct) {
 				this.previousPct = p;
-				this.timeout = this.setTimeout(() => onOffsetChange(p, e), 200);
+				onOffsetChange(p, e);
 			}
 		}
 
@@ -90,5 +90,5 @@ export default function stickyOffsetMonitor (Cmp) {
 		}
 	}
 
-	return React.forwardRef((props, ref) => <StickyOffsetMonitor {...props} fwdRef={ref} />);
+	return React.forwardRef((props, ref) => <StickyOffsetMonitor {...props} fwdRef={ref} />); //eslint-disable-line react/display-name
 }
