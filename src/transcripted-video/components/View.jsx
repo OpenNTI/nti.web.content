@@ -115,32 +115,30 @@ class View extends React.Component {
 		const analyticsData = this.getAnalyticsData();
 
 		return (
-			<Layouts.Aside.Container className={cx('transcripted-video-container')}>
-				<div className={cx('transcripted-video')}>
-					<div className={cx('content')}>
-						{
-							showError
-								? <Error error={error} />
-								: showLoading
-									? <Loading.Spinner />
-									: (
-										<>
-											<Transcript
-												transcript={transcript}
-												currentTime={currentTime}
-												onCueClick={this.onCueClick}
-												notes={notes}
-												notesFilter={notesFilter}
-												setNotesFilter={setNotesFilter}
-											/>
-											<Video src={video} onTimeUpdate={this.onTimeUpdate} ref={this.videoRef} analyticsData={analyticsData} />
-										</>
-									)
-						}
-					</div>
-					<Layouts.Aside component={Sidebar} notes={filteredNotes} />
+			<div className={cx('transcripted-video')}>
+				<div className={cx('content')}>
+					{
+						showError
+							? <Error error={error} />
+							: showLoading
+								? <Loading.Spinner />
+								: (
+									<>
+										<Transcript
+											transcript={transcript}
+											currentTime={currentTime}
+											onCueClick={this.onCueClick}
+											notes={notes}
+											notesFilter={notesFilter}
+											setNotesFilter={setNotesFilter}
+										/>
+										<Video src={video} onTimeUpdate={this.onTimeUpdate} ref={this.videoRef} analyticsData={analyticsData} />
+									</>
+								)
+					}
 				</div>
-			</Layouts.Aside.Container>
+				<Layouts.Aside component={Sidebar} notes={filteredNotes} />
+			</div>
 		);
 	}
 }

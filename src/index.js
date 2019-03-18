@@ -8,5 +8,6 @@ export * as Navigation from './navigation';
 export Publish from './publish';
 export * from './components/toolbar';
 export * from './toolbar';
+export TranscriptedVideo from './transcripted-video';
 export Stream from './stream';
 export * as Widgets from './widgets';
