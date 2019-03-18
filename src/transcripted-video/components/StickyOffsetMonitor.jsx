@@ -4,9 +4,9 @@ import {getScrollParent} from '@nti/lib-dom';
 import Logger from '@nti/util-logger';
 import classnames from 'classnames/bind';
 
-import style from './StickyOffsetMonitor.css';
+import styles from './StickyOffsetMonitor.css';
 
-const cx = classnames.bind(style);
+const cx = classnames.bind(styles);
 const logger = Logger.get('transcripted-video:sticky-offset-monitor');
 
 const clamp = (v, min = 0, max = 1) => Math.min(max, Math.max(v, min));
@@ -21,9 +21,10 @@ export default function stickyOffsetMonitor (Cmp) {
 
 		static propTypes = {
 			containerProps: PropTypes.object,
-			fwdRef: PropTypes.any,
-			onOffsetChange: PropTypes.func
+			fwdRef: PropTypes.any
 		}
+
+		state = {}
 
 		componentDidMount () {
 			const {domNode: {current: domNode}} = this;
@@ -39,9 +40,11 @@ export default function stickyOffsetMonitor (Cmp) {
 				logger.warn('Unable to identify scrollParent to listen to. scrollParent: %o', scrollParent);
 			}
 			
-			this.initialHeight = domNode.offsetHeight;
 			scrollParent.addEventListener('scroll', this.onScroll);
 			this.unsubscribe = [...(this.unsubscribe || []), () => scrollParent.removeEventListener(this.onScroll)];
+
+			const initialHeight = domNode.offsetHeight;
+			this.setState({initialHeight});
 		}
 
 		componentWillUnmount () {
@@ -51,40 +54,54 @@ export default function stickyOffsetMonitor (Cmp) {
 
 		onScroll = e => {
 			const {
-				props: {onOffsetChange},
+				state: {initialHeight, pct},
 				domNode: {
 					current: domNode
 				},
-				previousPct,
 			} = this;
 
-			if (!domNode || !onOffsetChange) {
+			if (!domNode) {
 				return;
 			}
 
-			const p = clamp((this.initialHeight - domNode.offsetTop) / this.initialHeight);
+			const p = clamp((initialHeight - domNode.offsetTop) / initialHeight);
 
-			if (previousPct == null || p !== previousPct) {
-				this.previousPct = p;
-				onOffsetChange(p, e);
+			if (pct == null || p !== pct) {
+				this.setState({pct: p});
+				// onOffsetChange(p, e);
 			}
 		}
 
 		render () {
 			const {
-				fwdRef,
-				containerProps: {
-					className,
-					...containerProps
+				props: {
+					fwdRef,
+					containerProps: {
+						className,
+						...containerProps
+					},
+					...props
 				},
-				...props
-			} = this.props;
+				state: {
+					initialHeight,
+					pct = 1
+				}
+			} = this;
 
 			delete props.onOffsetChange;
+			
+			const cProps = {
+				...containerProps,
+				className: cx('sticky-popout', className),
+				style: {
+					minHeight: `${initialHeight}px`,
+					animationDelay: `-${1 - pct}s`
+				}
+			};
 
 			return (
-				<div className={cx('sticky-popout', className)} ref={this.domNode} {...containerProps} >
-					<Cmp {...props} ref={fwdRef} />
+				<div ref={this.domNode} {...cProps}>
+					<Cmp {...props} pct={pct} ref={fwdRef} />
 				</div>
 			);
 		}

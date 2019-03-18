@@ -10,23 +10,26 @@ const cx = classnames.bind(styles);
 
 export default class Video extends React.Component {
 
-	state = {}
+	// state = {}
 
-	onOffsetChange = (pct, e) => {
-		this.setState({pct});
+	// onOffsetChange = (pct, e) => {
+	// 	this.setState({pct});
+	// }
+
+	static propTypes = {
+		pct: PropTypes.number
 	}
 	
 	render () {
-		const {pct = 1} = this.state;
+		const {pct = 1} = this.props;
 
 		const props = {
 			...this.props,
-			onOffsetChange: this.onOffsetChange,
+			style: {
+				animationDelay: `-${1 - pct}s`
+			},
 			containerProps: {
 				className: cx('sticky-container'),
-				style: {
-					animationDelay: `-${1 - pct}s`
-				}
 			}
 		};
 

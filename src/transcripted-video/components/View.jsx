@@ -91,7 +91,7 @@ class View extends React.Component {
 	onCueClick = ({startTime} = {}) => {
 		const {videoRef: {current: video}} = this;
 
-		if (video) {
+		if (video && video.setCurrentTime) {
 			video.setCurrentTime(parseFloat(startTime));
 		}
 	}
