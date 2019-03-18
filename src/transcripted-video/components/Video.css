@@ -1,5 +1,5 @@
 .sticky-container {
-	animation: sticky-video 1s forwards paused;
+	animation: sticky-video 1s ease-out forwards paused;
 }
 
 @keyframes sticky-video {
