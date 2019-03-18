@@ -35,13 +35,13 @@ export default function stickyOffsetMonitor (Cmp) {
 			}
 
 			const scrollParent = getScrollParent(domNode);
-			
+
 			if (!scrollParent || !scrollParent.addEventListener) {
 				logger.warn('Unable to identify scrollParent to listen to. scrollParent: %o', scrollParent);
 			}
-			
+
 			scrollParent.addEventListener('scroll', this.onScroll);
-			this.unsubscribe = [...(this.unsubscribe || []), () => scrollParent.removeEventListener(this.onScroll)];
+			this.unsubscribe = [...(this.unsubscribe || []), () => scrollParent.removeEventListener('scroll', this.onScroll)];
 
 			const initialHeight = domNode.offsetHeight;
 			this.setState({initialHeight});
@@ -89,7 +89,7 @@ export default function stickyOffsetMonitor (Cmp) {
 			} = this;
 
 			delete props.onOffsetChange;
-			
+
 			const cProps = {
 				...containerProps,
 				className: cx('sticky-popout', className),
