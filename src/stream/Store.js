@@ -1,4 +1,3 @@
-import Logger from '@nti/util-logger';
 import { Stream } from '@nti/web-commons';
 
 const BATCH_AFTER = {
