@@ -111,7 +111,7 @@ class View extends React.Component {
 
 		const showError = error && !video;
 		const showLoading = loading || !video;
-		const filteredNotes = notes && notesFilter && notes.filter(notesFilter);
+		const filteredNotes = notes && notesFilter ? notes.filter(notesFilter) : notes;
 		const analyticsData = this.getAnalyticsData();
 
 		return (
