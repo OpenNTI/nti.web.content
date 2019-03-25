@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames/bind';
 import {LinkTo} from '@nti/web-routing';
-import {NoteSummary} from '@nti/web-commons';
+import {NoteSummary} from '@nti/web-discussions';
 
 import styles from './Sidebar.css';
 
