@@ -51,15 +51,15 @@ export default class Gutter extends React.Component {
 		this.timeouts.resizeTimeout = setTimeout(() => this.forceUpdate(), 200);
 	}
 
-	onGroupClick = notes => {
+	onGroupClick = (notes, active) => {
 		const {onGroupClick} = this.props;
 
 		if (onGroupClick) {
-			onGroupClick(notes);
+			onGroupClick(notes, active);
 		}
 	}
 
-	getyForNote = note => {
+	getYForNote = note => {
 		const {cues, yForTime, yForCue = noop} = this.props;
 
 		try {
@@ -126,7 +126,7 @@ export default class Gutter extends React.Component {
 		// group notes according to vertical position of the corresponding cue in the transcript
 		const bins = notes.reduce((acc, note) => {
 			try {
-				const y = this.getyForNote(note);
+				const y = this.getYForNote(note);
 
 				if (y == null) {
 					return;
@@ -213,8 +213,8 @@ class NoteGroup extends React.Component {
 	}
 
 	onClick = () => {
-		const {notes, onClick} = this.props;
-		onClick(notes);
+		const {notes, onClick, active} = this.props;
+		onClick(notes, active);
 	}
 
 	render () {

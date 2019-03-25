@@ -77,10 +77,11 @@ export default class Transcript extends React.Component {
 		}
 	}
 
-	onNoteGroupClick = notes => {
+	onNoteGroupClick = (notes, isActive) => {
 		const {setNotesFilter} = this.props;
 
-		setNotesFilter(note => (notes || []).includes(note));
+		// if the clicked group is already active remove the filter.
+		setNotesFilter(isActive ? null : note => (notes || []).includes(note));
 
 		// // find the bounding time range for the given notes
 		// const {start, end} = notes.reduce((acc, {applicableRange: {start: {seconds: noteStart}, end: {seconds: noteEnd}}}) => {
