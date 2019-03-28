@@ -50,6 +50,8 @@ export default class TranscriptChunk extends React.Component {
 	componentWillUnmount () {
 		(this.unsubscribe || []).forEach(fn => fn());
 		delete this.unsubscribe;
+
+		this.clearTimeouts();
 	}
 	
 	componentDidMount () {
