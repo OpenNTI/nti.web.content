@@ -4,6 +4,8 @@ import classnames from 'classnames/bind';
 import Logger from '@nti/util-logger';
 
 import styles from './Gutter.css';
+import {ActionWidget} from './ActionWidget';
+import {NoteGroup} from './NoteGroup';
 
 const cx = classnames.bind(styles);
 const logger = Logger.get('transcripted-video.gutter');
@@ -196,32 +198,3 @@ export default class Gutter extends React.Component {
 	}
 }
 
-class ActionWidget extends React.Component {
-	render () {
-		return (
-			<div className={cx('action-widget')} {...this.props}><i className="icon-discuss" /></div>
-		);
-	}
-}
-
-class NoteGroup extends React.Component {
-	static propTypes = {
-		active: PropTypes.bool,
-		notes: PropTypes.array,
-		onClick: PropTypes.func,
-		style: PropTypes.object
-	}
-
-	onClick = () => {
-		const {notes, onClick, active} = this.props;
-		onClick(notes, active);
-	}
-
-	render () {
-		const {notes: {length} = [], style = {}, active} = this.props;
-
-		return !length ? null : (
-			<div className={cx('note-group', {active})} style={style} onClick={this.onClick}>{length}</div>
-		);
-	}
-}

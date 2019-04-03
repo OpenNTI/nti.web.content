@@ -1,0 +1,18 @@
+.note-group {
+	position: absolute;
+	font-size: 10px;
+	color: var(--primary-blue);
+	font-weight: bold;
+	line-height: 1.5;
+	padding: 0 0.5em;
+	border-radius: 3px;
+	transform: translateY(3px);
+	cursor: pointer;
+	display: block; /* cursor rule doesn't work on inline elements */
+	transition: top 0.25s ease-out;
+}
+
+.note-group.active {
+	color: white;
+	background: var(--primary-blue);
+}
