@@ -98,7 +98,9 @@ export default class VideoStore extends Stores.BoundStore {
 	}
 
 	get notes () {
-		return Object.values(this[UserDataSources] || {}).map(source => [...source]).flat();
+		return Object.values(this[UserDataSources] || {}).reduce((acc, source) => {
+			return [...acc, ...source];
+		}, []);
 	}
 
 	async load () {
