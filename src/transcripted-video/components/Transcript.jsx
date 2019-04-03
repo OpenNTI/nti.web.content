@@ -146,6 +146,10 @@ export default class Transcript extends React.Component {
 			}
 		} = this;
 
+		if (!cues.length && !slides.length) {
+			return null;
+		}
+
 		const items = [...cues, ...slides]
 			.filter(Boolean)
 			.sort((a, b) => a.startTime - b.startTime);
