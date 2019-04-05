@@ -15,6 +15,25 @@
 
 .tools {
 	font-size: 0.875rem;
-	padding: 1em 2em 0;
-	text-align: right;
+	position: absolute;
+	top: 1.25rem; /* match header padding */
+	right: 2.25rem; /* match header padding */
+}
+
+.video-header {
+	padding: 1.25rem 2.25rem;
+	font-weight: 300;
+	position: relative;
+}
+
+.video-header .video-title {
+	font-weight: inherit;
+	font-size: 2rem;
+	margin: 0 0 0.25rem;
+}
+
+.video-header .duration {
+	font-size: 0.875rem;
+	display: block;
+	color: var(--tertiary-grey);
 }

@@ -120,7 +120,7 @@ export default class VideoStore extends Stores.BoundStore {
 			return;
 		}
 
-		let loading = true, error, video, slides, transcript, videoNotes, slideNotes, notesFilter;
+		let loading = true, error, video, slides, transcript, videoNotes, slideNotes, duration, notesFilter;
 
 		this.set({
 			loading,
@@ -141,9 +141,10 @@ export default class VideoStore extends Stores.BoundStore {
 			if (video) {
 				slides = this.getSlideDeck(video, mediaIndex);
 	
-				[transcript, [videoNotes, slideNotes]] = await Promise.all([
+				[transcript, [videoNotes, slideNotes], duration] = await Promise.all([
 					this.loadTranscript(video),
-					this.loadNotes(video, slides)
+					this.loadNotes(video, slides),
+					video.getDuration()
 				]);
 			}
 			else {
@@ -162,6 +163,8 @@ export default class VideoStore extends Stores.BoundStore {
 			loading: false,
 			error,
 			video,
+			title: (video || {}).title,
+			duration,
 			transcript: {
 				...transcript,
 				slides: [...(slides || [])]

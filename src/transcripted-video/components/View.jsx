@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Layouts, Error, Loading} from '@nti/web-commons';
+import {Layouts, DateTime, Error, Loading} from '@nti/web-commons';
 import {decodeFromURI} from '@nti/lib-ntiids';
 import {Notes} from '@nti/web-discussions';
 import classnames from 'classnames/bind';
@@ -19,6 +19,8 @@ export default
 	'loading',
 	'error',
 	'video',
+	'title',
+	'duration',
 	'notes',
 	'transcript',
 	'currentTime',
@@ -42,6 +44,8 @@ class View extends React.Component {
 		loading: PropTypes.bool,
 		error: PropTypes.any,
 		video: PropTypes.object,
+		title: PropTypes.string,
+		duration: PropTypes.number,
 		currentTime: PropTypes.number,
 		onTimeUpdate: PropTypes.func,
 		notes: PropTypes.array,
@@ -102,6 +106,8 @@ class View extends React.Component {
 			loading,
 			error,
 			video,
+			title,
+			duration,
 			currentTime,
 			transcript,
 			notes,
@@ -116,7 +122,7 @@ class View extends React.Component {
 
 		return (
 			<div className={cx('transcripted-video')}>
-				<div className={cx('content')}>
+				<section className={cx('content')}>
 					{
 						showError
 							? <Error error={error} />
@@ -132,14 +138,24 @@ class View extends React.Component {
 											notesFilter={notesFilter}
 											setNotesFilter={setNotesFilter}
 										/>
-										<div className={cx('tools')}>
-											<MediaViewerLink video={video} />
-										</div>
+										<header className={cx('video-header')}>
+											<div className={cx('video-meta')}>
+												{title && (
+													<h1 className={cx('video-title')}>{title}</h1>
+												)}
+												{duration && (
+													<span className={cx('duration')}>{DateTime.getShortNaturalDuration(duration * 1000)}</span>
+												)}
+											</div>
+											<div className={cx('tools')}>
+												<MediaViewerLink video={video} />
+											</div>
+										</header>
 										<Video src={video} onTimeUpdate={this.onTimeUpdate} ref={this.videoRef} analyticsData={analyticsData} />
 									</>
 								)
 					}
-				</div>
+				</section>
 				<Layouts.Aside component={Notes.Sidebar} notes={filteredNotes} fillToBottom sticky />
 			</div>
 		);
