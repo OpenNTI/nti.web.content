@@ -65,14 +65,14 @@ export default class Gutter extends React.Component {
 		const {cues, yForTime, yForCue = noop} = this.props;
 
 		try {
-			const {start} = this.getRangeFor(note);
+			const {start, end} = this.getRangeFor(note);
 			const {ContainerId: containerId} = note;
 			const cue = containerId ? (cues || []).find(c => c.getID && c.getID() === containerId) : null;
 
 			return cue
 				? yForCue(cue) // throws if parent dom isn't available or if it can't find the position
 				: start != null
-					? yForTime(start) // throws if parent dom isn't available or if it can't find the position
+					? yForTime(start, end) // throws if parent dom isn't available or if it can't find the position
 					: null;
 		}
 		catch (e) {

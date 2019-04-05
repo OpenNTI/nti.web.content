@@ -169,14 +169,23 @@ export default class TranscriptChunk extends React.Component {
 			|| findCue(Array.from(container.querySelectorAll(ALL_CUES_QUERY))); // otherwise look for one on the same y plane
 	}
 
-	getVerticalPositionForTime = time => {
+	getVerticalPositionForTime = (start, end) => {
 		const {container: {current}} = this;
 
 		if (!current) {
 			throw new Error('DOM not ready?');
 		}
 
-		const timeIn = ({dataset: {startTime, endTime}}) => time >= parseFloat(startTime) && time <= parseFloat(endTime);
+		const timeIn = ({dataset: {startTime, endTime}}) => {
+			const cueStart = parseFloat(startTime);
+			const cueEnd = parseFloat(endTime);
+
+			if (!end) {
+				return start >= cueStart && start <= cueEnd;
+			}
+
+			return start.isFloatLessThanOrEqual(cueStart) && end.isFloatLessThanOrEqual(cueEnd);
+		};
 
 		const node = Array.from(current.querySelectorAll(VTT_CUES_QUERY))
 			.find(timeIn);
