@@ -37,7 +37,8 @@ export default class TranscriptChunk extends React.Component {
 		notes: PropTypes.array,
 		notesFilter: PropTypes.func,
 		onCueClick: PropTypes.func,
-		onNoteGroupClick: PropTypes.func
+		onNoteGroupClick: PropTypes.func,
+		video: PropTypes.object
 	}
 
 	constructor (props) {
@@ -53,10 +54,10 @@ export default class TranscriptChunk extends React.Component {
 
 		this.clearTimeouts();
 	}
-	
+
 	componentDidMount () {
 		this.addMouseListeners();
-		
+
 		// we need the cues to be mounted in the dom before we attempt to compute
 		// positions for the gutter's markers. using this to indicate we're ready
 		// for dom queries.
@@ -116,7 +117,7 @@ export default class TranscriptChunk extends React.Component {
 		const {actionTime = {}, actionTop: oldTop} = this.state;
 		const elementWithRange = e => parent(e, '[data-start-time][data-end-time]');
 		const {dataset: {startTime, endTime} = {}, offsetTop: actionTop} = elementWithRange(target) || this.findCueNodeAtY(offsetY) || {};
-		
+
 		if (startTime == null) {
 			this.clearActionInfo();
 			return;
@@ -215,7 +216,8 @@ export default class TranscriptChunk extends React.Component {
 				notes,
 				notesFilter,
 				onCueClick,
-				onNoteGroupClick
+				onNoteGroupClick,
+				video
 			},
 			state: {
 				mounted,
@@ -253,7 +255,8 @@ export default class TranscriptChunk extends React.Component {
 					yForCue={!mounted ? void 0 : this.getVerticalPositionForCue}
 					actionInfo={{
 						time: actionTime,
-						top: actionTop
+						top: actionTop,
+						videoId: video && video.getID()
 					}}
 					onGroupClick={onNoteGroupClick}
 					notesFilter={notesFilter}

@@ -131,6 +131,7 @@ class View extends React.Component {
 								: (
 									<>
 										<Transcript
+											video={video}
 											transcript={transcript}
 											currentTime={currentTime}
 											onCueClick={this.onCueClick}

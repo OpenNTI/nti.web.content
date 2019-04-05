@@ -62,7 +62,8 @@ export default class Transcript extends React.Component {
 		onCueClick: PropTypes.func,
 		notesFilter: PropTypes.func,
 		setNotesFilter: PropTypes.func,
-		notes: PropTypes.array
+		notes: PropTypes.array,
+		video: PropTypes.object,
 	}
 
 	// for tuning/testing the maximum pause allowed within a transcript "chunk"
@@ -103,7 +104,7 @@ export default class Transcript extends React.Component {
 	}
 
 	renderChunk = ({startTime, endTime, cues}) => {
-		const {notes: n, currentTime, notesFilter} = this.props;
+		const {notes: n, currentTime, notesFilter, video} = this.props;
 
 		const noteInRange = (
 			{
@@ -113,7 +114,7 @@ export default class Transcript extends React.Component {
 					end: {seconds: end} = {}
 				}
 			}) => !isEmpty && start >= startTime && end <= endTime;
-		
+
 		const forSlideInRange = ({
 			ContainerId: containerId
 		}) => containerId && (cues || []).some(cue => cue.getID && cue.getID() === containerId);
@@ -123,6 +124,7 @@ export default class Transcript extends React.Component {
 
 		return (
 			<TranscriptChunk
+				video={video}
 				key={startTime}
 				start={startTime}
 				end={endTime}

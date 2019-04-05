@@ -68,7 +68,7 @@ export default class Gutter extends React.Component {
 			const {start} = this.getRangeFor(note);
 			const {ContainerId: containerId} = note;
 			const cue = containerId ? (cues || []).find(c => c.getID && c.getID() === containerId) : null;
-	
+
 			return cue
 				? yForCue(cue) // throws if parent dom isn't available or if it can't find the position
 				: start != null
@@ -124,7 +124,7 @@ export default class Gutter extends React.Component {
 		if (!notes || (!yForCue && !yForTime)) {
 			return null;
 		}
-		
+
 		// group notes according to vertical position of the corresponding cue in the transcript
 		const bins = notes.reduce((acc, note) => {
 			try {
@@ -156,7 +156,7 @@ export default class Gutter extends React.Component {
 			}
 			return acc;
 		}, {});
-		
+
 		// this sort is not strictly necessary, but it causes the groups to be
 		// rendered into the dom in ascending y-position order, as one might expect
 		const sort = ([topA], [topB]) => parseInt(topA, 10) - parseInt(topB, 10);
@@ -173,6 +173,7 @@ export default class Gutter extends React.Component {
 	renderActionWidget () {
 		const {yForTime, actionInfo: {time: {start} = {}, top: actionTop} = {}} = this.props;
 
+
 		if (!actionTop && (start == null || !yForTime)) {
 			return null;
 		}
@@ -180,7 +181,7 @@ export default class Gutter extends React.Component {
 		try {
 			const top = (actionTop != null ? actionTop : yForTime(start)) + 'px';
 			return (
-				<ActionWidget style={{top}} />
+				<ActionWidget style={{top}} actionInfo={this.props.actionInfo} yForTime={yForTime}/>
 			);
 		}
 		catch (e) {
