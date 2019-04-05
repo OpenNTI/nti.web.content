@@ -1,0 +1,10 @@
+.media-viewer-link {
+	color: var(--tertiary-grey);
+}
+
+.media-viewer-link [class^="icon-"]::before {
+	color: inherit;
+	margin-right: 0.25em;
+	transform: translateY(1px);
+	display: inline-block;
+}

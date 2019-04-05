@@ -6,6 +6,7 @@ import classnames from 'classnames/bind';
 
 import Store from '../Store';
 
+import MediaViewerLink from './MediaViewerLink';
 import Transcript from './Transcript';
 import Video from './Video';
 import styles from './View.css';
@@ -132,6 +133,9 @@ class View extends React.Component {
 											notesFilter={notesFilter}
 											setNotesFilter={setNotesFilter}
 										/>
+										<div className={cx('tools')}>
+											<MediaViewerLink video={video} />
+										</div>
 										<Video src={video} onTimeUpdate={this.onTimeUpdate} ref={this.videoRef} analyticsData={analyticsData} />
 									</>
 								)
