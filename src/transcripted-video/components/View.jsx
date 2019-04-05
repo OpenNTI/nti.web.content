@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {Layouts, Error, Loading} from '@nti/web-commons';
 import {decodeFromURI} from '@nti/lib-ntiids';
+import {Notes} from '@nti/web-discussions';
 import classnames from 'classnames/bind';
 
 import Store from '../Store';
@@ -36,7 +37,6 @@ class View extends React.Component {
 	static propTypes = {
 		course: PropTypes.object.isRequired,
 		videoId: PropTypes.string.isRequired,
-		sidebar: PropTypes.any,
 
 		// store props
 		loading: PropTypes.bool,
@@ -106,8 +106,7 @@ class View extends React.Component {
 			transcript,
 			notes,
 			notesFilter,
-			setNotesFilter,
-			sidebar: Sidebar
+			setNotesFilter
 		} = this.props;
 
 		const showError = error && !video;
@@ -141,7 +140,7 @@ class View extends React.Component {
 								)
 					}
 				</div>
-				<Layouts.Aside component={Sidebar} notes={filteredNotes} />
+				<Layouts.Aside component={Notes.Sidebar} notes={filteredNotes} fillToBottom sticky />
 			</div>
 		);
 	}
