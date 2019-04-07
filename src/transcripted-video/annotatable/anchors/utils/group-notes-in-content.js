@@ -1,27 +1,9 @@
 import Anchor from '../Anchor';
-import TimeAnchor from '../TimeAnchor';
 
-const TYPES = [
-	TimeAnchor,
-	Anchor
-];
+import getAnchorInfo from './get-anchor-info';
 
-function getAnchorInfo (anchors, container) {
-	const containerRect = container.getBoundingClientRect();
-
-	return anchors.map((anchor) => {
-		for (let t of TYPES) {
-			const info = t.getAnchorInfo(anchor);
-			const anchorRect = anchor.getBoundingClientRect();
-
-			if (info) {
-				return {
-					info,
-					top: anchorRect.top - containerRect.top
-				};
-			}
-		}
-	});
+function getAnchorsInfo (anchors, container) {
+	return anchors.map(a => getAnchorInfo(a, container));
 }
 
 function findAnchorByRange (anchors, range) {
@@ -60,7 +42,7 @@ function sortGroups ({top: topA}, {top: topB}) {
 
 
 export default function groupNotesInContent (content, container, notes) {
-	const anchors = getAnchorInfo(Anchor.getAllAnchors(content), container);
+	const anchors = getAnchorsInfo(Anchor.getAllAnchors(content), container);
 
 	const groups = notes.reduce((acc, note) => {
 		const {applicableRange:range, ContainerId} = note;

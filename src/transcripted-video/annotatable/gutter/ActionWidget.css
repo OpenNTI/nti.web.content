@@ -1,0 +1,20 @@
+.action-widget {
+	transition: top 0.25s ease-out;
+	position: absolute;
+	right: -4px;
+	transform: translateY(2px);
+	animation: action-in 0.5s;
+}
+
+.action-widget [class^='icon'] {
+	font-size: 2rem;
+	line-height: 19px;
+	cursor: pointer;
+	display: block; /* cursor rule doesn't work on inline elements */
+	color: var(--tertiary-grey, #b8b8b8);
+	transition: color 0.25s;
+}
+
+.action-widget [class^='icon']:hover {
+	color: var(--primary-blue, #3fb3f6);
+}

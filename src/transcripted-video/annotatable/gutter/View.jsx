@@ -6,18 +6,21 @@ import {groupNotesInContent} from '../anchors';
 
 import Styles from './View.css';
 import NoteGroup from './NoteGroup';
+import ActionWidget from './ActionWidget';
 
 const cx = classnames.bind(Styles);
 
 export default class AnnotationGutter extends React.Component {
 	static propTypes = {
 		className: PropTypes.string,
+		containerId: PropTypes.string,
 		content: PropTypes.shape({
 			querySelectorAll: PropTypes.func
 		}),
 		container: PropTypes.shape({
 			getBoundingClientRect: PropTypes.func
 		}),
+		activeAnchor: PropTypes.object,
 
 		notes: PropTypes.array,
 		notesFilter: PropTypes.func,
@@ -36,11 +39,12 @@ export default class AnnotationGutter extends React.Component {
 
 
 	render () {
-		const {className, content, container, notes} = this.props;
+		const {className, activeAnchor, content, container, notes} = this.props;
 
 		return (
 			<div className={cx('gutter', className)}>
 				{content && notes && notes.length && this.renderNoteGroups(content, container, notes)}
+				{activeAnchor && this.renderActiveAnchor(activeAnchor)}
 			</div>
 		);
 	}
@@ -68,6 +72,15 @@ export default class AnnotationGutter extends React.Component {
 					/>
 				);
 			})
+		);
+	}
+
+
+	renderActiveAnchor (anchor) {
+		const {containerId} = this.props;
+
+		return (
+			<ActionWidget activeAnchor={anchor} containerId={containerId} />
 		);
 	}
 }
