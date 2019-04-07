@@ -34,6 +34,8 @@ function buildApplicableRange (actionInfo) {
 function buildMockNote (actionInfo, yForTime) {
 	const {videoId} = actionInfo || {};
 
+	debugger;
+
 	if (!videoId) { return null; }
 
 

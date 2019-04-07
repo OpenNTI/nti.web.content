@@ -10,7 +10,6 @@ import {padTimeString} from '../util';
 import styles from './TranscriptChunk.css';
 import Cue from './Cue';
 import CueStyles from './Cue.css';
-import Gutter from './Gutter';
 
 const cx = classnames.bind(styles);
 const logger = Logger.get('transcripted-video:transcript-chunk');
@@ -103,6 +102,7 @@ export default class TranscriptChunk extends React.Component {
 	clearActionInfo = () => {
 		this.setState({
 			actionTime: undefined,
+			actionCueId: undefined,
 			actionTop: undefined
 		});
 	}
@@ -114,9 +114,9 @@ export default class TranscriptChunk extends React.Component {
 
 	mouseMoveHandler = (clientY, currentTarget, target) => {
 		const offsetY = clientY - currentTarget.getBoundingClientRect().top;
-		const {actionTime = {}, actionTop: oldTop} = this.state;
+		const {actionTime = {}, actionCueId: oldCueId, actionTop: oldTop} = this.state;
 		const elementWithRange = e => parent(e, '[data-start-time][data-end-time]');
-		const {dataset: {startTime, endTime} = {}, offsetTop: actionTop} = elementWithRange(target) || this.findCueNodeAtY(offsetY) || {};
+		const {dataset: {startTime, endTime, cueId} = {}, offsetTop: actionTop} = elementWithRange(target) || this.findCueNodeAtY(offsetY) || {};
 
 		if (startTime == null) {
 			this.clearActionInfo();
@@ -126,9 +126,10 @@ export default class TranscriptChunk extends React.Component {
 		const start = parseFloat(startTime);
 		const end = parseFloat(endTime);
 
-		if (start !== actionTime.start || end !== actionTime.end || actionTop !== oldTop) {
+		if (start !== actionTime.start || end !== actionTime.end || actionTop !== oldTop || cueId !== oldCueId) {
 			this.setState({
 				actionTime: {start, end},
+				actionCueId: cueId,
 				actionTop
 			});
 		}
@@ -222,16 +223,7 @@ export default class TranscriptChunk extends React.Component {
 				end: chunkEnd,
 				cues,
 				currentTime: time,
-				notes,
-				notesFilter,
-				onCueClick,
-				onNoteGroupClick,
-				video
-			},
-			state: {
-				mounted,
-				actionTime,
-				actionTop
+				onCueClick
 			}
 		} = this;
 
@@ -250,7 +242,6 @@ export default class TranscriptChunk extends React.Component {
 				<p className={cx('cues')}>
 					{cues.map(cue => (
 						<Cue
-							{...(cue.getID ? {'data-cue-id': cue.getID()} : {})}
 							key={`${cueClassPrefix(cue)}-${cue.startTime}-cue`}
 							active={isActive(cue.startTime, cue.endTime)}
 							onClick={onCueClick}
@@ -258,18 +249,6 @@ export default class TranscriptChunk extends React.Component {
 						/>
 					))}
 				</p>
-				<Gutter notes={notes}
-					cues={cues}
-					yForTime={!mounted ? void 0 : this.getVerticalPositionForTime}
-					yForCue={!mounted ? void 0 : this.getVerticalPositionForCue}
-					actionInfo={{
-						time: actionTime,
-						top: actionTop,
-						videoId: video && video.getID()
-					}}
-					onGroupClick={onNoteGroupClick}
-					notesFilter={notesFilter}
-				/>
 			</li>
 		);
 	}

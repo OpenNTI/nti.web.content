@@ -60,9 +60,6 @@ export default class Transcript extends React.Component {
 		}),
 		currentTime: PropTypes.number,
 		onCueClick: PropTypes.func,
-		notesFilter: PropTypes.func,
-		setNotesFilter: PropTypes.func,
-		notes: PropTypes.array,
 		video: PropTypes.object,
 	}
 
@@ -78,49 +75,9 @@ export default class Transcript extends React.Component {
 		}
 	}
 
-	onNoteGroupClick = (notes, isActive) => {
-		const {setNotesFilter} = this.props;
-
-		// if the clicked group is already active remove the filter.
-		setNotesFilter(isActive ? null : note => (notes || []).includes(note));
-
-		// // find the bounding time range for the given notes
-		// const {start, end} = notes.reduce((acc, {applicableRange: {start: {seconds: noteStart}, end: {seconds: noteEnd}}}) => {
-		// 	acc.start = acc.start ? Math.min(acc.start, noteStart) : noteStart;
-		// 	acc.end = acc.end ? Math.max(acc.end, noteEnd) : noteEnd;
-		// 	return acc;
-		// }, {start: 0, end: 0});
-
-		// if (start > 0 && end > start) {
-		// 	setNotesFilter(
-		// 		({
-		// 			applicableRange: {
-		// 				start: {seconds: noteStart},
-		// 				end: {seconds: noteEnd}
-		// 			}
-		// 		}) => noteStart >= start && noteEnd <= end
-		// 	);
-		// }
-	}
 
 	renderChunk = ({startTime, endTime, cues}) => {
-		const {notes: n, currentTime, notesFilter, video} = this.props;
-
-		const noteInRange = (
-			{
-				applicableRange: {
-					isEmpty,
-					start: {seconds: start} = {},
-					end: {seconds: end} = {}
-				}
-			}) => !isEmpty && start >= startTime && end <= endTime;
-
-		const forSlideInRange = ({
-			ContainerId: containerId
-		}) => containerId && (cues || []).some(cue => cue.getID && cue.getID() === containerId);
-
-		// filter notes to those in the chunk's time range
-		const notes = !n ? [] : n.filter(note => noteInRange(note) || forSlideInRange(note));
+		const {currentTime, video} = this.props;
 
 		return (
 			<TranscriptChunk
@@ -129,10 +86,7 @@ export default class Transcript extends React.Component {
 				start={startTime}
 				end={endTime}
 				cues={cues}
-				notes={notes}
-				notesFilter={notesFilter}
 				onCueClick={this.onCueClick}
-				onNoteGroupClick={this.onNoteGroupClick}
 				currentTime={currentTime}
 			/>
 		);

@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import {rawContent} from '@nti/lib-commons';
 import classnames from 'classnames/bind';
 
+import Annotatable from '../annotatable';
+
 import styles from './Cue.css';
 
 const cx = classnames.bind(styles);
@@ -17,7 +19,7 @@ export default class Cue extends React.Component {
 
 			// text for cues, image for slides.
 			text: PropTypes.string,
-			image: PropTypes.string 
+			image: PropTypes.string
 		}),
 		onClick: PropTypes.func,
 		onSlideLoaded: PropTypes.func
@@ -33,6 +35,42 @@ export default class Cue extends React.Component {
 	}
 
 	render () {
+		const {
+			active,
+			className,
+			onSlideLoaded,
+			cue,
+			...others
+		} = this.props;
+		const cueId = cue.getID ? cue.getID() : null;
+		const {startTime, endTime, text, image} = cue;
+
+		let Cmp = null;
+		const props = {
+			...others,
+			onClick: this.onClick,
+			'className': cx('cue', {slide: !!image, active}, className),
+		};
+
+		if (cueId) {
+			Cmp = Annotatable.Anchors.Anchor;
+			props.id = cueId;
+		} else {
+			Cmp = Annotatable.Anchors.TimeAnchor;
+			props.startTime = startTime;
+			props.endTime = endTime;
+		}
+
+		return (
+			<Cmp {...props} {...text ? rawContent(text) : {}}>
+				{image && (
+					<img src={image} onLoad={onSlideLoaded} />
+				)}
+			</Cmp>
+		);
+	}
+
+	xrender () {
 		const {
 			active,
 			className,

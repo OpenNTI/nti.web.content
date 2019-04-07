@@ -6,6 +6,7 @@ import {Notes} from '@nti/web-discussions';
 import classnames from 'classnames/bind';
 
 import Store from '../Store';
+import Annotatable from '../annotatable';
 
 import MediaViewerLink from './MediaViewerLink';
 import Transcript from './Transcript';
@@ -130,28 +131,32 @@ class View extends React.Component {
 								? <Loading.Spinner />
 								: (
 									<>
-										<Transcript
-											video={video}
-											transcript={transcript}
-											currentTime={currentTime}
-											onCueClick={this.onCueClick}
+										<Annotatable
+											containerId={video.getID()}
 											notes={notes}
 											notesFilter={notesFilter}
 											setNotesFilter={setNotesFilter}
-										/>
-										<header className={cx('video-header')}>
-											<div className={cx('video-meta')}>
-												{title && (
-													<h1 className={cx('video-title')}>{title}</h1>
-												)}
-												{duration && (
-													<span className={cx('duration')}>{DateTime.getShortNaturalDuration(duration * 1000)}</span>
-												)}
-											</div>
-											<div className={cx('tools')}>
-												<MediaViewerLink video={video} />
-											</div>
-										</header>
+										>
+											<header className={cx('video-header')}>
+												<div className={cx('tools')}>
+													<MediaViewerLink video={video} />
+												</div>
+												<Annotatable.Anchors.Anchor className={cx('video-meta')} id={video.getID()}>
+													{title && (
+														<h1 className={cx('video-title')}>{title}</h1>
+													)}
+													{duration && (
+														<span className={cx('duration')}>{DateTime.getShortNaturalDuration(duration * 1000)}</span>
+													)}
+												</Annotatable.Anchors.Anchor>
+											</header>
+											<Transcript
+												video={video}
+												transcript={transcript}
+												currentTime={currentTime}
+												onCueClick={this.onCueClick}
+											/>
+										</Annotatable>
 										<Video src={video} onTimeUpdate={this.onTimeUpdate} ref={this.videoRef} analyticsData={analyticsData} />
 									</>
 								)

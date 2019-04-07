@@ -1,0 +1,13 @@
+.annotatable-container {
+	display: flex;
+	flex-direction: row;
+	align-items: stretch;
+}
+
+.content {
+	flex: 1 1 auto;
+}
+
+.gutter {
+	flex: 0 0 40px;
+}
