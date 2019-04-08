@@ -37,7 +37,8 @@ export default class VideoStore extends Stores.BoundStore {
 	loadTranscript = async video => {
 		const locale = this.get('locale') || 'en';
 		return video.getTranscript(locale)
-			.then(parseTranscript);
+			.then(parseTranscript)
+			.catch(() => null);
 	}
 
 	loadNotes = async (...sources) => {
@@ -49,6 +50,27 @@ export default class VideoStore extends Stores.BoundStore {
 			))
 		);
 	}
+
+	onNoteAdded = (note) => {
+		const container = note.getContainerID ? note.getContainerID() : null;
+		const dataSource = this[UserDataSources] && this[UserDataSources][container];
+
+		if (dataSource) {
+			dataSource.maybeInsertItem(note);
+		}
+	}
+
+
+	onNoteDeleted = (note) => {
+		debugger;
+		const container = note.getContainerID ? note.getContainerID() : null;
+		const dataSource = this[UserDataSources] && this[UserDataSources][container];
+
+		if (dataSource) {
+			dataSource.maybeRemoveItem(note);
+		}
+	}
+
 
 	getSlideDeck = (video, mediaIndex) => {
 		const {slidedecks} = video || {};
@@ -135,12 +157,12 @@ export default class VideoStore extends Stores.BoundStore {
 		try {
 			const mediaIndex = await course.getMediaIndex();
 			// .then(index => index.scoped(outlineId));
-	
+
 			video = mediaIndex.get(videoId);
 
 			if (video) {
 				slides = this.getSlideDeck(video, mediaIndex);
-	
+
 				[transcript, [videoNotes, slideNotes], duration] = await Promise.all([
 					this.loadTranscript(video),
 					this.loadNotes(video, slides),

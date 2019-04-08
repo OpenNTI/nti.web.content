@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {Layouts, DateTime, Error, Loading} from '@nti/web-commons';
+import {Hooks, Events} from '@nti/web-session';
 import {decodeFromURI} from '@nti/lib-ntiids';
 import {Notes} from '@nti/web-discussions';
 import classnames from 'classnames/bind';
@@ -26,9 +27,15 @@ export default
 	'transcript',
 	'currentTime',
 	'onTimeUpdate',
+	'onNoteAdded',
+	'onNoteDeleted',
 	'notesFilter',
 	'setNotesFilter'
 ])
+@Hooks.onEvent({
+	[Events.NOTE_CREATED]: 'onNoteCreated',
+	[Events.NOTE_DELETED]: 'onNoteDeleted'
+})
 class View extends React.Component {
 
 	static deriveBindingFromProps = ({course, videoId, outlineId}) => ({
@@ -51,6 +58,8 @@ class View extends React.Component {
 		currentTime: PropTypes.number,
 		onTimeUpdate: PropTypes.func,
 		notes: PropTypes.array,
+		onNoteAdded: PropTypes.func,
+		onNoteDeleted: PropTypes.func,
 		notesFilter: PropTypes.func,
 		setNotesFilter: PropTypes.func,
 		transcript: PropTypes.shape({
@@ -70,6 +79,25 @@ class View extends React.Component {
 
 		this.videoRef = React.createRef();
 	}
+
+
+	onNoteCreated (note) {
+		const {onNoteAdded} = this.props;
+
+		if (onNoteAdded) {
+			onNoteAdded(note);
+		}
+	}
+
+
+	onNoteDeleted (note) {
+		const {onNoteDeleted} = this.props;
+
+		if (onNoteDeleted) {
+			onNoteDeleted(note);
+		}
+	}
+
 
 	getAnalyticsData () {
 		const {
