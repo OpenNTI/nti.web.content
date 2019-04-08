@@ -136,6 +136,21 @@ export default class VideoStore extends Stores.BoundStore {
 	}
 
 	async load () {
+		const {binding: {videoId}} = this;
+		const video = this.get('video');
+
+		if (video && video.getID() === videoId) {
+			this.refresh();
+		} else {
+			this.intialLoad();
+		}
+	}
+
+	async refresh () {
+		//TODO: figure out if we need to do anything here
+	}
+
+	async intialLoad () {
 		const {
 			binding: {
 				course,
