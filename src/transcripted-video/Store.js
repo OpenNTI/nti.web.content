@@ -51,22 +51,33 @@ export default class VideoStore extends Stores.BoundStore {
 		);
 	}
 
-	onNoteAdded = (note) => {
+
+	getDataSourceForNote (note) {
+		const video = this.get('videoNotes');
+		const slide = this.get('slideNotes');
 		const container = note.getContainerID ? note.getContainerID() : null;
-		const dataSource = this[UserDataSources] && this[UserDataSources][container];
+
+		if (container === video.rootId) {
+			return video;
+		}
+
+		return slide;
+	}
+
+	onNoteAdded = (note) => {
+		const dataSource = this.getDataSourceForNote(note);
 
 		if (dataSource) {
-			dataSource.maybeInsertItem(note);
+			dataSource.insertItem(note);
 		}
 	}
 
 
 	onNoteDeleted = (note) => {
-		const container = note.getContainerID ? note.getContainerID() : null;
-		const dataSource = this[UserDataSources] && this[UserDataSources][container];
+		const dataSource = this.getDataSourceForNote(note);
 
 		if (dataSource) {
-			dataSource.maybeRemoveItem(note);
+			dataSource.removeItem(note);
 		}
 	}
 
@@ -191,6 +202,7 @@ export default class VideoStore extends Stores.BoundStore {
 				slides: [...(slides || [])]
 			},
 			videoNotes,
+			slideNotes,
 			currentTime: 0
 		});
 	}
