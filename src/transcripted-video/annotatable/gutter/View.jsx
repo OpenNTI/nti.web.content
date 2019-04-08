@@ -41,10 +41,11 @@ export default class AnnotationGutter extends React.Component {
 
 	render () {
 		const {className, activeAnchor, disableNoteCreation, content, container, notes} = this.props;
+		const hasNotes = content && notes && notes.length > 0;
 
 		return (
 			<div className={cx('gutter', className)}>
-				{content && notes && notes.length && this.renderNoteGroups(content, container, notes)}
+				{hasNotes && this.renderNoteGroups(content, container, notes)}
 				{activeAnchor && !disableNoteCreation && this.renderActiveAnchor(activeAnchor)}
 			</div>
 		);

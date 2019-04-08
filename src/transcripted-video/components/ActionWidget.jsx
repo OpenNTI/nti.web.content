@@ -34,10 +34,7 @@ function buildApplicableRange (actionInfo) {
 function buildMockNote (actionInfo, yForTime) {
 	const {videoId} = actionInfo || {};
 
-	debugger;
-
 	if (!videoId) { return null; }
-
 
 	return {
 		MimeType: 'application/vnd.nextthought.note',
