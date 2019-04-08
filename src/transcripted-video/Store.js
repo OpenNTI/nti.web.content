@@ -62,7 +62,6 @@ export default class VideoStore extends Stores.BoundStore {
 
 
 	onNoteDeleted = (note) => {
-		debugger;
 		const container = note.getContainerID ? note.getContainerID() : null;
 		const dataSource = this[UserDataSources] && this[UserDataSources][container];
 
