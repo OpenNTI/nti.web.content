@@ -14,6 +14,7 @@ export default class AnnotationGutter extends React.Component {
 	static propTypes = {
 		className: PropTypes.string,
 		containerId: PropTypes.string,
+		disableNoteCreation: PropTypes.bool,
 		content: PropTypes.shape({
 			querySelectorAll: PropTypes.func
 		}),
@@ -39,12 +40,12 @@ export default class AnnotationGutter extends React.Component {
 
 
 	render () {
-		const {className, activeAnchor, content, container, notes} = this.props;
+		const {className, activeAnchor, disableNoteCreation, content, container, notes} = this.props;
 
 		return (
 			<div className={cx('gutter', className)}>
 				{content && notes && notes.length && this.renderNoteGroups(content, container, notes)}
-				{activeAnchor && this.renderActiveAnchor(activeAnchor)}
+				{activeAnchor && !disableNoteCreation && this.renderActiveAnchor(activeAnchor)}
 			</div>
 		);
 	}

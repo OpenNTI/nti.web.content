@@ -40,6 +40,7 @@ class View extends React.Component {
 	static propTypes = {
 		course: PropTypes.object.isRequired,
 		videoId: PropTypes.string.isRequired,
+		disableNoteCreation: PropTypes.bool,
 
 		// store props
 		loading: PropTypes.bool,
@@ -113,7 +114,8 @@ class View extends React.Component {
 			transcript,
 			notes,
 			notesFilter,
-			setNotesFilter
+			setNotesFilter,
+			disableNoteCreation
 		} = this.props;
 
 		const showError = error && !video;
@@ -136,6 +138,7 @@ class View extends React.Component {
 											notes={notes}
 											notesFilter={notesFilter}
 											setNotesFilter={setNotesFilter}
+											disableNoteCreation={disableNoteCreation}
 										>
 											<header className={cx('video-header')}>
 												<div className={cx('tools')}>
