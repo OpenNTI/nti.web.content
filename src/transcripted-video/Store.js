@@ -108,6 +108,12 @@ export default class VideoStore extends Stores.BoundStore {
 	setNotesFilter = notesFilter => this.set({notesFilter})
 	onTimeUpdate = time => this.set('currentTime', time)
 
+
+	clearUserDataSources () {
+		this[UserDataSources] = null;
+	}
+
+
 	addUserDataSource (source) {
 		if (!source) {
 			return;
@@ -167,8 +173,10 @@ export default class VideoStore extends Stores.BoundStore {
 			return;
 		}
 
+		this.clearUserDataSources();
 		let loading = true, error, video, slides, transcript, videoNotes, slideNotes, duration, notesFilter;
 
+		this.onNotesChange();
 		this.set({
 			loading,
 			error,
