@@ -19,6 +19,7 @@ BookCard.propTypes = {
 
 export default function BookCard ({className, bundle, ...props}) {
 	const {byline, author, title} = bundle;
+	const edition = '4th Edition';
 
 	return (
 		<LinkTo.Object object={bundle}>
@@ -26,7 +27,8 @@ export default function BookCard ({className, bundle, ...props}) {
 				<Presentation.Asset contentPackage={bundle} type="landing">
 					<img className="bundle-card-image" />
 				</Presentation.Asset>
-				<label>
+				<label className="book-card-label">
+					{edition && <div className="book-edition">{edition}</div>}
 					<h3 className="book-title">{title}</h3>
 					<address className="book-author">{t('byline', {byline: byline || author})}</address>
 				</label>
