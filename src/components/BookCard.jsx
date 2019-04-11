@@ -19,7 +19,7 @@ BookCard.propTypes = {
 
 export default function BookCard ({className, bundle, ...props}) {
 	const {byline, author, title} = bundle;
-	const edition = '4th Edition';
+	const edition = null; // waiting server support; '4th Edition';
 
 	return (
 		<LinkTo.Object object={bundle}>
