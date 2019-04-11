@@ -56,16 +56,16 @@ export default class Pager extends React.Component {
 			const page = toc && toc.getPageSource(rootId);
 			const context = page && page.getPagesAround(currentPage);
 
-			const { realPageIndex } = toc;
-			const { index, total } = context;
+			const { realPageIndex } = toc || {};
+			const { index, total, next, prev } = context || {};
 
 			const allPages = realPageIndex && realPageIndex.NTIIDs[rootId];
 
 			this.setState({
 				total: 			realPageIndex ? allPages[allPages.length - 1] 			    : total,
 				currentPage: 	realPageIndex ? realPageIndex.NTIIDs[currentPage][0] 	    : index + 1,
-				next: 			context.next,
-				prev:			context.prev,
+				next,
+				prev,
 				allPages: 		realPageIndex ? allPages.map(rp => toc.getRealPage(rp))	: null,
 				toc,
 				loading: false
