@@ -46,6 +46,8 @@ export default class ContentNavigationSwitcherActiveItem extends React.Component
 	renderActive (item) {
 		const getString = (key) => t(`${item.type || 'course'}.${key}`);
 
+		const edition = null; // stubbed out for future support; e.g. '4th Edition';
+
 		return (
 			<div className="item">
 				<Presentation.Asset contentPackage={item} type="thumb">
@@ -53,6 +55,7 @@ export default class ContentNavigationSwitcherActiveItem extends React.Component
 				</Presentation.Asset>
 				<div className="info">
 					<div className="header">
+						{edition && <div className="edition">{edition}</div>}
 						<div className="title">{item.title}</div>
 						{item.canDelete &&  (
 							<LinkTo.Object className="delete" object={item} context="delete">

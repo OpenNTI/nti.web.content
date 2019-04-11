@@ -7,6 +7,9 @@
 	height: 290px;
 	padding: 5px;
 	cursor: pointer;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
 
 	.bundle-card-image {
 		width: 100%;
@@ -39,25 +42,36 @@
 		}
 	}
 
+	.book-card-label {
+		padding: 0 5px;
+	}
+
+	.book-edition {
+		font: normal 600 0.625rem/1.3 $body-font-family;
+		text-transform: uppercase;
+		letter-spacing: 0.4px;
+		margin-bottom: 4px;
+		color: $tertiary-grey;
+	}
+
 	.book-title {
 		font: normal 700 1rem/1.3 "Open Sans Condensed", sans-serif;
 		color: #494949;
 		text-transform: uppercase;
-		max-height: 2.6em;
-		overflow: hidden;
-		text-overflow: ellipsis;
-		margin: 25px 0 0;
-		padding: 0 5px;
+		margin: 0;
+		padding: 0;
+
+		@include limit-lines($lines: 3, $line-height: 1.3);
 	}
 
 	.book-author {
-		margin-top: 10px;
+		margin: 5px 0;
 		font: normal 700 0.6rem/1.4 "Open Sans", "Helvetica Neue", "Helvetica", Arial, sans-serif;
 		color: #3fb3f6;
 		text-transform: uppercase;
 		overflow: hidden;
 		text-overflow: ellipsis;
-		padding: 0 5px;
+		padding: 0;
 
 		@include limit-lines($lines: 2, $line-height: 1.4);
 	}
