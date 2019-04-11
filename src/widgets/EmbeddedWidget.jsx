@@ -222,10 +222,10 @@ export default class EmbeddedWidget extends React.Component {
 
 	onHeightChange () {
 		const {onHeightChange} = this.props;
-		const {size} = this.state;
+		const {size, height} = this.state;
 
 		if (onHeightChange) {
-			onHeightChange(size.height);
+			onHeightChange(height || size.height);
 		}
 	}
 
@@ -251,12 +251,12 @@ export default class EmbeddedWidget extends React.Component {
 	}
 
 	render () {
-		const {source, size} = this.state;
+		const {source, size, height} = this.state;
 
 		if (!source) { return null; }
 
 		return (
-			<div className="nti-embedded-widget" style={{height: size.height || 0}}>
+			<div className="nti-embedded-widget" style={{height: height || size.height || 0}}>
 				{this.renderSplash()}
 				{this.renderIframe()}
 			</div>
@@ -288,7 +288,8 @@ export default class EmbeddedWidget extends React.Component {
 			size,
 			allowfullscreen,
 			nosandbox,
-			otherAttrs
+			otherAttrs,
+			height
 		} = this.state;
 
 		let frameBorder = 0;
@@ -296,6 +297,10 @@ export default class EmbeddedWidget extends React.Component {
 
 		if (splash && defer !== false) { return null; }
 
+		const sizeProps = {
+			width: size.width,
+			height: height || size.height
+		};
 		const sandboxProps = sameOrigin && !nosandbox ? SANDBOX : {};
 		const allowfullscreenProps = allowfullscreen ? ALLOW_FULLSCREEN : {};
 
@@ -316,7 +321,7 @@ export default class EmbeddedWidget extends React.Component {
 				style={style}
 				scrolling="no"
 				seamless
-				{...size}
+				{...sizeProps}
 				{...sandboxProps}
 				{...allowfullscreenProps}
 				{...(otherAttrs || {})}
