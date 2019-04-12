@@ -40,6 +40,7 @@ class View extends React.Component {
 		course: PropTypes.object.isRequired,
 		videoId: PropTypes.string.isRequired,
 		disableNoteCreation: PropTypes.bool,
+		autoPlay: PropTypes.bool,
 
 		// store props
 		loading: PropTypes.bool,
@@ -116,7 +117,8 @@ class View extends React.Component {
 			notes,
 			notesFilter,
 			setNotesFilter,
-			disableNoteCreation
+			disableNoteCreation,
+			autoPlay
 		} = this.props;
 
 		const showError = error && !video;
@@ -159,7 +161,7 @@ class View extends React.Component {
 											onCueClick={this.onCueClick}
 										/>
 									</Annotatable>
-									<Video src={video} onTimeUpdate={this.onTimeUpdate} ref={this.videoRef} analyticsData={analyticsData} />
+									<Video src={video} onTimeUpdate={this.onTimeUpdate} ref={this.videoRef} analyticsData={analyticsData} autoPlay={autoPlay} />
 								</>
 							)
 				}
