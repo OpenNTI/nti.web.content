@@ -14,6 +14,8 @@ import styles from './View.css';
 
 const cx = classnames.bind(styles);
 
+const PLAYER_CONFIG = 'inline';
+
 export default
 @Store.monitor([
 	'loading',
@@ -88,6 +90,7 @@ class View extends React.Component {
 			resourceId: videoId,
 			rootContextId: course && course.getID ? course.getID() : void 0,
 			// context: context || [],
+			'player_configuration': PLAYER_CONFIG,
 			withTranscript: Boolean(cues || slides)
 		};
 	}
