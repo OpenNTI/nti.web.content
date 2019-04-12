@@ -14,7 +14,7 @@ import styles from './View.css';
 
 const cx = classnames.bind(styles);
 
-const PLAYER_CONFIG = 'inline';
+const PLAYER_CONFIG = 'media-modal';
 
 export default
 @Store.monitor([
