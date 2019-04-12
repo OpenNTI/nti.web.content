@@ -41,6 +41,7 @@ class View extends React.Component {
 	static propTypes = {
 		course: PropTypes.object.isRequired,
 		videoId: PropTypes.string.isRequired,
+		analyticsData: PropTypes.object,
 		disableNoteCreation: PropTypes.bool,
 		autoPlay: PropTypes.bool,
 
@@ -79,6 +80,7 @@ class View extends React.Component {
 		const {
 			course,
 			videoId,
+			analyticsData,
 			// context,
 			transcript: {
 				cues,
@@ -87,6 +89,7 @@ class View extends React.Component {
 		} = this.props;
 
 		return {
+			...(analyticsData || {}),
 			resourceId: videoId,
 			rootContextId: course && course.getID ? course.getID() : void 0,
 			// context: context || [],

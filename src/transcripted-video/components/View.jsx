@@ -25,6 +25,7 @@ class View extends React.Component {
 		course: PropTypes.object.isRequired,
 		videoId: PropTypes.string.isRequired,
 		outlineId: PropTypes.string,
+		analyticsData: PropTypes.object,
 		disableNoteCreation: PropTypes.bool,
 		autoPlay: PropTypes.bool
 	}
@@ -35,7 +36,8 @@ class View extends React.Component {
 			videoId,
 			outlineId,
 			disableNoteCreation,
-			autoPlay
+			autoPlay,
+			analyticsData
 		} = this.props;
 
 		const props = {
@@ -46,7 +48,7 @@ class View extends React.Component {
 
 		return (
 			<div className={cx('transcripted-video')}>
-				<Content {...props} disableNoteCreation={disableNoteCreation} autoPlay={autoPlay} />
+				<Content {...props} disableNoteCreation={disableNoteCreation} autoPlay={autoPlay} analyticsData={analyticsData} />
 				<Sidebar {...props} />
 			</div>
 		);
