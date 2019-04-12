@@ -15,7 +15,7 @@ import styles from './View.css';
 const cx = classnames.bind(styles);
 
 export default
-@Store.connect([
+@Store.monitor([
 	'loading',
 	'error',
 	'video',

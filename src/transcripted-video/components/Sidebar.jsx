@@ -8,7 +8,7 @@ import {Notes} from '@nti/web-discussions';
 import Store from '../Store';
 
 export default
-@Store.connect([
+@Store.monitor([
 	'notes',
 	'onNoteAdded',
 	'onNoteDeleted',

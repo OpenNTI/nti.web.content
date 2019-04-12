@@ -228,5 +228,6 @@ export default class VideoStore extends Stores.BoundStore {
 			slideNotes,
 			currentTime: 0
 		});
+		this.onNotesChange();
 	}
 }
