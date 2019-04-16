@@ -1,5 +1,4 @@
 .action-widget {
-	transition: top 0.25s ease-out;
 	position: absolute;
 	right: 0;
 	transform: translateY(2px);

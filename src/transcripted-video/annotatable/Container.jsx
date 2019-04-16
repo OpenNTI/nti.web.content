@@ -3,11 +3,11 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames/bind';
 
 import Styles from './Container.css';
-import {Anchors, getAnchorInfoForTarget, getAnchorInfoForClientY} from './anchors';
+import {Anchors, getAnchorInfoForTarget, getAnchorInfoForPoint} from './anchors';
 import Gutter from './gutter';
 
 const cx = classnames.bind(Styles);
-const MOUSE_MOVE_THROTTLE = 200;
+const MOUSE_MOVE_THROTTLE = 1;
 
 export default class Annotatable extends React.Component {
 	static Anchors = Anchors;
@@ -61,26 +61,23 @@ export default class Annotatable extends React.Component {
 	}
 
 
-	onMouseMove = ({clientY, target}) => {
+	onMouseMove = ({clientY, clientX, target}) => {
 		clearTimeout(this.mouseMoveBufferTimeout);
 
-		this.mouseMoveBufferTimeout = setTimeout(() => {
-			this.handleMouseMove(clientY, target);
-		}, MOUSE_MOVE_THROTTLE);
+		this.handleMouseMove(clientX, clientY, target);
 	}
 
 
 	onMouseLeave = () => {
-		clearTimeout(this.mouseMoveBufferTimeout);
 		this.setState({
 			activeAnchor: null
 		});
 	}
 
 
-	handleMouseMove (clientY, target) {
+	handleMouseMove (clientX, clientY, target) {
 		const {container, content} = this.state;
-		const activeAnchor = getAnchorInfoForTarget(target, content, container) || getAnchorInfoForClientY(clientY, content, container);
+		const activeAnchor = getAnchorInfoForTarget(target, content, container) || getAnchorInfoForPoint(clientX, clientY, content, container);
 
 		this.setState({
 			activeAnchor

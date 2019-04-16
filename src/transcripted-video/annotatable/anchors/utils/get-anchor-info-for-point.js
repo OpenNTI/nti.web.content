@@ -13,7 +13,7 @@ function rectCovers (rect, clientY) {
 	return top <= clientY && bottom >= clientY;
 }
 
-function rectDistance (rect, clientY) {
+function rectYDistance (rect, clientY) {
 	const top = rect.top;
 	const bottom = rect.top + rect.height;
 
@@ -28,21 +28,14 @@ function rectDistance (rect, clientY) {
 	return distance;
 }
 
-function getAnchorCoverage (anchor, clientY) {
-	const rects = Array.from(anchor.getClientRects()).filter(rect => rect.height);
 
-	const {covering, distance} = rects.reduce((acc, rect) => {
-		const covers = rectCovers(rect, clientY);
-		const dist = rectDistance(rect, clientY);
-
-		return {
-			covering: covers ? acc.covering + 1 : acc.covering,
-			distance: Math.min(acc.distance, dist)
-		};
-	}, {covering: 0, distance: Infinity});
+function getAnchorCoverage (anchor, clientX, clientY) {
+	const rects = Array.from(anchor.getClientRects());
+	const coveringRect = rects.filter(rect => rectCovers(rect, clientY));
+	const distance = coveringRect ? rectYDistance(coveringRect, clientY) : Infinity;
 
 	return {
-		coverage: covering === rects.length ? FULL : (covering > 0 ? PARTIAL : NONE),
+		coverage: coveringRect ? (rects.length === 1 ? FULL : PARTIAL) : NONE,
 		distance
 	};
 }
@@ -60,14 +53,14 @@ function getClosest (anchors) {
 	return options[options.length - 1];
 }
 
-export default function getAnchorInfoForClientY (clientY, content, container) {
+export default function getAnchorInfoForClientY (clientX, clientY, content, container) {
 	const anchors = Anchor.getAllAnchors(content);
 
 	const options = [];
 	let lastDistance = -1;
 
 	for (let anchor of anchors) {
-		const {coverage, distance} = getAnchorCoverage(anchor, clientY);
+		const {coverage, distance} = getAnchorCoverage(anchor, clientX, clientY);
 		const leaving = distance > lastDistance;
 
 		lastDistance = distance;
