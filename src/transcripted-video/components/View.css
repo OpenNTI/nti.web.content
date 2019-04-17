@@ -1,3 +1,11 @@
+.loading-container {
+	min-height: 200px;
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+}
+
 .transcripted-video-container {
 	max-width: 1024px;
 	margin: 0 auto;

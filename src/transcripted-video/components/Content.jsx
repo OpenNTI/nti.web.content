@@ -137,7 +137,11 @@ class View extends React.Component {
 					showError
 						? <Error error={error} />
 						: showLoading
-							? <Loading.Spinner />
+							? (
+								<div className={cx('loading-container')}>
+									<Loading.Spinner.Large />
+								</div>
+							)
 							: (
 								<>
 									<Annotatable
