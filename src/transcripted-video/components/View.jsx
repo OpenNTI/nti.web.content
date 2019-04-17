@@ -27,7 +27,13 @@ class View extends React.Component {
 		outlineId: PropTypes.string,
 		analyticsData: PropTypes.object,
 		disableNoteCreation: PropTypes.bool,
-		autoPlay: PropTypes.bool
+		autoPlay: PropTypes.bool,
+		scrolledTo: PropTypes.oneOfType([
+			PropTypes.string, // note id
+			PropTypes.shape({ // model
+				getID: PropTypes.func.isRequired
+			})
+		])
 	}
 
 	render () {
@@ -35,6 +41,7 @@ class View extends React.Component {
 			course,
 			videoId,
 			outlineId,
+			scrolledTo,
 			disableNoteCreation,
 			autoPlay,
 			analyticsData
@@ -48,7 +55,7 @@ class View extends React.Component {
 
 		return (
 			<div className={cx('transcripted-video')}>
-				<Content {...props} disableNoteCreation={disableNoteCreation} autoPlay={autoPlay} analyticsData={analyticsData} />
+				<Content {...props} disableNoteCreation={disableNoteCreation} autoPlay={autoPlay} analyticsData={analyticsData} scrolledTo={scrolledTo}/>
 				<Sidebar {...props} />
 			</div>
 		);

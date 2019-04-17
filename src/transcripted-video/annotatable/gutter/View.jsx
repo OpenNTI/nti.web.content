@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames/bind';
+import {getScrollParent} from '@nti/lib-dom';
 
 import {groupNotesInContent} from '../anchors';
 
@@ -9,6 +10,7 @@ import NoteGroup from './NoteGroup';
 import ActionWidget from './ActionWidget';
 
 const cx = classnames.bind(Styles);
+const getId = x => x && x.getID ? x.getID() : x;
 
 export default class AnnotationGutter extends React.Component {
 	static propTypes = {
@@ -22,12 +24,35 @@ export default class AnnotationGutter extends React.Component {
 			getBoundingClientRect: PropTypes.func
 		}),
 		activeAnchor: PropTypes.object,
-
+		scrolledTo: PropTypes.oneOfType([
+			PropTypes.string, // note id
+			PropTypes.shape({ // model
+				getID: PropTypes.func.isRequired
+			})
+		]),
 		notes: PropTypes.array,
 		notesFilter: PropTypes.func,
 		setNotesFilter: PropTypes.func
 	}
 
+	constructor (props) {
+		super(props);
+
+		this.domNode = React.createRef();
+	}
+
+	componentDidUpdate () {
+		const {scrollTargetGroup, domNode: {current: domNode}} = this;
+
+		if (scrollTargetGroup && domNode) {
+			const HEADER_ALLOWANCE = 65;
+			const getParentOffset = (child, parent) => child.getBoundingClientRect().top - parent.getBoundingClientRect().top + parent.scrollTop;
+			const scrollParent = getScrollParent(domNode);
+			const scrollPos = getParentOffset(domNode, scrollParent) + scrollTargetGroup.top - HEADER_ALLOWANCE;
+			scrollParent.scrollTop = scrollPos;
+			delete this.scrollTargetGroup;
+		}
+	}
 
 	onGroupClick = (notes, active) => {
 		const {setNotesFilter} = this.props;
@@ -44,7 +69,7 @@ export default class AnnotationGutter extends React.Component {
 		const hasNotes = content && notes && notes.length > 0;
 
 		return (
-			<div className={cx('gutter', className)}>
+			<div className={cx('gutter', className)} ref={this.domNode}>
 				{hasNotes && this.renderNoteGroups(content, container, notes)}
 				{activeAnchor && !disableNoteCreation && this.renderActiveAnchor(activeAnchor)}
 			</div>
@@ -53,16 +78,21 @@ export default class AnnotationGutter extends React.Component {
 
 
 	renderNoteGroups (content, container, notes) {
-		const {notesFilter} = this.props;
+		const {notesFilter, scrolledTo} = this.props;
 		const groups = groupNotesInContent(content, container, notes);
 
-		if (!groups) { null; }
+		if (!groups) { return null; }
 
 		const active = items => notesFilter && items.some(notesFilter);
+		const scrollTargetId = getId(scrolledTo);
 
 		return (
 			groups.map((group) => {
 				const {notes:groupNotes, top} = group;
+
+				if (scrollTargetId && (groupNotes || []).some(n => getId(n) === scrollTargetId)) {
+					this.scrollTargetGroup = group;
+				}
 
 				return (
 					<NoteGroup

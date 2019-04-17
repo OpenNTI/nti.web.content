@@ -43,6 +43,12 @@ class View extends React.Component {
 		videoId: PropTypes.string.isRequired,
 		analyticsData: PropTypes.object,
 		disableNoteCreation: PropTypes.bool,
+		scrolledTo: PropTypes.oneOfType([
+			PropTypes.string, // note id
+			PropTypes.shape({ // model
+				getID: PropTypes.func.isRequired
+			})
+		]),
 		autoPlay: PropTypes.bool,
 
 		// store props
@@ -124,6 +130,7 @@ class View extends React.Component {
 			notesFilter,
 			setNotesFilter,
 			disableNoteCreation,
+			scrolledTo,
 			autoPlay
 		} = this.props;
 
@@ -148,8 +155,9 @@ class View extends React.Component {
 										containerId={video.getID()}
 										notes={notes}
 										notesFilter={notesFilter}
-										setNotesFilter={setNotesFilter}
+										setNotesFilter={setNotesFilter} 
 										disableNoteCreation={disableNoteCreation}
+										scrolledTo={scrolledTo}
 									>
 										<header className={cx('video-header')}>
 											<div className={cx('tools')}>
