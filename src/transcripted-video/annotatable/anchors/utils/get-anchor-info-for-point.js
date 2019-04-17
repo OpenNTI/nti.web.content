@@ -30,9 +30,11 @@ function rectYDistance (rect, clientY) {
 
 
 function getAnchorCoverage (anchor, clientX, clientY) {
-	const rects = Array.from(anchor.getClientRects());
-	const coveringRect = rects.filter(rect => rectCovers(rect, clientY));
-	const distance = coveringRect ? rectYDistance(coveringRect, clientY) : Infinity;
+	const rects = Array.from(anchor.getClientRects()).filter(rect => rect.height);
+	const coveringRect = rects.filter(rect => rectCovers(rect, clientY))[0];
+	const distance = coveringRect ?
+		0 :
+		Math.min(...rects.map(rect => rectYDistance(rect, clientY)));
 
 	return {
 		coverage: coveringRect ? (rects.length === 1 ? FULL : PARTIAL) : NONE,
@@ -42,7 +44,7 @@ function getAnchorCoverage (anchor, clientX, clientY) {
 
 function getClosest (anchors) {
 	const sorted = anchors.sort(({distance: a}, {distance: b}) => a - b);
-	const distance = anchors[0].distance;
+	const distance = anchors[0] && anchors[0].distance;
 
 	let options = [];
 
@@ -56,32 +58,29 @@ function getClosest (anchors) {
 export default function getAnchorInfoForClientY (clientX, clientY, content, container) {
 	const anchors = Anchor.getAllAnchors(content);
 
-	const options = [];
-	let lastDistance = -1;
+	const partial = [];
+	const none = [];
 
 	for (let anchor of anchors) {
 		const {coverage, distance} = getAnchorCoverage(anchor, clientX, clientY);
-		const leaving = distance > lastDistance;
-
-		lastDistance = distance;
 
 		//If we find one that fully covers the clientY, just return it
 		if (coverage === FULL) { return getAnchorInfo(anchor, container); }
 
 		if (coverage === PARTIAL) {
-			options.push({
+			partial.push({
 				distance,
 				anchor
 			});
-		} else if (leaving) {
-			options.push({
+		} else {
+			none.push({
 				distance,
 				anchor
 			});
 		}
 	}
 
-	const closest = getClosest(options);
+	const closest = getClosest(partial) || getClosest(none);
 
 	return closest && getAnchorInfo(closest.anchor, container);
 }

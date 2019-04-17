@@ -7,7 +7,7 @@ import {Anchors, getAnchorInfoForTarget, getAnchorInfoForPoint} from './anchors'
 import Gutter from './gutter';
 
 const cx = classnames.bind(Styles);
-const MOUSE_MOVE_THROTTLE = 1;
+const MOUSE_MOVE_THROTTLE = 10;
 
 export default class Annotatable extends React.Component {
 	static Anchors = Anchors;
@@ -62,13 +62,21 @@ export default class Annotatable extends React.Component {
 
 
 	onMouseMove = ({clientY, clientX, target}) => {
-		clearTimeout(this.mouseMoveBufferTimeout);
+		this.lastPoint = {clientX, clientY};
 
-		this.handleMouseMove(clientX, clientY, target);
+		if (this.mouseMoveBufferTimeout) { return; }
+
+		this.mouseMoveBufferTimeout = setTimeout(() => {
+			this.handleMouseMove(this.lastPoint.clientX, this.lastPoint.clientY, target);
+			delete this.mouseMoveBufferTimeout;
+		}, MOUSE_MOVE_THROTTLE);
 	}
 
 
 	onMouseLeave = () => {
+		clearTimeout(this.mouseMoveBufferTimeout);
+		delete this.mouseMoveBufferTimeout;
+
 		this.setState({
 			activeAnchor: null
 		});
