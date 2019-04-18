@@ -43,7 +43,7 @@ export default class Anchor extends React.Component {
 		}
 
 		return (
-			<a href="#" {...otherProps} {...annotateProps} />
+			<a {...otherProps} {...annotateProps} />
 		);
 	}
 }
