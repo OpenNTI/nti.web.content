@@ -5,6 +5,7 @@
 	display: inline-flex;
 	align-items: center;
 	margin-bottom: 1rem;
+	border-radius: 4px;
 }
 
 .media-viewer-link .icon {
