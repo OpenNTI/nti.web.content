@@ -1,5 +1,5 @@
 .sticky-popout {
 	position: sticky;
-	top: 0;
+	top: var(--transcripted-video-sticky-top, 0);
 	pointer-events: none; /* NTI-7641 - let events through to the underlying content. descendants can override this as needed. */
 }
