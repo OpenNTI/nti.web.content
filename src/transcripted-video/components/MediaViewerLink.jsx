@@ -10,8 +10,8 @@ const cx = classnames.bind(styles);
 export default function MediaViewerLink ({video, ...others}) {
 	return !video ? null : (
 		<LinkTo.Object object={video} context={{mediaViewer: true}} className={cx('media-viewer-link')}>
-			<i className="icon-grid" />
-			<span>Media Viewer</span>
+			<span className={cx('icon')} />
+			<span className={cx('label')}>Media Viewer</span>
 		</LinkTo.Object>
 	);
 }

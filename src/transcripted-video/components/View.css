@@ -22,7 +22,8 @@
 }
 
 .tools {
-	font-size: 0.875rem;
+	display: flex;
+	flex-direction: row;
 }
 
 .video-header {
