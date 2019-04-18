@@ -17,3 +17,16 @@
 .cues {
 	margin: 0;
 }
+
+/* ie */
+:global(html.is-ie) .chunk {
+	display: flex;
+}
+
+:global(html.is-ie) .chunk-start-time {
+	flex: 0 0 80px;
+}
+
+:global(html.is-ie) .cues {
+	flex: 1 1 0;
+}
