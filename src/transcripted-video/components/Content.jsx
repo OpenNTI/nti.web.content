@@ -50,6 +50,7 @@ class View extends React.Component {
 			})
 		]),
 		autoPlay: PropTypes.bool,
+		startTime: PropTypes.number,
 
 		// store props
 		loading: PropTypes.bool,
@@ -131,7 +132,8 @@ class View extends React.Component {
 			setNotesFilter,
 			disableNoteCreation,
 			scrolledTo,
-			autoPlay
+			autoPlay,
+			startTime
 		} = this.props;
 
 		const showError = error && !video;
@@ -155,7 +157,7 @@ class View extends React.Component {
 										containerId={video.getID()}
 										notes={notes}
 										notesFilter={notesFilter}
-										setNotesFilter={setNotesFilter} 
+										setNotesFilter={setNotesFilter}
 										disableNoteCreation={disableNoteCreation}
 										scrolledTo={scrolledTo}
 									>
@@ -179,7 +181,14 @@ class View extends React.Component {
 											onCueClick={this.onCueClick}
 										/>
 									</Annotatable>
-									<Video src={video} onTimeUpdate={this.onTimeUpdate} ref={this.videoRef} analyticsData={analyticsData} autoPlay={autoPlay} />
+									<Video
+										src={video}
+										onTimeUpdate={this.onTimeUpdate}
+										ref={this.videoRef}
+										analyticsData={analyticsData}
+										autoPlay={autoPlay}
+										startTime={startTime}
+									/>
 								</>
 							)
 				}

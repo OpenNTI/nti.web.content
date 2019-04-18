@@ -28,6 +28,7 @@ class View extends React.Component {
 		analyticsData: PropTypes.object,
 		disableNoteCreation: PropTypes.bool,
 		autoPlay: PropTypes.bool,
+		startTime: PropTypes.number,
 		scrolledTo: PropTypes.oneOfType([
 			PropTypes.string, // note id
 			PropTypes.shape({ // model
@@ -44,7 +45,8 @@ class View extends React.Component {
 			scrolledTo,
 			disableNoteCreation,
 			autoPlay,
-			analyticsData
+			analyticsData,
+			startTime
 		} = this.props;
 
 		const props = {
@@ -55,7 +57,14 @@ class View extends React.Component {
 
 		return (
 			<div className={cx('transcripted-video')}>
-				<Content {...props} disableNoteCreation={disableNoteCreation} autoPlay={autoPlay} analyticsData={analyticsData} scrolledTo={scrolledTo}/>
+				<Content
+					{...props}
+					disableNoteCreation={disableNoteCreation}
+					autoPlay={autoPlay}
+					analyticsData={analyticsData}
+					scrolledTo={scrolledTo}
+					startTime={startTime}
+				/>
 				<Sidebar {...props} />
 			</div>
 		);
