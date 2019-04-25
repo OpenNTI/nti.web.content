@@ -23,6 +23,7 @@ function findParentOrSelfMatchingSelector (node, selector, container) {
 }
 
 function getLineForSpecialCases (range, container) {
+	//TODO: support ref objects too!!
 	const ancestor = range.commonAncestorContainer;
 
 	if (!ancestor) { return null; }
