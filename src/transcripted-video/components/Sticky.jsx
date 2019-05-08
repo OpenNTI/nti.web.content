@@ -19,7 +19,13 @@ export default class Sticky extends React.Component {
 	}
 
 	static propTypes = {
-		style: PropTypes.object
+		style: PropTypes.object,
+
+		// NTI-7705 - We're changing the animation-delay css value to achive the shrink-on-scroll effect,
+		// it has no effect in Edge because Edge snapshots all of the animation values up front. Toggling
+		// the animation name back and forth between identical @keyframe declarations forces it to refresh.
+		// I don't like it either, but here we are.
+		edgeAnimationHack: PropTypes.func
 	}
 
 	state = {}
@@ -143,15 +149,17 @@ export default class Sticky extends React.Component {
 	}
 
 	render () {
+		const {edgeAnimationHack, ...others} = this.props;
 		const {minHeight, pct = 1} = this.state;
 
 		const style = minHeight ? {
 			minHeight: `${minHeight}px`,
-			animationDelay: `-${1 - pct}s`
+			animationDelay: `-${1 - pct}s`,
+			...(edgeAnimationHack ? edgeAnimationHack() : {})
 		} : {};
 
 		const props = {
-			...this.props,
+			...others,
 			style
 		};
 

@@ -21,3 +21,26 @@
 		filter: drop-shadow(0 0 20px rgba(0, 0, 0, 0.5));
 	}
 }
+
+/*
+// NTI-7705 - We're changing the animation-delay css value to achive the shrink-on-scroll effect,
+// it has no effect in Edge because Edge snapshots all of the animation values up front. Toggling
+// the animation name back and forth between identical @keyframe declarations forces it to refresh.
+// The declaration below is identical to the one above.
+// I don't like it either, but here we are.
+*/
+@keyframes sticky-video-dupe {
+	0% {
+		max-width: 100%;
+		filter: drop-shadow(0 0 0 rgba(0, 0, 0, 0));
+	}
+
+	1% {
+		filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.5));
+	}
+
+	100% {
+		max-width: 270px;
+		filter: drop-shadow(0 0 20px rgba(0, 0, 0, 0.5));
+	}
+}
