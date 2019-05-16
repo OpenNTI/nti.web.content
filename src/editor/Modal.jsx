@@ -1,11 +1,8 @@
-import PropTypes from 'prop-types';
 import React from 'react';
+import PropTypes from 'prop-types';
 import {scoped} from '@nti/lib-locale';
-import {Selection, ControlBar, Prompt} from '@nti/web-commons';
+import {Selection, Layouts, Prompt} from '@nti/web-commons';
 
-import {PanelSidebar} from '../common';
-
-import Modal from './Modal';
 import Store from './Store';
 import {DELETED} from './Constants';
 import {resetStore} from './Actions';
@@ -13,35 +10,26 @@ import Sidebar from './sidebar';
 import EditorPanel from './editor-panel';
 import Controls from './controls';
 
-const DEFAULT_TEXT = {
+const t = scoped('web-content.editor.Modal', {
 	wasDeleted: {
 		title: 'Reading Deleted',
 		message: 'This reading has been deleted.'
 	}
-};
-
-const t = scoped('web-content.editor.content-editor', DEFAULT_TEXT);
+});
 
 const selectionManager = new Selection.Manager();
-
 const stop = e => e.preventDefault();
+const getBody = () => typeof document === 'undefined' ? null : document.body;
 
-function getBody () {
-	return typeof document === 'undefined' ? null : document.body;
-}
-
-export default class ContentEditor extends React.Component {
-	static Modal = Modal
-
+export default class ContentEditorModal extends React.Component {
 	static propTypes = {
 		contentPackage: PropTypes.object,
 		course: PropTypes.object,
 		onDidChange: PropTypes.func,
-		breadcrumb: PropTypes.array,
-		gotoResources: PropTypes.func,
 		onDelete: PropTypes.func,
 		navigateToPublished: PropTypes.func
 	}
+
 
 	static childContextTypes = {
 		SelectionManager: PropTypes.shape({
@@ -56,12 +44,10 @@ export default class ContentEditor extends React.Component {
 
 		Store.addChangeListener(this.onStoreChange);
 
-		//TODO: figure out if this needs to be more generalized to be used elsewhere
 		if (body) {
 			body.addEventListener('drop', stop);
 		}
 	}
-
 
 	componentWillUnmount () {
 		const {onDidChange} = this.props;
@@ -78,7 +64,6 @@ export default class ContentEditor extends React.Component {
 			onDidChange();
 		}
 	}
-
 
 	onStoreChange = (data) => {
 		const {type} = data;
@@ -102,27 +87,32 @@ export default class ContentEditor extends React.Component {
 		}
 	}
 
-
 	getChildContext () {
 		return {
 			SelectionManager: selectionManager
 		};
 	}
 
+
 	render () {
-		const {contentPackage, course, gotoResources, breadcrumb, navigateToPublished} = this.props;
-		const sidebar = (<Sidebar contentPackage={contentPackage} course={course} selectionManager={selectionManager} />);
+		const {contentPackage, course, navigateToPublished} = this.props;
 		const readOnly = !contentPackage || !contentPackage.isModifiable;
 
 		return (
-			<div className="content-editor">
-				<PanelSidebar className="content-editor-panel-sidebar" sidebar={sidebar}>
-					<EditorPanel contentPackage={contentPackage} course={course} gotoResources={gotoResources} breadcrumb={breadcrumb} readOnly={readOnly} />
-				</PanelSidebar>
-				<ControlBar visible>
-					<Controls selectionManager={selectionManager} contentPackage={contentPackage} course={course} navigateToPublished={navigateToPublished} readOnly={readOnly} />
-				</ControlBar>
+			<div className="content-editor-modal">
+				<Layouts.Aside component={Sidebar} contentPackage={contentPackage} course={course} selectionManager={selectionManager} />
+				<EditorPanel contentPackage={contentPackage} course={course} readOnly={readOnly} />
+				<div className="controls">
+					<Controls
+						selectionManager={selectionManager}
+						contentPackage={contentPackage}
+						course={course}
+						navigateToPublished={navigateToPublished}
+						readOnly={readOnly}
+					/>
+				</div>
 			</div>
 		);
 	}
+
 }
