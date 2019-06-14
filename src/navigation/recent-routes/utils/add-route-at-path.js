@@ -11,6 +11,8 @@ export default function addRouteAtPath (routes, path, route) {
 	let location = routes;
 
 	for (let part of path) {
+		part = part.getID ? part.getID() : part;
+
 		if (!location.parts[part]) { location.parts[part] = createPart(); }
 
 		location.mostRecentPart = part;

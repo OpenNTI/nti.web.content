@@ -1,7 +1,13 @@
 import {Stores} from '@nti/lib-store';
 
-import {Root} from './Constants';
+import RecentRoutesStore from '../recent-routes/Store';
+
 import {isRouteActive, isSameRoute} from './utils';
+
+const ROUTE_CACHE = {};
+
+const setRouteCache = (root, route) => ROUTE_CACHE[root] = route;
+const getRouteCache = (root) => ROUTE_CACHE[root] || root;
 
 
 export default class ContentNavigationTabs extends Stores.BoundStore {
@@ -17,6 +23,7 @@ export default class ContentNavigationTabs extends Stores.BoundStore {
 
 		this.set({
 			tabConfigs: tabs
+				.filter(tab => !tab.shouldShowFor || tab.shouldShowFor(content))
 				.map(tab => this.getTabConfig(tab))
 				.filter(Boolean)
 		});
@@ -25,9 +32,42 @@ export default class ContentNavigationTabs extends Stores.BoundStore {
 	getTabConfig (tab) {
 		if (!tab) { return null; }
 
-		const {id, label, aliases, getPathToRemember} = tab;
-		const rootRoute = this.binding.getRouteFor(this.content, id);
+		const {activeRoute, baseRoute, content, getRouteFor} = this.binding;
+		const {id, label, aliases, isRoot} = tab;
+		const tabRoot = getRouteFor(content, id);
+
+		if (isRoot) { debugger; }
+
+		const isActive = isRouteActive(tabRoot, activeRoute) || (isRoot && isSameRoute(activeRoute, baseRoute));
+		const isAliasActive = (aliases || []).filter(alias => isRouteActive(getRouteFor(content, alias))).length > 0;
+
+		let route = null;
+
+		if (isActive || isAliasActive) {
+			setRouteCache(tabRoot, activeRoute);
+			route = tabRoot;
+
+			this.maybeRemember(tab);
+
+		} else {
+			route = getRouteCache(tabRoot);
+		}
 
 
+		return {
+			id, label, route,
+			active: isActive || isAliasActive
+		};
+	}
+
+
+	maybeRemember (tab) {
+		if (!tab) { return null; }
+
+		const {activeRoute, content} = this.binding;
+		const {getPathToRemember} = tab;
+		const toRemember = getPathToRemember ? getPathToRemember(activeRoute) : activeRoute;
+
+		RecentRoutesStore.setRouteToRemember([content], toRemember);
 	}
 }
