@@ -9,29 +9,26 @@ const t = scoped('content.navigation.BookTabs', {
 	notebook: 'Notebook'
 });
 
+const OBJECT_REGEX = /\/object.*$/;
+const stripObject = route => route.replace(OBJECT_REGEX, '');
+
 const TABS = [
 	{
 		id: 'content',
 		label: t('content'),
 		isRoot: true,
-		getPathToRemember: () => {
-			debugger;
+		getPathToRemember: (route) => {
+			return stripObject(route);
 		}
 	},
 	{
 		id: 'discussions',
 		label: t('discussions'),
-		shouldShowFor: book => book.hasLink('DiscussionBoard'),
-		getPathToRemember: () => {
-			debugger;
-		}
+		shouldShowFor: book => book.hasLink('DiscussionBoard')
 	},
 	{
 		id: 'notebook',
-		label: t('notebook'),
-		getPathToRemember: () => {
-			debugger;
-		}
+		label: t('notebook')
 	}
 ];
 
