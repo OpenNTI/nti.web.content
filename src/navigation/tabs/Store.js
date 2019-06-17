@@ -1,6 +1,6 @@
 import {Stores} from '@nti/lib-store';
 
-import RecentRoutesStore from '../recent-routes/Store';
+import RememberedRoutesStore from '../remembered-routes';
 
 import {isRouteActive, isSameRoute} from './utils';
 
@@ -36,8 +36,6 @@ export default class ContentNavigationTabs extends Stores.BoundStore {
 		const {id, label, aliases, isRoot} = tab;
 		const tabRoot = getRouteFor(content, id);
 
-		if (isRoot) { debugger; }
-
 		const isActive = isRouteActive(tabRoot, activeRoute) || (isRoot && isSameRoute(activeRoute, baseRoute));
 		const isAliasActive = (aliases || []).filter(alias => isRouteActive(getRouteFor(content, alias))).length > 0;
 
@@ -68,6 +66,6 @@ export default class ContentNavigationTabs extends Stores.BoundStore {
 		const {getPathToRemember} = tab;
 		const toRemember = getPathToRemember ? getPathToRemember(activeRoute) : activeRoute;
 
-		RecentRoutesStore.setRouteToRemember([content], toRemember);
+		RememberedRoutesStore.setRouteToRemember([content], toRemember);
 	}
 }

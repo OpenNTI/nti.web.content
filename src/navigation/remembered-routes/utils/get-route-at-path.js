@@ -6,6 +6,8 @@ export default function getRouteAtPath (routes, path) {
 	let location = routes;
 
 	for (let part of path) {
+		part = part.getID ? part.getID() : part;
+
 		if (!location.parts[part]) { break; }
 
 		location = location.parts[part];

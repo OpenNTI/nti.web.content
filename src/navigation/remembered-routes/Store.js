@@ -46,10 +46,6 @@ class RecentRoutes extends Stores.SimpleStore {
 		return store.getRememberedRoute(...args);
 	}
 
-	get routes () {
-		return this.get('routes');
-	}
-
 
 	/**
 	 * Set a recent route to be retrieved later
@@ -62,7 +58,7 @@ class RecentRoutes extends Stores.SimpleStore {
 	 */
 	setRouteToRemember (path, route) {
 		this.set({
-			routes: addRouteAtPath(this.routes, path, route) 
+			routes: addRouteAtPath(this.get('routes'), path, route) 
 		});
 	}
 
@@ -74,6 +70,6 @@ class RecentRoutes extends Stores.SimpleStore {
 	 * @return {String}      the route that was stored
 	 */
 	getRememberedRoute (path) {
-		return getRouteAtPath(this.routes, path);
+		return getRouteAtPath(this.get('routes'), path);
 	}
 }
