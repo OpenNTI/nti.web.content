@@ -29,7 +29,7 @@ export default class ContentTabsWrapper extends React.Component {
 
 
 	get activeRoute () {
-		if (this.router) {
+		if (!this.router) {
 			return '';
 		}
 
