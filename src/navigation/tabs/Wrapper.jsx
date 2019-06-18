@@ -1,7 +1,19 @@
+import URL from 'url';
+
 import React from 'react';
 import PropTypes from 'prop-types';
 
 import View from './View';
+
+function getRouteFromLocation (location) {
+	const {hash, pathname, search} = location;
+
+	return URL.format({
+		pathname,
+		hash,
+		search
+	});
+}
 
 export default class ContentTabsWrapper extends React.Component {
 	static propTypes = {
@@ -29,11 +41,11 @@ export default class ContentTabsWrapper extends React.Component {
 
 
 	get activeRoute () {
-		if (!this.router) {
+		if (!this.router || !this.router.route || !this.router.route.location) {
 			return '';
 		}
 
-		return this.router.route.location.pathname;
+		return getRouteFromLocation(this.router.route.location);
 	}
 
 
