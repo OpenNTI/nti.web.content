@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {scoped} from '@nti/lib-locale';
 
 import Tabs from './tabs';
@@ -32,8 +33,13 @@ const TABS = [
 	}
 ];
 
-export default function BookTabs (props) {
+BookTabs.propTypes = {
+	excludeTabs: PropTypes.array
+};
+export default function BookTabs ({excludeTabs, ...props}) {
+	const tabs = TABS.filter(tab => !excludeTabs || excludeTabs.indexOf(tab.id) < 0);
+
 	return (
-		<Tabs {...props} tabs={TABS} />
+		<Tabs {...props} tabs={tabs} />
 	);
 }
