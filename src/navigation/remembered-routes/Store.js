@@ -1,5 +1,6 @@
 import {Stores, Interfaces} from '@nti/lib-store';
 import {getAppUserScopedStorage} from '@nti/web-client';
+import {Layouts} from '@nti/web-commons';
 
 import {addRouteAtPath, getRouteAtPath} from './utils';
 
@@ -28,8 +29,10 @@ function Storage () {
 	};
 }
 
+const getKey = () => Layouts.Responsive.isMobileContext() ? 'recent-mobile-routes' : 'recent-routes';
+
 export default
-@Interfaces.Stateful('recent-routes', ['routes'], Storage())
+@Interfaces.Stateful(getKey, ['routes'], Storage())
 class RecentRoutes extends Stores.SimpleStore {
 	static Singleton = true
 
