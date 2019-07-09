@@ -1,3 +1,4 @@
+/* eslint no-misleading-character-class: 0*/
 //http://docutils.sourceforge.net/docs/ref/rst/restructuredtext.html#inline-markup-recognition-rules
 //Unicode Categories
 //Dash
