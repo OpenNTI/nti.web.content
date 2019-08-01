@@ -38,6 +38,7 @@ export default class ContentNavigationTabs extends Stores.BoundStore {
 
 		const isActive = isRouteActive(tabRoot, activeRoute) || (isRoot && isSameRoute(activeRoute, baseRoute));
 		const isAliasActive = (aliases || []).filter(alias => isRouteActive(getRouteFor(content, alias))).length > 0;
+		const isTabRoot = isSameRoute(tabRoot, activeRoute);
 
 		let route = null;
 
@@ -45,8 +46,7 @@ export default class ContentNavigationTabs extends Stores.BoundStore {
 			setRouteCache(tabRoot, activeRoute);
 			route = tabRoot;
 
-			this.maybeRemember(tab);
-
+			this.maybeRemember(tab, isTabRoot);
 		} else {
 			route = getRouteCache(tabRoot);
 		}
@@ -59,13 +59,17 @@ export default class ContentNavigationTabs extends Stores.BoundStore {
 	}
 
 
-	maybeRemember (tab) {
+	maybeRemember (tab, isTabRoot) {
 		if (!tab) { return null; }
 
 		const {activeRoute, content} = this.binding;
-		const {getPathToRemember} = tab;
+		const {getPathToRemember, rememberNonRootRoutes} = tab;
 		const toRemember = getPathToRemember ? getPathToRemember(activeRoute) : activeRoute;
 
 		RememberedRoutesStore.setRouteToRemember([content], toRemember);
+
+		if (rememberNonRootRoutes && !isTabRoot) {
+			RememberedRoutesStore.setRouteToRemember([content, tab.id], toRemember);
+		}
 	}
 }

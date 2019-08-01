@@ -18,6 +18,7 @@ const TABS = [
 		id: 'content',
 		label: t('content'),
 		isRoot: true,
+		rememberNonRootRoutes: true,
 		getPathToRemember: (route) => {
 			return stripObject(route);
 		}
