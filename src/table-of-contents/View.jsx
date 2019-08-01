@@ -1,14 +1,22 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
+import {scoped} from '@nti/lib-locale';
 import {Search, Loading, Error as Err, Banner} from '@nti/web-commons';
 
+import {RememberedRoutes} from '../navigation';
+
 import TableOfContents from './TableOfContents';
+
+const t = scoped('content.table-of-contents.View', {
+	continueReading: 'Continue Reading'
+});
 
 export default class TableOfContentsView extends React.Component {
 	static propTypes = {
 		contentPackage: PropTypes.object.isRequired,
 		banner: PropTypes.bool,
+		showLastPage: PropTypes.bool,
 		onSelectNode: PropTypes.func
 	}
 
@@ -61,6 +69,7 @@ export default class TableOfContentsView extends React.Component {
 				{!loading && this.renderSearch()}
 				{!loading && this.renderError()}
 				{!loading && this.renderTocs()}
+				{!loading && this.renderLastPage()}
 			</div>
 		);
 	}
@@ -110,6 +119,28 @@ export default class TableOfContentsView extends React.Component {
 					);
 				})}
 			</ul>
+		);
+	}
+
+
+	renderLastPage () {
+		const {showLastPage, contentPackage} = this.props;
+
+		if (!showLastPage) { return null; }
+
+		const rememberedRoute = RememberedRoutes.getRememberedRoute([contentPackage, 'content']);
+
+		if (!rememberedRoute) { return null;}
+
+
+		return (
+			<div className="last-page-container">
+				<a href={rememberedRoute} className="last-page">
+					<span className="bookmark-icon" />
+					<span className="continue-label">{t('continueReading')}</span>
+					<i className="icon-chevron-right arrow" />
+				</a>
+			</div>
 		);
 	}
 }
