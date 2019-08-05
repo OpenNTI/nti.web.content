@@ -60,10 +60,11 @@ export default class TableOfContentsView extends React.Component {
 
 
 	render () {
+		const {showLastPage} = this.props;
 		const {loading} = this.state;
 
 		return (
-			<div className={cx('table-of-contents-view', {loading})}>
+			<div className={cx('table-of-contents-view', {loading, 'show-last-page': showLastPage})}>
 				{loading && (<Loading.Mask />)}
 				{!loading && this.renderBranding()}
 				{!loading && this.renderSearch()}

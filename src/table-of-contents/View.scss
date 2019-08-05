@@ -3,6 +3,10 @@
 .table-of-contents-view {
 	padding-top: 1px;
 
+	&.show-last-page {
+		padding-bottom: 100px;
+	}
+
 	&.loading {
 		min-height: 200px;
 	}
