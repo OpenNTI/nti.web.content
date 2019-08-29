@@ -11,6 +11,7 @@ import Breadcrumb from '../../breadcrumb';
 class Highlight extends React.Component {
 	static propTypes = {
 		item: PropTypes.shape({
+			getCreatedTime: PropTypes.func.isRequired,
 			presentationProperties: PropTypes.shape({
 				highlightColorName: PropTypes.string
 			}),

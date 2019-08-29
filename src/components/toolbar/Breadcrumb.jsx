@@ -14,17 +14,17 @@ export default class Breadcrumb extends React.Component {
 		super(props);
 	}
 
-	renderBreadcrumbPart = (part, index, arr) => {
-		return (
-			<BreadcrumbItem
-				onClick={this.props.onClick}
-				isRoot={index === 0}
-				isCurrent={index === arr.length - 1}
-				item={part}
-				key={index}
-				bcKey={index}
-				message={index === arr.length - 1 ? this.props.message : null}/>);
-	}
+	renderBreadcrumbPart = (part, index, arr) => (
+		<BreadcrumbItem
+			onClick={this.props.onClick}
+			isRoot={index === 0}
+			isCurrent={index === arr.length - 1}
+			item={part}
+			key={index}
+			bcKey={index}
+			message={index === arr.length - 1 ? this.props.message : null}/>
+	);
+
 
 	render () {
 		return (

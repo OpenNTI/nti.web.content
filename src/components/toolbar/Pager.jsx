@@ -20,7 +20,10 @@ export default class Pager extends React.Component {
 			getPreviousPrecache: PropTypes.func.isRequired,
 			getNext: PropTypes.func.isRequired,
 			getNextTitle: PropTypes.func.isRequired,
-			getNextPrecache: PropTypes.func.isRequired
+			getNextPrecache: PropTypes.func.isRequired,
+			getTotal: PropTypes.func.isRequired,
+			previous: PropTypes.any,
+			next: PropTypes.any,
 		})
 	};
 

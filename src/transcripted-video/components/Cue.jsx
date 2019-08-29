@@ -16,6 +16,7 @@ export default class Cue extends React.Component {
 		cue: PropTypes.shape({
 			startTime: PropTypes.number.isRequired,
 			endTime: PropTypes.number.isRequired,
+			getID: PropTypes.func,
 
 			// text for cues, image for slides.
 			text: PropTypes.string,

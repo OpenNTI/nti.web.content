@@ -43,7 +43,10 @@ export default class CourseFigureEditor extends React.Component {
 			indexOfType: PropTypes.number,
 			setBlockData: PropTypes.func,
 			removeBlock: PropTypes.func,
-			setReadOnly: PropTypes.func
+			setReadOnly: PropTypes.func,
+			course: PropTypes.shape({
+				getID: PropTypes.func,
+			})
 		})
 	};
 

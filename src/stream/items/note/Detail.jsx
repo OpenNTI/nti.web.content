@@ -16,7 +16,10 @@ export default class NoteDetils extends React.Component {
 		item: PropTypes.shape({
 			body: PropTypes.any.isRequired,
 			isReply: PropTypes.func.isRequired,
-			creator: PropTypes.string.isRequired
+			getCreatedTime: PropTypes.func.isRequired,
+			creator: PropTypes.string.isRequired,
+			title: PropTypes.string.isRequired,
+			placeholder: PropTypes.any.isRequired,
 		}).isRequired
 	}
 

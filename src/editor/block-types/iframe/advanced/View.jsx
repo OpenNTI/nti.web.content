@@ -99,7 +99,7 @@ export default class ContentEditorBlockTypeIframeAdvanced extends React.Componen
 			const {key, value} = pair;
 
 			if (!key) { return this.setInvalid(); }
-			if (properties.hasOwnProperty(key)) { return this.onDuplicateKey(); }
+			if (Object.prototype.hasOwnProperty.call(properties,key)) { return this.onDuplicateKey(); }
 
 			properties[key] = value;
 		}

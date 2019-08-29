@@ -65,11 +65,12 @@ async function resolvePath (parts, contentPackage, page) {
 	if (contentPackage) { roots.push(contentPackage); }
 
 	try {
+		const u = Url.parse(parts.format());
 		const resolved = await resolveForRoots(parts.pathname, roots);
 
-		parts.pathname = resolved;
+		u.pathname = resolved;
 
-		return parts.format();
+		return u.format();
 	} catch (e) {
 		return parts.format();
 	}

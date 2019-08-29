@@ -1,11 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import Breadcrumb from './Breadcrumb';
+import { Flyout as TocFlyout } from '../../table-of-contents/';
 import PagerOfRealPages from '../../toolbar/Pager';
+
+import Breadcrumb from './Breadcrumb';
 import Pager from './Pager';
 
-import { Flyout as TocFlyout } from '../../table-of-contents/';
 
 
 export default class Toolbar extends React.Component {
