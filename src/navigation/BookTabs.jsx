@@ -7,7 +7,8 @@ import Tabs from './tabs';
 const t = scoped('content.navigation.BookTabs', {
 	content: 'Book',
 	discussions: 'Discussions',
-	notebook: 'Notebook'
+	notebook: 'Notebook',
+	community: 'Community'
 });
 
 const OBJECT_REGEX = /\/object.*$/;
@@ -27,6 +28,11 @@ const TABS = [
 		id: 'discussions',
 		label: t('discussions'),
 		shouldShowFor: book => book.hasLink('DiscussionBoard')
+	},
+	{
+		id: 'community',
+		label: t('community'),
+		// shouldShowFor: book => book.hasCommunity()
 	},
 	{
 		id: 'notebook',
