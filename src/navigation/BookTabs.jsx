@@ -25,11 +25,6 @@ const TABS = [
 		}
 	},
 	{
-		id: 'discussions',
-		label: t('discussions'),
-		shouldShowFor: book => book.hasLink('DiscussionBoard')
-	},
-	{
 		id: 'community',
 		label: t('community'),
 		// shouldShowFor: book => book.hasCommunity()
