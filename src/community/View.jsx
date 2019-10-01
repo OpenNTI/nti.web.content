@@ -12,6 +12,6 @@ export default function ContentCommunity ({content, ...otherProps}) {
 	if (!content.hasCommunity) { return null; }//TODO: show a not found message
 
 	return (
-		<Community.View community={content.getCommunity()} {...otherProps} />
+		<Community.View community={content.getCommunity()} {...otherProps} noBackground />
 	);
 }
