@@ -27,7 +27,7 @@ export default class TableOfContentsFlyout extends React.Component {
 	}
 
 	render () {
-		const {contentPackage, onSelectNode} = this.props;
+		const {contentPackage, onSelectNode, searchResultsCmp} = this.props;
 
 		if (!contentPackage) { return null; }
 
@@ -39,7 +39,7 @@ export default class TableOfContentsFlyout extends React.Component {
 				className="table-of-contents-flyout"
 			>
 				<div>
-					<TableOfContents contentPackage={contentPackage} onSelectNode={onSelectNode && this.onSelectNode} />
+					<TableOfContents contentPackage={contentPackage} onSelectNode={onSelectNode && this.onSelectNode} searchResultsCmp={searchResultsCmp} />
 				</div>
 			</Flyout.Triggered>
 		);

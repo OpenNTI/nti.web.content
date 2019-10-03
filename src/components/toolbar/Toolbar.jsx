@@ -82,12 +82,12 @@ export default class Toolbar extends React.Component {
 			return null;
 		}
 
-		const {showToc, selectTocNode} = this.props;
+		const {searchResultsCmp, showToc, selectTocNode} = this.props;
 		const className = 'path-items' + (this.props.message ? ' show-toast' : '');
 
 		return (
 			<div className={className}>
-				{showToc && (<TocFlyout contentPackage={this.state.contentPackage} onSelectNode={selectTocNode}/>)}
+				{showToc && (<TocFlyout contentPackage={this.state.contentPackage} onSelectNode={selectTocNode} searchResultsCmp={searchResultsCmp} />)}
 				<Breadcrumb onClick={this.onBreadcrumbItemClicked} items={this.state.path} message={this.props.message}/>
 			</div>
 		);

@@ -7,6 +7,7 @@ import {buffer} from '@nti/lib-commons';
 
 import {RememberedRoutes} from '../navigation';
 
+
 import TableOfContents from './TableOfContents';
 
 const t = scoped('content.table-of-contents.View', {
@@ -36,9 +37,14 @@ export default class TableOfContentsView extends React.Component {
 		},
 		{
 			label: 'Search Results',
-			component: () => (
-				<div>(search results)</div>
-			)
+			component: () => {
+				const {searchResultsCmp: Cmp} = this.props;
+				const {searchResults: {Items: items = []} = {}} = this.state;
+
+				return !items.length ? null : (
+					<Cmp hits={items} />
+				);
+			}
 		},
 	]
 
