@@ -5,7 +5,6 @@ import {scoped} from '@nti/lib-locale';
 import {
 	Banner,
 	Error as Err,
-	Layouts,
 	Loading,
 	Search,
 	Tabs
@@ -15,6 +14,7 @@ import {buffer} from '@nti/lib-commons';
 import {RememberedRoutes} from '../navigation';
 
 
+import SearchResults from './SearchResults';
 import TableOfContents from './TableOfContents';
 
 const t = scoped('content.table-of-contents.View', {
@@ -45,15 +45,10 @@ export default class TableOfContentsView extends React.Component {
 		{
 			label: 'Search Results',
 			component: () => {
-				const {searchResultsCmp: Cmp} = this.props;
-				const {searchResults: {Items: items = []} = {}} = this.state;
+				const {searchResultItems: items = []} = this.state;
 
 				return !items.length ? null : (
-					<div className="toc-search-results">
-						<Layouts.InfiniteScroll.Continuous loadMore={this.loadMoreSearchResults} buffer={100}>
-							<Cmp hits={items} />
-						</Layouts.InfiniteScroll.Continuous>
-					</div>
+					<SearchResults hits={items} onLoadMore={this.loadMoreSearchResults} />
 				);
 			}
 		},
@@ -109,6 +104,7 @@ export default class TableOfContentsView extends React.Component {
 				: undefined;
 	
 			this.setState({
+				searchResultItems: searchResults ? searchResults.Items : undefined,
 				searchResults
 			});
 		}
@@ -118,18 +114,15 @@ export default class TableOfContentsView extends React.Component {
 	})
 
 	loadMoreSearchResults = buffer(500, async () => {
-		const {state: {searchResults}, searchInFlight} = this;
+		const {state: {searchResults, searchResultItems = []}, searchInFlight} = this;
 		if (searchResults && searchResults.hasMore && !searchInFlight) {
-			const {Items: previousItems = []} = searchResults;
 			this.searchInFlight = true;
 			try {
-				const {Items: items = [], ...result} = await searchResults.loadNextPage();
+				const result = await searchResults.loadNextPage();
 				
 				this.setState({
-					searchResults: {
-						...result,
-						Items: [...previousItems, ...items]
-					}
+					searchResultItems: [...searchResultItems, ...result.Items],
+					searchResults: result
 				});
 			}
 			finally {
