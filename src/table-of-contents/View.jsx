@@ -2,7 +2,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
 import {scoped} from '@nti/lib-locale';
-import {Search, Loading, Error as Err, Banner, Tabs} from '@nti/web-commons';
+import {
+	Banner,
+	Error as Err,
+	Layouts,
+	Loading,
+	Search,
+	Tabs
+} from '@nti/web-commons';
 import {buffer} from '@nti/lib-commons';
 
 import {RememberedRoutes} from '../navigation';
@@ -42,7 +49,11 @@ export default class TableOfContentsView extends React.Component {
 				const {searchResults: {Items: items = []} = {}} = this.state;
 
 				return !items.length ? null : (
-					<Cmp hits={items} />
+					<div className="toc-search-results">
+						<Layouts.InfiniteScroll.Continuous loadMore={this.loadMoreSearchResults} buffer={100}>
+							<Cmp hits={items} />
+						</Layouts.InfiniteScroll.Continuous>
+					</div>
 				);
 			}
 		},
@@ -90,16 +101,42 @@ export default class TableOfContentsView extends React.Component {
 
 
 	updateSearch = buffer(500, async term => {
-		const shouldSearch = (term || '').length > 3;
-		const searchResults = shouldSearch
-			? await this.searchDataSource.loadPage( 0, { term })
-			: null;
-
-		this.setState({
-			searchResults
-		});
+		const shouldSearch = !this.searchInFlight && (term || '').length > 3;
+		try {
+			this.searchInFlight = true;
+			const searchResults = shouldSearch
+				? await this.searchDataSource.loadPage( 0, { term })
+				: undefined;
+	
+			this.setState({
+				searchResults
+			});
+		}
+		finally {
+			delete this.searchInFlight;
+		}
 	})
 
+	loadMoreSearchResults = buffer(500, async () => {
+		const {state: {searchResults}, searchInFlight} = this;
+		if (searchResults && searchResults.hasMore && !searchInFlight) {
+			const {Items: previousItems = []} = searchResults;
+			this.searchInFlight = true;
+			try {
+				const {Items: items = [], ...result} = await searchResults.loadNextPage();
+				
+				this.setState({
+					searchResults: {
+						...result,
+						Items: [...previousItems, ...items]
+					}
+				});
+			}
+			finally {
+				this.searchInFlight = false;
+			}
+		}
+	})
 
 	updateFilter = (filter) => {
 		this.setState({filter});
