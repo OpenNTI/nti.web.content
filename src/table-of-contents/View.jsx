@@ -88,9 +88,11 @@ export default class TableOfContentsView extends React.Component {
 
 	get searchDataSource () {
 		const {contentPackage} = this.props;
-		const bundle = contentPackage.parent({
-			test: o => o.getSearchDataSource
-		});
+		const bundle = contentPackage.getSearchDataSource ?
+			contentPackage :
+			contentPackage.parent({
+				test: o => o.getSearchDataSource
+			});
 		return bundle ? bundle.getSearchDataSource() : null;
 	}
 
