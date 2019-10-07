@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames/bind';
 import {rawContent} from '@nti/lib-commons';
 import {Layouts} from '@nti/web-commons';
+import {LinkTo} from '@nti/web-routing';
 
 import styles from './SearchResults.css';
 
@@ -34,10 +35,11 @@ SearchResults.propTypes = {
 	onLoadMore: PropTypes.func
 };
 
-const Hit = ({hit: { ContainerTitle: containerTitle, Fragments: fragments, TargetMimeType: targetMimeType }}) => {
+const Hit = ({hit}) => {
+	const {ContainerTitle: containerTitle, Fragments: fragments, TargetMimeType: targetMimeType} = hit;
 	const {title, content = [], keywords} = bin(fragments, 'Field');
 	return (
-		<div className={cx('search-hit')} data-target-mimetype={targetMimeType}>
+		<LinkTo.Object object={hit} className={cx('search-hit')} data-target-mimetype={targetMimeType}>
 			<div className={cx('hit-title')}>
 				{title
 					? <Fragment fragment={title[0]} />
@@ -46,7 +48,7 @@ const Hit = ({hit: { ContainerTitle: containerTitle, Fragments: fragments, Targe
 			</div>
 			<Fragments fragments={content} className={cx('content-hits')}/>
 			<Fragments fragments={keywords} className={cx('keyword-hits')} tag="div" />
-		</div>
+		</LinkTo.Object>
 	);
 };
 
