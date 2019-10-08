@@ -1,13 +1,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames/bind';
+import {scoped} from '@nti/lib-locale';
 import {rawContent} from '@nti/lib-commons';
-import {Layouts} from '@nti/web-commons';
+import {Layouts, Loading, Text} from '@nti/web-commons';
 import {LinkTo} from '@nti/web-routing';
 
 import styles from './SearchResults.css';
 
 const cx = classnames.bind(styles);
+const t = scoped('content.table-of-contents.SearchResults', {
+	empty: {
+		noTerm: 'Enter a search term.',
+		term: 'No Matches'
+	}
+});
 
 const bin = (arr = [], field) => arr.reduce((acc, item) => {
 	acc[item[field]] = [...acc[item[field]] || [], item];
@@ -15,25 +22,50 @@ const bin = (arr = [], field) => arr.reduce((acc, item) => {
 }, {});
 
 export default class SearchResults extends React.Component {
+	static propTypes = {
+		hits: PropTypes.array,
+		onLoadMore: PropTypes.func,
+		filter: PropTypes.string,
+		searching: PropTypes.bool
+	};
+
 
 	render () {
-		const {hits, onLoadMore} = this.props;
-		return !hits || !hits.length ? null : (
-			<div className="toc-search-results">
-				<Layouts.InfiniteScroll.Continuous loadMore={onLoadMore} buffer={100}>
-					{hits.map((hit, i) => (
-						<Hit key={hit.NTIID} hit={hit} />
-					))}
-				</Layouts.InfiniteScroll.Continuous>
+		const {hits, onLoadMore, searching} = this.props;
+		const hasHits = hits && hits.length > 0;
+
+		return (
+			<div className={cx('toc-search-container')}>
+				<Loading.Placeholder loading={searching && !hasHits} fallback={(<Loading.Spinner />)}>
+					{hasHits && (
+						<div className="toc-search-results">
+							<Layouts.InfiniteScroll.Continuous loadMore={onLoadMore} buffer={100}>
+								{hits.map((hit, i) => (
+									<Hit key={hit.NTIID} hit={hit} />
+								))}
+							</Layouts.InfiniteScroll.Continuous>
+						</div>
+					)}
+					{!hasHits && this.renderEmpty()}
+					{searching && (<Loading.Spinner />)}
+				</Loading.Placeholder>
+			</div>
+		);
+	}
+
+	renderEmpty () {
+		const {filter} = this.props;
+
+		return (
+			<div className={cx('empty-search')}>
+				<Text.Base>
+					{filter ? t('empty.term') : t('empty.noTerm')}
+				</Text.Base>
 			</div>
 		);
 	}
 }
 
-SearchResults.propTypes = {
-	hits: PropTypes.array,
-	onLoadMore: PropTypes.func
-};
 
 const Hit = ({hit}) => {
 	const {ContainerTitle: containerTitle, Fragments: fragments, TargetMimeType: targetMimeType} = hit;

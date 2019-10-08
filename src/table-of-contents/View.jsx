@@ -45,10 +45,10 @@ export default class TableOfContentsView extends React.Component {
 		{
 			label: 'Search Results',
 			component: () => {
-				const {searchResultItems: items = []} = this.state;
+				const {searchResultItems: items = [], filter, searching} = this.state;
 
-				return !items.length ? null : (
-					<SearchResults hits={items} onLoadMore={this.loadMoreSearchResults} />
+				return (
+					<SearchResults hits={items} filter={filter} searching={searching} onLoadMore={this.loadMoreSearchResults} />
 				);
 			}
 		},
@@ -99,6 +99,11 @@ export default class TableOfContentsView extends React.Component {
 
 	updateSearch = buffer(500, async term => {
 		const shouldSearch = !this.searchInFlight && (term || '').length > 3;
+
+		this.setState({
+			searching: true
+		});
+
 		try {
 			this.searchInFlight = true;
 			const searchResults = shouldSearch
@@ -112,6 +117,9 @@ export default class TableOfContentsView extends React.Component {
 		}
 		finally {
 			delete this.searchInFlight;
+			this.setState({
+				searching: false
+			});
 		}
 	})
 
@@ -119,6 +127,11 @@ export default class TableOfContentsView extends React.Component {
 		const {state: {searchResults, searchResultItems = []}, searchInFlight} = this;
 		if (searchResults && searchResults.hasMore && !searchInFlight) {
 			this.searchInFlight = true;
+
+			this.setState({
+				searching: true
+			});
+
 			try {
 				const result = await searchResults.loadNextPage();
 				
@@ -129,12 +142,15 @@ export default class TableOfContentsView extends React.Component {
 			}
 			finally {
 				this.searchInFlight = false;
+				this.setState({
+					searching: false
+				});
 			}
 		}
 	})
 
 	updateFilter = (filter) => {
-		this.setState({filter});
+		this.setState({filter, searching: true});
 		this.updateSearch(filter);
 	}
 
@@ -142,10 +158,14 @@ export default class TableOfContentsView extends React.Component {
 
 
 	renderTabs = () => {
-		const {activeTab} = this.state;
+		const {activeTab, filter} = this.state;
 
 		return (
-			<Tabs.Tabs active={activeTab} onChange={this.onTabChange}>
+			<Tabs.Tabs
+				className={cx('table-of-contents-tabs', {filter})}
+				active={activeTab}
+				onChange={this.onTabChange}
+			>
 				{this.tabs.map(({label}) => (
 					<Tabs.Tab key={label} label={label} />
 				))}

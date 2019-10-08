@@ -12,6 +12,10 @@
 		min-height: 200px;
 	}
 
+	.table-of-contents-tabs:not(.filter) {
+		display: none;
+	}
+
 	ul.contents {
 		list-style: none;
 		padding: 0;
