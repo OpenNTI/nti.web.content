@@ -150,7 +150,10 @@ export default class TableOfContentsView extends React.Component {
 	})
 
 	updateFilter = (filter) => {
-		this.setState({filter, searching: true});
+		this.setState({
+			filter,
+			activeTab: filter ? this.state.activeTab : 0
+		});
 		this.updateSearch(filter);
 	}
 
