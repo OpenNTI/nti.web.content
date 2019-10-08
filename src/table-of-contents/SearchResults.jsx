@@ -9,7 +9,7 @@ import styles from './SearchResults.css';
 
 const cx = classnames.bind(styles);
 
-const bin = (arr, field) => arr.reduce((acc, item) => {
+const bin = (arr = [], field) => arr.reduce((acc, item) => {
 	acc[item[field]] = [...acc[item[field]] || [], item];
 	return acc;
 }, {});
