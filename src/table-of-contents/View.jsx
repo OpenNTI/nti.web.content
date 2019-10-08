@@ -98,7 +98,9 @@ export default class TableOfContentsView extends React.Component {
 
 
 	updateSearch = buffer(500, async term => {
-		const shouldSearch = !this.searchInFlight && (term || '').length > 3;
+		const shouldSearch = (term || '').length > 3;
+
+		this.lastSearchTerm = term;
 
 		this.setState({
 			searching: true
@@ -109,6 +111,8 @@ export default class TableOfContentsView extends React.Component {
 			const searchResults = shouldSearch
 				? await this.searchDataSource.loadPage( 0, { term })
 				: undefined;
+
+			if (term !== this.lastSearchTerm) { return; }
 	
 			this.setState({
 				searchResultItems: searchResults ? searchResults.Items : undefined,
