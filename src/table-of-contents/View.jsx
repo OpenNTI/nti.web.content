@@ -109,7 +109,7 @@ export default class TableOfContentsView extends React.Component {
 		try {
 			this.searchInFlight = true;
 			const searchResults = shouldSearch
-				? await this.searchDataSource.loadPage( 0, { term })
+				? await this.searchDataSource.loadPage( 0, { term, accept: 'application/vnd.nextthought.bookcontent' })
 				: undefined;
 
 			if (term !== this.lastSearchTerm) { return; }
