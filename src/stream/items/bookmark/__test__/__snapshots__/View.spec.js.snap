@@ -21,9 +21,9 @@ exports[`Bookmark renders correctly 1`] = `
      created a bookmark on 
     <time
       className="nti-text"
-      dateTime="2018-08-30T19:00:00-05:00"
+      dateTime="2018-08-31T00:00:00+00:00"
     >
-      August 30, 2018
+      August 31, 2018
     </time>
   </div>
   <div
