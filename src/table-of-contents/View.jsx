@@ -78,11 +78,13 @@ export default class TableOfContentsView extends React.Component {
 		try {
 			const tocs = await contentPackage.getTablesOfContents();
 
-			this.setState({loading: false, tocs});
+			this.setState({tocs});
 		} catch (e) {
 			this.setState({error: e});
 		}
-
+		finally {
+			this.setState({loading: false}); 
+		}
 	}
 
 
@@ -235,7 +237,7 @@ export default class TableOfContentsView extends React.Component {
 
 	renderTocs () {
 		const {onSelectNode} = this.props;
-		const {tocs, filter} = this.state;
+		const {tocs = [], filter} = this.state;
 		const isSingle = tocs.length === 1;
 		const cls = cx({'single-root': isSingle, 'multi-root': !isSingle});
 
