@@ -34,6 +34,10 @@
 	margin-bottom: 0.5rem;
 }
 
+.hit-title .fragment {
+	font-weight: inherit;
+}
+
 .hit-fragments {
 	font-size: 14px;
 	line-height: 25px;
@@ -58,7 +62,6 @@
 	border: 1px solid #e8e8e8;
 	font-size: 12px;
 	background: #f8f8f8;
-	padding: 0;
 	line-height: 1;
 	padding: 0.5em 0.75em;
 	border-radius: 2px;
