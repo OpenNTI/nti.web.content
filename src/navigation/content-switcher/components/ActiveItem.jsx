@@ -59,7 +59,7 @@ export default class ContentNavigationSwitcherActiveItem extends React.Component
 						<div className="title">{item.title}</div>
 						{item.canDelete &&  (
 							<LinkTo.Object className="delete" object={item} context="delete">
-								<i className="icon-delete" />
+								<i className="icon-delete" aria-label="delete"/>
 							</LinkTo.Object>
 						)}
 					</div>
