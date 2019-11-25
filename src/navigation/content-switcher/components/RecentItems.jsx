@@ -87,7 +87,7 @@ export default class ContentNavigationSwitcherRecentItems extends React.Componen
 		const trigger = (
 			<LinkTo.Object className="content-navigation-switcher-recent-item" object={item}>
 				<Presentation.Asset contentPackage={item} type="thumb">
-					<img className="icon" />
+					<img className="icon" alt={item.title}/>
 				</Presentation.Asset>
 			</LinkTo.Object>
 		);
