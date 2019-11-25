@@ -51,7 +51,7 @@ export default class ContentNavigationSwitcherActiveItem extends React.Component
 		return (
 			<div className="item">
 				<Presentation.Asset contentPackage={item} type="thumb">
-					<img className="icon" />
+					<img className="icon" alt={item.title} />
 				</Presentation.Asset>
 				<div className="info">
 					<div className="header">
