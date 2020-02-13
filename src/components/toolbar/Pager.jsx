@@ -67,7 +67,7 @@ export default class Pager extends React.Component {
 			(pageSource && pageSource.previous && pageSource.getPrevious()
 				? ''
 				: ' disabled');
-		return <div onClick={this.goToPrevious} className={className} />;
+		return <div onClick={this.goToPrevious} className={className} role="button" aria-label="previous" title={pageSource.getPreviousTitle()} />;
 	}
 
 	goToNext = () => {
@@ -91,7 +91,7 @@ export default class Pager extends React.Component {
 			(pageSource && pageSource.next && pageSource.getNext()
 				? ''
 				: ' disabled');
-		return <div onClick={this.goToNext} className={className} />;
+		return <div onClick={this.goToNext} className={className} role="button" aria-label="next" title={pageSource.getNextTitle()} />;
 	}
 
 	render () {
