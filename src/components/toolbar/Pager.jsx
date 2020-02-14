@@ -5,7 +5,10 @@ import { scoped } from '@nti/lib-locale';
 import CurrentPage from './CurrentPage';
 
 const t = scoped('content.toolbar.Pager', {
-	separator: ' of '
+	separator: ' of ',
+	goTo: 'Go to ',
+	previous: 'previous',
+	next: 'next'
 });
 
 
@@ -67,7 +70,7 @@ export default class Pager extends React.Component {
 			(pageSource && pageSource.previous && pageSource.getPrevious()
 				? ''
 				: ' disabled');
-		return <div onClick={this.goToPrevious} className={className} role="button" aria-label="previous" title={pageSource.getPreviousTitle()} />;
+		return <div onClick={this.goToPrevious} className={className} role="button" aria-label={t('previous')} title={t('goTo') + pageSource.getPreviousTitle()} />;
 	}
 
 	goToNext = () => {
@@ -91,7 +94,7 @@ export default class Pager extends React.Component {
 			(pageSource && pageSource.next && pageSource.getNext()
 				? ''
 				: ' disabled');
-		return <div onClick={this.goToNext} className={className} role="button" aria-label="next" title={pageSource.getNextTitle()} />;
+		return <div onClick={this.goToNext} className={className} role="button" aria-label={t('next')} title={t('goTo') + pageSource.getNextTitle()} />;
 	}
 
 	render () {
