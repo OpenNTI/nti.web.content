@@ -6,7 +6,7 @@ import CurrentPage from './CurrentPage';
 
 const t = scoped('content.toolbar.Pager', {
 	separator: ' of ',
-	goTo: 'Go to %(assignmentTitle)',
+	goTo: 'Go to %(title)',
 	previous: 'previous',
 	next: 'next'
 });
@@ -76,7 +76,9 @@ export default class Pager extends React.Component {
 				className={className}
 				role="button"
 				aria-label={t('previous')}
-				title={t('goTo', {assignmentTitle: pageSource.getPreviousTitle()})}
+				title={t('goTo', {
+					title: pageSource.getPreviousTitle() ?? t('previous')
+				})}
 			/>
 		);
 	}
@@ -108,7 +110,9 @@ export default class Pager extends React.Component {
 				className={className}
 				role="button"
 				aria-label={t('next')}
-				title={t('goTo', {assignmentTitle: pageSource.getNextTitle()})}
+				title={t('goTo', {
+					title: pageSource.getNextTitle() ?? t('next')
+				})}
 			/>
 		);
 	}
