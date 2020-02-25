@@ -53,7 +53,7 @@ export default class CourseVideoButton extends React.Component {
 						name: 'ntivideoref',
 						body: [],
 						arguments: `${video.getID()}`,
-						options: {uid: uuid()}
+						options: {uid: uuid.v4()}
 					}
 				});
 			});
