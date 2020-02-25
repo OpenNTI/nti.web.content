@@ -71,7 +71,7 @@
     "punycode": "^1.4.1",
     "query-string": "^6.2.0",
     "react-transition-group": "^4.2.2",
-    "uuid": "^3.0.0",
+    "uuid": "^7.0.1",
     "vtt.js": "^0.13.0"
   },
   "devDependencies": {
