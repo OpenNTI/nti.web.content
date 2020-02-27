@@ -6,7 +6,7 @@ import CurrentPage from './CurrentPage';
 
 const t = scoped('content.toolbar.Pager', {
 	separator: ' of ',
-	goTo: 'Go to %(title)',
+	goTo: 'Go to %(title)s',
 	previous: 'previous',
 	next: 'next'
 });
