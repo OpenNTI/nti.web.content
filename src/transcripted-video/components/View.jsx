@@ -29,6 +29,7 @@ class View extends React.Component {
 		disableNoteCreation: PropTypes.bool,
 		autoPlay: PropTypes.bool,
 		startTime: PropTypes.number,
+		onNewNote: PropTypes.func,
 		scrolledTo: PropTypes.oneOfType([
 			PropTypes.string, // note id
 			PropTypes.shape({ // model
@@ -46,13 +47,15 @@ class View extends React.Component {
 			disableNoteCreation,
 			autoPlay,
 			analyticsData,
-			startTime
+			startTime,
+			onNewNote
 		} = this.props;
 
 		const props = {
 			course,
 			videoId,
-			outlineId
+			outlineId,
+			onNewNote
 		};
 
 		return (

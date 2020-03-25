@@ -32,6 +32,7 @@ class Sidebar extends React.Component {
 		onNoteAdded: PropTypes.func,
 		onNoteDeleted: PropTypes.func,
 		notesFilter: PropTypes.func,
+		onNewNote: PropTypes.func
 	}
 
 	onNoteCreated (note) {
@@ -55,12 +56,13 @@ class Sidebar extends React.Component {
 		const {
 			notes,
 			notesFilter,
+			onNewNote
 		} = this.props;
 
 		const filteredNotes = notes && notesFilter ? notes.filter(notesFilter) : notes;
 
 		return (
-			<Layouts.Aside component={Notes.Sidebar} notes={filteredNotes} fillToBottom sticky />
+			<Layouts.Aside component={Notes.Sidebar} notes={filteredNotes} onNewNote={onNewNote} fillToBottom sticky />
 		);
 	}
 }
