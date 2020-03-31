@@ -34,7 +34,14 @@ export default class ContentEditorTypeFormat extends React.Component {
 	render () {
 		return (
 			<div className="content-editor-type-format">
-				<Flyout.Triggered ref={this.setFlyoutRef} className="content-editor-type-formats" trigger={trigger} verticalAlign={Flyout.ALIGNMENTS.TOP} horizontalAlign={Flyout.ALIGNMENTS.LEFT}>
+				<Flyout.Triggered
+					ref={this.setFlyoutRef}
+					className="content-editor-type-formats"
+					trigger={trigger}
+					verticalAlign={Flyout.ALIGNMENTS.TOP}
+					horizontalAlign={Flyout.ALIGNMENTS.LEFT}
+					focusOnOpen={false}
+				>
 					{this.renderFlyout()}
 				</Flyout.Triggered>
 			</div>
