@@ -1,9 +1,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import {EditorState, convertFromRaw, convertToRaw} from 'draft-js';
 import {HOC} from '@nti/web-commons';
 import {scoped} from '@nti/lib-locale';
-import {Editor, Plugins, BLOCKS, STYLES} from '@nti/web-editor';
+import {Editor, Plugins, Parsers, BLOCKS, STYLES} from '@nti/web-editor';
 
 import {Parser} from '../../RST';
 import {CustomRenderers, CustomStyles} from '../block-types';
@@ -39,19 +38,18 @@ function rstToEditorState (rst, options) {
 	const newBlocks = titleBlock ? blocks.slice(1) : blocks;
 
 	const editorState = newBlocks && newBlocks.length ?
-		EditorState.createWithContent(convertFromRaw({blocks:newBlocks, entityMap})) :
-		EditorState.createEmpty();
+		Parsers.getStateForRaw({blocks:newBlocks, entityMap}) :
+		Parsers.getEmptyState();
 
 	return {editorState, titleLabel: titleBlock && titleBlock.data && titleBlock.data.label};
 }
 
 function editorStateToRST (editorState, title, titleLabel) {
-	const currentContent = editorState && editorState.getCurrentContent();
-	const {blocks, entityMap} = convertToRaw(currentContent);
+	const {blocks, entityMap} = Parsers.getRawForState(editorState);
 
 	const newBlocks = title ? [buildTitle(title, titleLabel), ...blocks] : blocks;
 
-	return currentContent ? Parser.convertDraftStateToRST({blocks: newBlocks, entityMap}) : '';
+	return editorState.getCurrentContent() ? Parser.convertDraftStateToRST({blocks: newBlocks, entityMap}) : '';
 }
 
 
@@ -83,7 +81,7 @@ const pastedText = Plugins.FormatPasted.create({
 		[BLOCKS.CODE]: BLOCKS.UNSTYLED
 	},
 	transformHTMLState (newContent) {
-		const rst = Parser.convertDraftStateToRST(convertToRaw(newContent));
+		const rst = Parser.convertDraftStateToRST(Parsers.getRawForState(newContent));
 		const {editorState} = rstToEditorState(rst, {startingHeaderLevel: 2});
 
 		return editorState ? editorState.getCurrentContent() : newContent;
@@ -150,20 +148,19 @@ export default class RSTEditor extends React.Component {
 		this.pendingSaves = this.pendingSaves.filter(save => save !== value);
 	}
 
+	componentDidUpdate (prevProps) {
+		const {value, course} = this.props;
+		const {value: prevValue, course: prevCourse} = prevProps;
 
-	componentWillReceiveProps (nextProps) {
-		const {value:nextValue, course:nextCourse} = nextProps;
-		const {value:oldValue, course:oldCourse} = this.props;
-
-		if (nextValue !== oldValue && !this.isPendingSave(nextValue)) {
-			this.setUpValue(nextProps);
+		if (value !== prevValue && !this.isPendingSave(value)) {
+			this.setupValue(this.props);
 		}
 
-		if (nextCourse !== oldCourse) {
-			customBlocks.mergeExtraProps({course: nextCourse});
+		if (course !== prevCourse) {
+			customBlocks.mergeExtraProps({course});
 		}
 
-		this.cleanUpPending(nextValue);
+		this.cleanUpPending(value);
 	}
 
 
