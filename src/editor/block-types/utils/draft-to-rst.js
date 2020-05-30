@@ -1,9 +1,7 @@
-import {convertToRaw} from 'draft-js';
+import {Parsers} from '@nti/web-editor';
 
 import {Parser} from '../../../RST';
 
 export default function draftToRST (editorState) {
-	const currentContent = editorState && editorState.getCurrentContent();
-
-	return currentContent ? Parser.convertDraftStateToRST(convertToRaw(currentContent)) : '';
+	return editorState.getCurrentContent() ? Parser.convertDraftStateToRST(Parsers.Utils.getRawForState(editorState)) : '';
 }

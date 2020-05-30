@@ -38,14 +38,14 @@ function rstToEditorState (rst, options) {
 	const newBlocks = titleBlock ? blocks.slice(1) : blocks;
 
 	const editorState = newBlocks && newBlocks.length ?
-		Parsers.getStateForRaw({blocks:newBlocks, entityMap}) :
-		Parsers.getEmptyState();
+		Parsers.Utils.getStateForRaw({blocks:newBlocks, entityMap}) :
+		Parsers.Utils.getEmptyState();
 
 	return {editorState, titleLabel: titleBlock && titleBlock.data && titleBlock.data.label};
 }
 
 function editorStateToRST (editorState, title, titleLabel) {
-	const {blocks, entityMap} = Parsers.getRawForState(editorState);
+	const {blocks, entityMap} = Parsers.Utils.getRawForState(editorState);
 
 	const newBlocks = title ? [buildTitle(title, titleLabel), ...blocks] : blocks;
 
@@ -81,7 +81,7 @@ const pastedText = Plugins.FormatPasted.create({
 		[BLOCKS.CODE]: BLOCKS.UNSTYLED
 	},
 	transformHTMLState (newContent) {
-		const rst = Parser.convertDraftStateToRST(Parsers.getRawForState(newContent));
+		const rst = Parser.convertDraftStateToRST(Parsers.Utils.getRawForState(newContent));
 		const {editorState} = rstToEditorState(rst, {startingHeaderLevel: 2});
 
 		return editorState ? editorState.getCurrentContent() : newContent;
