@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
 import {LuckyCharms, Avatar, DisplayName, DateTime} from '@nti/web-commons';
-import {Panel as Body} from '@nti/web-modeled-content';
+import {Viewer as Body} from '@nti/web-modeled-content';
 import {scoped} from '@nti/lib-locale';
 import { Context } from '@nti/web-discussions';
 import { LinkTo } from '@nti/web-routing';
