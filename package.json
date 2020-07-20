@@ -70,6 +70,7 @@
     "vtt.js": "^0.13.0"
   },
   "devDependencies": {
+    "@nti/web-content": "file://.",
     "@nti/cmp-scripts": "^2.0.6",
     "@nti/style-common": "NextThought/nti.style.common",
     "enzyme": "^3.0.0",
