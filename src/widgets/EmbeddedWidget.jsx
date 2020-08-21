@@ -1,3 +1,4 @@
+import './EmbeddedWidget.scss';
 import Url from 'url';
 import Path from 'path';
 

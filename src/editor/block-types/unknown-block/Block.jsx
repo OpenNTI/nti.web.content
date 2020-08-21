@@ -1,3 +1,4 @@
+import './Block.scss';
 import React from 'react';
 
 export default function DefaultAtomicBlock () {

@@ -1,3 +1,4 @@
+import './VideoEditor.scss';
 import url from 'url';
 
 import React from 'react';

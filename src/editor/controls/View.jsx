@@ -1,3 +1,4 @@
+import './View.scss';
 import PropTypes from 'prop-types';
 import React from 'react';
 import {ContextProvider} from '@nti/web-editor';

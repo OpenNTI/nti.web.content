@@ -1,3 +1,4 @@
+import './BodyEditor.scss';
 import React from 'react';
 import PropTypes from 'prop-types';
 import {Selection} from '@nti/web-commons';

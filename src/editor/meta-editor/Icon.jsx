@@ -1,3 +1,4 @@
+import './Icon.scss';
 //TODO: make a generic image input component, most of these things should generalize styles, dropping files etc.
 
 import React from 'react';

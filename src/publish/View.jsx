@@ -1,3 +1,4 @@
+import './View.scss';
 import React from 'react';
 import PropTypes from 'prop-types';
 import {Prompt, Loading, DialogButtons} from '@nti/web-commons';

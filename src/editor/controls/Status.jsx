@@ -1,3 +1,4 @@
+import './Status.scss';
 import React from 'react';
 import {Errors} from '@nti/web-commons';
 import {scoped} from '@nti/lib-locale';
