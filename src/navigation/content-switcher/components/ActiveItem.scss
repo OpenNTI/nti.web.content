@@ -62,7 +62,7 @@
 			.edit {
 				display: inline-block;
 				font: normal 400 0.875rem/1.3 $body-font-family;
-				color: $primary-blue;
+				color: var(--primary-blue);
 				cursor: pointer;
 				margin-bottom: 7px;
 			}
@@ -81,7 +81,7 @@
 			    display: inline-block;
 			    cursor: pointer;
 			    border-radius: 4px;
-			    background-color: $primary-blue;
+			    background-color: var(--primary-blue);
 				padding: 0.5rem 0.875rem;
 				min-width: 140px;
 			}
@@ -118,7 +118,7 @@
 				cursor: pointer;
 
 				&.current {
-					color: $primary-blue;
+					color: var(--primary-blue);
 				}
 			}
 		}

@@ -37,7 +37,7 @@
 
 		&.show-content {
 			width: 103px;
-			background-color: $primary-blue;
+			background-color: var(--primary-blue);
 			color: white;
 			font-weight: 600;
 		}

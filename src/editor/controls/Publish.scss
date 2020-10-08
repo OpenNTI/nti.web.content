@@ -2,7 +2,7 @@
 
 .content-editor-publish-trigger {
 	border-radius: 4px;
-	background-color: $primary-blue;
+	background-color: var(--primary-blue);
 	padding: 0 0.75rem;
 	display: flex;
 	align-items: center;
@@ -90,7 +90,7 @@
 
 
 		.action {
-			color: $primary-blue;
+			color: var(--primary-blue);
 			margin-bottom: 0.625rem;
 			cursor: pointer;
 		}
@@ -116,7 +116,7 @@
 
 		.publish {
 			margin: 1.6rem 0 0;
-			background-color: $primary-blue;
+			background-color: var(--primary-blue);
 			line-height: 2rem;
 			text-align: center;
 			border-radius: 4px;
