@@ -54,7 +54,7 @@
 	}
 
 	&.failed {
-		background-color: $primary-red;
+		background-color: var(--primary-red);
 	}
 
 	&.flyout-open {
@@ -74,7 +74,7 @@
 		font: normal 400 0.875rem/1.25rem $body-font-family;
 
 		.error {
-			color: $primary-red;
+			color: var(--primary-red);
 		}
 
 		h3 {

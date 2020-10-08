@@ -89,12 +89,12 @@
 
 	.failure-indicator {
 		.icon {
-			color: $primary-red;
-			border: 2px solid $primary-red;
+			color: var(--primary-red);
+			border: 2px solid var(--primary-red);
 		}
 
 		span {
-			color: $primary-red;
+			color: var(--primary-red);
 		}
 	}
 }

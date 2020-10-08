@@ -35,7 +35,7 @@
 
 	.loading-error {
 		display: block;
-		color: $primary-red;
+		color: var(--primary-red);
 		text-align: center;
 		padding: 3rem 0;
 	}
@@ -45,7 +45,7 @@
 		position: absolute;
 		top: 0;
 		left: 0;
-		color: $primary-red;
+		color: var(--primary-red);
 		padding: 0.5rem 1.25rem;
 	}
 
