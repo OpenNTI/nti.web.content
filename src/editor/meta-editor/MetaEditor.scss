@@ -9,7 +9,7 @@
 	}
 
 	&:not(.read-only):hover {
-		box-shadow: 0 0 0 1px var(--border-grey)-light;
+		box-shadow: 0 0 0 1px var(--border-grey-light);
 	}
 
 	&.selected {
