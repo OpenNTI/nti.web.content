@@ -4,7 +4,7 @@
 	.content-editor-active-type {
 		min-width: 200px;
 		min-height: rem-calc(32px);
-		background-color: $panel-background;
+		background-color: var(--panel-background);
 		box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.2);
 		padding: 0 0.625rem;
 		margin: rem-calc(10px 20px 10px 0);

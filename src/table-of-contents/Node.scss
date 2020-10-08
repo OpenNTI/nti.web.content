@@ -21,7 +21,7 @@
 			$hover: true
 		);
 
-		background: $panel-background;
+		background: var(--panel-background);
 		font: {
 			style: normal;
 			weight: 100;
