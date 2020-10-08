@@ -30,7 +30,7 @@
 .hit-title {
 	line-height: 1.357142857;
 	font-weight: bold;
-	color: var(--primary-grey, #494949);
+	color: var(--primary-grey);
 	margin-bottom: 0.5rem;
 }
 
