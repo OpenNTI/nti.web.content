@@ -77,13 +77,13 @@
 
 	.success-indicator {
 		i {
-			color: $primary-green;
-			border: 2px solid $primary-green;
+			color: var(--primary-green);
+			border: 2px solid var(--primary-green);
 		}
 
 
 		span {
-			color: $primary-green;
+			color: var(--primary-green);
 		}
 	}
 
