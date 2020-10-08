@@ -3,7 +3,7 @@
 .content-editor-block-type-button {
 	width: rem-calc(110px);
 	height: rem-calc(110px);
-	border: 1px solid $border-grey-light;
+	border: 1px solid var(--border-grey)-light;
 	background: #fff;
 	margin: rem-calc(5px);
 	position: relative;

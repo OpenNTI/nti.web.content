@@ -9,8 +9,8 @@ $level-five-padding: 2.375rem;
 $rhs-padding: $level-one-padding;
 
 $node-border:
-	0 1px 0 0 $border-grey-light,
-	0 -1px 0 0 $border-grey-light;
+	0 1px 0 0 var(--border-grey)-light,
+	0 -1px 0 0 var(--border-grey)-light;
 
 @mixin calcPadding ($font-size, $line-height, $desired-height) {
 	$padding: ($desired-height - $line-height) / 2;

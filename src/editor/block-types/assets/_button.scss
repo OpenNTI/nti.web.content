@@ -3,7 +3,7 @@
 @mixin block-type-button($type-icon) {
 	width: 110px;
 	height: 110px;
-	border: 1px solid $border-grey-light;
+	border: 1px solid var(--border-grey)-light;
 	background: #fff;
 	margin: rem-calc(5px);
 	position: relative;
