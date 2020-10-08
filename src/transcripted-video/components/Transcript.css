@@ -1,5 +1,5 @@
 .transcript {
-	color: var(--secondary-grey, #757474);
+	color: var(--secondary-grey);
 	font-size: 0.875rem;
 	line-height: 2;
 	padding: 2.25rem;

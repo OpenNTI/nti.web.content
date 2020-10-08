@@ -14,7 +14,7 @@
 	.change {
 		flex: 0 0 auto;
 		margin-right: rem-calc(21px);
-		color: $secondary-grey;
+		color: var(--secondary-grey);
 		cursor: pointer;
 
 		i {
@@ -37,7 +37,7 @@
 		width: 0.875rem;
 		height: 0.875rem;
 		border-radius: 0.875rem;
-		background-color: $secondary-grey;
+		background-color: var(--secondary-grey);
 		color: white;
 		cursor: pointer;
 		font-size: 0.7rem;

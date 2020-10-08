@@ -2,7 +2,7 @@
 @import './Common';
 
 .table-of-contents-node {
-	color: $secondary-grey;
+	color: var(--secondary-grey);
 	cursor: pointer;
 
 	&.root { display: none; }

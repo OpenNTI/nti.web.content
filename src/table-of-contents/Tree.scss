@@ -5,7 +5,7 @@
 	.empty-toc {
 		text-align: center;
 		background: $panel-background;
-		color: $secondary-grey;
+		color: var(--secondary-grey);
 		box-shadow: $node-border;
 
 		@include calcPadding($font-size: 16px, $line-height: 16px, $desired-height: 52px);

@@ -16,7 +16,7 @@
 	max-width: 800px;
 	margin: 0 auto;
 	background: white;
-	color: var(--primary-grey, #757474);
+	color: var(--primary-grey);
 	display: flex;
 	flex-direction: column-reverse;
 }

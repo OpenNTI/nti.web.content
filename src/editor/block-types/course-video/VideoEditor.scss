@@ -28,7 +28,7 @@
 				font-size: .625rem;
 				font-weight: bold;
 				text-transform: uppercase;
-				color: $secondary-grey;
+				color: var(--secondary-grey);
 			}
 
 			& > .video-link-input {
@@ -69,7 +69,7 @@
 			& > a {
 				flex: auto 0 0;
 				cursor: pointer;
-				color: $secondary-grey;
+				color: var(--secondary-grey);
 				font-size: .875rem;
 				font-weight: 600;
 				line-height: 1.1875rem;

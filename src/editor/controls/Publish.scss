@@ -84,7 +84,7 @@
 		}
 
 		p {
-			color: $secondary-grey;
+			color: var(--secondary-grey);
 			margin-bottom: 1rem;
 		}
 
@@ -98,7 +98,7 @@
 
 		.delete {
 			padding-top: 0.625rem;
-			color: $secondary-grey;
+			color: var(--secondary-grey);
 			cursor: pointer;
 
 			i {

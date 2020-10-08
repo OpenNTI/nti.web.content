@@ -1,5 +1,5 @@
 .cue {
-	color: var(--secondary-grey, #757474);
+	color: var(--secondary-grey);
 	display: inline;
 	margin-right: 0.25em;
 	text-decoration: none;

@@ -48,7 +48,7 @@
 						display: block;
 					}
 
-					color: $secondary-grey;
+					color: var(--secondary-grey);
 					width: 1.3rem;
 					padding: 0.125rem 0;
 					text-align: center;
@@ -112,7 +112,7 @@
 
 			.family-item-link {
 				display: inline-block;
-				color: $secondary-grey;
+				color: var(--secondary-grey);
 				font: normal 400 0.875rem/1.35 $body-font-family;
 				padding: 0.5rem 0;
 				cursor: pointer;

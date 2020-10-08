@@ -12,7 +12,7 @@
 			$hover: false
 		);
 
-		color: $secondary-grey;
+		color: var(--secondary-grey);
 		font: {
 			style: normal;
 			weight: bold;

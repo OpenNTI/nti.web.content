@@ -21,7 +21,7 @@
 	}
 
 	.label, .used {
-		color: $secondary-grey;
+		color: var(--secondary-grey);
 		text-transform: uppercase;
 		font: normal bold 0.625rem/1.4 $body-font-family;
 	}

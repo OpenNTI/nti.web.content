@@ -14,7 +14,7 @@
 		text-align: center;
 
 		&.show-options {
-			color: $secondary-grey;
+			color: var(--secondary-grey);
 			width: rem-calc(103px);
 			box-shadow: 0 0 0 1px $border-grey-light;
 			border-radius: 2px;
