@@ -45,11 +45,11 @@
 					border-radius: 2px;
 					font-size: 14px;
 					line-height: 19px;
-					color: $tertiary-grey;
+					color: var(--tertiary-grey);
 				}
 
 				& > input::placeholder {
-					color: $tertiary-grey;
+					color: var(--tertiary-grey);
 					font-style: normal !important;
 				}
 

@@ -11,7 +11,7 @@
 	line-height: 19px;
 	cursor: pointer;
 	display: block; /* cursor rule doesn't work on inline elements */
-	color: var(--tertiary-grey, #b8b8b8);
+	color: var(--tertiary-grey);
 	transition: color 0.25s;
 }
 

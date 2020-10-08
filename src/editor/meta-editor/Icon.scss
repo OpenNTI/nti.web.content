@@ -51,7 +51,7 @@
 			line-height: rem-calc(60px);
 			text-align: center;
 			font-size: 2.2rem;
-			color: $tertiary-grey;
+			color: var(--tertiary-grey);
 			border-radius: 60px;
 			border: 1px solid $border-grey-light;
 			padding-left: 4px;//this is to just make it look more centered
@@ -68,7 +68,7 @@
 			font: normal 600 0.625rem/1.5 $body-font-family;
 			text-transform: uppercase;
 			text-align: center;
-			color: $tertiary-grey;
+			color: var(--tertiary-grey);
 
 			position: absolute;
 			bottom: 0;

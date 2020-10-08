@@ -68,7 +68,7 @@
 
 		.part:not(.no-children):not(:first-of-type)::before {
 			content: '\00a0/\00a0';
-			color: $tertiary-grey;
+			color: var(--tertiary-grey);
 		}
 
 		.showing-message {
@@ -79,7 +79,7 @@
 
 				&::before {
 					content: '\00a0/\00a0';
-					color: $tertiary-grey;
+					color: var(--tertiary-grey);
 				}
 			}
 		}

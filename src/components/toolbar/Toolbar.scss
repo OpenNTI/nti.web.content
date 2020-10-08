@@ -19,7 +19,7 @@
 				&::after {
 					font-size: 0.75rem;
 					content: '\00a0/\00a0';
-					color: $tertiary-grey;
+					color: var(--tertiary-grey);
 					margin-left: 0.4rem;
 				}
 			}
@@ -100,7 +100,7 @@
 
 // 			&::after {
 // 				content: '\00a0/\00a0';
-// 				color: $tertiary-grey;
+// 				color: var(--tertiary-grey);
 // 				margin-left: 0.4em;
 // 			}
 // 		}
