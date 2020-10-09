@@ -75,7 +75,7 @@
 				margin-bottom: 1rem;
 
 				.label {
-					font: normal 400 0.875rem/1.3 $body-font-family;
+					font: normal 400 0.875rem/1.3 var(--body-font-family);
 					color: var(--secondary-grey);
 				}
 			}
@@ -110,7 +110,7 @@
 		}
 
 		.error {
-			font: normal bold 0.625rem/1 $body-font-family;
+			font: normal bold 0.625rem/1 var(--body-font-family);
 			color: var(--primary-red);
 			text-transform: uppercase;
 		}

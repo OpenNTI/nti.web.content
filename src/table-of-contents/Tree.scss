@@ -12,7 +12,7 @@
 		font: {
 			style: normal;
 			weight: bold;
-			family: $body-font-family;
+			family: var(--body-font-family);
 		}
 	}
 }

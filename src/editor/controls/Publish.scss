@@ -71,14 +71,14 @@
 
 	.content-editor-publish-menu {
 		max-width: 280px;
-		font: normal 400 0.875rem/1.25rem $body-font-family;
+		font: normal 400 0.875rem/1.25rem var(--body-font-family);
 
 		.error {
 			color: var(--primary-red);
 		}
 
 		h3 {
-			font: normal 400 1.125rem/1.5rem $body-font-family;
+			font: normal 400 1.125rem/1.5rem var(--body-font-family);
 			color: var(--primary-grey);
 			margin: 0 0 0.5rem;
 		}

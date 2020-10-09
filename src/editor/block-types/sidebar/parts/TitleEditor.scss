@@ -7,7 +7,7 @@
 		padding-left: 0;
 		padding-right: 0;
 		padding-bottom: 0;
-		font: normal 300 1.5rem/2.2 $body-font-family;
+		font: normal 300 1.5rem/2.2 var(--body-font-family);
 		color: var(--primary-grey);
 
 		.public-DraftEditor-content, .public-DraftEditorPlaceholder-root {

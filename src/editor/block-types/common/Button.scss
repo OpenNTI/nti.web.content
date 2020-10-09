@@ -24,7 +24,7 @@
 	.label, .used {
 		color: var(--secondary-grey);
 		text-transform: uppercase;
-		font: normal bold 0.625rem/1.4 $body-font-family;
+		font: normal bold 0.625rem/1.4 var(--body-font-family);
 	}
 
 	.icon {

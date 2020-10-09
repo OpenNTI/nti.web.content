@@ -11,7 +11,7 @@
 		position: relative;
 		cursor: pointer;
 
-		font: normal 300 0.875rem/2rem $body-font-family;
+		font: normal 300 0.875rem/2rem var(--body-font-family);
 
 		&::after {
 			content: '\25BC';
@@ -51,7 +51,7 @@
 	}
 
 	&.blockquote {
-		font: italic 300 1.125rem/1.67 $body-font-family;
+		font: italic 300 1.125rem/1.67 var(--body-font-family);
 		color: var(--secondary-grey);
 
 		span {
@@ -73,7 +73,7 @@
 }
 
 .content-editor-type-flyout .content-editor-type-button {
-	font: normal normal 0.875rem/1 $body-font-family;
+	font: normal normal 0.875rem/1 var(--body-font-family);
 
 	&.header-two {
 		font-weight: 300;

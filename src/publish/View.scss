@@ -16,7 +16,7 @@
 		.text {
 			display: inline-block;
 			flex: 1 1 auto;
-			font: normal 300 1.75rem/1.3 $body-font-family;
+			font: normal 300 1.75rem/1.3 var(--body-font-family);
 		}
 
 		.icon-light-x {

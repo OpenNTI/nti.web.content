@@ -9,7 +9,7 @@
 		position: absolute;
 		top: rem-calc(20px);
 		right: rem-calc(20px);
-		font: normal 400 0.875rem/2.375rem $body-font-family;
+		font: normal 400 0.875rem/2.375rem var(--body-font-family);
 		border-radius: 2px;
 		text-align: center;
 

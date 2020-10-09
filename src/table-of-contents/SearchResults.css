@@ -16,7 +16,7 @@
 	padding-bottom: 1.125rem;
 	font-style: normal;
 	font-weight: bold;
-	font-family: "Open Sans", "Helvetica Neue", "Helvetica", Arial, sans-serif;
+	font-family: var(--body-font-family);
 }
 
 .search-hit {
