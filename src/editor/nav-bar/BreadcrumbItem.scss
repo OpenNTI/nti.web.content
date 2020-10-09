@@ -1,6 +1,6 @@
 @import '~@nti/style-common';
 
 .content-editor-breadcrumb-item {
-	color: $primary-blue;
+	color: var(--primary-blue);
 	cursor: pointer;
 }

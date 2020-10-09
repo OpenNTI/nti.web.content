@@ -12,11 +12,11 @@
 			$hover: false
 		);
 
-		color: $secondary-grey;
+		color: var(--secondary-grey);
 		font: {
 			style: normal;
 			weight: bold;
-			family: $body-font-family;
+			family: var(--body-font-family);
 		};
 		text-transform: uppercase;
 	}

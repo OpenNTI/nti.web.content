@@ -4,7 +4,7 @@
 	display: flex;
 	align-items: center;
 	padding: 0 0.75rem;
-	box-shadow: inset 0 -1px 0 0 $border-grey-light;
+	box-shadow: inset 0 -1px 0 0 var(--border-grey-light);
 
 	.spacer {
 		flex: 1 1 auto;
@@ -14,7 +14,7 @@
 	.change {
 		flex: 0 0 auto;
 		margin-right: rem-calc(21px);
-		color: $secondary-grey;
+		color: var(--secondary-grey);
 		cursor: pointer;
 
 		i {
@@ -37,7 +37,7 @@
 		width: 0.875rem;
 		height: 0.875rem;
 		border-radius: 0.875rem;
-		background-color: $secondary-grey;
+		background-color: var(--secondary-grey);
 		color: white;
 		cursor: pointer;
 		font-size: 0.7rem;

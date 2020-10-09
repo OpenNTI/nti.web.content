@@ -4,8 +4,8 @@
 }
 
 .empty-search {
-	background: var(--quad-grey, #fbfbfb);
-	color: var(--secondary-grey, #757474);
+	background: var(--quad-grey);
+	color: var(--secondary-grey);
 	box-shadow: 0 1px 0 0 #e2e2e2, 0 -1px 0 0 #e2e2e2;
 	display: flex;
 	align-items: center;
@@ -16,7 +16,7 @@
 	padding-bottom: 1.125rem;
 	font-style: normal;
 	font-weight: bold;
-	font-family: "Open Sans", "Helvetica Neue", "Helvetica", Arial, sans-serif;
+	font-family: var(--body-font-family);
 }
 
 .search-hit {
@@ -30,7 +30,7 @@
 .hit-title {
 	line-height: 1.357142857;
 	font-weight: bold;
-	color: var(--primary-grey, #494949);
+	color: var(--primary-grey);
 	margin-bottom: 0.5rem;
 }
 
@@ -41,7 +41,7 @@
 .hit-fragments {
 	font-size: 14px;
 	line-height: 25px;
-	color: #757474;
+	color: var(--secondary-grey);
 }
 
 .hit-fragments > * {
@@ -61,7 +61,7 @@
 	margin-right: 0.5em;
 	border: 1px solid #e8e8e8;
 	font-size: 12px;
-	background: #f8f8f8;
+	background: var(--quad-grey);
 	line-height: 1;
 	padding: 0.5em 0.75em;
 	border-radius: 2px;

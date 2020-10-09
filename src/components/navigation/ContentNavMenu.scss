@@ -66,7 +66,7 @@
 			}
 
 			.edit {
-				color: $primary-blue;
+				color: var(--primary-blue);
 				font-size: 14px;
 				font-weight: 300;
 				margin-bottom: 9px;
@@ -76,7 +76,7 @@
 
 			.publish {
 				color: white;
-				background-color: $primary-blue;
+				background-color: var(--primary-blue);
 				padding: 6px 15px;
 				width: 140px;
 				border-radius: 3px;
@@ -97,14 +97,14 @@
 		padding: 15px;
 
 		.section {
-			color: #757474;
+			color: var(--secondary-grey);
 			font-size: 14px;
 			line-height: 19px;
 			height: 32px;
 			cursor: pointer;
 
 			&.current {
-				color: $primary-blue;
+				color: var(--primary-blue);
 			}
 		}
 	}

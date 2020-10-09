@@ -3,7 +3,7 @@
 @mixin block-type-button($type-icon) {
 	width: 110px;
 	height: 110px;
-	border: 1px solid $border-grey-light;
+	border: 1px solid var(--border-grey-light);
 	background: #fff;
 	margin: rem-calc(5px);
 	position: relative;
@@ -21,9 +21,9 @@
 	}
 
 	.label, .used {
-		color: $secondary-grey;
+		color: var(--secondary-grey);
 		text-transform: uppercase;
-		font: normal bold 0.625rem/1.4 $body-font-family;
+		font: normal bold 0.625rem/1.4 var(--body-font-family);
 	}
 
 	.icon {

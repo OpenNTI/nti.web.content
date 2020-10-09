@@ -1,6 +1,6 @@
 @import "~@nti/style-common";
 
 .content-editor-sidebar {
-	background-color: $panel-background;
+	background-color: var(--panel-background);
 	min-height: 50vh;
 }

@@ -40,7 +40,7 @@
 		.caption-editor {
 			padding: rem-calc(10px 12px);
 			margin: 0;
-			background: $panel-background;
+			background: var(--panel-background);
 		}
 
 
@@ -53,7 +53,7 @@
 
 		.rst-field-editor.description {
 			.DraftEditor-root {
-				color: $secondary-grey;
+				color: var(--secondary-grey);
 				line-height: 1.43;
 			}
 		}

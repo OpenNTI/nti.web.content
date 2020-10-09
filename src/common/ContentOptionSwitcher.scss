@@ -9,14 +9,14 @@
 		position: absolute;
 		top: rem-calc(20px);
 		right: rem-calc(20px);
-		font: normal 400 0.875rem/2.375rem $body-font-family;
+		font: normal 400 0.875rem/2.375rem var(--body-font-family);
 		border-radius: 2px;
 		text-align: center;
 
 		&.show-options {
-			color: $secondary-grey;
+			color: var(--secondary-grey);
 			width: rem-calc(103px);
-			box-shadow: 0 0 0 1px $border-grey-light;
+			box-shadow: 0 0 0 1px var(--border-grey-light);
 			border-radius: 2px;
 			background: white;
 			line-height: 1;
@@ -37,7 +37,7 @@
 
 		&.show-content {
 			width: 103px;
-			background-color: $primary-blue;
+			background-color: var(--primary-blue);
 			color: white;
 			font-weight: 600;
 		}

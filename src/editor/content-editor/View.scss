@@ -2,7 +2,7 @@
 
 .content-editing-editor-container {
 	&.error {
-		box-shadow: inset 0 0 1px 1px $border-red;
+		box-shadow: inset 0 0 1px 1px var(--border-red);
 	}
 
 	.content {
@@ -16,8 +16,8 @@
 			padding-top: 0;
 			padding-left: 0;
 			padding-right: 0;
-			font: normal normal 0.875rem/2.2 $body-font-family;
-			color: $primary-grey;
+			font: normal normal 0.875rem/2.2 var(--body-font-family);
+			color: var(--primary-grey);
 
 			.public-DraftEditor-content {
 			 	padding: 1.25rem;
@@ -74,12 +74,12 @@
 			font-size: 18px;
 			font-style: italic;
 			line-height: 1.67;
-			color: #757474;
-			border-left: 3px solid #757474;
+			color: var(--secondary-grey);
+			border-left: 3px solid var(--secondary-grey);
 			margin: 20px 0px;
 			padding: 0px 20px;
 			p {
-				color: #757474;
+				color: var(--secondary-grey);
 			}
 		}
 	}

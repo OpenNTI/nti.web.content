@@ -17,7 +17,7 @@
 		h1 {
 			text-align: center;
 			font-size: 1.25rem;
-			color: $primary-grey;
+			color: var(--primary-grey);
 		}
 
 		label span {
@@ -25,7 +25,7 @@
 			font-size: 0.625rem;
 			font-weight: bold;
 			text-transform: uppercase;
-			color: $secondary-grey;
+			color: var(--secondary-grey);
 		}
 
 		input {
@@ -35,7 +35,7 @@
 		}
 
 		.dialog-buttons {
-			background: $panel-background;
+			background: var(--panel-background);
 		}
 
 		.saving-mask {
@@ -61,8 +61,8 @@
 		}
 
 		.error {
-			font: normal bold 0.625rem/1 $body-font-family;
-			color: $primary-red;
+			font: normal bold 0.625rem/1 var(--body-font-family);
+			color: var(--primary-red);
 			text-transform: uppercase;
 		}
 	}

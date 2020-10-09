@@ -25,7 +25,7 @@
 			margin-top: 1rem;
 			display: block;
 			font-size: 0.875rem;
-			color: $primary-blue;
+			color: var(--primary-blue);
 		}
 
 		.too-long-message {
@@ -36,7 +36,7 @@
 			.message {
 				font-size: 1.125rem;
 				line-height: 1.625rem;
-				color: $secondary-grey;
+				color: var(--secondary-grey);
 				display: block;
 			}
 
@@ -46,7 +46,7 @@
 				font-size: 1rem;
 				line-height: 2.625rem;
 				color: white;
-				background-color: $primary-blue;
+				background-color: var(--primary-blue);
 				border-radius: 4px;
 				margin: 25px auto 0;
 				cursor: pointer;
@@ -77,24 +77,24 @@
 
 	.success-indicator {
 		i {
-			color: $primary-green;
-			border: 2px solid $primary-green;
+			color: var(--primary-green);
+			border: 2px solid var(--primary-green);
 		}
 
 
 		span {
-			color: $primary-green;
+			color: var(--primary-green);
 		}
 	}
 
 	.failure-indicator {
 		.icon {
-			color: $primary-red;
-			border: 2px solid $primary-red;
+			color: var(--primary-red);
+			border: 2px solid var(--primary-red);
 		}
 
 		span {
-			color: $primary-red;
+			color: var(--primary-red);
 		}
 	}
 }

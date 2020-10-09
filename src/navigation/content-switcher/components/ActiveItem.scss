@@ -7,7 +7,7 @@
 		align-items: flex-start;
 		padding: 1.25rem 1rem;
 		background-color: #f2faff;
-		box-shadow: inset 0 -1px 0 0 $border-grey-light;
+		box-shadow: inset 0 -1px 0 0 var(--border-grey-light);
 
 		.icon {
 			display: inline-block;
@@ -24,8 +24,8 @@
 
 			.header {
 				.edition {
-					color: $tertiary-grey;
-					font: normal 600 0.625rem/1.3 $body-font-family;
+					color: var(--tertiary-grey);
+					font: normal 600 0.625rem/1.3 var(--body-font-family);
 					text-transform: uppercase;
 					letter-spacing: 0.4px;
 					margin-bottom: 4px;
@@ -34,8 +34,8 @@
 				.title {
 					margin-right: 10px;
 					max-width: 240px;
-					font: normal 700 1rem/1.3 $header-font-family;
-					color: $primary-grey;
+					font: normal 700 1rem/1.3 var(--header-font-family);
+					color: var(--primary-grey);
 					text-transform: uppercase;
 					text-overflow: ellipsis;
 					overflow: hidden;
@@ -48,7 +48,7 @@
 						display: block;
 					}
 
-					color: $secondary-grey;
+					color: var(--secondary-grey);
 					width: 1.3rem;
 					padding: 0.125rem 0;
 					text-align: center;
@@ -61,8 +61,8 @@
 
 			.edit {
 				display: inline-block;
-				font: normal 400 0.875rem/1.3 $body-font-family;
-				color: $primary-blue;
+				font: normal 400 0.875rem/1.3 var(--body-font-family);
+				color: var(--primary-blue);
 				cursor: pointer;
 				margin-bottom: 7px;
 			}
@@ -74,14 +74,14 @@
 			}
 
 			.publish {
-				font: normal 400 0.875rem/1rem "Open Sans", "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
+				font: normal 400 0.875rem/1rem var(--body-font-family);
 				color: white;
 				text-align: center;
 			    text-decoration: none;
 			    display: inline-block;
 			    cursor: pointer;
 			    border-radius: 4px;
-			    background-color: $primary-blue;
+			    background-color: var(--primary-blue);
 				padding: 0.5rem 0.875rem;
 				min-width: 140px;
 			}
@@ -92,11 +92,11 @@
 
 	.family {
 		padding: 1rem;
-		box-shadow: inset 0 -1px 0 0 $border-grey-light;
+		box-shadow: inset 0 -1px 0 0 var(--border-grey-light);
 
 		.heading {
-			color: $primary-grey;
-			font: normal 400 1.125rem/1.3 $body-font-family;
+			color: var(--primary-grey);
+			font: normal 400 1.125rem/1.3 var(--body-font-family);
 			margin-bottom: 0.625rem;
 		}
 
@@ -112,13 +112,13 @@
 
 			.family-item-link {
 				display: inline-block;
-				color: $secondary-grey;
-				font: normal 400 0.875rem/1.35 $body-font-family;
+				color: var(--secondary-grey);
+				font: normal 400 0.875rem/1.35 var(--body-font-family);
 				padding: 0.5rem 0;
 				cursor: pointer;
 
 				&.current {
-					color: $primary-blue;
+					color: var(--primary-blue);
 				}
 			}
 		}

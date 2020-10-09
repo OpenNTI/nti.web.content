@@ -19,7 +19,7 @@
 				&::after {
 					font-size: 0.75rem;
 					content: '\00a0/\00a0';
-					color: $tertiary-grey;
+					color: var(--tertiary-grey);
 					margin-left: 0.4rem;
 				}
 			}
@@ -39,7 +39,7 @@
 				flex: 0 0 auto;
 				display: inline-block;
 				font-style: italic;
-				color: $primary-grey;
+				color: var(--primary-grey);
 
 				span {
 					font-weight: 600;
@@ -79,7 +79,7 @@
 
 				&.disabled {
 					cursor: default;
-					color: $primary-grey;
+					color: var(--primary-grey);
 				}
 
 				&:not(.disabled):hover {
@@ -100,7 +100,7 @@
 
 // 			&::after {
 // 				content: '\00a0/\00a0';
-// 				color: $tertiary-grey;
+// 				color: var(--tertiary-grey);
 // 				margin-left: 0.4em;
 // 			}
 // 		}
@@ -122,7 +122,7 @@
 // 			height: 59px;
 // 			display: inline-block;
 // 			font-style: italic;
-// 			color: $primary-grey;
+// 			color: var(--primary-grey);
 
 // 			span {
 // 				font-weight: 600;
@@ -139,14 +139,14 @@
 // 			font-size: 22px;
 // 			line-height: 0;
 // 			opacity: 0.65;
-// 			color: #3fb3f6;
+// 			color: var(--primary-blue);
 // 			position: relative;
 // 			background-repeat: no-repeat;
 // 			background-position: center center;
 
 // 			&.disabled {
 // 				cursor: default;
-// 				color: $primary-grey;
+// 				color: var(--primary-grey);
 // 			}
 
 // 			&:not(.disabled):hover {

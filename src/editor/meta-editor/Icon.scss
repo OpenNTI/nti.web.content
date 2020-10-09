@@ -4,7 +4,7 @@
 	width: rem-calc(100px);
 	height: rem-calc(130px);
 	background-color: white;
-	box-shadow: 0 0 0 1px $border-grey-light;
+	box-shadow: 0 0 0 1px var(--border-grey-light);
 	position: relative;
 	cursor: pointer;
 
@@ -51,9 +51,9 @@
 			line-height: rem-calc(60px);
 			text-align: center;
 			font-size: 2.2rem;
-			color: $tertiary-grey;
+			color: var(--tertiary-grey);
 			border-radius: 60px;
-			border: 1px solid $border-grey-light;
+			border: 1px solid var(--border-grey-light);
 			padding-left: 4px;//this is to just make it look more centered
 
 			position: absolute;
@@ -65,10 +65,10 @@
 
 		span {
 			display: inline-block;
-			font: normal 600 0.625rem/1.5 $body-font-family;
+			font: normal 600 0.625rem/1.5 var(--body-font-family);
 			text-transform: uppercase;
 			text-align: center;
-			color: $tertiary-grey;
+			color: var(--tertiary-grey);
 
 			position: absolute;
 			bottom: 0;
@@ -92,7 +92,7 @@
 			line-height: rem-calc(30px);
 			text-align: center;
 			color: white;
-			background-color: $primary-blue;
+			background-color: var(--primary-blue);
 			border-radius: 2px;
 			padding-left: 4px;//this is just to make it look more centered
 
@@ -107,7 +107,7 @@
 
 	.clear {
 		display: inline-block;
-		font: normal 600 0.625rem/2.1 $body-font-family;
+		font: normal 600 0.625rem/2.1 var(--body-font-family);
 		text-transform: uppercase;
 		text-align: center;
 		color: white;

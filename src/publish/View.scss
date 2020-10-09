@@ -6,7 +6,7 @@
 	background: white;
 
 	.heading {
-		background: linear-gradient(270deg, #3fb3f6 0%, #157aff 100%);
+		background: linear-gradient(270deg 0%, #157aff 100%);
 		color: white;
 		padding: 2rem 1.25rem 3rem;
 		display: flex;
@@ -16,7 +16,7 @@
 		.text {
 			display: inline-block;
 			flex: 1 1 auto;
-			font: normal 300 1.75rem/1.3 $body-font-family;
+			font: normal 300 1.75rem/1.3 var(--body-font-family);
 		}
 
 		.icon-light-x {
@@ -35,7 +35,7 @@
 
 	.loading-error {
 		display: block;
-		color: $primary-red;
+		color: var(--primary-red);
 		text-align: center;
 		padding: 3rem 0;
 	}
@@ -45,7 +45,7 @@
 		position: absolute;
 		top: 0;
 		left: 0;
-		color: $primary-red;
+		color: var(--primary-red);
 		padding: 0.5rem 1.25rem;
 	}
 
