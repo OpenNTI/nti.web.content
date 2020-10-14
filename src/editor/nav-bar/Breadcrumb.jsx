@@ -6,7 +6,7 @@ import {scoped} from '@nti/lib-locale';
 import BreadcrumbItem from './BreadcrumbItem';
 
 const DEFAULT_TEXT = {
-	root: 'Readings'
+	root: 'Resources'
 };
 
 const t = scoped('web-content.editor.content-editor.nav-bar.Breadcrumb', DEFAULT_TEXT);
