@@ -40,7 +40,7 @@ export default class RSTFieldEditor extends React.Component {
 
 		this.pendingSaves = [];
 
-		this.state = this.getStateFor(props);
+		this.state = this.computeState(props);
 	}
 
 
@@ -67,18 +67,18 @@ export default class RSTFieldEditor extends React.Component {
 	}
 
 
-	componentWillReceiveProps (nextProps) {
-		const {value:newValue} = nextProps;
-		const {value:oldValue} = this.props;
+	componentDidUpdate (prevProps) {
+		const {value:newValue} = this.props;
+		const {value:oldValue} = prevProps;
 
 
 		if (newValue !== oldValue && !this.isPendingSave(newValue)) {
-			this.setState(this.getStateFor(nextProps));
+			this.setState(this.computeState());
 		}
 	}
 
 
-	getStateFor (props = this.props) {
+	computeState (props = this.props) {
 		const {value} = props;
 
 		return {

@@ -23,7 +23,8 @@ export default class Toolbar extends React.Component {
 		selectTocNode: PropTypes.func,
 		message: PropTypes.object,
 		currentPage: PropTypes.string,
-		rootId: PropTypes.string
+		rootId: PropTypes.string,
+		searchResultsCmp: PropTypes.any,
 	}
 
 	constructor (props) {

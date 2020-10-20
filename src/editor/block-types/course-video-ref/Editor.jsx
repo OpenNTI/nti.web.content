@@ -39,15 +39,12 @@ export default class CourseVideoEditor extends React.Component {
 			isEditing: false,
 			video: null
 		};
-	}
-
-	componentWillMount () {
-		this.getStateFor()
-			.then(state => {
-				this.setState({ ...state });
-			});
 
 		addListener(VIDEO_DELETED_EVENT, this.onDelete);
+	}
+
+	async componentDidMount () {
+		this.setState(await this.computeState());
 	}
 
 	componentWillUnmount () {
@@ -64,7 +61,7 @@ export default class CourseVideoEditor extends React.Component {
 		}
 	}
 
-	async getStateFor (props = this.props) {
+	async computeState (props = this.props) {
 		const { block } = props;
 		const data = block.getData();
 		const videoNTIID = data.get('arguments');
@@ -75,15 +72,12 @@ export default class CourseVideoEditor extends React.Component {
 		};
 	}
 
-	componentWillReceiveProps (nextProps) {
-		const { block: newBlock } = nextProps;
-		const { block: oldBlock } = this.props;
+	async componentDidUpdate (prevProps) {
+		const { block: newBlock } = this.props;
+		const { block: oldBlock } = prevProps;
 
 		if (newBlock !== oldBlock) {
-			this.getStateFor(nextProps)
-				.then(state => {
-					this.setState({ ...state });
-				});
+			this.setState(await this.computeState());
 		}
 	}
 

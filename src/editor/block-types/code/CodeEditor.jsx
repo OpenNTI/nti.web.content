@@ -24,10 +24,11 @@ export default class CodeEditor extends React.Component {
 
 	attachCodeRef = x => this.codeEditor = x
 
-	componentWillReceiveProps (nextProps) {
-		if (nextProps.code !== this.props.code && nextProps.code !== this.state.code) {
+	componentDidUpdate (prevProps) {
+		const {code} = this.props;
+		if (prevProps.code !== code && prevProps.code !== this.state.code) {
 			this.setState({
-				code: nextProps.code
+				code
 			});
 		}
 	}

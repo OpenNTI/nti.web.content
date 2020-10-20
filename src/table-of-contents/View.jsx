@@ -38,7 +38,7 @@ export default class TableOfContentsView extends React.Component {
 			component: () => (
 				<>
 					{this.renderError()}
-					{this.renderTocs()}
+					{this.renderToCs()}
 					{this.renderLastPage()}
 				</>
 			)
@@ -56,22 +56,22 @@ export default class TableOfContentsView extends React.Component {
 	]
 
 
-	componentWillReceiveProps (nextProps) {
-		const {contentPackage:nextPack} = nextProps;
-		const {contentPackage:prevPack} = this.props;
+	componentDidUpdate (prevProps) {
+		const {contentPackage:nextPack} = this.props;
+		const {contentPackage:prevPack} = prevProps;
 
 		if (nextPack !== prevPack) {
-			this.fillIn(nextProps);
+			this.fillInToCs();
 		}
 	}
 
 
 	componentDidMount () {
-		this.fillInTocs(this.props);
+		this.fillInToCs();
 	}
 
 
-	async fillInTocs (props = this.props) {
+	async fillInToCs (props = this.props) {
 		this.setState({loading: true, error: false});
 
 		const {contentPackage} = props;
@@ -84,7 +84,7 @@ export default class TableOfContentsView extends React.Component {
 			this.setState({error: e});
 		}
 		finally {
-			this.setState({loading: false}); 
+			this.setState({loading: false});
 		}
 	}
 
@@ -116,7 +116,7 @@ export default class TableOfContentsView extends React.Component {
 				: undefined;
 
 			if (term !== this.lastSearchTerm) { return; }
-	
+
 			this.setState({
 				searchResultItems: searchResults ? searchResults.Items : undefined,
 				searchResults
@@ -141,7 +141,7 @@ export default class TableOfContentsView extends React.Component {
 
 			try {
 				const result = await searchResults.loadNextPage();
-				
+
 				this.setState({
 					searchResultItems: [...searchResultItems, ...result.Items],
 					searchResults: result
@@ -236,7 +236,7 @@ export default class TableOfContentsView extends React.Component {
 	}
 
 
-	renderTocs () {
+	renderToCs () {
 		const {onSelectNode} = this.props;
 		const {tocs = [], filter} = this.state;
 		const isSingle = tocs.length === 1;

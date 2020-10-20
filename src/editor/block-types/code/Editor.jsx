@@ -38,19 +38,19 @@ class Editor extends Component {
 
 	constructor (props) {
 		super(props);
-		this.state = this.getStateFor(props);
+		this.state = this.computeState(props);
 	}
 
-	componentWillReceiveProps (nextProps) {
-		const { block: newBlock } = nextProps;
-		const { block: oldBlock } = this.props;
+	componentDidUpdate (prevProps) {
+		const { block: newBlock } = this.props;
+		const { block: oldBlock } = prevProps;
 
 		if (newBlock !== oldBlock) {
-			this.setState(this.getStateFor(nextProps));
+			this.setState(this.computeState());
 		}
 	}
 
-	getStateFor (props = this.props) {
+	computeState (props = this.props) {
 		const { block } = props;
 		const data = block.getData();
 		const body = data.get('body');

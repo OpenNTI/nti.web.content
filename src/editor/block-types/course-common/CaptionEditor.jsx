@@ -28,9 +28,9 @@ export default class CaptionEditor extends React.Component {
 		}
 	}
 
-	componentWillReceiveProps (nextProps) {
-		const {body:newBody, indexOfType:newIndex} = nextProps;
-		const {body:oldBody, indexOfType:oldIndex} = this.props;
+	componentDidUpdate (prevProps) {
+		const {body:newBody, indexOfType:newIndex} = this.props;
+		const {body:oldBody, indexOfType:oldIndex} = prevProps;
 
 		if (newBody !== oldBody || newIndex !== oldIndex) {
 			this.maybeFixTitle(newBody, newIndex);

@@ -59,9 +59,9 @@ export default class VideoPicker extends React.Component {
 		};
 	}
 
-	componentWillReceiveProps (nextProps) {
-		const {value:nextValue} = nextProps;
-		const {value:prevValue} = this.props;
+	componentDidUpdate (prevProps) {
+		const {value:nextValue} = this.props;
+		const {value:prevValue} = prevProps;
 
 		if (nextValue !== prevValue) {
 			this.setState({

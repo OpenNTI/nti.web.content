@@ -49,9 +49,9 @@ export default class ContentOptionSwitcher extends React.Component {
 	}
 
 
-	componentWillReceiveProps (nextProps) {
-		const {active:nextActive} = nextProps;
-		const {active:oldActive} = this.props;
+	componentDidUpdate (prevProps) {
+		const {active:nextActive} = this.props;
+		const {active:oldActive} = prevProps;
 
 		if (nextActive !== oldActive) {
 			this.setState({active:nextActive});
