@@ -52,7 +52,7 @@
 	content: '… ';
 }
 
-.fragment hit {
+.fragment :global(.hit) {
 	background: #fcff13;
 }
 

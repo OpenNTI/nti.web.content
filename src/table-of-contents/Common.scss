@@ -17,7 +17,6 @@ $node-border:
 
 	font-size: rem-calc($font-size);
 	line-height: $line-height / $font-size;
-
 	padding-top: rem-calc($padding);
 	padding-bottom: rem-calc($padding);
 }
@@ -26,7 +25,7 @@ $node-border:
 	@include calcPadding($font-size, $line-height, $desired-height);
 
 	@if $border {
-		box-shadow: $node-border
+		box-shadow: $node-border;
 	}
 
 	padding-right: $rhs-padding;
@@ -42,4 +41,3 @@ $node-border:
 		@include limit-lines($line-height: $line-height/$font-size);
 	}
 }
-

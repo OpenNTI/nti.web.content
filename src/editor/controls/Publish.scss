@@ -26,23 +26,19 @@
 		display: inline-block;
 		flex: 0 0 auto;
 		margin-right: rem-calc(5px);
-
 		font-size: 0.875rem;
 		color: white;
 	}
 
-
 	i.menu {
 		display: inline-block;
 		flex: 0 0 auto;
-
 		width: 1.125rem;
 		height: 1.125rem;
 		text-align: center;
 		font-weight: 600;
 		font-size: 0.625rem;
 		line-height: 1.1rem;
-
 		color: white;
 		border: 2px solid white;
 		border-radius: 1rem;
@@ -88,13 +84,11 @@
 			margin-bottom: 1rem;
 		}
 
-
 		.action {
 			color: var(--primary-blue);
 			margin-bottom: 0.625rem;
 			cursor: pointer;
 		}
-
 
 		.delete {
 			padding-top: 0.625rem;
@@ -112,7 +106,6 @@
 				vertical-align: middle;
 			}
 		}
-
 
 		.publish {
 			margin: 1.6rem 0 0;

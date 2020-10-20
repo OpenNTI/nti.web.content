@@ -20,14 +20,13 @@
 			color: var(--primary-grey);
 
 			.public-DraftEditor-content {
-			 	padding: 1.25rem;
+				padding: 1.25rem;
 
-			 	& > div, & > div > div {
+				& > div, & > div > div {
 					margin: 0.875rem 0;
 				}
 			}
 		}
-
 
 		h2 {
 			font-size: 1.75rem;
@@ -76,8 +75,9 @@
 			line-height: 1.67;
 			color: var(--secondary-grey);
 			border-left: 3px solid var(--secondary-grey);
-			margin: 20px 0px;
-			padding: 0px 20px;
+			margin: 20px 0;
+			padding: 0 20px;
+
 			p {
 				color: var(--secondary-grey);
 			}

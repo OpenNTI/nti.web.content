@@ -2,16 +2,16 @@
 
 .content-editor-render-mask {
 	position: absolute;
-	top: 51px; bottom: 0;
-	left: 0; right: 0;
+	top: 51px;
+	bottom: 0;
+	left: 0;
+	right: 0;
 	display: none;
-
 	background: rgba(255, 255, 255, 0.8);
 
 	&.prepublishing, &.publishing, &.success, &.failure, &.deleting {
 		display: block;
 	}
-
 
 	.publishing-indicator, .deleting-indicator {
 		padding-top: rem-calc(130px);
@@ -54,7 +54,7 @@
 		}
 	}
 
-	.success-indicator, .failure-indicator{
+	.success-indicator, .failure-indicator {
 		padding-top: rem-calc(130px);
 		text-align: center;
 
@@ -80,7 +80,6 @@
 			color: var(--primary-green);
 			border: 2px solid var(--primary-green);
 		}
-
 
 		span {
 			color: var(--primary-green);

@@ -51,7 +51,6 @@
 	$section-line-height: 16px;
 	$section-desired-height: 30px;
 
-
 	&.section {
 		@include nodeStyles(
 			$font-size: $section-font-size,
@@ -85,8 +84,7 @@
 		);
 	}
 
-
 	.hit {
-		background-color: #FCFF13;
+		background-color: #fcff13;
 	}
 }

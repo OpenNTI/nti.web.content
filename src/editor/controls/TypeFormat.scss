@@ -10,7 +10,6 @@
 		margin: rem-calc(10px 20px 10px 0);
 		position: relative;
 		cursor: pointer;
-
 		font: normal 300 0.875rem/2rem var(--body-font-family);
 
 		&::after {
@@ -33,7 +32,7 @@
 }
 
 .content-editor-type-format .content-editor-active-type,
-.content-editor-type-flyout .content-editor-type-button  {
+.content-editor-type-flyout .content-editor-type-button {
 	&.ordered-list-item {
 		span::before {
 			content: '1.';
@@ -72,37 +71,6 @@
 	}
 }
 
-.content-editor-type-flyout .content-editor-type-button {
-	font: normal normal 0.875rem/1 var(--body-font-family);
-
-	&.header-two {
-		font-weight: 300;
-		font-size: 1.75rem;
-	}
-
-	&.header-three {
-		font-weight: 300;
-		font-size: 1.25rem;
-	}
-
-	&.header-four {
-		font-weight: bold;
-	}
-
-	&.unstyled {
-		line-height: 1.5;
-		font-size: 0.875rem;
-	}
-
-	&.ordered-list-item {
-		font-size: 0.875rem;
-	}
-
-	&.unordered-list-item {
-		font-size: 0.875rem;
-	}
-}
-
 .content-editor-type-flyout {
 	ul {
 		list-style: none;
@@ -112,7 +80,6 @@
 		&.plain {
 			border-bottom: 1px solid var(--border-grey-light);
 		}
-
 
 		li {
 			&:first-of-type {
@@ -134,5 +101,33 @@
 		padding: 0.25rem 2rem 0.25rem 0;
 		position: relative;
 		min-width: rem-calc(300px);
+		font: normal normal 0.875rem/1 var(--body-font-family);
+
+		&.header-two {
+			font-weight: 300;
+			font-size: 1.75rem;
+		}
+
+		&.header-three {
+			font-weight: 300;
+			font-size: 1.25rem;
+		}
+
+		&.header-four {
+			font-weight: bold;
+		}
+
+		&.unstyled {
+			line-height: 1.5;
+			font-size: 0.875rem;
+		}
+
+		&.ordered-list-item {
+			font-size: 0.875rem;
+		}
+
+		&.unordered-list-item {
+			font-size: 0.875rem;
+		}
 	}
 }
