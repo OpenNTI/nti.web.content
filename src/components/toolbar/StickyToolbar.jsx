@@ -3,12 +3,12 @@ import { StickyElement, StickyContainer } from '@nti/web-commons';
 
 import Toolbar from './Toolbar';
 
-export default function StickyToolbar (props) {
+export default React.forwardRef(function StickyToolbar (props, ref) {
 	return (
 		<StickyContainer>
 			<StickyElement>
-				<Toolbar {...props} />
+				<Toolbar {...props} ref={ref}/>
 			</StickyElement>
 		</StickyContainer>
 	);
-}
+});
