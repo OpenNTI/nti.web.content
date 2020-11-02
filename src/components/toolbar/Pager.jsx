@@ -16,7 +16,7 @@ const t = scoped('content.toolbar.Pager', {
 export default class Pager extends React.Component {
 	static propTypes = {
 		doNavigation: PropTypes.func.isRequired,
-		hideControls: PropTypes.bool.isRequired,
+		hideControls: PropTypes.bool,
 		pageSource: PropTypes.shape({
 			getPrevious: PropTypes.func.isRequired,
 			getPreviousTitle: PropTypes.func.isRequired,
