@@ -53,34 +53,19 @@ export default class CourseFigureEditor extends React.Component {
 
 	attachCaptionRef = x => this.caption = x
 
-	constructor (props) {
-		super(props);
-
-		this.state = this.computeState(props);
+	get blockData () {
+		return this.props.block?.getData?.();
 	}
 
-
-	componentDidUpdate (prevProps) {
-		const {block:newBlock} = this.props;
-		const {block:oldBlock} = prevProps;
-
-		if (newBlock !== oldBlock) {
-			this.setState(this.computeState());
-		}
+	get url () {
+		return this.blockData?.get('arguments');
 	}
 
+	get body () {
+		const body = this.blockData?.get('body');
 
-	computeState (props = this.props) {
-		const {block} = props;
-		const data = block.getData();
-		const body = data.get('body');
-
-		return {
-			url: data.get('arguments'),
-			body: body.toJS ? body.toJS() : body
-		};
+		return body.toJS ? body.toJS() : body;
 	}
-
 
 	onChange = () => {
 		const {blockProps: {course, setBlockData}} = this.props;
@@ -110,7 +95,7 @@ export default class CourseFigureEditor extends React.Component {
 
 	render () {
 		const {block, blockProps:{indexOfType}} = this.props;
-		const {url, body} = this.state;
+		const {url, body} = this;
 		const blockId = block.getKey();
 
 		return (
