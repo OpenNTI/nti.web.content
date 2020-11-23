@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Flyout } from '@nti/web-commons';
-import {rawContent} from '@nti/lib-commons';
 
 class Sibling extends React.Component {
 	static propTypes = {
@@ -17,7 +16,7 @@ class Sibling extends React.Component {
 	render () {
 		const {item} = this.props;
 		return (
-			<div onClick={this.onClick} className="sibling-item" {...rawContent(item.label)}/>
+			<div onClick={this.onClick} className="sibling-item">{item.label}</div>
 		);
 	}
 }
@@ -70,8 +69,9 @@ export default class BreadcrumbItem extends React.Component {
 					<div
 						className={className}
 						onClick={this.onParentClick}
-						{...rawContent(item.label)}
-					/>
+					>
+						{item.label}
+					</div>
 					{this.renderMessage()}
 				</div>
 			);
@@ -82,8 +82,9 @@ export default class BreadcrumbItem extends React.Component {
 				className={className}
 				onClick={this.onParentClick}
 				key={bcKey}
-				{...rawContent(item.label)}
-			/>
+			>
+				{item.label}
+			</div>
 		);
 	}
 
