@@ -20,13 +20,18 @@ function isTitleBlock (block) {
 }
 
 function buildTitle (title, label) {
+	const HTML_ENT = {
+		'&': 'amp',
+		'<': 'lt',
+		'>': 'gt'
+	};
 	return {
 		data: {label},
 		entityRanges: [],
 		inlineStyleRanges: [],
 		depth: 0,
 		type: BLOCKS.HEADER_ONE,
-		text: title
+		text: title.replace(/[<&>]/g, (ch)=> `&${HTML_ENT[ch]};`)
 	};
 }
 
