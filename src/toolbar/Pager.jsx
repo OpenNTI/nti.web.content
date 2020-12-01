@@ -21,9 +21,9 @@ export default class Pager extends React.Component {
 		// RealPageAugmentedPageSource -- name is a wip :P )
 		contentPackage: PropTypes.shape({
 			getTablesOfContents: PropTypes.func
-		}).isRequired,
+		}),
 		rootId: PropTypes.string.isRequired,
-		currentPage: PropTypes.string.isRequired,
+		currentPage: PropTypes.string,
 	}
 
 	state = {
