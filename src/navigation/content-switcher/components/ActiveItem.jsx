@@ -50,7 +50,7 @@ export default class ContentNavigationSwitcherActiveItem extends React.Component
 		const edition = null; // stubbed out for future support; e.g. '4th Edition';
 
 		return (
-			<div className="item">
+			<div className="item" data-test-id={`active-item-${item.title.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`}>
 				<Presentation.Asset contentPackage={item} type="thumb">
 					<img className="icon" alt={item.title} />
 				</Presentation.Asset>
@@ -59,13 +59,13 @@ export default class ContentNavigationSwitcherActiveItem extends React.Component
 						{edition && <div className="edition">{edition}</div>}
 						<div className="title">{item.title}</div>
 						{item.canDelete &&  (
-							<LinkTo.Object className="delete" object={item} context="delete">
+							<LinkTo.Object className="delete" object={item} context="delete" data-test-id="delete-item">
 								<i className="icon-delete" aria-label="delete"/>
 							</LinkTo.Object>
 						)}
 					</div>
 					{item.canEdit && (
-						<LinkTo.Object className="edit" object={item} context="edit">
+						<LinkTo.Object className="edit" object={item} context="edit" data-test-id="edit-item">
 							<span>{getString('edit')}</span>
 						</LinkTo.Object>
 					)}
@@ -73,7 +73,7 @@ export default class ContentNavigationSwitcherActiveItem extends React.Component
 						<span className="edit-placeholder" />
 					)}
 					{item.canPublish && (
-						<LinkTo.Object className="publish" object={item} context="publish">
+						<LinkTo.Object className="publish" object={item} context="publish" data-test-id="publish-item">
 							<span>{getString('publish')}</span>
 						</LinkTo.Object>
 					)}
