@@ -54,7 +54,6 @@
     "filesize": "^4.1.2",
     "html-entities": "^1.2.0",
     "invariant": "^2.1.1",
-    "object-hash": "^1.1.5",
     "prop-types": "^15.5.8",
     "punycode": "^1.4.1",
     "query-string": "^6.2.0",
