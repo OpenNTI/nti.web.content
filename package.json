@@ -55,7 +55,7 @@
     "html-entities": "^1.2.0",
     "invariant": "^2.1.1",
     "prop-types": "^15.5.8",
-    "punycode": "^1.4.1",
+    "punycode": "^2.1.1",
     "query-string": "^6.2.0",
     "react-transition-group": "^4.2.2",
     "uuid": "^8.3.0",
