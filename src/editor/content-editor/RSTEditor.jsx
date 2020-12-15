@@ -126,7 +126,7 @@ export default class RSTEditor extends React.Component {
 
 		this.pendingSaves = [];
 
-		this.setUpValue(props);
+		this.setupValue(props);
 
 		customBlocks.mergeExtraProps({course});
 	}
@@ -169,7 +169,7 @@ export default class RSTEditor extends React.Component {
 	}
 
 
-	setUpValue (props = this.props) {
+	setupValue (props = this.props) {
 		const {value} = props;
 		const {editorState, titleLabel} = rstToEditorState(value);
 		const state = {editorState, title: this.title, titleLabel};
