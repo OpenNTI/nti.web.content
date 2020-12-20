@@ -1,5 +1,5 @@
 import React from 'react';
-import { mount } from 'enzyme';
+import { render, fireEvent } from '@testing-library/react';
 
 import ContentNavMenu from '../ContentNavMenu';
 
@@ -30,42 +30,42 @@ describe('ContentNavMenu test', () => {
 		}
 	];
 
-	const verifyContents = (cmp) => {
-		const activeContentEl = cmp.find('.active-content').first();
+	const verifyContents = ({container: c}) => {
+		const activeContentEl = c.querySelector('.active-content');
 
-		const activeTitle = activeContentEl.find('.title').first();
+		const activeTitle = activeContentEl.querySelector('.title');
 
-		expect(activeContentEl.find('img').prop('src')).toEqual('/active/url');
+		expect(activeContentEl.querySelector('img').getAttribute('src')).toEqual('/active/url');
 
-		expect(activeTitle.text()).toEqual('Active Content');
+		expect(activeTitle.textContent).toEqual('Active Content');
 
-		const sections = cmp.find('.sections-list').first().find('.section');
+		const sections = c.querySelectorAll('.sections-list .section');
 
-		expect(sections.at(0).text()).toEqual('Section 1');
-		expect(sections.at(0).prop('className')).not.toMatch(/current/);
+		expect(sections[0].textContent).toEqual('Section 1');
+		expect(sections[0].getAttribute('class')).not.toMatch(/current/);
 
-		expect(sections.at(1).text()).toEqual('Section 2');
-		expect(sections.at(1).prop('className')).toMatch(/current/);
+		expect(sections[1].textContent).toEqual('Section 2');
+		expect(sections[1].getAttribute('class')).toMatch(/current/);
 
-		const recentContentItemsList = cmp.find('.recent-content-items-list').first().find('.recent-content');
+		const recentContentItemsList = c.querySelectorAll('.recent-content-items-list .recent-content');
 
-		expect(recentContentItemsList.at(0).find('img').first().prop('src')).toEqual('/some/url1');
-		expect(recentContentItemsList.at(1).find('img').first().prop('src')).toEqual('/some/url2');
+		expect(recentContentItemsList[0].querySelector('img').getAttribute('src')).toEqual('/some/url1');
+		expect(recentContentItemsList[1].querySelector('img').getAttribute('src')).toEqual('/some/url2');
 	};
 
 	test('Test non-admin', () => {
-		const cmp = mount(
+		const result = render(
 			<ContentNavMenu
 				activeContent={activeContent}
 				recentContentItems={recentContentItems}
 				type={ContentNavMenu.COURSE}/>
 		);
 
-		verifyContents(cmp);
+		verifyContents(result);
 
-		expect(cmp.find('.delete-content').exists()).toBe(false);
-		expect(cmp.find('.edit').exists()).toBe(false);
-		expect(cmp.find('.publish').exists()).toBe(false);
+		expect(result.container.querySelector('.delete-content')).toBeFalsy();
+		expect(result.container.querySelector('.edit')).toBeFalsy();
+		expect(result.container.querySelector('.publish')).toBeFalsy();
 	});
 
 	test('Test admin', () => {
@@ -74,7 +74,7 @@ describe('ContentNavMenu test', () => {
 		const onDelete = jest.fn();
 		const onPublish = jest.fn();
 
-		const cmp = mount(
+		const result = render(
 			<ContentNavMenu
 				activeContent={activeContent}
 				recentContentItems={recentContentItems}
@@ -87,25 +87,25 @@ describe('ContentNavMenu test', () => {
 				isEditor/>
 		);
 
-		verifyContents(cmp);
+		verifyContents(result);
 
-		expect(cmp.find('.delete-content').exists()).toBe(true);
+		expect(result.container.querySelector('.delete-content')).toBeTruthy();
 
-		const edit = cmp.find('.edit').first();
-		edit.simulate('click');
+		const edit = result.container.querySelector('.edit');
+		fireEvent.click(edit);
 		expect(onEdit).toHaveBeenCalled();
 
-		const publish = cmp.find('.publish').first();
-		publish.simulate('click');
+		const publish = result.container.querySelector('.publish');
+		fireEvent.click(publish);
 		expect(onPublish).toHaveBeenCalled();
 
-		const deleteBtn = cmp.find('.delete-content').first();
-		deleteBtn.simulate('click');
+		const deleteBtn = result.container.querySelector('.delete-content');
+		fireEvent.click(deleteBtn);
 		expect(onDelete).toHaveBeenCalled();
 
-		const recentContent1 = cmp.find('.recent-content').first();
+		const recentContent1 = result.container.querySelector('.recent-content');
 
-		recentContent1.simulate('click');
+		fireEvent.click(recentContent1);
 
 		expect(onItemClick).toHaveBeenCalled();
 	});

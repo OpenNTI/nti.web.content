@@ -1,9 +1,7 @@
 import React from 'react';
-import { mount } from 'enzyme';
+import { render, waitFor } from '@testing-library/react';
 
 import Publish from '../Publish';
-
-const wait = n => new Promise(t => setTimeout(t, n));
 
 /* eslint-env jest */
 describe('Publish', () => {
@@ -15,25 +13,24 @@ describe('Publish', () => {
 	};
 
 	test('Publish is enabled', async () => {
-		let cmp = mount(<Publish contentPackage={contentPackage}/>);
+		const result = render(<Publish contentPackage={contentPackage}/>);
 
-		await wait(100);
+		return waitFor(() => {
 
-		cmp.update();
+			const el = result.container.querySelector('.content-editor-publish-trigger');
 
-		let el = cmp.find('.content-editor-publish-trigger');
-
-		expect(el.hasClass('disabled')).toBe(false);
+			expect(el.classList.contains('disabled')).toBe(false);
+		});
 	});
 
 	test('Publish is disabled', async () => {
-		let cmp = mount(<Publish contentPackage={contentPackage} disabled/>);
+		const result = render(<Publish contentPackage={contentPackage} disabled/>);
 
-		await wait(100);
-		cmp.update();
+		return waitFor(() => {
 
-		let el = cmp.find('.content-editor-publish-trigger');
+			const el = result.container.querySelector('.content-editor-publish-trigger');
 
-		expect(el.hasClass('disabled')).toBe(true);
+			expect(el.classList.contains('disabled')).toBe(true);
+		});
 	});
 });
