@@ -56,14 +56,6 @@
     "vtt.js": "^0.13.0"
   },
   "devDependencies": {
-    "@nti/cmp-scripts": "^2.27.14",
-    "@nti/style-common": "NextThought/nti.style.common",
-    "@testing-library/react": "^11.2.2"
-  },
-  "peerDependencies": {
-    "classnames": "*",
-    "react": "*",
-    "react-dom": "*",
-    "prop-types": "*"
+    "@nti/cmp-scripts": "^2.31.8"
   }
 }
