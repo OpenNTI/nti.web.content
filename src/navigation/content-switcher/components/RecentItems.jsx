@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import {scoped} from '@nti/lib-locale';
 import {Presentation, Flyout} from '@nti/web-commons';
 import {LinkTo} from '@nti/web-routing';
+import {toCSSClassName} from '@nti/lib-dom';
 
 const t = scoped('content.navigation.content-switcher.RecentItems', {
 	course: {
@@ -89,7 +90,7 @@ export default class ContentNavigationSwitcherRecentItems extends React.Componen
 			<LinkTo.Object
 				className="content-navigation-switcher-recent-item"
 				object={item}
-				data-test-id={`recent-item-${item.title.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`}
+				data-testid={`recent-item-${toCSSClassName(item.title)}`}
 			>
 				<Presentation.Asset contentPackage={item} type="thumb">
 					<img className="icon" alt={item.title}/>
