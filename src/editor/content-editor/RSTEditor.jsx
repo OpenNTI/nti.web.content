@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import {HOC} from '@nti/web-commons';
+import {HOC, Errors} from '@nti/web-commons';
 import {scoped} from '@nti/lib-locale';
 import {Editor, Plugins, Parsers, BLOCKS, STYLES} from '@nti/web-editor';
 
@@ -36,17 +36,25 @@ function buildTitle (title, label) {
 }
 
 function rstToEditorState (rst, options) {
-	const draftState = rst && Parser.convertRSTToDraftState(rst, options);
-	const {blocks, entityMap} = draftState || {blocks: []};
+	try {
+		const draftState = rst && Parser.convertRSTToDraftState(rst, options);
+		const {blocks, entityMap} = draftState || {blocks: []};
 
-	const titleBlock = isTitleBlock(blocks[0]) ? blocks[0] : null;
-	const newBlocks = titleBlock ? blocks.slice(1) : blocks;
+		const titleBlock = isTitleBlock(blocks[0]) ? blocks[0] : null;
+		const newBlocks = titleBlock ? blocks.slice(1) : blocks;
 
-	const editorState = newBlocks && newBlocks.length ?
-		Parsers.Utils.getStateForRaw({blocks:newBlocks, entityMap}) :
-		Parsers.Utils.getEmptyState();
+		const editorState = newBlocks && newBlocks.length ?
+			Parsers.Utils.getStateForRaw({blocks:newBlocks, entityMap}) :
+			Parsers.Utils.getEmptyState();
 
-	return {editorState, titleLabel: titleBlock && titleBlock.data && titleBlock.data.label};
+		return {editorState, titleLabel: titleBlock && titleBlock.data && titleBlock.data.label};
+	} catch (e) {
+		debugger;//eslint-disable-line
+		return {
+			editorState: Parsers.Utils.getEmptyState(),
+			error: e
+		};
+	}
 }
 
 function editorStateToRST (editorState, title, titleLabel) {
@@ -171,8 +179,8 @@ export default class RSTEditor extends React.Component {
 
 	setupValue (props = this.props) {
 		const {value} = props;
-		const {editorState, titleLabel} = rstToEditorState(value);
-		const state = {editorState, title: this.title, titleLabel};
+		const {editorState, titleLabel, error} = rstToEditorState(value);
+		const state = {editorState, title: this.title, titleLabel, error};
 
 		if (this.state) {
 			this.setState(state);
@@ -217,23 +225,26 @@ export default class RSTEditor extends React.Component {
 
 	render () {
 		const {contentPackage, ...otherProps} = this.props;
-		const {editorState} = this.state;
+		const {editorState, error} = this.state;
 
 		delete otherProps.onContentChange;
 		delete otherProps.value;
 
 		return (
 			<ItemChanges item={contentPackage} onItemChanged={this.onContentPackageChange}>
-				<Editor
-					ref={this.setEditorRef}
-					id="content-editor"
-					className="content-editing-rst-editor"
-					editorState={editorState}
-					onContentChange={this.onContentChange}
-					plugins={plugins}
-					placeholder={t('placeholder')}
-					{...otherProps}
-				/>
+				{error ?
+					(<Errors.Message error={error} />) :
+					(<Editor
+						ref={this.setEditorRef}
+						id="content-editor"
+						className="content-editing-rst-editor"
+						editorState={editorState}
+						onContentChange={this.onContentChange}
+						plugins={plugins}
+						placeholder={t('placeholder')}
+						{...otherProps}
+					/>)
+				}
 			</ItemChanges>
 		);
 	}
