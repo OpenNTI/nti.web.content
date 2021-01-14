@@ -2,17 +2,8 @@ import {BLOCK_TYPE} from 'draft-js-utils';
 
 import IndentedBlock from './IndentedBlock';
 
-function isValidOverlineLength (text, header) {
-	const diff = text.length - header.length;
-	let isValid = diff === 0;
-
-	//If the text starts with a space, the text can be one char
-	//shorter then the overline and underline
-	if (text[0] === ' ') {
-		isValid = isValid || diff === -1;
-	}
-
-	return isValid;
+function isValidHeaderLineLength (text, header) {
+	return header.length >= text.length;
 }
 
 function fixLevel (level, options) {
@@ -52,7 +43,7 @@ export default class Header extends IndentedBlock {
 		//meaning its the same length and char as the overline
 		return (!currentBlock || !currentBlock.isParagraph) &&
 				overline === underline &&
-				isValidOverlineLength(text, overline);
+				isValidHeaderLineLength(text, overline);
 	}
 
 	static isValidUnderlined (inputInterface, context, parsedInterface) {
@@ -64,7 +55,7 @@ export default class Header extends IndentedBlock {
 		//If there is an open header and we are the same char and length we match it
 		const matchesOpenHeader = context.openHeader && (context.openHeader.char === char && context.openHeader.length === underline.length);
 		//If there is no open header and we are the same length as the text we match it
-		const matchesText = !context.openHeader && text.length === underline.length;
+		const matchesText = !context.openHeader && isValidHeaderLineLength(text, underline);
 
 		return currentBlock && currentBlock.isParagraph && currentBlock.isOneLine &&//if the current block is one line of text
 				(matchesOpenHeader || matchesText);//and we match the open header or the text
