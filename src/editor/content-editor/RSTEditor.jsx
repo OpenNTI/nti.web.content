@@ -49,7 +49,6 @@ function rstToEditorState (rst, options) {
 
 		return {editorState, titleLabel: titleBlock && titleBlock.data && titleBlock.data.label};
 	} catch (e) {
-		debugger;//eslint-disable-line
 		return {
 			editorState: Parsers.Utils.getEmptyState(),
 			error: e
@@ -234,16 +233,18 @@ export default class RSTEditor extends React.Component {
 			<ItemChanges item={contentPackage} onItemChanged={this.onContentPackageChange}>
 				{error ?
 					(<Errors.Message error={error} />) :
-					(<Editor
-						ref={this.setEditorRef}
-						id="content-editor"
-						className="content-editing-rst-editor"
-						editorState={editorState}
-						onContentChange={this.onContentChange}
-						plugins={plugins}
-						placeholder={t('placeholder')}
-						{...otherProps}
-					/>)
+					(
+						<Editor
+							ref={this.setEditorRef}
+							id="content-editor"
+							className="content-editing-rst-editor"
+							editorState={editorState}
+							onContentChange={this.onContentChange}
+							plugins={plugins}
+							placeholder={t('placeholder')}
+							{...otherProps}
+						/>
+					)
 				}
 			</ItemChanges>
 		);
