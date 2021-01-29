@@ -1,2 +1,2 @@
-export inputTransforms from './in';
-export outputTransforms from './out';
+export { default as inputTransforms } from './in';
+export { default as outputTransforms } from './out';

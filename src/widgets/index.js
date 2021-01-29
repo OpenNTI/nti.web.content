@@ -1,1 +1,1 @@
-export EmbeddedWidget from './EmbeddedWidget';
+export { default as EmbeddedWidget } from './EmbeddedWidget';

@@ -1,1 +1,1 @@
-export Pager from './Pager';
+export { default as Pager } from './Pager';

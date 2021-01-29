@@ -1,3 +1,3 @@
 export * from './Editor';
-export CaptionEditor from './CaptionEditor';
-export Controls from './Controls';
+export { default as CaptionEditor } from './CaptionEditor';
+export { default as Controls } from './Controls';

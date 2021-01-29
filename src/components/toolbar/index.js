@@ -1,2 +1,2 @@
-export Toolbar from './Toolbar';
-export StickyToolbar from './StickyToolbar';
+export { default as Toolbar } from './Toolbar';
+export { default as StickyToolbar } from './StickyToolbar';

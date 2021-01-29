@@ -1,4 +1,4 @@
-export ContentSwitcher from './content-switcher';
-export BookTabs from './BookTabs';
-export RememberedRoutes from './remembered-routes';
-export Tabs from './tabs';
+export { default as ContentSwitcher } from './content-switcher';
+export { default as BookTabs } from './BookTabs';
+export { default as RememberedRoutes } from './remembered-routes';
+export { default as Tabs } from './tabs';

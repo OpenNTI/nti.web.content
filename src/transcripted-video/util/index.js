@@ -1,1 +1,1 @@
-export padTimeString from './pad-time-string';
+export { default as padTimeString } from './pad-time-string';

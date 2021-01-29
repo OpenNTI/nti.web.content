@@ -1,2 +1,2 @@
-export View from './View';
-export Flyout from './Flyout';
+export { default as View } from './View';
+export { default as Flyout } from './Flyout';
