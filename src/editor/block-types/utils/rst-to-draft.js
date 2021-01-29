@@ -1,12 +1,11 @@
-import {Parsers} from '@nti/web-editor';
-
-import {Parser} from '../../../RST';
+import {Parsers as EditorParsers} from '@nti/web-editor';
+import {Parsers as ReadingParsers} from '@nti/web-reading';
 
 export default function rstToDraft (rst) {
-	const draftState = rst && Parser.convertRSTToDraftState(rst);
+	const draftState = rst && ReadingParsers.RST.convertRSTToDraftState(rst);
 	const {blocks} = draftState || {blocks: []};
 
 	return blocks && blocks.length ?
-		Parsers.Utils.getStateForRaw(draftState) :
-		Parsers.Utils.getEmptyState();
+		EditorParsers.Utils.getStateForRaw(draftState) :
+		EditorParsers.Utils.getEmptyState();
 }

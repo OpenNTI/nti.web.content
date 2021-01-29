@@ -3,8 +3,8 @@ import React from 'react';
 import {HOC, Errors} from '@nti/web-commons';
 import {scoped} from '@nti/lib-locale';
 import {Editor, Plugins, Parsers, BLOCKS, STYLES} from '@nti/web-editor';
+import {Parsers as ReadingParsers} from '@nti/web-reading';
 
-import {Parser} from '../../RST';
 import {CustomRenderers, CustomStyles} from '../block-types';
 
 const DEFAULT_TEXT = {
@@ -14,6 +14,7 @@ const DEFAULT_TEXT = {
 const t = scoped('web-content.editor.content-editor.rsteditor', DEFAULT_TEXT);
 
 const {ItemChanges} = HOC;
+const Parser = ReadingParsers.RST;
 
 function isTitleBlock (block) {
 	return block && block.type === BLOCKS.HEADER_ONE;

@@ -46,6 +46,7 @@
     "@nti/web-discussions": "NextThought/nti.web.discussions",
     "@nti/web-editor": "NextThought/nti.web.editor",
     "@nti/web-profiles": "NextThought/nti.web.profiles",
+    "@nti/web-reading": "NextThought/nti.web.reading",
     "@nti/web-routing": "NextThought/nti.web.routing",
     "@nti/web-session": "NextThought/nti.web.session",
     "@nti/web-video": "NextThought/nti.web.video",
