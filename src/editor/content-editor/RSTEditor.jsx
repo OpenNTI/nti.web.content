@@ -38,7 +38,7 @@ function buildTitle (title, label) {
 
 function rstToEditorState (rst, options) {
 	try {
-		const draftState = rst && Parser.convertRSTToDraftState(rst, options);
+		const draftState = rst && Parser.toRawDraftState(rst, options);
 		const {blocks, entityMap} = draftState || {blocks: []};
 
 		const titleBlock = isTitleBlock(blocks[0]) ? blocks[0] : null;
@@ -62,7 +62,7 @@ function editorStateToRST (editorState, title, titleLabel) {
 
 	const newBlocks = title ? [buildTitle(title, titleLabel), ...blocks] : blocks;
 
-	return editorState.getCurrentContent() ? Parser.convertDraftStateToRST({blocks: newBlocks, entityMap}) : '';
+	return editorState.getCurrentContent() ? Parser.fromRawDraftState({blocks: newBlocks, entityMap}) : '';
 }
 
 
