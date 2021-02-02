@@ -55,8 +55,8 @@ class RecentRoutes extends Stores.SimpleStore {
 	 *
 	 * Ex: ['course', '{NTIID}', 'lessons'], path/to/remembered/lesson/route
 	 *
-	 * @param {[String]} path  the path to store the route
-	 * @param {String} route the route to store
+	 * @param {[string]} path  the path to store the route
+	 * @param {string} route the route to store
 	 * @returns {void}
 	 */
 	setRouteToRemember (path, route) {
@@ -69,8 +69,8 @@ class RecentRoutes extends Stores.SimpleStore {
 	/**
 	 * Get a recent route
 	 *
-	 * @param  {[String]} path the path to retrieve the route from
-	 * @return {String}      the route that was stored
+	 * @param  {[string]} path the path to retrieve the route from
+	 * @returns {string}      the route that was stored
 	 */
 	getRememberedRoute (path) {
 		return getRouteAtPath(this.get('routes'), path);
