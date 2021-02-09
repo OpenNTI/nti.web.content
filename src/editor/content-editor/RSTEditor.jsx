@@ -4,6 +4,7 @@ import {HOC, Errors} from '@nti/web-commons';
 import {scoped} from '@nti/lib-locale';
 import {Editor, Plugins, Parsers, BLOCKS, STYLES} from '@nti/web-editor';
 import {Parsers as ReadingParsers} from '@nti/web-reading';
+import {SelectionState} from 'draft-js';//eslint-disable-line
 
 import {CustomRenderers, CustomStyles} from '../block-types';
 
@@ -97,7 +98,33 @@ const pastedText = Plugins.FormatPasted.create({
 		const rst = Parser.fromRawDraftState(Parsers.Utils.getRawForState(newContent));
 		const {editorState} = rstToEditorState(rst, {startingHeaderLevel: 2});
 
-		return editorState ? editorState.getCurrentContent() : newContent;
+		if (!editorState) { return newContent; }
+
+		const rstContent = editorState.getCurrentContent();
+		const rstBlocks = rstContent.getBlocksAsArray();
+		const clamp = (i) => Math.max(0, Math.min(rstBlocks.length - 1, i));
+
+		const selection = newContent.getSelectionAfter();
+
+		const startKey = selection.getAnchorKey();
+		const startIndex = newContent.getBlocksAsArray().findIndex(b => b.getKey() === startKey);
+		const newStartKey = rstBlocks[clamp(startIndex)].getKey();
+		const startOffset = selection.getAnchorOffset();
+
+		const endKey = selection.getFocusKey();
+		const endIndex = newContent.getBlocksAsArray().findIndex(b => b.getKey() === endKey);
+		const newEndKey = rstBlocks[clamp(endIndex)].getKey();
+		const endOffset = selection.getFocusOffset();
+
+		return rstContent.set(
+			'selectionAfter',
+			new SelectionState({
+				anchorKey: newStartKey,
+				anchorOffset: startOffset,
+				focusKey: newEndKey,
+				focusOffset: endOffset
+			})
+		);
 	}
 });
 
