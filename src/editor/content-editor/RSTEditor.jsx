@@ -94,7 +94,7 @@ const pastedText = Plugins.FormatPasted.create({
 		[BLOCKS.CODE]: BLOCKS.UNSTYLED
 	},
 	transformHTMLState (newContent) {
-		const rst = Parser.convertDraftStateToRST(Parsers.Utils.getRawForState(newContent));
+		const rst = Parser.fromRawDraftState(Parsers.Utils.getRawForState(newContent));
 		const {editorState} = rstToEditorState(rst, {startingHeaderLevel: 2});
 
 		return editorState ? editorState.getCurrentContent() : newContent;
