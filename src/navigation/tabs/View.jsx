@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import {decorate} from '@nti/lib-commons';
 import {Navigation} from '@nti/web-commons';
 
 import Store from './Store';
 
-export default
-@Store.connect(['tabConfigs'])
+
 class ContentTabs extends React.Component {
 	static deriveBindingFromProps (props) {
 		return {
@@ -61,3 +61,7 @@ class ContentTabs extends React.Component {
 		);
 	}
 }
+
+export default decorate(ContentTabs, [
+	Store.connect(['tabConfigs'])
+]);

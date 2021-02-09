@@ -1,6 +1,7 @@
 import './View.scss';
 import React from 'react';
 import PropTypes from 'prop-types';
+import {decorate} from '@nti/lib-commons';
 import {Prompt, Loading, DialogButtons} from '@nti/web-commons';
 import {scoped} from '@nti/lib-locale';
 
@@ -49,7 +50,6 @@ class PublishBookWindow extends React.Component {
 	}
 }
 
-@Store.connect(['loading', 'error', 'contentInstance'])
 class PublishBook extends React.Component {
 	static show = PublishBookWindow.show
 
@@ -147,4 +147,6 @@ class PublishBook extends React.Component {
 	}
 }
 
-export default PublishBook;
+export default decorate(PublishBook, [
+	Store.connect(['loading', 'error', 'contentInstance'])
+]);

@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import {decorate} from '@nti/lib-commons';
 import {Layouts} from '@nti/web-commons';
 import {Hooks, Events} from '@nti/web-session';
 import {decodeFromURI} from '@nti/lib-ntiids';
@@ -7,17 +8,6 @@ import {Notes} from '@nti/web-discussions';
 
 import Store from '../Store';
 
-export default
-@Store.monitor([
-	'notes',
-	'onNoteAdded',
-	'onNoteDeleted',
-	'notesFilter'
-])
-@Hooks.onEvent({
-	[Events.NOTE_CREATED]: 'onNoteCreated',
-	[Events.NOTE_DELETED]: 'onNoteDeleted'
-})
 class Sidebar extends React.Component {
 
 	static deriveBindingFromProps = ({course, videoId, outlineId}) => ({
@@ -66,3 +56,16 @@ class Sidebar extends React.Component {
 		);
 	}
 }
+
+export default decorate(Sidebar, [
+	Store.monitor([
+		'notes',
+		'onNoteAdded',
+		'onNoteDeleted',
+		'notesFilter'
+	]),
+	Hooks.onEvent({
+		[Events.NOTE_CREATED]: 'onNoteCreated',
+		[Events.NOTE_DELETED]: 'onNoteDeleted'
+	})
+]);

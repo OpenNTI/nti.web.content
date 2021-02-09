@@ -1,4 +1,5 @@
 import {Stores, Interfaces} from '@nti/lib-store';
+import {decorate} from '@nti/lib-commons';
 import {getAppUserScopedStorage} from '@nti/web-client';
 
 import {insertInto, updateData} from './switcher-data';
@@ -48,7 +49,6 @@ function Storage () {
 	};
 }
 
-@Interfaces.Stateful('content-switcher', ['items'], Storage())
 class ContentSwitcherStore extends Stores.SimpleStore {
 	static Singleton = true
 
@@ -95,4 +95,6 @@ class ContentSwitcherStore extends Stores.SimpleStore {
 	}
 }
 
-export default ContentSwitcherStore;
+export default decorate(ContentSwitcherStore, [
+	Interfaces.Stateful('content-switcher', ['items'], Storage())
+]);

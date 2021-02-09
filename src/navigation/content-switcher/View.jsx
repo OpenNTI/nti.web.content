@@ -1,6 +1,7 @@
 import './View.scss';
 import React from 'react';
 import PropTypes from 'prop-types';
+import {decorate} from '@nti/lib-commons';
 import {EmptyState} from '@nti/web-commons';
 import {scoped} from '@nti/lib-locale';
 
@@ -13,7 +14,7 @@ const t = scoped('content.navigation.content-switcher.View', {
 	recentLabel: 'Content'
 });
 
-@Store.connect(['items'])
+
 class ContentSwitcher extends React.Component {
 	static setActiveContent = Store.setActiveContent
 	static updateContent = Store.updateContent
@@ -56,4 +57,6 @@ class ContentSwitcher extends React.Component {
 }
 
 
-export default ContentSwitcher;
+export default decorate(ContentSwitcher, [
+	Store.connect(['items'])
+]);

@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import {decorate} from '@nti/lib-commons';
 import {DateTime, Error, Loading} from '@nti/web-commons';
 import {decodeFromURI} from '@nti/lib-ntiids';
 import classnames from 'classnames/bind';
@@ -16,21 +17,7 @@ const cx = classnames.bind(styles);
 
 const PLAYER_CONFIG = 'media-modal';
 
-export default
-@Store.monitor([
-	'loading',
-	'error',
-	'video',
-	'title',
-	'duration',
-	'notes',
-	'transcript',
-	'currentTime',
-	'onTimeUpdate',
-	'notesFilter',
-	'setNotesFilter'
-])
-class View extends React.Component {
+class Content extends React.Component {
 
 	static deriveBindingFromProps = ({course, videoId, outlineId}) => ({
 		course,
@@ -196,3 +183,19 @@ class View extends React.Component {
 		);
 	}
 }
+
+export default decorate(Content, [
+	Store.monitor([
+		'loading',
+		'error',
+		'video',
+		'title',
+		'duration',
+		'notes',
+		'transcript',
+		'currentTime',
+		'onTimeUpdate',
+		'notesFilter',
+		'setNotesFilter'
+	])
+]);

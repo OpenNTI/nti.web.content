@@ -2,6 +2,7 @@ import './Publication.scss';
 import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
+import {decorate} from '@nti/lib-commons';
 import {scoped} from '@nti/lib-locale';
 import {Input} from '@nti/web-commons';
 
@@ -11,7 +12,6 @@ const t = scoped('content.publish.Publication', {
 	label: 'Visible in Library'
 });
 
-@Store.monitor(['loading', 'published', 'canPublish', 'canUnpublish', 'publish', 'unpublish'])
 class BookPublishPublication extends React.Component {
 	static propTypes = {
 		loading: PropTypes.bool,
@@ -46,4 +46,6 @@ class BookPublishPublication extends React.Component {
 	}
 }
 
-export default BookPublishPublication;
+export default decorate(BookPublishPublication, [
+	Store.monitor(['loading', 'published', 'canPublish', 'canUnpublish', 'publish', 'unpublish'])
+]);

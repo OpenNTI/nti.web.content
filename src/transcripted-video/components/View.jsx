@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import {decorate} from '@nti/lib-commons';
 import {decodeFromURI} from '@nti/lib-ntiids';
 import classnames from 'classnames/bind';
 
@@ -11,8 +12,6 @@ import styles from './View.css';
 
 const cx = classnames.bind(styles);
 
-export default
-@Store.connect()
 class View extends React.Component {
 
 	static deriveBindingFromProps = ({course, videoId, outlineId}) => ({
@@ -73,3 +72,8 @@ class View extends React.Component {
 		);
 	}
 }
+
+
+export default decorate(View, [
+	Store.connect()
+]);
