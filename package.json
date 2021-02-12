@@ -50,6 +50,7 @@
     "@nti/web-routing": "NextThought/nti.web.routing",
     "@nti/web-session": "NextThought/nti.web.session",
     "@nti/web-video": "NextThought/nti.web.video",
+    "draft-js": "^0.11.0",
     "draft-js-utils": "^1.2.0",
     "query-string": "^6.2.0",
     "react-transition-group": "^4.2.2",
