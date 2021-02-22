@@ -1,6 +1,6 @@
 import StorePrototype from '@nti/lib-store';
 import Logger from '@nti/util-logger';
-import {Errors} from '@nti/web-commons';
+import { Errors } from '@nti/web-commons';
 import { scoped } from '@nti/lib-locale';
 
 import {
@@ -19,7 +19,7 @@ import {
 	RESET_STORE,
 	NEW_RENDER_JOB,
 	RENDER_JOB_CHANGE,
-	EMPTY_CODE_BLOCK
+	EMPTY_CODE_BLOCK,
 } from './Constants';
 
 const logger = Logger.get('lib:content-editor:Store');
@@ -27,20 +27,23 @@ const logger = Logger.get('lib:content-editor:Store');
 const DEFAULT_TEXT = {
 	emptyCodeBlock: 'Code blocks cannot be empty.',
 	missingSidebarTitle: 'Sidebars must have a title.',
-	missingSidebarContent: 'Sidebars cannot be empty.'
+	missingSidebarContent: 'Sidebars cannot be empty.',
 };
 const t = scoped('web-content.editor.Store', DEFAULT_TEXT);
 
-const {Field: {Factory:ErrorFactory}} = Errors;
+const {
+	Field: { Factory: ErrorFactory },
+} = Errors;
 
 const ERROR_MESSAGE_MAP = {
-	'Content block expected for the "sidebar" directive; none found.': () => t('missingSidebarContent'),
-	'Error in "sidebar" directive:': () => t('missingSidebarTitle')
+	'Content block expected for the "sidebar" directive; none found.': () =>
+		t('missingSidebarContent'),
+	'Error in "sidebar" directive:': () => t('missingSidebarTitle'),
 };
 
 const errorFactory = new ErrorFactory({
 	overrides: {
-		'ContentValidationError': reason => {
+		ContentValidationError: reason => {
 			if (ERROR_MESSAGE_MAP[reason.message]) {
 				return ERROR_MESSAGE_MAP[reason.message]();
 			}
@@ -50,8 +53,8 @@ const errorFactory = new ErrorFactory({
 			}
 
 			return reason.message;
-		}
-	}
+		},
+	},
 });
 
 const SHORT = 3000;
@@ -85,20 +88,19 @@ const Reset = Symbol('Reset');
 const NewRenderJob = Symbol('NewRenderJob');
 const RenderJobChanged = Symbol('RenderJobChanged');
 
-function init (store) {
+function init(store) {
 	store[Protected] = {
 		contentEditor: null,
 		savingCount: 0,
 		publishing: false,
 		unpublishing: false,
 		hasPublished: false,
-		[ErrorMessages]: []
+		[ErrorMessages]: [],
 	};
 }
 
-
 class Store extends StorePrototype {
-	constructor () {
+	constructor() {
 		super();
 
 		init(this);
@@ -117,17 +119,16 @@ class Store extends StorePrototype {
 			[DELETE_ENDED]: SetDeleteEnd,
 			[DELETED]: SetDeleted,
 			[RESET_STORE]: Reset,
-			[NEW_RENDER_JOB]: NewRenderJob
+			[NEW_RENDER_JOB]: NewRenderJob,
 		});
 	}
 
-	[Reset] () {
+	[Reset]() {
 		init(this);
 	}
 
-
-	[SetSaveStart] () {
-		const {savingCount:oldCount, endSavingTimeout} = this[Protected];
+	[SetSaveStart]() {
+		const { savingCount: oldCount, endSavingTimeout } = this[Protected];
 
 		clearTimeout(endSavingTimeout);
 
@@ -135,17 +136,18 @@ class Store extends StorePrototype {
 		this[Protected].lastSaveStart = new Date();
 
 		if (oldCount === 0) {
-			this.emitChange({type: SAVING});
+			this.emitChange({ type: SAVING });
 		}
 	}
 
-
-	[SetSaveEnd] () {
-		const {savingCount:oldCount, lastSaveStart, endSavingTimeout} = this[Protected];
+	[SetSaveEnd]() {
+		const { savingCount: oldCount, lastSaveStart, endSavingTimeout } = this[
+			Protected
+		];
 		const newCount = Math.max(0, oldCount - 1);
 		const maybeEnd = () => {
 			if (this[Protected].savingCount === 0) {
-				this.emitChange({type: SAVING});
+				this.emitChange({ type: SAVING });
 			}
 		};
 
@@ -155,7 +157,9 @@ class Store extends StorePrototype {
 
 		this[Protected].savingCount = newCount;
 
-		if (newCount !== 0) { return; }
+		if (newCount !== 0) {
+			return;
+		}
 
 		const now = new Date();
 		const start = lastSaveStart || new Date(0);
@@ -164,56 +168,59 @@ class Store extends StorePrototype {
 		clearTimeout(endSavingTimeout);
 
 		if (savingTime < SHORT) {
-			this[Protected].endSavingTimeout = setTimeout(maybeEnd, SHORT - savingTime);
+			this[Protected].endSavingTimeout = setTimeout(
+				maybeEnd,
+				SHORT - savingTime
+			);
 		} else {
 			maybeEnd();
 		}
 	}
 
-
-	[GetMessage] (messageCategory, id, field) {
+	[GetMessage](messageCategory, id, field) {
 		const messages = this[Protected][messageCategory];
 
 		for (let message of messages) {
-			if (message.isAttachedTo(id, field)) { return message; }
+			if (message.isAttachedTo(id, field)) {
+				return message;
+			}
 		}
 	}
 
-
-	[RemoveMessage] (messageCategory, id, field, type) {
+	[RemoveMessage](messageCategory, id, field, type) {
 		let messages = this[Protected][messageCategory];
 
-		this[Protected][messageCategory] = messages.filter(x => !x.isAttachedTo(id, field));
+		this[Protected][messageCategory] = messages.filter(
+			x => !x.isAttachedTo(id, field)
+		);
 
-		this.emitChange({type, NTIID: id});
+		this.emitChange({ type, NTIID: id });
 
 		return messages;
 	}
 
-
-	[SetMessage] (messageCategory, message, type) {
+	[SetMessage](messageCategory, message, type) {
 		const messages = this[Protected][messageCategory];
-		const {NTIID, field, label, reason} = message;
+		const { NTIID, field, label, reason } = message;
 
 		if (!this[GetMessage](messageCategory, NTIID, field)) {
 			const newMessage = errorFactory.make(
-				{NTIID, field, type, label},
+				{ NTIID, field, type, label },
 				reason,
 				() => this[RemoveMessage](messageCategory, NTIID, field, type)
 			);
 
 			messages.push(newMessage);
 
-			this.emitChange({type, NTIID});
+			this.emitChange({ type, NTIID });
 		}
 
 		return messages;
 	}
 
-
-	[SetError] (e) {
-		const {response} = e.action;
-		const {type, reason} = response || {};
+	[SetError](e) {
+		const { response } = e.action;
+		const { type, reason } = response || {};
 
 		if (reason && reason.statusCode === 404) {
 			return this[SetDeleted]();
@@ -226,88 +233,80 @@ class Store extends StorePrototype {
 		}
 	}
 
-
-	[ClearAllErrors] () {
+	[ClearAllErrors]() {
 		this[Protected][ErrorMessages] = [];
 
-		this.emitChange({type: SET_ERROR});
+		this.emitChange({ type: SET_ERROR });
 	}
 
-	[SetPrePublish] () {
+	[SetPrePublish]() {
 		this[Protected].prepublish = true;
 
-		this.emitChange({type: PUBLISHING});
+		this.emitChange({ type: PUBLISHING });
 	}
 
-
-	[SetPublishStart] () {
+	[SetPublishStart]() {
 		this[Protected].publishing = true;
 		this[Protected].hasPublished = true;
 
 		delete this[Protected].prepublish;
 
-		this.emitChange({type: PUBLISHING});
+		this.emitChange({ type: PUBLISHING });
 	}
 
-
-	[SetPublishEnd] () {
+	[SetPublishEnd]() {
 		this[Protected].publishing = false;
 
 		delete this[Protected].prepublish;
 
-		this.emitChange({type: PUBLISHING});
+		this.emitChange({ type: PUBLISHING });
 	}
 
-
-	[SetUnpublishStart] () {
+	[SetUnpublishStart]() {
 		this[Protected].unpublishing = true;
 
-		this.emitChange({type: UNPUBLISHING});
+		this.emitChange({ type: UNPUBLISHING });
 	}
 
-
-	[SetUnpublishEnd] () {
+	[SetUnpublishEnd]() {
 		this[Protected].unpublishing = false;
 
-		this.emitChange({type: UNPUBLISHING});
+		this.emitChange({ type: UNPUBLISHING });
 	}
 
-
-	[SetDeleteStart] () {
+	[SetDeleteStart]() {
 		this[Protected].deleting = true;
 		this[Protected].hasDeleted = true;
 
-		this.emitChange({type: DELETING});
+		this.emitChange({ type: DELETING });
 	}
 
-
-	[SetDeleteEnd] () {
+	[SetDeleteEnd]() {
 		this[Protected].deleting = false;
 
-		this.emitChange({type: DELETING});
+		this.emitChange({ type: DELETING });
 	}
 
-
-	[SetDeleted] () {
+	[SetDeleted]() {
 		this[Protected].deleted = true;
 
-		this.emitChange({type: DELETED});
+		this.emitChange({ type: DELETED });
 	}
 
-
-	[RenderJobChanged] = (renderJob) => {
+	[RenderJobChanged] = renderJob => {
 		if (this[Protected].renderJob !== renderJob) {
-			logger.warn('Received render changed for an different render job, dropping it on the floor');
+			logger.warn(
+				'Received render changed for an different render job, dropping it on the floor'
+			);
 			return;
 		}
 
-		this.emitChange({type: RENDER_JOB_CHANGE});
-	}
+		this.emitChange({ type: RENDER_JOB_CHANGE });
+	};
 
-
-	[NewRenderJob] (e) {
-		const {response:newRenderJob} = e.action;
-		const {renderJob:oldRenderJob} = this[Protected];
+	[NewRenderJob](e) {
+		const { response: newRenderJob } = e.action;
+		const { renderJob: oldRenderJob } = this[Protected];
 
 		if (oldRenderJob) {
 			oldRenderJob.stopMonitor();
@@ -321,78 +320,64 @@ class Store extends StorePrototype {
 			newRenderJob.startMonitor();
 		}
 
-		this.emitChange({type: RENDER_JOB_CHANGE});
+		this.emitChange({ type: RENDER_JOB_CHANGE });
 	}
 
-
-	setEditorRef (ref) {
+	setEditorRef(ref) {
 		this[Protected].editorRef = ref;
 	}
 
-
-	removeEditorRef () {
+	removeEditorRef() {
 		delete this[Protected].editorRef;
 	}
 
-
-	get editorRef () {
+	get editorRef() {
 		return this[Protected].editorRef;
 	}
 
-
-	get isSaving () {
+	get isSaving() {
 		return this[Protected].savingCount > 0;
 	}
 
-
-	get errors () {
+	get errors() {
 		const errors = this[Protected][ErrorMessages] || [];
 
 		return [...errors];
 	}
 
-
-	get isPrePublishing () {
+	get isPrePublishing() {
 		return this[Protected].prepublish;
 	}
 
-
-	get isPublishing () {
+	get isPublishing() {
 		return this[Protected].publishing;
 	}
 
-
-	get hasPublished () {
+	get hasPublished() {
 		return this[Protected].hasPublished;
 	}
 
-
-	get isUnpublishing () {
+	get isUnpublishing() {
 		return this[Protected].unpublishing;
 	}
 
-
-	get hasDeleted () {
+	get hasDeleted() {
 		return this[Protected].hasDeleted;
 	}
 
-
-	get isDeleting () {
+	get isDeleting() {
 		return this[Protected].deleting;
 	}
 
-
-	get isDeleted () {
+	get isDeleted() {
 		return this[Protected].deleted;
 	}
 
-
-	get renderJob () {
+	get renderJob() {
 		return this[Protected].renderJob;
 	}
 
-
-	getErrorFor (id, field) {
+	getErrorFor(id, field) {
 		return this[GetMessage](ErrorMessages, id, field);
 	}
 }

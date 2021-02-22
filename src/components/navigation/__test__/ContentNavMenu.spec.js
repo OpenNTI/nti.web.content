@@ -10,32 +10,34 @@ describe('ContentNavMenu test', () => {
 		thumb: '/active/url',
 		subItems: [
 			{
-				title: 'Section 1'
+				title: 'Section 1',
 			},
 			{
 				title: 'Section 2',
-				cls: 'current'
-			}
-		]
+				cls: 'current',
+			},
+		],
 	};
 
 	const recentContentItems = [
 		{
 			title: 'Content 1',
-			thumb: '/some/url1'
+			thumb: '/some/url1',
 		},
 		{
 			title: 'Content 1',
-			thumb: '/some/url2'
-		}
+			thumb: '/some/url2',
+		},
 	];
 
-	const verifyContents = ({container: c}) => {
+	const verifyContents = ({ container: c }) => {
 		const activeContentEl = c.querySelector('.active-content');
 
 		const activeTitle = activeContentEl.querySelector('.title');
 
-		expect(activeContentEl.querySelector('img').getAttribute('src')).toEqual('/active/url');
+		expect(
+			activeContentEl.querySelector('img').getAttribute('src')
+		).toEqual('/active/url');
 
 		expect(activeTitle.textContent).toEqual('Active Content');
 
@@ -47,10 +49,16 @@ describe('ContentNavMenu test', () => {
 		expect(sections[1].textContent).toEqual('Section 2');
 		expect(sections[1].getAttribute('class')).toMatch(/current/);
 
-		const recentContentItemsList = c.querySelectorAll('.recent-content-items-list .recent-content');
+		const recentContentItemsList = c.querySelectorAll(
+			'.recent-content-items-list .recent-content'
+		);
 
-		expect(recentContentItemsList[0].querySelector('img').getAttribute('src')).toEqual('/some/url1');
-		expect(recentContentItemsList[1].querySelector('img').getAttribute('src')).toEqual('/some/url2');
+		expect(
+			recentContentItemsList[0].querySelector('img').getAttribute('src')
+		).toEqual('/some/url1');
+		expect(
+			recentContentItemsList[1].querySelector('img').getAttribute('src')
+		).toEqual('/some/url2');
 	};
 
 	test('Test non-admin', () => {
@@ -58,7 +66,8 @@ describe('ContentNavMenu test', () => {
 			<ContentNavMenu
 				activeContent={activeContent}
 				recentContentItems={recentContentItems}
-				type={ContentNavMenu.COURSE}/>
+				type={ContentNavMenu.COURSE}
+			/>
 		);
 
 		verifyContents(result);
@@ -84,7 +93,8 @@ describe('ContentNavMenu test', () => {
 				onPublish={onPublish}
 				type={ContentNavMenu.COURSE}
 				isAdministrator
-				isEditor/>
+				isEditor
+			/>
 		);
 
 		verifyContents(result);
@@ -103,7 +113,9 @@ describe('ContentNavMenu test', () => {
 		fireEvent.click(deleteBtn);
 		expect(onDelete).toHaveBeenCalled();
 
-		const recentContent1 = result.container.querySelector('.recent-content');
+		const recentContent1 = result.container.querySelector(
+			'.recent-content'
+		);
 
 		fireEvent.click(recentContent1);
 

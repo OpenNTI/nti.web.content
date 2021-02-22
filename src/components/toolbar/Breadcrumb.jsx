@@ -8,10 +8,10 @@ export default class Breadcrumb extends React.Component {
 	static propTypes = {
 		items: PropTypes.arrayOf(PropTypes.object),
 		message: PropTypes.object,
-		onClick: PropTypes.func
-	}
+		onClick: PropTypes.func,
+	};
 
-	constructor (props) {
+	constructor(props) {
 		super(props);
 	}
 
@@ -23,11 +23,11 @@ export default class Breadcrumb extends React.Component {
 			item={part}
 			key={index}
 			bcKey={index}
-			message={index === arr.length - 1 ? this.props.message : null}/>
+			message={index === arr.length - 1 ? this.props.message : null}
+		/>
 	);
 
-
-	render () {
+	render() {
 		return (
 			<div className="breadcrumb">
 				{(this.props.items || []).map(this.renderBreadcrumbPart)}

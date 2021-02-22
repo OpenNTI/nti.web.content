@@ -1,7 +1,6 @@
-import {isVideoRefBlock} from './util';
+import { isVideoRefBlock } from './util';
 import Button from './Button';
 import Editor from './Editor';
-
 
 export const handlesBlock = contentBlock => isVideoRefBlock(contentBlock);
 export const className = 'nti-course-video-block';

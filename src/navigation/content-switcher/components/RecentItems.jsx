@@ -1,27 +1,27 @@
 import './RecentItems.scss';
 import React from 'react';
 import PropTypes from 'prop-types';
-import {scoped} from '@nti/lib-locale';
-import {Presentation, Flyout} from '@nti/web-commons';
-import {LinkTo} from '@nti/web-routing';
-import {toCSSClassName} from '@nti/lib-dom';
+import { scoped } from '@nti/lib-locale';
+import { Presentation, Flyout } from '@nti/web-commons';
+import { LinkTo } from '@nti/web-routing';
+import { toCSSClassName } from '@nti/lib-dom';
 
 const t = scoped('content.navigation.content-switcher.RecentItems', {
 	course: {
-		label: 'Courses'
+		label: 'Courses',
 	},
 	book: {
-		label: 'Books'
-	}
+		label: 'Books',
+	},
 });
 
-function getTitle (item) {
-	const {family} = item;
+function getTitle(item) {
+	const { family } = item;
 	let title = item.title;
 
 	if (family && family.length) {
 		family.map((fam, index) => {
-			if(fam.current) {
+			if (fam.current) {
 				title = fam.title;
 			}
 		});
@@ -36,20 +36,24 @@ export default class ContentNavigationSwitcherRecentItems extends React.Componen
 			PropTypes.shape({
 				title: PropTypes.string,
 				PlatformPresentationResources: PropTypes.array,
-				type: PropTypes.string
+				type: PropTypes.string,
 			})
-		)
-	}
+		),
+	};
 
-	render () {
-		const {items} = this.props;
+	render() {
+		const { items } = this.props;
 
-		if (!items || !items.length) { return null; }
+		if (!items || !items.length) {
+			return null;
+		}
 
 		const groups = items.reduce((acc, item) => {
-			const {type} = item;
+			const { type } = item;
 
-			if (!acc[type]) { acc[type] = []; }
+			if (!acc[type]) {
+				acc[type] = [];
+			}
 
 			acc[type].push(item);
 
@@ -59,18 +63,15 @@ export default class ContentNavigationSwitcherRecentItems extends React.Componen
 
 		return (
 			<div className="content-navigation-switcher-recent-items">
-				{names.map((name) => this.renderGroup(name, groups[name]))}
+				{names.map(name => this.renderGroup(name, groups[name]))}
 			</div>
 		);
 	}
 
-
-	renderGroup (name, items) {
+	renderGroup(name, items) {
 		return (
 			<div className="group" key={name}>
-				<div className="heading">
-					{t(`${name}.label`)}
-				</div>
+				<div className="heading">{t(`${name}.label`)}</div>
 				<ul>
 					{items.map((item, key) => {
 						return (
@@ -84,8 +85,7 @@ export default class ContentNavigationSwitcherRecentItems extends React.Componen
 		);
 	}
 
-
-	renderItem (item) {
+	renderItem(item) {
 		const trigger = (
 			<LinkTo.Object
 				className="content-navigation-switcher-recent-item"
@@ -93,7 +93,7 @@ export default class ContentNavigationSwitcherRecentItems extends React.Componen
 				data-testid={`recent-item-${toCSSClassName(item.title)}`}
 			>
 				<Presentation.Asset contentPackage={item} type="thumb">
-					<img className="icon" alt={item.title}/>
+					<img className="icon" alt={item.title} />
 				</Presentation.Asset>
 			</LinkTo.Object>
 		);
@@ -114,7 +114,6 @@ export default class ContentNavigationSwitcherRecentItems extends React.Componen
 					</div>
 				</div>
 			</Flyout.Triggered>
-
 		);
 	}
 }

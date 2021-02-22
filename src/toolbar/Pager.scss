@@ -1,4 +1,4 @@
-@import "~@nti/style-common";
+@import '~@nti/style-common';
 
 .pager-controls {
 	flex: 0 0 auto;
@@ -48,7 +48,8 @@
 		}
 	}
 
-	.prev, .next {
+	.prev,
+	.next {
 		flex: 0 0 auto;
 		cursor: pointer;
 		width: 38px;

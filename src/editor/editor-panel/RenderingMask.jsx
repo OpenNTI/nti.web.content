@@ -2,10 +2,10 @@ import './RenderingMask.scss';
 import PropTypes from 'prop-types';
 import React from 'react';
 import cx from 'classnames';
-import {scoped} from '@nti/lib-locale';
-import {Sequence, Loading, StickyElement} from '@nti/web-commons';
+import { scoped } from '@nti/lib-locale';
+import { Sequence, Loading, StickyElement } from '@nti/web-commons';
 
-import {PUBLISHING, DELETING} from '../Constants';
+import { PUBLISHING, DELETING } from '../Constants';
 import Store from '../Store';
 
 const DEFAULT_TEXT = {
@@ -13,67 +13,66 @@ const DEFAULT_TEXT = {
 	publishingMessageOne: 'Publishing...',
 	publishingMessageTwo: 'This may take a moment...',
 	publishingMessageThree: {
-		message: 'We are experiencing a high volume of submissions. Your reading was added to a queue. Please come back later.',
-		button: 'Okay'
+		message:
+			'We are experiencing a high volume of submissions. Your reading was added to a queue. Please come back later.',
+		button: 'Okay',
 	},
 	successMessage: 'Successfully Published!',
-	failureMessage: 'Failed To Publish.'
+	failureMessage: 'Failed To Publish.',
 };
 
-const t = scoped('web-content.editor.content-editor.RenderingMask', DEFAULT_TEXT);
+const t = scoped(
+	'web-content.editor.content-editor.RenderingMask',
+	DEFAULT_TEXT
+);
 
 export default class ContentEditorRenderingMask extends React.Component {
 	static propTypes = {
 		contentPackage: PropTypes.object,
 		onSuccessfulPublish: PropTypes.func,
-		onFailureFinish: PropTypes.func
-	}
+		onFailureFinish: PropTypes.func,
+	};
 
-	state = {}
+	state = {};
 
-	componentDidMount () {
+	componentDidMount() {
 		Store.addChangeListener(this.onStoreChange);
 	}
 
-
-	componentWillUnmount () {
+	componentWillUnmount() {
 		this.cleanUp();
 		Store.removeChangeListener(this.onStoreChange);
 	}
 
-
-	getRenderJob (props = this.props) {
-		const {contentPackage} = props;
-		const {LatestRenderJob} = contentPackage || {};
+	getRenderJob(props = this.props) {
+		const { contentPackage } = props;
+		const { LatestRenderJob } = contentPackage || {};
 
 		return LatestRenderJob;
 	}
 
-
-	cleanUp () {
+	cleanUp() {
 		if (this.renderJob) {
 			this.renderJob.stopMonitor();
 			this.renderJob.removeListener('change', this.onRenderJobChange);
 		}
 	}
 
-
-	onStoreChange = (data) => {
-		const {type} = data;
+	onStoreChange = data => {
+		const { type } = data;
 
 		if (type === PUBLISHING) {
 			this.onPublish();
 		} else if (type === DELETING) {
 			this.onDeleting();
 		}
-	}
+	};
 
-
-	onRenderJobChange = (job) => {
-		const {publishing} = this.state;
+	onRenderJobChange = job => {
+		const { publishing } = this.state;
 		let state = {
 			failure: job.isFailed,
-			success: job.isSucess
+			success: job.isSucess,
 		};
 
 		if (publishing !== job.isPending) {
@@ -82,37 +81,34 @@ export default class ContentEditorRenderingMask extends React.Component {
 		}
 
 		this.setState(state);
-	}
+	};
 
-
-	onPublish () {
+	onPublish() {
 		if (Store.isPrePublishing) {
 			this.setState({
-				prepublishing: true
+				prepublishing: true,
 			});
 		} else if (Store.isPublishing) {
 			this.setState({
 				publishing: true,
-				prePublishing: false
+				prePublishing: false,
 			});
 		} else {
 			this.onPublishEnded();
 		}
 	}
 
-
-	onDeleting () {
+	onDeleting() {
 		this.setState({
 			deleting: Store.isDeleting,
 			prepublishing: false,
 			publishing: false,
 			success: false,
-			failure: false
+			failure: false,
 		});
 	}
 
-
-	onPublishEnded () {
+	onPublishEnded() {
 		this.renderJob = this.getRenderJob();
 
 		if (this.renderJob && this.renderJob.isPending) {
@@ -126,14 +122,13 @@ export default class ContentEditorRenderingMask extends React.Component {
 				prepublishing: false,
 				publishing: false,
 				success: false,
-				failure: false
+				failure: false,
 			});
 		}
 	}
 
-
 	onSuccessFinish = () => {
-		const {onSuccessfulPublish} = this.props;
+		const { onSuccessfulPublish } = this.props;
 
 		if (onSuccessfulPublish) {
 			onSuccessfulPublish();
@@ -141,14 +136,13 @@ export default class ContentEditorRenderingMask extends React.Component {
 			this.setState({
 				publishing: false,
 				success: false,
-				failure: false
+				failure: false,
 			});
 		}
-	}
-
+	};
 
 	onFailureFinish = () => {
-		const {onFailureFinish} = this.props;
+		const { onFailureFinish } = this.props;
 
 		if (onFailureFinish) {
 			onFailureFinish();
@@ -156,28 +150,38 @@ export default class ContentEditorRenderingMask extends React.Component {
 			this.setState({
 				publishing: false,
 				success: false,
-				failure: false
+				failure: false,
 			});
 		}
-	}
-
+	};
 
 	onPublishDismiss = () => {
 		this.setState({
 			publishing: false,
 			success: false,
-			failure: false
+			failure: false,
 		});
-	}
+	};
 
-
-	render () {
-		const {prepublishing, publishing, success, failure, deleting} = this.state;
+	render() {
+		const {
+			prepublishing,
+			publishing,
+			success,
+			failure,
+			deleting,
+		} = this.state;
 		// const publishing = false;
 		// const success = false;
 		// const failure = true;
 		// const deleting = false;
-		const cls = cx('content-editor-render-mask', {prepublishing, publishing, success, failure, deleting});
+		const cls = cx('content-editor-render-mask', {
+			prepublishing,
+			publishing,
+			success,
+			failure,
+			deleting,
+		});
 
 		return (
 			<div className={cls}>
@@ -194,13 +198,19 @@ export default class ContentEditorRenderingMask extends React.Component {
 			<StickyElement>
 				<div className="deleting-indicator">
 					<div className="deleting">
-						<Loading.Spinner className="spinner" size="120px" strokeWidth="1" />
-						<span className="spinner-message">{t('deletingMessage')}</span>
+						<Loading.Spinner
+							className="spinner"
+							size="120px"
+							strokeWidth="1"
+						/>
+						<span className="spinner-message">
+							{t('deletingMessage')}
+						</span>
 					</div>
 				</div>
 			</StickyElement>
 		);
-	}
+	};
 
 	renderPublishing = () => {
 		return (
@@ -209,30 +219,43 @@ export default class ContentEditorRenderingMask extends React.Component {
 					<Sequence.Timed>
 						<Sequence.Item showFor={21000}>
 							<div className="spinner-message">
-								<Loading.Spinner className="spinner" size="120px" strokeWidth="1" />
+								<Loading.Spinner
+									className="spinner"
+									size="120px"
+									strokeWidth="1"
+								/>
 								<Sequence.Timed>
 									<Sequence.Item showFor={9000}>
-										<span className="spinner-message">{t('publishingMessageOne')}</span>
+										<span className="spinner-message">
+											{t('publishingMessageOne')}
+										</span>
 									</Sequence.Item>
 									<Sequence.Item showFor={12000}>
-										<span className="spinner-message">{t('publishingMessageTwo')}</span>
+										<span className="spinner-message">
+											{t('publishingMessageTwo')}
+										</span>
 									</Sequence.Item>
 								</Sequence.Timed>
-
 							</div>
 						</Sequence.Item>
 						<Sequence.Item showFor={Infinity}>
 							<div className="too-long-message">
-								<span className="message">{t('publishingMessageThree.message')}</span>
-								<span className="button" onClick={this.onPublishDismiss}>{t('publishingMessageThree.button')}</span>
+								<span className="message">
+									{t('publishingMessageThree.message')}
+								</span>
+								<span
+									className="button"
+									onClick={this.onPublishDismiss}
+								>
+									{t('publishingMessageThree.button')}
+								</span>
 							</div>
 						</Sequence.Item>
 					</Sequence.Timed>
 				</div>
 			</StickyElement>
 		);
-	}
-
+	};
 
 	renderSuccess = () => {
 		return (
@@ -249,8 +272,7 @@ export default class ContentEditorRenderingMask extends React.Component {
 				</div>
 			</StickyElement>
 		);
-	}
-
+	};
 
 	renderFailure = () => {
 		return (
@@ -267,5 +289,5 @@ export default class ContentEditorRenderingMask extends React.Component {
 				</div>
 			</StickyElement>
 		);
-	}
+	};
 }

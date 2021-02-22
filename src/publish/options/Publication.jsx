@@ -2,14 +2,14 @@ import './Publication.scss';
 import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
-import {decorate} from '@nti/lib-commons';
-import {scoped} from '@nti/lib-locale';
-import {Input} from '@nti/web-commons';
+import { decorate } from '@nti/lib-commons';
+import { scoped } from '@nti/lib-locale';
+import { Input } from '@nti/web-commons';
 
 import Store from '../Store';
 
 const t = scoped('content.publish.Publication', {
-	label: 'Visible in Library'
+	label: 'Visible in Library',
 });
 
 class BookPublishPublication extends React.Component {
@@ -19,24 +19,30 @@ class BookPublishPublication extends React.Component {
 		canPublish: PropTypes.bool,
 		canUnpublish: PropTypes.bool,
 		publish: PropTypes.func,
-		unpublish: PropTypes.func
-	}
+		unpublish: PropTypes.func,
+	};
 
+	onChange = published => {
+		const { publish, unpublish, canPublish, canUnpublish } = this.props;
 
-	onChange = (published) => {
-		const {publish, unpublish, canPublish, canUnpublish} = this.props;
+		if (published && canPublish) {
+			publish();
+		} else if (!published && canUnpublish) {
+			unpublish();
+		}
+	};
 
-		if (published && canPublish) { publish(); }
-		else if (!published && canUnpublish) { unpublish(); }
-	}
-
-
-	render () {
-		const {published, loading, canPublish, canUnpublish} = this.props;
-		const canChange = (published && canUnpublish) || (!published && canPublish);
+	render() {
+		const { published, loading, canPublish, canUnpublish } = this.props;
+		const canChange =
+			(published && canUnpublish) || (!published && canPublish);
 
 		return (
-			<div className={cx('content-publish-publication', {'can-change': !loading && canChange})}>
+			<div
+				className={cx('content-publish-publication', {
+					'can-change': !loading && canChange,
+				})}
+			>
 				<div className="label">{t('label')}</div>
 				<div className="input-container">
 					<Input.Toggle value={published} onChange={this.onChange} />
@@ -47,5 +53,12 @@ class BookPublishPublication extends React.Component {
 }
 
 export default decorate(BookPublishPublication, [
-	Store.monitor(['loading', 'published', 'canPublish', 'canUnpublish', 'publish', 'unpublish'])
+	Store.monitor([
+		'loading',
+		'published',
+		'canPublish',
+		'canUnpublish',
+		'publish',
+		'unpublish',
+	]),
 ]);

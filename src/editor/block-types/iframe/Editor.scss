@@ -1,6 +1,8 @@
-@import "../assets/editor";
+@import '../assets/editor';
 
-.content-editing-editor-container .content-editing-rst-editor .nti-course-iframe-block {
+.content-editing-editor-container
+	.content-editing-rst-editor
+	.nti-course-iframe-block {
 	@include block-editor('iframe');
 
 	.course-iframe-editor .iframe-editor {

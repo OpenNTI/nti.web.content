@@ -2,29 +2,29 @@ import './EmbeddedWidget.scss';
 import Url from 'url';
 import Path from 'path';
 
-
 import React from 'react';
 import PropTypes from 'prop-types';
-import {WindowMessageListener as MESSAGES} from '@nti/lib-dom';
+import { WindowMessageListener as MESSAGES } from '@nti/lib-dom';
 import Logger from '@nti/util-logger';
 import QueryString from 'query-string';
 
 const logger = Logger.get('content:widgets:EmbededWidget');
 
-function isSameOrigin (uri, as) {
-	const toOrigin = (o) => (
-		o = Url.parse(o),
-		Object.assign(o, {pathname: '', search: '', hash: ''}),
+function isSameOrigin(uri, as) {
+	const toOrigin = o => (
+		(o = Url.parse(o)),
+		Object.assign(o, { pathname: '', search: '', hash: '' }),
 		o.format()
 	);
 
-	return as && (toOrigin(uri) === toOrigin(as));
+	return as && toOrigin(uri) === toOrigin(as);
 }
 
-
-async function resolveForRoots (path, roots) {
+async function resolveForRoots(path, roots) {
 	for (let root of roots) {
-		if (!root.resolveContentURL) { continue; }
+		if (!root.resolveContentURL) {
+			continue;
+		}
 
 		try {
 			const resolved = await root.resolveContentURL(path);
@@ -38,14 +38,19 @@ async function resolveForRoots (path, roots) {
 	throw new Error('Unable to resolve path for root');
 }
 
-
-async function resolveSplash (splash, contentPackage, page) {
+async function resolveSplash(splash, contentPackage, page) {
 	const roots = [];
 
-	if (page) { roots.push(page); }
-	if (contentPackage) { roots.push(contentPackage); }
+	if (page) {
+		roots.push(page);
+	}
+	if (contentPackage) {
+		roots.push(contentPackage);
+	}
 
-	if (!splash || !roots.length || Path.isAbsolute(splash)) { return splash; }
+	if (!splash || !roots.length || Path.isAbsolute(splash)) {
+		return splash;
+	}
 
 	try {
 		const resolved = await resolveForRoots(splash, roots);
@@ -56,14 +61,19 @@ async function resolveSplash (splash, contentPackage, page) {
 	}
 }
 
-
-async function resolvePath (parts, contentPackage, page) {
-	if (Path.isAbsolute(parts.pathname)) { return parts.format(); }
+async function resolvePath(parts, contentPackage, page) {
+	if (Path.isAbsolute(parts.pathname)) {
+		return parts.format();
+	}
 
 	const roots = [];
 
-	if (page) { roots.push(page); }
-	if (contentPackage) { roots.push(contentPackage); }
+	if (page) {
+		roots.push(page);
+	}
+	if (contentPackage) {
+		roots.push(contentPackage);
+	}
 
 	try {
 		const u = Url.parse(parts.format());
@@ -77,22 +87,20 @@ async function resolvePath (parts, contentPackage, page) {
 	}
 }
 
-
-function getSize (width, height, maxWidth) {
+function getSize(width, height, maxWidth) {
 	if (!width || !maxWidth || width <= maxWidth) {
-		return {width: width || '100%', height};
+		return { width: width || '100%', height };
 	}
 
-	const aspect = height ? (width / height) : (16 / 9);
+	const aspect = height ? width / height : 16 / 9;
 
 	return {
 		width: maxWidth,
-		height: maxWidth / aspect
+		height: maxWidth / aspect,
 	};
 }
 
-
-function parseData (message) {
+function parseData(message) {
 	try {
 		return JSON.parse(message.data) || {};
 	} catch (e) {
@@ -102,7 +110,7 @@ function parseData (message) {
 
 const OTHER_ATTRS_BLACK_LIST = ['itemprop', 'dataset', 'class', 'type', 'guid'];
 const NO_SOURCE_ID = 'No source id specified!';
-const ALLOW_FULLSCREEN = {'allowFullScreen': true};
+const ALLOW_FULLSCREEN = { allowFullScreen: true };
 const SANDBOX = {
 	sandbox: [
 		'allow-forms',
@@ -112,10 +120,9 @@ const SANDBOX = {
 		'allow-popups',
 		'allow-popups-to-escape-sandbox',
 		'allow-presentation',
-		'allow-scripts'
-	].join(' ')
+		'allow-scripts',
+	].join(' '),
 };
-
 
 export default class EmbeddedWidget extends React.Component {
 	static propTypes = {
@@ -123,39 +130,35 @@ export default class EmbeddedWidget extends React.Component {
 		contentPackage: PropTypes.object,
 		page: PropTypes.object,
 		maxWidth: PropTypes.number,
-		onHeightChange: PropTypes.func
-	}
+		onHeightChange: PropTypes.func,
+	};
 
-	state = {source: null, width: null, height: null}
+	state = { source: null, width: null, height: null };
 
-
-	getIdKey () {
+	getIdKey() {
 		return (this.props.item && this.props.item['uid-name']) || 'id';
 	}
 
-	componentDidMount () {
+	componentDidMount() {
 		MESSAGES.add(this.onMessage);
 		this.setup();
 	}
 
-
-	componentWillUnmount () {
+	componentWillUnmount() {
 		MESSAGES.remove(this.onMessage);
 	}
 
-
-	componentDidUpdate (prevProps) {
-		const {item, contentPackage} = this.props;
-		const {item:oldItem, contentPackage: oldPackage} = prevProps;
+	componentDidUpdate(prevProps) {
+		const { item, contentPackage } = this.props;
+		const { item: oldItem, contentPackage: oldPackage } = prevProps;
 
 		if (item !== oldItem || contentPackage !== oldPackage) {
 			this.setup();
 		}
 	}
 
-
-	async setup (props = this.props) {
-		const {contentPackage, page, item = {}, maxWidth} = this.props;
+	async setup(props = this.props) {
+		const { contentPackage, page, item = {}, maxWidth } = this.props;
 		const idKey = this.getIdKey();
 		const {
 			defer,
@@ -188,26 +191,27 @@ export default class EmbeddedWidget extends React.Component {
 			delete otherAttrs[key];
 		}
 
-
-		this.setState({
-			sourceName,
-			source: path,
-			sameOrigin,
-			size,
-			splash: splashURL,
-			defer,
-			allowfullscreen: Boolean(allowfullscreen),
-			nosandboxing: Boolean(nosandboxing),
-			otherAttrs
-		}, () => this.onHeightChange());
+		this.setState(
+			{
+				sourceName,
+				source: path,
+				sameOrigin,
+				size,
+				splash: splashURL,
+				defer,
+				allowfullscreen: Boolean(allowfullscreen),
+				nosandboxing: Boolean(nosandboxing),
+				otherAttrs,
+			},
+			() => this.onHeightChange()
+		);
 	}
 
-
-	onMessage = (e) => {
+	onMessage = e => {
 		const data = parseData(e);
 		const id = data[this.getIdKey()];
-		const {method, value} = data;
-		const {sourceName} = this.state;
+		const { method, value } = data;
+		const { sourceName } = this.state;
 
 		if (sourceName === NO_SOURCE_ID || sourceName !== id) {
 			logger.debug(`Ignoring Event: ${sourceName} != ${id}, %o`, e.data);
@@ -215,73 +219,78 @@ export default class EmbeddedWidget extends React.Component {
 		}
 
 		if (method === 'resize') {
-			this.setState({
-				height: parseInt(value, 10)
-			}, () => this.onHeightChange());
+			this.setState(
+				{
+					height: parseInt(value, 10),
+				},
+				() => this.onHeightChange()
+			);
 		}
-	}
+	};
 
-
-	onHeightChange () {
-		const {onHeightChange} = this.props;
-		const {size, height} = this.state;
+	onHeightChange() {
+		const { onHeightChange } = this.props;
+		const { size, height } = this.state;
 
 		if (onHeightChange) {
 			onHeightChange(height || size.height);
 		}
 	}
 
-
-	onSplashClicked = (e) => {
+	onSplashClicked = e => {
 		e.preventDefault();
 		e.stopPropagation();
 
-		this.setState({splash: null});
-	}
+		this.setState({ splash: null });
+	};
 
-
-	getStyleObject (styleString) {
+	getStyleObject(styleString) {
 		let style = {};
 		let attributes = styleString.split(';');
 
 		for (let i = 0; i < attributes.length; i++) {
 			let entry = attributes[i].split(/:(.+)/);
-			style[entry.splice(0,1)[0]] = entry.join('');
+			style[entry.splice(0, 1)[0]] = entry.join('');
 		}
 
 		return style;
 	}
 
-	render () {
-		const {source, size, height} = this.state;
+	render() {
+		const { source, size, height } = this.state;
 
-		if (!source) { return null; }
+		if (!source) {
+			return null;
+		}
 
 		return (
-			<div className="nti-embedded-widget" style={{height: height || size.height || 0}}>
+			<div
+				className="nti-embedded-widget"
+				style={{ height: height || size.height || 0 }}
+			>
 				{this.renderSplash()}
 				{this.renderIframe()}
 			</div>
 		);
 	}
 
+	renderSplash() {
+		const { splash } = this.state;
 
-	renderSplash () {
-		const {splash} = this.state;
-
-		if (!splash) { return null; }
+		if (!splash) {
+			return null;
+		}
 
 		return (
 			<div
 				className="splash"
 				onClick={this.onSplashClicked}
-				style={{backgroundImage: `url(${splash})`}}
+				style={{ backgroundImage: `url(${splash})` }}
 			/>
 		);
 	}
 
-
-	renderIframe () {
+	renderIframe() {
 		const {
 			splash,
 			defer,
@@ -291,27 +300,29 @@ export default class EmbeddedWidget extends React.Component {
 			allowfullscreen,
 			nosandbox,
 			otherAttrs,
-			height
+			height,
 		} = this.state;
 
 		let frameBorder = 0;
 		let style = {};
 
-		if (splash && defer !== false) { return null; }
+		if (splash && defer !== false) {
+			return null;
+		}
 
 		const sizeProps = {
 			width: size.width,
-			height: height || size.height
+			height: height || size.height,
 		};
 		const sandboxProps = sameOrigin && !nosandbox ? SANDBOX : {};
 		const allowfullscreenProps = allowfullscreen ? ALLOW_FULLSCREEN : {};
 
-		if(otherAttrs['style'] && typeof otherAttrs['style'] === 'string') {
+		if (otherAttrs['style'] && typeof otherAttrs['style'] === 'string') {
 			style = this.getStyleObject(otherAttrs['style']);
 			delete otherAttrs['style'];
 		}
 
-		if(otherAttrs['frameborder']) {
+		if (otherAttrs['frameborder']) {
 			frameBorder = otherAttrs['frameborder'];
 			delete otherAttrs['frameborder'];
 		}

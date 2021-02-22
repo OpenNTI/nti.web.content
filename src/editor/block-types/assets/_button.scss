@@ -1,4 +1,4 @@
-@import "~@nti/style-common";
+@import '~@nti/style-common';
 
 @mixin block-type-button($type-icon) {
 	width: 110px;
@@ -20,7 +20,8 @@
 		transform: scale(0.9);
 	}
 
-	.label, .used {
+	.label,
+	.used {
 		color: var(--secondary-grey);
 		text-transform: uppercase;
 		font: normal bold 0.625rem/1.4 var(--body-font-family);

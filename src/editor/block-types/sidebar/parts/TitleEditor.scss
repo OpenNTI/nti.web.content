@@ -10,10 +10,12 @@
 		font: normal 300 1.5rem/2.2 var(--body-font-family);
 		color: var(--primary-grey);
 
-		.public-DraftEditor-content, .public-DraftEditorPlaceholder-root {
+		.public-DraftEditor-content,
+		.public-DraftEditorPlaceholder-root {
 			padding: 0.3rem 1.25rem;
 
-			& > div, & > div > div {
+			& > div,
+			& > div > div {
 				margin: 0;
 			}
 		}

@@ -1,22 +1,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {decorate} from '@nti/lib-commons';
-import {Navigation} from '@nti/web-commons';
+import { decorate } from '@nti/lib-commons';
+import { Navigation } from '@nti/web-commons';
 
 import Store from './Store';
 
-
 class ContentTabs extends React.Component {
-	static deriveBindingFromProps (props) {
+	static deriveBindingFromProps(props) {
 		return {
 			content: props.content,
 			activeRoute: props.activeRoute,
 			baseRoute: props.baseRoute,
 			getRouteFor: props.getRouteFor,
-			tabs: props.tabs
+			tabs: props.tabs,
 		};
 	}
-
 
 	static propTypes = {
 		content: PropTypes.object.isRequired,
@@ -30,20 +28,20 @@ class ContentTabs extends React.Component {
 				aliases: PropTypes.arrayOf(PropTypes.string),
 				getPathToRemember: PropTypes.func,
 				shouldShowFor: PropTypes.func,
-				isRoot: PropTypes.bool
+				isRoot: PropTypes.bool,
 			})
 		),
 		expandTabs: PropTypes.bool,
 
+		tabConfigs: PropTypes.array,
+	};
 
-		tabConfigs: PropTypes.array
-	}
+	render() {
+		const { tabConfigs, expandTabs } = this.props;
 
-
-	render () {
-		const {tabConfigs, expandTabs} = this.props;
-
-		if (!tabConfigs || !tabConfigs.length) { return null; }
+		if (!tabConfigs || !tabConfigs.length) {
+			return null;
+		}
 
 		return (
 			<Navigation.Tabs expandTabs={expandTabs}>
@@ -52,16 +50,18 @@ class ContentTabs extends React.Component {
 		);
 	}
 
-
-	renderTab (tab) {
-		const {id, label, route, active} = tab;
+	renderTab(tab) {
+		const { id, label, route, active } = tab;
 
 		return (
-			<Navigation.Tabs.Tab key={id} route={route} label={label} active={active} />
+			<Navigation.Tabs.Tab
+				key={id}
+				route={route}
+				label={label}
+				active={active}
+			/>
 		);
 	}
 }
 
-export default decorate(ContentTabs, [
-	Store.connect(['tabConfigs'])
-]);
+export default decorate(ContentTabs, [Store.connect(['tabConfigs'])]);

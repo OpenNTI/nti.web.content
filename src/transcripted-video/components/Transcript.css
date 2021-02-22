@@ -12,7 +12,8 @@
 	margin: 0 0 1rem;
 }
 
-.chunks, .cues {
+.chunks,
+.cues {
 	list-style: none;
 	padding: 0;
 	margin: 0;

@@ -8,13 +8,21 @@ import BlockTypes from './BlockTypes';
 ContentSidebar.propTypes = {
 	contentPackage: PropTypes.object,
 	course: PropTypes.object,
-	selectionManager: PropTypes.any
+	selectionManager: PropTypes.any,
 };
-export default function ContentSidebar ({contentPackage, course, selectionManager}) {
+export default function ContentSidebar({
+	contentPackage,
+	course,
+	selectionManager,
+}) {
 	return (
 		<div className="content-editor-sidebar">
 			<TabBar />
-			<BlockTypes contentPackage={contentPackage} course={course} selectionManager={selectionManager} />
+			<BlockTypes
+				contentPackage={contentPackage}
+				course={course}
+				selectionManager={selectionManager}
+			/>
 		</div>
 	);
 }

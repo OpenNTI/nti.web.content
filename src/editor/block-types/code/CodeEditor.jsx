@@ -6,29 +6,28 @@ import { Input } from '@nti/web-commons';
 const { TextArea } = Input;
 
 export default class CodeEditor extends React.Component {
-
 	static propTypes = {
 		code: PropTypes.string,
 		onChange: PropTypes.func.isRequired,
 		onFocus: PropTypes.func.isRequired,
 		onBlur: PropTypes.func.isRequired,
-		indexOfType: PropTypes.number
-	}
+		indexOfType: PropTypes.number,
+	};
 
-	constructor (props) {
+	constructor(props) {
 		super(props);
 		this.state = {
-			code: props.code || ''
+			code: props.code || '',
 		};
 	}
 
-	attachCodeRef = x => this.codeEditor = x
+	attachCodeRef = x => (this.codeEditor = x);
 
-	componentDidUpdate (prevProps) {
-		const {code} = this.props;
+	componentDidUpdate(prevProps) {
+		const { code } = this.props;
 		if (prevProps.code !== code && prevProps.code !== this.state.code) {
 			this.setState({
-				code
+				code,
 			});
 		}
 	}
@@ -37,18 +36,18 @@ export default class CodeEditor extends React.Component {
 		if (this.codeEditor) {
 			this.codeEditor.focus();
 		}
-	}
+	};
 
-	onChange = (value) => {
+	onChange = value => {
 		const { onChange } = this.props;
 
 		onChange(value.split('\n'));
 		this.setState({
-			code: value
+			code: value,
 		});
-	}
+	};
 
-	render () {
+	render() {
 		const { code } = this.state;
 		const { onFocus, onBlur } = this.props;
 

@@ -1,7 +1,7 @@
 import './View.scss';
 import PropTypes from 'prop-types';
 import React from 'react';
-import {ContextProvider, EditorGroup} from '@nti/web-editor';
+import { ContextProvider, EditorGroup } from '@nti/web-editor';
 
 import TypeFormat from './TypeFormat';
 import StyleInsertFormat from './StyleInsertFormat';
@@ -15,22 +15,30 @@ ContentEditorControls.propTypes = {
 	readOnly: PropTypes.bool,
 	selectionManager: PropTypes.shape({
 		addListener: PropTypes.func,
-		removeListener: PropTypes.func
-	})
+		removeListener: PropTypes.func,
+	}),
 };
-export default function ContentEditorControls ({contentPackage, course, navigateToPublished, readOnly}) {
+export default function ContentEditorControls({
+	contentPackage,
+	course,
+	navigateToPublished,
+	readOnly,
+}) {
 	const editor = EditorGroup.useFocusedEditor();
 
 	return (
 		<ContextProvider editor={editor}>
 			<div className="content-editor-controls">
-				<TypeFormat  editor={editor} />
+				<TypeFormat editor={editor} />
 				<StyleInsertFormat editor={editor} />
 				<div className="spacer" />
 				<Status />
-				<Publish contentPackage={contentPackage} navigateToPublished={navigateToPublished} disabled={readOnly}/>
+				<Publish
+					contentPackage={contentPackage}
+					navigateToPublished={navigateToPublished}
+					disabled={readOnly}
+				/>
 			</div>
 		</ContextProvider>
 	);
 }
-

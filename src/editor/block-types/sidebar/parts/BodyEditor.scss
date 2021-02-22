@@ -9,16 +9,19 @@
 		font: normal normal 0.875rem/2.2 var(--body-font-family);
 		color: var(--primary-grey);
 
-		.public-DraftEditor-content, .public-DraftEditorPlaceholder-root {
+		.public-DraftEditor-content,
+		.public-DraftEditorPlaceholder-root {
 			padding: 0 1.25rem;
 
-			& > div, & > div > div {
+			& > div,
+			& > div > div {
 				margin: 0;
 			}
 		}
 	}
 
-	ul, ol {
+	ul,
+	ol {
 		padding: 0 0 0 2.5rem;
 	}
 }

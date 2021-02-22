@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {decorate} from '@nti/lib-commons';
-import {decodeFromURI} from '@nti/lib-ntiids';
+import { decorate } from '@nti/lib-commons';
+import { decodeFromURI } from '@nti/lib-ntiids';
 import classnames from 'classnames/bind';
 
 import Store from '../Store';
@@ -13,12 +13,11 @@ import styles from './View.css';
 const cx = classnames.bind(styles);
 
 class View extends React.Component {
-
-	static deriveBindingFromProps = ({course, videoId, outlineId}) => ({
+	static deriveBindingFromProps = ({ course, videoId, outlineId }) => ({
 		course,
 		videoId: decodeFromURI(videoId),
-		outlineId: decodeFromURI(outlineId)
-	})
+		outlineId: decodeFromURI(outlineId),
+	});
 
 	static propTypes = {
 		course: PropTypes.object.isRequired,
@@ -31,13 +30,14 @@ class View extends React.Component {
 		onNewNote: PropTypes.func,
 		scrolledTo: PropTypes.oneOfType([
 			PropTypes.string, // note id
-			PropTypes.shape({ // model
-				getID: PropTypes.func.isRequired
-			})
-		])
-	}
+			PropTypes.shape({
+				// model
+				getID: PropTypes.func.isRequired,
+			}),
+		]),
+	};
 
-	render () {
+	render() {
 		const {
 			course,
 			videoId,
@@ -47,14 +47,14 @@ class View extends React.Component {
 			autoPlay,
 			analyticsData,
 			startTime,
-			onNewNote
+			onNewNote,
 		} = this.props;
 
 		const props = {
 			course,
 			videoId,
 			outlineId,
-			onNewNote
+			onNewNote,
 		};
 
 		return (
@@ -73,7 +73,4 @@ class View extends React.Component {
 	}
 }
 
-
-export default decorate(View, [
-	Store.connect()
-]);
+export default decorate(View, [Store.connect()]);

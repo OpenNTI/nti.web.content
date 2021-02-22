@@ -1,7 +1,6 @@
-import {isIframeRefBlock} from './util';
+import { isIframeRefBlock } from './util';
 import Button from './Button';
 import Editor from './Editor';
-
 
 export const handlesBlock = contentBlock => {
 	return isIframeRefBlock(contentBlock);

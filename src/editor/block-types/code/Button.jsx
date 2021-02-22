@@ -1,37 +1,41 @@
 import './Button.scss';
 import React from 'react';
-import {scoped} from '@nti/lib-locale';
-import {BLOCKS} from '@nti/web-editor';
+import { scoped } from '@nti/lib-locale';
+import { BLOCKS } from '@nti/web-editor';
 
 import Button from '../common/Button';
 
 const DEFAULT_TEXT = {
-	label: 'Code'
+	label: 'Code',
 };
 
 const t = scoped('web-content.editor.block-types.code.button', DEFAULT_TEXT);
 
-function createBlock (insertBlock) {
-	insertBlock({
-		type: BLOCKS.ATOMIC,
-		text: '',
-		data: {
-			name: 'code-block',
-			arguments: 'java',
-			body: [],
-			options: {}
+function createBlock(insertBlock) {
+	insertBlock(
+		{
+			type: BLOCKS.ATOMIC,
+			text: '',
+			data: {
+				name: 'code-block',
+				arguments: 'java',
+				body: [],
+				options: {},
+			},
 		},
-	}, false, true);
+		false,
+		true
+	);
 }
 
-function isBlock (block) {
+function isBlock(block) {
 	const type = block.getType();
 	const data = block.getData();
 
 	return type === BLOCKS.ATOMIC && data.get('name') === 'code-block';
 }
 
-export default function UnorderedListItem () {
+export default function UnorderedListItem() {
 	return (
 		<Button
 			className="code-button"

@@ -2,13 +2,15 @@ import './MetaEditor.scss';
 import PropTypes from 'prop-types';
 import React from 'react';
 import cx from 'classnames';
-import {Selection, Errors} from '@nti/web-commons';
-import {PlaintextEditor} from '@nti/web-editor';
+import { Selection, Errors } from '@nti/web-commons';
+import { PlaintextEditor } from '@nti/web-editor';
 
 import Store from '../Store';
-import {SET_ERROR} from '../Constants';
+import { SET_ERROR } from '../Constants';
 
-const {Field:{Component:ErrorCmp}} = Errors;
+const {
+	Field: { Component: ErrorCmp },
+} = Errors;
 
 export default class ContentMetaEditor extends React.Component {
 	static propTypes = {
@@ -17,73 +19,66 @@ export default class ContentMetaEditor extends React.Component {
 		fieldName: PropTypes.string,
 		onChange: PropTypes.func,
 		onContentChange: PropTypes.func,
-		readOnly: PropTypes.bool
-	}
+		readOnly: PropTypes.bool,
+	};
 
-	constructor (props) {
+	constructor(props) {
 		super(props);
 
-		const {fieldName} = props;
+		const { fieldName } = props;
 
 		this.state = {
 			selectableID: fieldName,
-			selectableValue: null
+			selectableValue: null,
 		};
 	}
 
-
-	componentDidMount () {
+	componentDidMount() {
 		Store.removeChangeListener(this.onStoreChange);
 		Store.addChangeListener(this.onStoreChange);
 
 		this.onMessage();
 	}
 
-
-	componentWillUnmount () {
+	componentWillUnmount() {
 		Store.removeChangeListener(this.onStoreChange);
 	}
 
-
-	onStoreChange = (data) => {
-		const {contentPackage} = this.props;
+	onStoreChange = data => {
+		const { contentPackage } = this.props;
 
 		if (data.type === SET_ERROR && data.NTIID === contentPackage.NTIID) {
 			this.onMessage();
 		}
-	}
-
+	};
 
 	onMessage = () => {
-		const {contentPackage, fieldName} = this.props;
-		const {NTIID} = contentPackage || {};
+		const { contentPackage, fieldName } = this.props;
+		const { NTIID } = contentPackage || {};
 		const error = NTIID && Store.getErrorFor(NTIID, fieldName);
 
 		this.setState({
-			error
+			error,
 		});
-	}
+	};
 
-
-	onEditorFocus = (editor) => {
+	onEditorFocus = editor => {
 		this.setState({
-			selectableValue: editor
+			selectableValue: editor,
 		});
-	}
-
+	};
 
 	onEditorChange = () => {
-		const {error} = this.state;
-
+		const { error } = this.state;
 
 		if (error && error.clear) {
 			error.clear();
 		}
-	}
+	};
 
 	onContentChange = (...args) => {
-		const {contentPackage, onContentChange} = this.props;
-		const {NTIID} = contentPackage || {};
+		const { contentPackage, onContentChange } = this.props;
+		const { NTIID } = contentPackage || {};
 		const contentError = NTIID && Store.getErrorFor(NTIID, 'content');
 		const publishError = NTIID && Store.getErrorFor(NTIID, 'publish');
 
@@ -98,19 +93,37 @@ export default class ContentMetaEditor extends React.Component {
 		if (onContentChange) {
 			onContentChange(...args);
 		}
-	}
+	};
 
-	render () {
-		const {className, fieldName, readOnly, ...otherProps} = this.props;
-		const {selectableID, selectableValue, error} = this.state;
-		const cls = cx('content-editor-meta-editor', className, fieldName, {error: !!error, 'read-only': readOnly});
+	render() {
+		const { className, fieldName, readOnly, ...otherProps } = this.props;
+		const { selectableID, selectableValue, error } = this.state;
+		const cls = cx('content-editor-meta-editor', className, fieldName, {
+			error: !!error,
+			'read-only': readOnly,
+		});
 
 		delete otherProps.onEditorFocus;
 
 		return (
-			<Selection.Component className={cls} id={selectableID} value={selectableValue}>
-				<PlaintextEditor {...otherProps} onContentChange={this.onContentChange} onChange={this.onEditorChange} onEditorFocus={this.onEditorFocus} readOnly={readOnly} />
-				{error && (<ErrorCmp className="content-editor-meta-error" error={error} />)}
+			<Selection.Component
+				className={cls}
+				id={selectableID}
+				value={selectableValue}
+			>
+				<PlaintextEditor
+					{...otherProps}
+					onContentChange={this.onContentChange}
+					onChange={this.onEditorChange}
+					onEditorFocus={this.onEditorFocus}
+					readOnly={readOnly}
+				/>
+				{error && (
+					<ErrorCmp
+						className="content-editor-meta-error"
+						error={error}
+					/>
+				)}
 			</Selection.Component>
 		);
 	}

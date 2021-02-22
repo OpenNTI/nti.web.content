@@ -2,9 +2,9 @@ import './Button.scss';
 import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
-import {Plugins} from '@nti/web-editor';
+import { Plugins } from '@nti/web-editor';
 
-const {Button, BlockCount} = Plugins.InsertBlock.components;
+const { Button, BlockCount } = Plugins.InsertBlock.components;
 
 export default class BlockTypeButton extends React.Component {
 	static propTypes = {
@@ -15,21 +15,22 @@ export default class BlockTypeButton extends React.Component {
 		createBlockProps: PropTypes.object,
 		isBlockPredicate: PropTypes.func,
 		attachPluginRef: PropTypes.func,
-		group: PropTypes.bool
-	}
-
+		group: PropTypes.bool,
+	};
 
 	state = {};
 
-	onMouseDown = () => this.setState({
-		mousedown: true
-	})
+	onMouseDown = () =>
+		this.setState({
+			mousedown: true,
+		});
 
-	onMouseUp = () => this.setState({
-		mousedown: false
-	})
+	onMouseUp = () =>
+		this.setState({
+			mousedown: false,
+		});
 
-	render () {
+	render() {
 		const {
 			className,
 			iconClass,
@@ -38,21 +39,27 @@ export default class BlockTypeButton extends React.Component {
 			createBlockProps,
 			isBlockPredicate,
 			attachPluginRef,
-			group
+			group,
 		} = this.props;
-		const {mousedown} = this.state;
+		const { mousedown } = this.state;
 
 		return (
 			<Button
 				ref={attachPluginRef}
-				className={cx('content-editor-block-type-button', className, {mousedown})}
+				className={cx('content-editor-block-type-button', className, {
+					mousedown,
+				})}
 				createBlock={createBlock}
 				createBlockProps={createBlockProps}
 				onMouseDown={this.onMouseDown}
 				onMouseUp={this.onMouseUp}
 				onDragEnd={this.onMouseUp}
 			>
-				<BlockCount className="used" predicate={isBlockPredicate} group={group} />
+				<BlockCount
+					className="used"
+					predicate={isBlockPredicate}
+					group={group}
+				/>
 				<span className={cx('icon', iconClass)} />
 				<span className="label">{label}</span>
 			</Button>

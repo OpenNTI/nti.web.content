@@ -1,12 +1,9 @@
 import Anchor from '../Anchor';
 import TimeAnchor from '../TimeAnchor';
 
-const TYPES = [
-	TimeAnchor,
-	Anchor
-];
+const TYPES = [TimeAnchor, Anchor];
 
-export default function getAnchorInfo (anchor, container) {
+export default function getAnchorInfo(anchor, container) {
 	const containerRect = container.getBoundingClientRect();
 
 	for (let t of TYPES) {
@@ -19,7 +16,7 @@ export default function getAnchorInfo (anchor, container) {
 				node: anchor,
 				top: anchorRect.top - containerRect.top,
 				left: anchorRect.left - containerRect.left,
-				height: anchorRect.height
+				height: anchorRect.height,
 			};
 		}
 	}

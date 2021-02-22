@@ -10,14 +10,12 @@ export default class TableOfContentsFlyout extends React.Component {
 		contentPackage: PropTypes.object,
 		onSelectNode: PropTypes.func,
 		searchResultsCmp: PropTypes.any,
-	}
+	};
 
+	attachFlyoutRef = x => (this.flyout = x);
 
-	attachFlyoutRef = x => this.flyout = x;
-
-
-	onSelectNode = (node) => {
-		const {onSelectNode} = this.props;
+	onSelectNode = node => {
+		const { onSelectNode } = this.props;
 
 		if (onSelectNode) {
 			onSelectNode(node);
@@ -26,12 +24,14 @@ export default class TableOfContentsFlyout extends React.Component {
 		if (this.flyout) {
 			this.flyout.dismiss();
 		}
-	}
+	};
 
-	render () {
-		const {contentPackage, onSelectNode} = this.props;
+	render() {
+		const { contentPackage, onSelectNode } = this.props;
 
-		if (!contentPackage) { return null; }
+		if (!contentPackage) {
+			return null;
+		}
 
 		return (
 			<Flyout.Triggered
@@ -41,14 +41,16 @@ export default class TableOfContentsFlyout extends React.Component {
 				className="table-of-contents-flyout"
 			>
 				<div>
-					<TableOfContents {...this.props} onSelectNode={onSelectNode && this.onSelectNode} />
+					<TableOfContents
+						{...this.props}
+						onSelectNode={onSelectNode && this.onSelectNode}
+					/>
 				</div>
 			</Flyout.Triggered>
 		);
 	}
 
-
-	renderTrigger () {
+	renderTrigger() {
 		return (
 			<div className="table-of-contents-flyout-trigger">
 				<div className="icon" />

@@ -1,15 +1,15 @@
 import './View.scss';
 import PropTypes from 'prop-types';
 import React from 'react';
-import {scoped} from '@nti/lib-locale';
-import {Selection, ControlBar, Prompt} from '@nti/web-commons';
+import { scoped } from '@nti/lib-locale';
+import { Selection, ControlBar, Prompt } from '@nti/web-commons';
 
-import {PanelSidebar} from '../common';
+import { PanelSidebar } from '../common';
 
 import Modal from './Modal';
 import Store from './Store';
-import {DELETED} from './Constants';
-import {resetStore} from './Actions';
+import { DELETED } from './Constants';
+import { resetStore } from './Actions';
 import Sidebar from './sidebar';
 import EditorPanel from './editor-panel';
 import Controls from './controls';
@@ -17,8 +17,8 @@ import Controls from './controls';
 const DEFAULT_TEXT = {
 	wasDeleted: {
 		title: 'Reading Deleted',
-		message: 'This reading has been deleted.'
-	}
+		message: 'This reading has been deleted.',
+	},
 };
 
 const t = scoped('web-content.editor.content-editor', DEFAULT_TEXT);
@@ -27,12 +27,12 @@ const selectionManager = new Selection.Manager();
 
 const stop = e => e.preventDefault();
 
-function getBody () {
+function getBody() {
 	return typeof document === 'undefined' ? null : document.body;
 }
 
 export default class ContentEditor extends React.Component {
-	static Modal = Modal
+	static Modal = Modal;
 
 	static propTypes = {
 		contentPackage: PropTypes.object,
@@ -41,18 +41,17 @@ export default class ContentEditor extends React.Component {
 		breadcrumb: PropTypes.array,
 		gotoResources: PropTypes.func,
 		onDelete: PropTypes.func,
-		navigateToPublished: PropTypes.func
-	}
+		navigateToPublished: PropTypes.func,
+	};
 
 	static childContextTypes = {
 		SelectionManager: PropTypes.shape({
 			select: PropTypes.func,
-			unselect: PropTypes.func
-		})
-	}
+			unselect: PropTypes.func,
+		}),
+	};
 
-
-	componentDidMount () {
+	componentDidMount() {
 		const body = getBody();
 
 		Store.addChangeListener(this.onStoreChange);
@@ -63,9 +62,8 @@ export default class ContentEditor extends React.Component {
 		}
 	}
 
-
-	componentWillUnmount () {
-		const {onDidChange} = this.props;
+	componentWillUnmount() {
+		const { onDidChange } = this.props;
 		const body = getBody();
 
 		resetStore();
@@ -80,48 +78,73 @@ export default class ContentEditor extends React.Component {
 		}
 	}
 
-
-	onStoreChange = (data) => {
-		const {type} = data;
+	onStoreChange = data => {
+		const { type } = data;
 
 		if (type === DELETED) {
 			this.onDelete();
 		}
-	}
+	};
 
-
-	onDelete () {
-		const {onDelete} = this.props;
+	onDelete() {
+		const { onDelete } = this.props;
 
 		if (Store.hasDeleted) {
 			onDelete();
 		} else {
-			Prompt.alert(t('wasDeleted.message'), t('wasDeleted.title'))
-				.then(() => {
+			Prompt.alert(t('wasDeleted.message'), t('wasDeleted.title')).then(
+				() => {
 					onDelete();
-				});
+				}
+			);
 		}
 	}
 
-
-	getChildContext () {
+	getChildContext() {
 		return {
-			SelectionManager: selectionManager
+			SelectionManager: selectionManager,
 		};
 	}
 
-	render () {
-		const {contentPackage, course, gotoResources, breadcrumb, navigateToPublished} = this.props;
-		const sidebar = (<Sidebar contentPackage={contentPackage} course={course} selectionManager={selectionManager} />);
+	render() {
+		const {
+			contentPackage,
+			course,
+			gotoResources,
+			breadcrumb,
+			navigateToPublished,
+		} = this.props;
+		const sidebar = (
+			<Sidebar
+				contentPackage={contentPackage}
+				course={course}
+				selectionManager={selectionManager}
+			/>
+		);
 		const readOnly = !contentPackage || !contentPackage.isModifiable;
 
 		return (
 			<div className="content-editor">
-				<PanelSidebar className="content-editor-panel-sidebar" sidebar={sidebar}>
-					<EditorPanel contentPackage={contentPackage} course={course} gotoResources={gotoResources} breadcrumb={breadcrumb} readOnly={readOnly} />
+				<PanelSidebar
+					className="content-editor-panel-sidebar"
+					sidebar={sidebar}
+				>
+					<EditorPanel
+						contentPackage={contentPackage}
+						course={course}
+						gotoResources={gotoResources}
+						breadcrumb={breadcrumb}
+						readOnly={readOnly}
+					/>
 				</PanelSidebar>
 				<ControlBar visible>
-					<Controls selectionManager={selectionManager} contentPackage={contentPackage} course={course} navigateToPublished={navigateToPublished} readOnly={readOnly} />
+					<Controls
+						selectionManager={selectionManager}
+						contentPackage={contentPackage}
+						course={course}
+						navigateToPublished={navigateToPublished}
+						readOnly={readOnly}
+					/>
 				</ControlBar>
 			</div>
 		);

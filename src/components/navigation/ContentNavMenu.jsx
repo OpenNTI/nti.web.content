@@ -1,37 +1,39 @@
 import './ContentNavMenu.scss';
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Flyout} from '@nti/web-commons';
+import { Flyout } from '@nti/web-commons';
 import cx from 'classnames';
-import {scoped} from '@nti/lib-locale';
+import { scoped } from '@nti/lib-locale';
 
 const t = scoped('content.navigation.ContentNavMenu', {
 	courses: '%(type)ss',
 	sections: 'Sections',
 	edit: 'Edit %(type)s Information',
-	publish: '%(type)s Visibility'
+	publish: '%(type)s Visibility',
 });
 
 class SectionItem extends React.Component {
 	static propTypes = {
 		section: PropTypes.object.isRequired,
-		onClick: PropTypes.func
-	}
+		onClick: PropTypes.func,
+	};
 
 	onClick = () => {
 		const { section, onClick } = this.props;
 
 		onClick && onClick(section);
-	}
+	};
 
-	render () {
+	render() {
 		const { section } = this.props;
 
 		const className = cx('section', section.cls);
 
 		return (
 			<div className={className}>
-				<div className="section-title" onClick={this.onClick}>{section.title}</div>
+				<div className="section-title" onClick={this.onClick}>
+					{section.title}
+				</div>
 			</div>
 		);
 	}
@@ -40,28 +42,28 @@ class SectionItem extends React.Component {
 class RecentContentItem extends React.Component {
 	static propTypes = {
 		recentContent: PropTypes.object.isRequired,
-		onClick: PropTypes.func
-	}
+		onClick: PropTypes.func,
+	};
 
-	attachFlyoutRef = x => this.flyout = x
+	attachFlyoutRef = x => (this.flyout = x);
 
 	onClick = () => {
 		const { recentContent, onClick } = this.props;
 
 		onClick && onClick(recentContent);
-	}
+	};
 
-	renderContent () {
+	renderContent() {
 		const { recentContent } = this.props;
 
 		return (
 			<div className="recent-content" onClick={this.onClick}>
-				<img className="content-icon" src={recentContent.thumb}/>
+				<img className="content-icon" src={recentContent.thumb} />
 			</div>
 		);
 	}
 
-	render () {
+	render() {
 		const { recentContent } = this.props;
 
 		return (
@@ -75,7 +77,9 @@ class RecentContentItem extends React.Component {
 				arrow
 			>
 				<div>
-					<div className="recent-content-info">{recentContent.title}</div>
+					<div className="recent-content-info">
+						{recentContent.title}
+					</div>
 				</div>
 			</Flyout.Triggered>
 		);
@@ -96,53 +100,73 @@ export default class ContentNavMenu extends React.Component {
 		onEdit: PropTypes.func,
 		onPublish: PropTypes.func,
 		isAdministrator: PropTypes.bool,
-		isEditor: PropTypes.bool
-	}
+		isEditor: PropTypes.bool,
+	};
 
 	static COURSE = COURSE_TYPE;
 	static BOOK = BOOK_TYPE;
 
-	constructor (props) {
+	constructor(props) {
 		super(props);
 		this.state = {};
 	}
 
-	renderActiveContent () {
-		const { activeContent, isAdministrator, isEditor, onEdit, onPublish, onDelete, type } = this.props;
+	renderActiveContent() {
+		const {
+			activeContent,
+			isAdministrator,
+			isEditor,
+			onEdit,
+			onPublish,
+			onDelete,
+			type,
+		} = this.props;
 
-		if(!activeContent || !type) {
+		if (!activeContent || !type) {
 			return null;
 		}
 
 		return (
 			<div className="active-content">
-				<img className="content-icon" src={activeContent.thumb}/>
+				<img className="content-icon" src={activeContent.thumb} />
 				<div className="content-info">
 					<div className="content-header">
 						<div className="title">{activeContent.title}</div>
-						{onDelete && isAdministrator ?
-							(
-								<div className="delete-content" onClick={onDelete}>
-									<i className="icon-delete"/>
-								</div>
-							)
-							: null}
+						{onDelete && isAdministrator ? (
+							<div className="delete-content" onClick={onDelete}>
+								<i className="icon-delete" />
+							</div>
+						) : null}
 					</div>
-					{onEdit && isEditor ? (<div className="edit" onClick={onEdit}>{t('edit', {type})}</div>) : null}
-					{onPublish && isEditor ? (<div className="publish" onClick={onPublish}>{t('publish', {type})}</div>) : null}
+					{onEdit && isEditor ? (
+						<div className="edit" onClick={onEdit}>
+							{t('edit', { type })}
+						</div>
+					) : null}
+					{onPublish && isEditor ? (
+						<div className="publish" onClick={onPublish}>
+							{t('publish', { type })}
+						</div>
+					) : null}
 				</div>
 			</div>
 		);
 	}
 
 	renderSection = (section, i) => {
-		return <SectionItem key={section.id || i} section={section} onClick={this.props.onItemClick}/>;
-	}
+		return (
+			<SectionItem
+				key={section.id || i}
+				section={section}
+				onClick={this.props.onItemClick}
+			/>
+		);
+	};
 
-	renderSections () {
+	renderSections() {
 		const { subItems } = this.props.activeContent || {};
 
-		if(!subItems || subItems.length === 0) {
+		if (!subItems || subItems.length === 0) {
 			return null;
 		}
 
@@ -157,19 +181,25 @@ export default class ContentNavMenu extends React.Component {
 	}
 
 	renderRecentContent = (content, i) => {
-		return <RecentContentItem key={content.id || i} recentContent={content} onClick={this.props.onItemClick}/>;
-	}
+		return (
+			<RecentContentItem
+				key={content.id || i}
+				recentContent={content}
+				onClick={this.props.onItemClick}
+			/>
+		);
+	};
 
-	renderRecentContentItems () {
+	renderRecentContentItems() {
 		const { recentContentItems, type } = this.props;
 
-		if(!recentContentItems || recentContentItems.length === 0) {
+		if (!recentContentItems || recentContentItems.length === 0) {
 			return null;
 		}
 
 		return (
 			<div className="recent-content-items">
-				<div className="section-label">{t('courses', {type})}</div>
+				<div className="section-label">{t('courses', { type })}</div>
 				<div className="recent-content-items-list">
 					{recentContentItems.map(this.renderRecentContent)}
 				</div>
@@ -177,7 +207,7 @@ export default class ContentNavMenu extends React.Component {
 		);
 	}
 
-	render () {
+	render() {
 		return (
 			<div className="content-nav-menu">
 				{this.renderActiveContent()}

@@ -5,18 +5,20 @@ import { Flyout } from '@nti/web-commons';
 class Sibling extends React.Component {
 	static propTypes = {
 		item: PropTypes.object,
-		onClick: PropTypes.func
-	}
+		onClick: PropTypes.func,
+	};
 
 	onClick = () => {
-		const {onClick, item} = this.props;
+		const { onClick, item } = this.props;
 		onClick && onClick(item);
-	}
+	};
 
-	render () {
-		const {item} = this.props;
+	render() {
+		const { item } = this.props;
 		return (
-			<div onClick={this.onClick} className="sibling-item">{item.label}</div>
+			<div onClick={this.onClick} className="sibling-item">
+				{item.label}
+			</div>
 		);
 	}
 }
@@ -28,33 +30,31 @@ export default class BreadcrumbItem extends React.Component {
 		isRoot: PropTypes.bool,
 		isCurrent: PropTypes.bool,
 		onClick: PropTypes.func,
-		bcKey: PropTypes.number
-	}
+		bcKey: PropTypes.number,
+	};
 
-	attachFlyoutRef = x => this.flyout = x
-
+	attachFlyoutRef = x => (this.flyout = x);
 
 	forceDismissFlyout = () => this.flyout && this.flyout.dismiss();
 
-
-	onClick = (item) => {
-		const {onClick} = this.props;
+	onClick = item => {
+		const { onClick } = this.props;
 		this.forceDismissFlyout();
 
 		if (onClick) {
 			onClick(item);
 		}
-	}
-
+	};
 
 	onParentClick = () => {
 		this.onClick(this.props.item);
-	}
+	};
 
-
-	renderParent () {
+	renderParent() {
 		const { item, isCurrent, isRoot, bcKey } = this.props;
-		if (!item) { return null; }
+		if (!item) {
+			return null;
+		}
 
 		let className = 'path part';
 
@@ -63,13 +63,10 @@ export default class BreadcrumbItem extends React.Component {
 		className += item.ntiid ? ' link' : '';
 		className += item.cls ? ' ' + item.cls : '';
 
-		if(this.props.message) {
+		if (this.props.message) {
 			return (
 				<div className="showing-message" key={bcKey}>
-					<div
-						className={className}
-						onClick={this.onParentClick}
-					>
+					<div className={className} onClick={this.onParentClick}>
 						{item.label}
 					</div>
 					{this.renderMessage()}
@@ -78,41 +75,34 @@ export default class BreadcrumbItem extends React.Component {
 		}
 
 		return (
-			<div
-				className={className}
-				onClick={this.onParentClick}
-				key={bcKey}
-			>
+			<div className={className} onClick={this.onParentClick} key={bcKey}>
 				{item.label}
 			</div>
 		);
 	}
 
-
-	renderMessage () {
+	renderMessage() {
 		const { message } = this.props;
 
-		if(message) {
-			const className = message.cls ? 'header-toast ' + message.cls : 'header-toast';
+		if (message) {
+			const className = message.cls
+				? 'header-toast ' + message.cls
+				: 'header-toast';
 
-			return (
-				<div className={className}>{message.text}</div>
-			);
+			return <div className={className}>{message.text}</div>;
 		}
 
 		return null;
 	}
 
-
-
-	render () {
+	render() {
 		const { item } = this.props;
 
-		if(!item) {
+		if (!item) {
 			return null;
 		}
 
-		if(item.siblings) {
+		if (item.siblings) {
 			return (
 				<Flyout.Triggered
 					className="breadcrumb-sibling-menu"
@@ -123,13 +113,12 @@ export default class BreadcrumbItem extends React.Component {
 				>
 					<div className="breadcrumb-dropdown-view">
 						{item.siblings.map((x, i) => (
-							<Sibling item={x} key={i} onClick={this.onClick}/>
+							<Sibling item={x} key={i} onClick={this.onClick} />
 						))}
 					</div>
 				</Flyout.Triggered>
 			);
-		}
-		else {
+		} else {
 			return this.renderParent();
 		}
 	}

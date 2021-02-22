@@ -1,19 +1,21 @@
-import {WebVTT, VTTCue} from 'vtt.js';
-import {Stores} from '@nti/lib-store';
+import { WebVTT, VTTCue } from 'vtt.js';
+import { Stores } from '@nti/lib-store';
 import Logger from '@nti/util-logger';
 
 const logger = Logger.get('transcripted-video:store');
 
 const UserDataSources = Symbol('UserDataSources');
 
-function parseTranscript (vtt) {
+function parseTranscript(vtt) {
 	const parser = new WebVTT.Parser(global, WebVTT.StringDecoder());
 	const cues = [];
 	const regions = [];
 
 	parser.oncue = x => cues.push(x);
 	parser.onregion = x => regions.push(x);
-	parser.onparsingerror = e => {throw e;};
+	parser.onparsingerror = e => {
+		throw e;
+	};
 
 	//Safari has a native VTTCue but it doesn't honor auto (which is in the spec)
 	//so for now just force it to use the poly-fill
@@ -28,31 +30,33 @@ function parseTranscript (vtt) {
 		global.VTTCue = oldVTTCue;
 	}
 
-	return {cues, regions};
+	return { cues, regions };
 }
 
-
 export default class VideoStore extends Stores.BoundStore {
-
 	loadTranscript = async video => {
 		const locale = this.get('locale') || 'en';
-		return video.getTranscript(locale)
+		return video
+			.getTranscript(locale)
 			.then(parseTranscript)
 			.catch(() => null);
-	}
+	};
 
 	loadNotes = async (...sources) => {
 		return Promise.all(
-			sources.map(source => (
-				(!source || !source.getUserData)
+			sources.map(source =>
+				!source || !source.getUserData
 					? null
-					: source.getUserData().then(data => data.waitForPending().then(() => data))
-			))
+					: source
+							.getUserData()
+							.then(data =>
+								data.waitForPending().then(() => data)
+							)
+			)
 		);
-	}
+	};
 
-
-	getDataSourceForNote (note) {
+	getDataSourceForNote(note) {
 		const video = this.get('videoNotes');
 		const slide = this.get('slideNotes');
 		const container = note.getContainerID ? note.getContainerID() : null;
@@ -64,26 +68,24 @@ export default class VideoStore extends Stores.BoundStore {
 		return slide;
 	}
 
-	onNoteAdded = (note) => {
+	onNoteAdded = note => {
 		const dataSource = this.getDataSourceForNote(note);
 
 		if (dataSource) {
 			dataSource.insertItem(note);
 		}
-	}
+	};
 
-
-	onNoteDeleted = (note) => {
+	onNoteDeleted = note => {
 		const dataSource = this.getDataSourceForNote(note);
 
 		if (dataSource) {
 			dataSource.removeItem(note);
 		}
-	}
-
+	};
 
 	getSlideDeck = (video, mediaIndex) => {
-		const {slidedecks} = video || {};
+		const { slidedecks } = video || {};
 
 		if (!(slidedecks || []).length) {
 			return;
@@ -92,29 +94,35 @@ export default class VideoStore extends Stores.BoundStore {
 		const decks = slidedecks.filter(x => mediaIndex.get(x));
 
 		if (!decks.length) {
-			logger.warn('Referenced slidedecks do not exist in scope. %o %o', video, mediaIndex);
+			logger.warn(
+				'Referenced slidedecks do not exist in scope. %o %o',
+				video,
+				mediaIndex
+			);
 			return;
 		}
 
 		if (decks.length > 1) {
-			logger.warn('Multiple slidedecks for video: %o %o', video.getID(), decks.join(', '));
+			logger.warn(
+				'Multiple slidedecks for video: %o %o',
+				video.getID(),
+				decks.join(', ')
+			);
 		}
 
 		// last one wins
 		return mediaIndex.get(decks.pop());
-	}
+	};
 
-	onNotesChange = source => this.emitChange('notes')
-	setNotesFilter = notesFilter => this.set({notesFilter})
-	onTimeUpdate = time => this.set('currentTime', time)
+	onNotesChange = source => this.emitChange('notes');
+	setNotesFilter = notesFilter => this.set({ notesFilter });
+	onTimeUpdate = time => this.set('currentTime', time);
 
-
-	clearUserDataSources () {
+	clearUserDataSources() {
 		this[UserDataSources] = null;
 	}
 
-
-	addUserDataSource (source) {
+	addUserDataSource(source) {
 		if (!source) {
 			return;
 		}
@@ -130,19 +138,24 @@ export default class VideoStore extends Stores.BoundStore {
 			source.addListener('change', this.onNotesChange);
 			this.unsubscribe = [
 				...(this.unsubscribe || []),
-				() => source.removeListener('change', this.onNotesChange)
+				() => source.removeListener('change', this.onNotesChange),
 			];
 		}
 	}
 
-	get notes () {
-		return Object.values(this[UserDataSources] || {}).reduce((acc, source) => {
-			return [...acc, ...source];
-		}, []);
+	get notes() {
+		return Object.values(this[UserDataSources] || {}).reduce(
+			(acc, source) => {
+				return [...acc, ...source];
+			},
+			[]
+		);
 	}
 
-	async load () {
-		const {binding: {videoId}} = this;
+	async load() {
+		const {
+			binding: { videoId },
+		} = this;
 		const video = this.get('video');
 
 		if (video && video.getID() === videoId) {
@@ -152,18 +165,14 @@ export default class VideoStore extends Stores.BoundStore {
 		}
 	}
 
-	async refresh () {
+	async refresh() {
 		//TODO: figure out if we need to do anything here
 	}
 
-	async intialLoad () {
+	async intialLoad() {
 		const {
-			binding: {
-				course,
-				videoId,
-				outlineId
-			} = {},
-			unsubscribe
+			binding: { course, videoId, outlineId } = {},
+			unsubscribe,
 		} = this;
 
 		(unsubscribe || []).forEach(fn => fn());
@@ -174,7 +183,15 @@ export default class VideoStore extends Stores.BoundStore {
 		}
 
 		this.clearUserDataSources();
-		let loading = true, error, video, slides, transcript, videoNotes, slideNotes, duration, notesFilter;
+		let loading = true,
+			error,
+			video,
+			slides,
+			transcript,
+			videoNotes,
+			slideNotes,
+			duration,
+			notesFilter;
 
 		this.onNotesChange();
 		this.set({
@@ -184,7 +201,7 @@ export default class VideoStore extends Stores.BoundStore {
 			transcript,
 			videoNotes,
 			slideNotes,
-			notesFilter
+			notesFilter,
 		});
 
 		try {
@@ -198,18 +215,21 @@ export default class VideoStore extends Stores.BoundStore {
 
 				slides = this.getSlideDeck(video, mediaIndex);
 
-				[transcript, [videoNotes, slideNotes], duration] = await Promise.all([
+				[
+					transcript,
+					[videoNotes, slideNotes],
+					duration,
+				] = await Promise.all([
 					this.loadTranscript(video),
 					this.loadNotes(video, slides),
-					video.getDuration()
+					video.getDuration(),
 				]);
+			} else {
+				logger.warn(
+					`video not found in media index? ${videoId}, ${outlineId}, ${mediaIndex}`
+				);
 			}
-			else {
-				logger.warn(`video not found in media index? ${videoId}, ${outlineId}, ${mediaIndex}`);
-			}
-
-		}
-		catch (e) {
+		} catch (e) {
 			error = e;
 		}
 
@@ -224,11 +244,11 @@ export default class VideoStore extends Stores.BoundStore {
 			duration,
 			transcript: {
 				...transcript,
-				slides: [...(slides || [])]
+				slides: [...(slides || [])],
 			},
 			videoNotes,
 			slideNotes,
-			currentTime: 0
+			currentTime: 0,
 		});
 		this.onNotesChange();
 	}

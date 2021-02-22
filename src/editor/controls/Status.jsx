@@ -1,94 +1,88 @@
 import './Status.scss';
 import React from 'react';
-import {Errors} from '@nti/web-commons';
-import {scoped} from '@nti/lib-locale';
+import { Errors } from '@nti/web-commons';
+import { scoped } from '@nti/lib-locale';
 
-import {SET_ERROR, SAVING, SAVE_ENDED} from '../Constants';
+import { SET_ERROR, SAVING, SAVE_ENDED } from '../Constants';
 import Store from '../Store';
 
-const {Field: {FlyoutList:ErrorFlyoutList}} = Errors;
+const {
+	Field: { FlyoutList: ErrorFlyoutList },
+} = Errors;
 
 const defaultText = {
 	saving: 'Saving...',
-	saved: 'All Changes Saved'
+	saved: 'All Changes Saved',
 };
 
 const t = scoped('web-content.editor.controls.Status', defaultText);
 
-
 export default class ContentEditorStatus extends React.Component {
-	constructor (props) {
+	constructor(props) {
 		super(props);
 
-		const {errors} = Store;
+		const { errors } = Store;
 
 		this.state = {
 			errors,
 			saving: false,
-			hasUpdated: false
+			hasUpdated: false,
 		};
 	}
 
-
-	componentDidMount () {
+	componentDidMount() {
 		Store.removeChangeListener(this.onStoreChange);
 		Store.addChangeListener(this.onStoreChange);
 	}
 
-
-	componentWillUnmount () {
+	componentWillUnmount() {
 		Store.removeChangeListener(this.onStoreChange);
 	}
 
-
-	onStoreChange = (data) => {
-		const {type} = data;
+	onStoreChange = data => {
+		const { type } = data;
 
 		if (type === SAVING || type === SAVE_ENDED) {
 			this.onSaveChanged();
 		} else if (type === SET_ERROR) {
 			this.onErrorsChanged();
 		}
-	}
-
+	};
 
 	onSaveChanged = () => {
-		const {isSaving} = Store;
+		const { isSaving } = Store;
 
 		this.setState({
 			isSaving,
-			hasUpdated: true
+			hasUpdated: true,
 		});
-	}
-
+	};
 
 	onErrorsChanged = () => {
-		const {errors:oldErrors} = this.state;
-		const {errors:newErrors} = Store;
+		const { errors: oldErrors } = this.state;
+		const { errors: newErrors } = Store;
 
 		if (oldErrors !== newErrors) {
 			this.setState({
-				errors: newErrors
+				errors: newErrors,
 			});
 		}
-	}
+	};
 
-
-	render () {
-		const {isSaving, hasUpdated, errors} = this.state;
+	render() {
+		const { isSaving, hasUpdated, errors } = this.state;
 		const hasErrors = errors.length > 0;
 
 		return (
 			<div className="content-editor-status">
-				{hasErrors && !isSaving ?
-					this.renderErrors(errors) :
-					this.renderStatus(isSaving, hasUpdated)}
+				{hasErrors && !isSaving
+					? this.renderErrors(errors)
+					: this.renderStatus(isSaving, hasUpdated)}
 			</div>
 		);
 	}
 
-
-	renderStatus (isSaving, hasUpdated) {
+	renderStatus(isSaving, hasUpdated) {
 		let text;
 
 		//If we have udpated and we aren't saving show saved text
@@ -98,14 +92,10 @@ export default class ContentEditorStatus extends React.Component {
 			text = t('saving');
 		}
 
-		return (
-			<span className="status">{text}</span>
-		);
+		return <span className="status">{text}</span>;
 	}
 
-	renderErrors (errors) {
-		return (
-			<ErrorFlyoutList errors={errors} />
-		);
+	renderErrors(errors) {
+		return <ErrorFlyoutList errors={errors} />;
 	}
 }

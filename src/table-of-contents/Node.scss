@@ -5,7 +5,9 @@
 	color: var(--secondary-grey);
 	cursor: pointer;
 
-	&.root { display: none; }
+	&.root {
+		display: none;
+	}
 
 	&.filtered {
 		opacity: 0.3;
@@ -26,7 +28,7 @@
 			style: normal;
 			weight: 100;
 			family: var(--header-font-family);
-		};
+		}
 	}
 
 	&.chapter {

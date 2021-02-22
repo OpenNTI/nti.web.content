@@ -1,35 +1,36 @@
 import URL from 'url';
 
-
 import React from 'react';
-import {useLocation} from '@nti/web-routing';
+import { useLocation } from '@nti/web-routing';
 import PropTypes from 'prop-types';
 
 import View from './View';
 
-function getRouteFromLocation (location) {
-	const {hash, pathname, search} = location;
+function getRouteFromLocation(location) {
+	const { hash, pathname, search } = location;
 	return URL.format({
 		pathname,
 		hash,
-		search
+		search,
 	});
 }
 
 ContentTabsWrapper.propTypes = {
 	activeRoute: PropTypes.string,
-	baseRoute: PropTypes.string
+	baseRoute: PropTypes.string,
 };
 
 ContentTabsWrapper.contextTypes = {
 	router: PropTypes.shape({
 		baseroute: PropTypes.string,
 		getRouteFor: PropTypes.func,
-	}).isRequired
+	}).isRequired,
 };
 
-
-export default function ContentTabsWrapper ({activeRoute, baseRoute, ...otherProps}, {router}) {
+export default function ContentTabsWrapper(
+	{ activeRoute, baseRoute, ...otherProps },
+	{ router }
+) {
 	const location = useLocation();
 
 	return (
@@ -40,5 +41,4 @@ export default function ContentTabsWrapper ({activeRoute, baseRoute, ...otherPro
 			getRouteFor={router.getRouteFor}
 		/>
 	);
-
 }

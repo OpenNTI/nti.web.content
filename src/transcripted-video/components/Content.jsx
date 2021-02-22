@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {decorate} from '@nti/lib-commons';
-import {DateTime, Error, Loading} from '@nti/web-commons';
-import {decodeFromURI} from '@nti/lib-ntiids';
+import { decorate } from '@nti/lib-commons';
+import { DateTime, Error, Loading } from '@nti/web-commons';
+import { decodeFromURI } from '@nti/lib-ntiids';
 import classnames from 'classnames/bind';
 
 import Store from '../Store';
@@ -18,12 +18,11 @@ const cx = classnames.bind(styles);
 const PLAYER_CONFIG = 'media-modal';
 
 class Content extends React.Component {
-
-	static deriveBindingFromProps = ({course, videoId, outlineId}) => ({
+	static deriveBindingFromProps = ({ course, videoId, outlineId }) => ({
 		course,
 		videoId: decodeFromURI(videoId),
-		outlineId: decodeFromURI(outlineId)
-	})
+		outlineId: decodeFromURI(outlineId),
+	});
 
 	static propTypes = {
 		course: PropTypes.object.isRequired,
@@ -32,9 +31,10 @@ class Content extends React.Component {
 		disableNoteCreation: PropTypes.bool,
 		scrolledTo: PropTypes.oneOfType([
 			PropTypes.string, // note id
-			PropTypes.shape({ // model
-				getID: PropTypes.func.isRequired
-			})
+			PropTypes.shape({
+				// model
+				getID: PropTypes.func.isRequired,
+			}),
 		]),
 		autoPlay: PropTypes.bool,
 		startTime: PropTypes.number,
@@ -57,29 +57,26 @@ class Content extends React.Component {
 				PropTypes.shape({
 					startTime: PropTypes.number.isRequired,
 					endTime: PropTypes.number.isRequired,
-					text: PropTypes.string.isRequired
+					text: PropTypes.string.isRequired,
 				})
-			)
+			),
 			// transcript.regions not currently used
-		})
-	}
+		}),
+	};
 
-	constructor (props) {
+	constructor(props) {
 		super(props);
 
 		this.videoRef = React.createRef();
 	}
 
-	getAnalyticsData () {
+	getAnalyticsData() {
 		const {
 			course,
 			videoId,
 			analyticsData,
 			// context,
-			transcript: {
-				cues,
-				slides
-			} = {}
+			transcript: { cues, slides } = {},
 		} = this.props;
 
 		return {
@@ -87,25 +84,27 @@ class Content extends React.Component {
 			resourceId: videoId,
 			rootContextId: course && course.getID ? course.getID() : void 0,
 			// context: context || [],
-			'player_configuration': PLAYER_CONFIG,
-			withTranscript: Boolean(cues || slides)
+			player_configuration: PLAYER_CONFIG,
+			withTranscript: Boolean(cues || slides),
 		};
 	}
 
-	onTimeUpdate = ({target: {currentTime}} = {}) => {
-		const {onTimeUpdate} = this.props;
+	onTimeUpdate = ({ target: { currentTime } } = {}) => {
+		const { onTimeUpdate } = this.props;
 		onTimeUpdate(currentTime);
-	}
+	};
 
-	onCueClick = ({startTime} = {}) => {
-		const {videoRef: {current: video}} = this;
+	onCueClick = ({ startTime } = {}) => {
+		const {
+			videoRef: { current: video },
+		} = this;
 
 		if (video && video.setCurrentTime) {
 			video.setCurrentTime(parseFloat(startTime));
 		}
-	}
+	};
 
-	render () {
+	render() {
 		const {
 			loading,
 			error,
@@ -120,7 +119,7 @@ class Content extends React.Component {
 			disableNoteCreation,
 			scrolledTo,
 			autoPlay,
-			startTime
+			startTime,
 		} = this.props;
 
 		const showError = error && !video;
@@ -129,56 +128,61 @@ class Content extends React.Component {
 
 		return (
 			<section className={cx('content')}>
-				{
-					showError
-						? <Error error={error} />
-						: showLoading
-							? (
-								<div className={cx('loading-container')}>
-									<Loading.Spinner.Large />
+				{showError ? (
+					<Error error={error} />
+				) : showLoading ? (
+					<div className={cx('loading-container')}>
+						<Loading.Spinner.Large />
+					</div>
+				) : (
+					<>
+						<Annotatable
+							containerId={video.getID()}
+							notes={notes}
+							notesFilter={notesFilter}
+							setNotesFilter={setNotesFilter}
+							disableNoteCreation={disableNoteCreation}
+							scrolledTo={scrolledTo}
+						>
+							<header className={cx('video-header')}>
+								<div className={cx('tools')}>
+									<MediaViewerLink video={video} />
 								</div>
-							)
-							: (
-								<>
-									<Annotatable
-										containerId={video.getID()}
-										notes={notes}
-										notesFilter={notesFilter}
-										setNotesFilter={setNotesFilter}
-										disableNoteCreation={disableNoteCreation}
-										scrolledTo={scrolledTo}
-									>
-										<header className={cx('video-header')}>
-											<div className={cx('tools')}>
-												<MediaViewerLink video={video} />
-											</div>
-											<Annotatable.Anchors.Anchor className={cx('video-meta')} id={video.getID()}>
-												{title && (
-													<h1 className={cx('video-title')}>{title}</h1>
-												)}
-												{duration && (
-													<span className={cx('duration')}>{DateTime.getShortNaturalDuration(duration * 1000)}</span>
-												)}
-											</Annotatable.Anchors.Anchor>
-										</header>
-										<Transcript
-											video={video}
-											transcript={transcript}
-											currentTime={currentTime}
-											onCueClick={this.onCueClick}
-										/>
-									</Annotatable>
-									<Video
-										src={video}
-										onTimeUpdate={this.onTimeUpdate}
-										ref={this.videoRef}
-										analyticsData={analyticsData}
-										autoPlay={autoPlay}
-										startTime={startTime}
-									/>
-								</>
-							)
-				}
+								<Annotatable.Anchors.Anchor
+									className={cx('video-meta')}
+									id={video.getID()}
+								>
+									{title && (
+										<h1 className={cx('video-title')}>
+											{title}
+										</h1>
+									)}
+									{duration && (
+										<span className={cx('duration')}>
+											{DateTime.getShortNaturalDuration(
+												duration * 1000
+											)}
+										</span>
+									)}
+								</Annotatable.Anchors.Anchor>
+							</header>
+							<Transcript
+								video={video}
+								transcript={transcript}
+								currentTime={currentTime}
+								onCueClick={this.onCueClick}
+							/>
+						</Annotatable>
+						<Video
+							src={video}
+							onTimeUpdate={this.onTimeUpdate}
+							ref={this.videoRef}
+							analyticsData={analyticsData}
+							autoPlay={autoPlay}
+							startTime={startTime}
+						/>
+					</>
+				)}
 			</section>
 		);
 	}
@@ -196,6 +200,6 @@ export default decorate(Content, [
 		'currentTime',
 		'onTimeUpdate',
 		'notesFilter',
-		'setNotesFilter'
-	])
+		'setNotesFilter',
+	]),
 ]);

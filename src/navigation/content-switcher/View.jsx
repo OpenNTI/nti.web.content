@@ -1,9 +1,9 @@
 import './View.scss';
 import React from 'react';
 import PropTypes from 'prop-types';
-import {decorate} from '@nti/lib-commons';
-import {EmptyState} from '@nti/web-commons';
-import {scoped} from '@nti/lib-locale';
+import { decorate } from '@nti/lib-commons';
+import { EmptyState } from '@nti/web-commons';
+import { scoped } from '@nti/lib-locale';
 
 import Store from './Store';
 import ActiveItem from './components/ActiveItem';
@@ -11,21 +11,19 @@ import RecentItems from './components/RecentItems';
 
 const t = scoped('content.navigation.content-switcher.View', {
 	empty: 'No Recent Content',
-	recentLabel: 'Content'
+	recentLabel: 'Content',
 });
 
-
 class ContentSwitcher extends React.Component {
-	static setActiveContent = Store.setActiveContent
-	static updateContent = Store.updateContent
+	static setActiveContent = Store.setActiveContent;
+	static updateContent = Store.updateContent;
 
 	static propTypes = {
-		items: PropTypes.array
-	}
+		items: PropTypes.array,
+	};
 
-
-	render () {
-		const {items} = this.props;
+	render() {
+		const { items } = this.props;
 		const empty = !items || !items.length;
 
 		return (
@@ -36,27 +34,21 @@ class ContentSwitcher extends React.Component {
 		);
 	}
 
-	renderEmptyState () {
-		return (
-			<EmptyState subHeader={t('empty')} />
-		);
+	renderEmptyState() {
+		return <EmptyState subHeader={t('empty')} />;
 	}
 
-
-	renderItems (items) {
+	renderItems(items) {
 		const active = items[0];
 		const recent = items.slice(1);
 
 		return (
 			<div className="recent-content">
-				{active && (<ActiveItem item={active} />)}
-				{recent && (<RecentItems items={recent} />)}
+				{active && <ActiveItem item={active} />}
+				{recent && <RecentItems items={recent} />}
 			</div>
 		);
 	}
 }
 
-
-export default decorate(ContentSwitcher, [
-	Store.connect(['items'])
-]);
+export default decorate(ContentSwitcher, [Store.connect(['items'])]);

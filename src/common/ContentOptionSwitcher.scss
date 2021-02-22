@@ -1,4 +1,4 @@
-@import "~@nti/style-common";
+@import '~@nti/style-common';
 
 .content-option-switcher {
 	position: relative;
@@ -22,7 +22,8 @@
 			line-height: 1;
 			padding: rem-calc(11px 0);
 
-			span, i {
+			span,
+			i {
 				vertical-align: middle;
 			}
 
@@ -43,7 +44,8 @@
 		}
 	}
 
-	.options-container, .content-container {
+	.options-container,
+	.content-container {
 		background: white;
 		min-height: 75vh;
 		min-height: calc(100vh - 125px);
@@ -62,7 +64,8 @@
 			&.fade-in-out-enter-active {
 				opacity: 1;
 				transform: scale(1);
-				transition: opacity 400ms, transform 400ms cubic-bezier(0.5, 0.01, 0.02, 1.35);
+				transition: opacity 400ms,
+					transform 400ms cubic-bezier(0.5, 0.01, 0.02, 1.35);
 			}
 		}
 

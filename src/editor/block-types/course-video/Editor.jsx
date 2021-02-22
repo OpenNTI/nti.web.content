@@ -1,17 +1,17 @@
 import './Editor.scss';
 import React from 'react';
 import PropTypes from 'prop-types';
-import {scoped} from '@nti/lib-locale';
-import {createMediaSourceFromUrl, getCanonicalUrlFrom} from '@nti/web-video';
+import { scoped } from '@nti/lib-locale';
+import { createMediaSourceFromUrl, getCanonicalUrlFrom } from '@nti/web-video';
 
-import {VIDEO_DELETED_EVENT, addListener, removeListener} from '../Events';
+import { VIDEO_DELETED_EVENT, addListener, removeListener } from '../Events';
 import {
 	CaptionEditor,
 	Controls,
 	onRemove,
 	onFocus,
 	onBlur,
-	onCaptionChange
+	onCaptionChange,
 } from '../course-common';
 
 import VideoEditor from './VideoEditor';
@@ -19,16 +19,19 @@ import VideoEditor from './VideoEditor';
 const DEFAULT_TEXT = {
 	Editor: {
 		videoTitle: 'Video %(index)s',
-		descriptionPlaceholder: 'Write a caption...'
-	}
+		descriptionPlaceholder: 'Write a caption...',
+	},
 };
 
-const getString = scoped('web-content.editor.block-types.course-video.VideoEditor', DEFAULT_TEXT);
+const getString = scoped(
+	'web-content.editor.block-types.course-video.VideoEditor',
+	DEFAULT_TEXT
+);
 
 const blockType = {
 	getString,
 	regex: /^Video\s\d$/,
-	getTitle: index => getString('Editor.videoTitle', {index: index + 1})
+	getTitle: index => getString('Editor.videoTitle', { index: index + 1 }),
 };
 
 export default class CourseVideoEditor extends React.Component {
@@ -38,61 +41,59 @@ export default class CourseVideoEditor extends React.Component {
 			indexOfType: PropTypes.number,
 			setBlockData: PropTypes.func,
 			removeBlock: PropTypes.func,
-			setReadOnly: PropTypes.func
-		})
+			setReadOnly: PropTypes.func,
+		}),
 	};
 
 	onChange = null;
 
-	attachCaptionRef = x => this.caption = x
+	attachCaptionRef = x => (this.caption = x);
 
-	constructor (props) {
+	constructor(props) {
 		super(props);
 
 		this.state = this.computeState(props);
 		addListener(VIDEO_DELETED_EVENT, this.onDelete);
 	}
 
-	componentWillUnmount () {
+	componentWillUnmount() {
 		removeListener(VIDEO_DELETED_EVENT, this.onDelete);
 	}
 
-	onDelete = (videoId) => {
+	onDelete = videoId => {
 		const { block } = this.props;
 		const data = block.getData();
 		const videoNTIID = data.get('arguments');
 
-		if(videoId === videoNTIID) {
+		if (videoId === videoNTIID) {
 			this.onRemove();
 		}
-	}
+	};
 
-
-	computeState (props = this.props) {
-		const {block} = props;
+	computeState(props = this.props) {
+		const { block } = props;
 		const data = block.getData();
 		const body = data.get('body');
 		const blockArguments = data.get('arguments');
 
-		const url = (this.state && this.state.url)
-			|| getCanonicalUrlFrom(blockArguments);
+		const url =
+			(this.state && this.state.url) ||
+			getCanonicalUrlFrom(blockArguments);
 
 		return {
 			url: url,
-			body: body.toJS ? body.toJS() : body
+			body: body.toJS ? body.toJS() : body,
 		};
 	}
 
-
-	componentDidUpdate (prevProps) {
-		const {block:newBlock} = this.props;
-		const {block:oldBlock} = prevProps;
+	componentDidUpdate(prevProps) {
+		const { block: newBlock } = this.props;
+		const { block: oldBlock } = prevProps;
 
 		if (newBlock !== oldBlock) {
 			this.setState(this.computeState());
 		}
 	}
-
 
 	onClick = e => {
 		e.stopPropagation();
@@ -102,11 +103,11 @@ export default class CourseVideoEditor extends React.Component {
 		}
 	};
 
-
 	onRemove = () => onRemove(this.props);
 	onFocus = () => onFocus(this.props);
 	onBlur = () => onBlur(this.props);
-	onCaptionChange = (body, doNotKeepSelection) => onCaptionChange(body, doNotKeepSelection, this.props);
+	onCaptionChange = (body, doNotKeepSelection) =>
+		onCaptionChange(body, doNotKeepSelection, this.props);
 
 	normalizeSource = (service, source) => {
 		if (!/kaltura/i.test(service)) {
@@ -121,37 +122,50 @@ export default class CourseVideoEditor extends React.Component {
 		return source;
 	};
 
-	updateFromMediaSource = ({service, source, href}) => {
-		const {blockProps:{setBlockData}} = this.props;
+	updateFromMediaSource = ({ service, source, href }) => {
+		const {
+			blockProps: { setBlockData },
+		} = this.props;
 		const normalSource = this.normalizeSource(service, source);
 
-		setBlockData({arguments: `${service} ${normalSource}`});
-		this.setState({url: href});
+		setBlockData({ arguments: `${service} ${normalSource}` });
+		this.setState({ url: href });
 	};
 
-
 	updateUrl = inputUrl => {
-		const {blockProps:{setBlockData}} = this.props;
+		const {
+			blockProps: { setBlockData },
+		} = this.props;
 
 		if (inputUrl) {
 			createMediaSourceFromUrl(inputUrl)
-				.then(mediaSource => mediaSource && this.updateFromMediaSource(mediaSource))
+				.then(
+					mediaSource =>
+						mediaSource && this.updateFromMediaSource(mediaSource)
+				)
 				.catch(() => {});
 		} else {
-			setBlockData({arguments: ''});
+			setBlockData({ arguments: '' });
 		}
 	};
 
-
-	render () {
-		const {block, blockProps:{indexOfType}} = this.props;
-		const {url, body} = this.state;
+	render() {
+		const {
+			block,
+			blockProps: { indexOfType },
+		} = this.props;
+		const { url, body } = this.state;
 		const blockId = block.getKey();
 
 		return (
 			<div className="course-video-editor">
 				<Controls onRemove={this.onRemove} onChange={this.onChange} />
-				<VideoEditor updateUrl={this.updateUrl} src={url} onFocus={this.onFocus} onBlur={this.onBlur} />
+				<VideoEditor
+					updateUrl={this.updateUrl}
+					src={url}
+					onFocus={this.onFocus}
+					onBlur={this.onBlur}
+				/>
 				<CaptionEditor
 					ref={this.attachCaptionRef}
 					body={body}

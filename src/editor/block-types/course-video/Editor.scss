@@ -1,5 +1,7 @@
-@import "../assets/editor";
+@import '../assets/editor';
 
-.content-editing-editor-container .content-editing-rst-editor .nti-course-video-block {
+.content-editing-editor-container
+	.content-editing-rst-editor
+	.nti-course-video-block {
 	@include block-editor('video');
 }

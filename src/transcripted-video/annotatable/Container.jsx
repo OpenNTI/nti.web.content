@@ -3,7 +3,11 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames/bind';
 
 import Styles from './Container.css';
-import {Anchors, getAnchorInfoForTarget, getAnchorInfoForPoint} from './anchors';
+import {
+	Anchors,
+	getAnchorInfoForTarget,
+	getAnchorInfoForPoint,
+} from './anchors';
 import Gutter from './gutter';
 
 const cx = classnames.bind(Styles);
@@ -14,29 +18,33 @@ export default class Annotatable extends React.Component {
 
 	static propTypes = {
 		containerId: PropTypes.string,
-		children: PropTypes.any
-	}
+		children: PropTypes.any,
+	};
 
-	state = {}
+	state = {};
 
-	attachContainerRef = (node) => {
+	attachContainerRef = node => {
 		if (node !== this.container) {
 			this.container = node;
 			this.maybeSetUp();
 		}
-	}
+	};
 
-	attachContentRef = (node) => {
+	attachContentRef = node => {
 		if (node !== this.content) {
 			this.content = node;
 			this.maybeSetUp();
 		}
-	}
+	};
 
-	maybeSetUp () {
-		if (!this.container || !this.content) { return; }
+	maybeSetUp() {
+		if (!this.container || !this.content) {
+			return;
+		}
 
-		if (this.cleanUpLoadListener) { this.cleanUpLoadListener(); }
+		if (this.cleanUpLoadListener) {
+			this.cleanUpLoadListener();
+		}
 
 		this.content.addEventListener('load', this.onContentImageLoad, true);
 		this.cleanUpLoadListener = () => {
@@ -46,63 +54,79 @@ export default class Annotatable extends React.Component {
 
 		this.setState({
 			container: this.container,
-			content: this.content
+			content: this.content,
 		});
 	}
 
-
 	onContentImageLoad = () => {
-		if (this.contentLoadUpdateTimeout) { return; }
+		if (this.contentLoadUpdateTimeout) {
+			return;
+		}
 
 		this.contentLoadUpdateTimeout = setTimeout(() => {
 			this.forceUpdate();
 			this.contentLoadUpdateTimeout = void 0;
 		}, 10);
-	}
+	};
 
+	onMouseMove = ({ clientY, clientX, target }) => {
+		this.lastPoint = { clientX, clientY };
 
-	onMouseMove = ({clientY, clientX, target}) => {
-		this.lastPoint = {clientX, clientY};
-
-		if (this.mouseMoveBufferTimeout) { return; }
+		if (this.mouseMoveBufferTimeout) {
+			return;
+		}
 
 		this.mouseMoveBufferTimeout = setTimeout(() => {
-			this.handleMouseMove(this.lastPoint.clientX, this.lastPoint.clientY, target);
+			this.handleMouseMove(
+				this.lastPoint.clientX,
+				this.lastPoint.clientY,
+				target
+			);
 			delete this.mouseMoveBufferTimeout;
 		}, MOUSE_MOVE_THROTTLE);
-	}
-
+	};
 
 	onMouseLeave = () => {
 		clearTimeout(this.mouseMoveBufferTimeout);
 		delete this.mouseMoveBufferTimeout;
 
 		this.setState({
-			activeAnchor: null
+			activeAnchor: null,
 		});
-	}
+	};
 
-
-	handleMouseMove (clientX, clientY, target) {
-		const {container, content} = this.state;
-		const activeAnchor = getAnchorInfoForTarget(target, content, container) || getAnchorInfoForPoint(clientX, clientY, content, container);
+	handleMouseMove(clientX, clientY, target) {
+		const { container, content } = this.state;
+		const activeAnchor =
+			getAnchorInfoForTarget(target, content, container) ||
+			getAnchorInfoForPoint(clientX, clientY, content, container);
 
 		this.setState({
-			activeAnchor
+			activeAnchor,
 		});
 	}
 
-
-	render () {
-		const {children, ...otherProps} = this.props;
-		const {content, container, activeAnchor} = this.state;
+	render() {
+		const { children, ...otherProps } = this.props;
+		const { content, container, activeAnchor } = this.state;
 
 		return (
-			<div className={cx('annotatable-container')} ref={this.attachContainerRef} onMouseMove={this.onMouseMove} onMouseLeave={this.onMouseLeave}>
+			<div
+				className={cx('annotatable-container')}
+				ref={this.attachContainerRef}
+				onMouseMove={this.onMouseMove}
+				onMouseLeave={this.onMouseLeave}
+			>
 				<div className={cx('content')} ref={this.attachContentRef}>
 					{children}
 				</div>
-				<Gutter {...otherProps} content={content} container={container} className={cx('gutter')} activeAnchor={activeAnchor} />
+				<Gutter
+					{...otherProps}
+					content={content}
+					container={container}
+					className={cx('gutter')}
+					activeAnchor={activeAnchor}
+				/>
 			</div>
 		);
 	}

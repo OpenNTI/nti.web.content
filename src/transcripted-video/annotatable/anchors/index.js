@@ -5,5 +5,5 @@ export * from './utils';
 
 export const Anchors = {
 	Anchor,
-	TimeAnchor
+	TimeAnchor,
 };

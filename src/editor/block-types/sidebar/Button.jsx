@@ -1,15 +1,15 @@
 import './Button.scss';
 import React from 'react';
-import {scoped} from '@nti/lib-locale';
-import {BLOCKS} from '@nti/web-editor';
+import { scoped } from '@nti/lib-locale';
+import { BLOCKS } from '@nti/web-editor';
 
 import Button from '../common/Button';
 
 const t = scoped('web-content.editor.block-types.sidebar.button', {
-	label: 'Call Out'
+	label: 'Call Out',
 });
 
-function createBlock (insertBlock) {
+function createBlock(insertBlock) {
 	insertBlock({
 		type: BLOCKS.ATOMIC,
 		text: '',
@@ -17,19 +17,19 @@ function createBlock (insertBlock) {
 			name: 'sidebar',
 			arguments: '',
 			body: [],
-			options: {}
-		}
+			options: {},
+		},
 	});
 }
 
-function isBlock (block) {
+function isBlock(block) {
 	const type = block.getType();
 	const data = block.getData();
 
 	return type === BLOCKS.ATOMIC && data.get('name') === 'sidebar';
 }
 
-export default function SidebarButton () {
+export default function SidebarButton() {
 	return (
 		<Button
 			className="content-editor-sidebar-button"

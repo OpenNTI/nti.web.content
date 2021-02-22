@@ -1,5 +1,5 @@
 import './Controls.scss';
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Input } from '@nti/web-commons';
 
@@ -7,24 +7,22 @@ import { LANGUAGES } from './constants';
 
 const SelectInput = Input.Select;
 
-
 export default class Controls extends Component {
-
 	static propTypes = {
 		language: PropTypes.string.isRequired,
 		onChange: PropTypes.func.isRequired,
-		attachLangRef: PropTypes.func.isRequired
+		attachLangRef: PropTypes.func.isRequired,
 	};
 
-	onChange = (value) => {
+	onChange = value => {
 		const { onChange } = this.props;
 
 		if (onChange) {
 			onChange(value);
 		}
-	}
+	};
 
-	render () {
+	render() {
 		const { language } = this.props;
 
 		return (

@@ -1,8 +1,8 @@
-import {Stores} from '@nti/lib-store';
-import {getService} from '@nti/web-client';
+import { Stores } from '@nti/lib-store';
+import { getService } from '@nti/web-client';
 
 export default class BookPublishStore extends Stores.BoundStore {
-	constructor () {
+	constructor() {
 		super();
 
 		this.set({
@@ -11,18 +11,21 @@ export default class BookPublishStore extends Stores.BoundStore {
 		});
 	}
 
-	async load () {
-		if (!this.binding) { return; }
+	async load() {
+		if (!this.binding) {
+			return;
+		}
 
 		const content = this.binding;
 
-		if (typeof content !== 'string') { return this.setupContent(content); }
+		if (typeof content !== 'string') {
+			return this.setupContent(content);
+		}
 
 		this.set({
 			loading: true,
-			error: null
+			error: null,
 		});
-
 
 		try {
 			const service = await getService();
@@ -32,30 +35,28 @@ export default class BookPublishStore extends Stores.BoundStore {
 		} catch (e) {
 			this.set({
 				loading: false,
-				error: e
+				error: e,
 			});
 		}
 	}
 
-
-	setupContent (content) {
+	setupContent(content) {
 		this.set({
 			loading: false,
 			error: null,
 			contentInstance: content,
 			published: content.isPublished && content.isPublished(),
 			canPublish: content.canPublish && content.canPublish(),
-			canUnpublish: content.canUnpublish && content.canUnpublish()
+			canUnpublish: content.canUnpublish && content.canUnpublish(),
 		});
 	}
 
-
-	async setPublishState (published) {
+	async setPublishState(published) {
 		const content = this.get('contentInstance');
 
 		this.set({
 			loading: true,
-			published
+			published,
 		});
 
 		try {
@@ -65,19 +66,16 @@ export default class BookPublishStore extends Stores.BoundStore {
 		} catch (e) {
 			this.set({
 				loading: false,
-				error: e
+				error: e,
 			});
 		}
-
 	}
 
-
-	publish () {
+	publish() {
 		this.setPublishState(true);
 	}
 
-
-	unpublish () {
+	unpublish() {
 		this.setPublishState(false);
 	}
 }

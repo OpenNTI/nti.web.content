@@ -1,15 +1,15 @@
 import React from 'react';
-import {BLOCK_TYPE} from 'draft-js-utils';
-import {BoldButton, ItalicButton, UnderlineButton} from '@nti/web-editor';
+import { BLOCK_TYPE } from 'draft-js-utils';
+import { BoldButton, ItalicButton, UnderlineButton } from '@nti/web-editor';
 
 const DISABLE_FOR_BLOCKS = {
 	[BLOCK_TYPE.HEADER_ONE]: true,
 	[BLOCK_TYPE.HEADER_TWO]: true,
 	[BLOCK_TYPE.HEADER_THREE]: true,
-	[BLOCK_TYPE.HEADER_FOUR]: true
+	[BLOCK_TYPE.HEADER_FOUR]: true,
 };
 
-function shouldDisableForState (state) {
+function shouldDisableForState(state) {
 	if (!state) {
 		return false;
 	}
@@ -28,7 +28,7 @@ function shouldDisableForState (state) {
 	return block && DISABLE_FOR_BLOCKS[block.getType()];
 }
 
-export default function ContentEditorFormatting () {
+export default function ContentEditorFormatting() {
 	return (
 		<div className="content-editor-style-format">
 			<BoldButton shouldDisableForState={shouldDisableForState} />

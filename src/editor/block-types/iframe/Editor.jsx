@@ -1,15 +1,15 @@
 import './Editor.scss';
 import React from 'react';
 import PropTypes from 'prop-types';
-import {scoped} from '@nti/lib-locale';
+import { scoped } from '@nti/lib-locale';
 
-import {IFRAME_DELETED_EVENT, addListener, removeListener} from '../Events';
+import { IFRAME_DELETED_EVENT, addListener, removeListener } from '../Events';
 import {
 	Controls,
 	onRemove,
 	onFocus,
 	onBlur,
-	onCaptionChange
+	onCaptionChange,
 } from '../course-common';
 
 import IframeEditor from './IframeEditor';
@@ -18,14 +18,17 @@ import IframePicker from './Picker';
 const DEFAULT_TEXT = {
 	Editor: {
 		iframeTitle: 'Iframe %(index)s',
-		descriptionPlaceholder: 'Write a caption...'
+		descriptionPlaceholder: 'Write a caption...',
 	},
 	Controls: {
-		changeImage: 'Edit Iframe'
-	}
+		changeImage: 'Edit Iframe',
+	},
 };
 
-const getString = scoped('web-content.editor.block-types.iframe.IframeEditor', DEFAULT_TEXT);
+const getString = scoped(
+	'web-content.editor.block-types.iframe.IframeEditor',
+	DEFAULT_TEXT
+);
 
 export default class CourseIframeEditor extends React.Component {
 	static propTypes = {
@@ -34,63 +37,63 @@ export default class CourseIframeEditor extends React.Component {
 			indexOfType: PropTypes.number,
 			setBlockData: PropTypes.func,
 			removeBlock: PropTypes.func,
-			setReadOnly: PropTypes.func
-		})
+			setReadOnly: PropTypes.func,
+		}),
 	};
 
 	onChange = null;
 
-	attachCaptionRef = x => this.caption = x
+	attachCaptionRef = x => (this.caption = x);
 
-	constructor (props) {
+	constructor(props) {
 		super(props);
 
 		this.state = this.getStateFor(props);
 	}
 
-	componentDidMount () {
+	componentDidMount() {
 		addListener(IFRAME_DELETED_EVENT, this.onDelete);
 	}
 
-	componentWillUnmount () {
+	componentWillUnmount() {
 		removeListener(IFRAME_DELETED_EVENT, this.onDelete);
 	}
 
-	onDelete = (iframeId) => {
+	onDelete = iframeId => {
 		const { block } = this.props;
 		const data = block.getData();
 		const iframeNTIID = data.get('arguments');
 
-		if(iframeId === iframeNTIID) {
+		if (iframeId === iframeNTIID) {
 			this.onRemove();
 		}
-	}
+	};
 
-
-	getStateFor (props = this.props) {
-		const {block} = props;
+	getStateFor(props = this.props) {
+		const { block } = props;
 		const data = block.getData();
 		const body = data.get('body');
 		let options = data.get('options');
 
-		const iframeObj = {src: data.get('arguments'), attributes: options.toJS ? options.toJS() : options};
+		const iframeObj = {
+			src: data.get('arguments'),
+			attributes: options.toJS ? options.toJS() : options,
+		};
 
 		return {
 			iframeObj,
-			body: body.toJS ? body.toJS() : body
+			body: body.toJS ? body.toJS() : body,
 		};
 	}
 
-
-	componentDidUpdate (prevProps) {
-		const {block:oldBlock} = prevProps;
-		const {block:newBlock} = this.props;
+	componentDidUpdate(prevProps) {
+		const { block: oldBlock } = prevProps;
+		const { block: newBlock } = this.props;
 
 		if (oldBlock !== newBlock) {
 			this.setState(this.getStateFor());
 		}
 	}
-
 
 	onClick = e => {
 		e.stopPropagation();
@@ -100,15 +103,17 @@ export default class CourseIframeEditor extends React.Component {
 		}
 	};
 
-
 	onRemove = () => onRemove(this.props);
 	onFocus = () => onFocus(this.props);
 	onBlur = () => onBlur(this.props);
-	onCaptionChange = (body, doNotKeepSelection) => onCaptionChange(body, doNotKeepSelection, this.props);
+	onCaptionChange = (body, doNotKeepSelection) =>
+		onCaptionChange(body, doNotKeepSelection, this.props);
 
 	onChange = () => {
-		const {blockProps: {setBlockData}} = this.props;
-		const {iframeObj} = this.state;
+		const {
+			blockProps: { setBlockData },
+		} = this.props;
+		const { iframeObj } = this.state;
 
 		IframePicker.show(iframeObj)
 			.then(iframeObjEdit => {
@@ -117,24 +122,28 @@ export default class CourseIframeEditor extends React.Component {
 						name: 'nti:embedwidget',
 						body: [],
 						arguments: iframeObjEdit.src,
-						options: iframeObjEdit.attributes
+						options: iframeObjEdit.attributes,
 					});
 				}
 			})
 			.catch(e => {});
-	}
+	};
 
-	onClick = (e) => {
+	onClick = e => {
 		e.stopPropagation();
-	}
+	};
 
-
-	render () {
-		const {iframeObj} = this.state;
+	render() {
+		const { iframeObj } = this.state;
 
 		return (
 			<div className="course-iframe-editor" onClick={this.onClick}>
-				<Controls onRemove={this.onRemove} onChange={this.onChange} getString={getString} iconName="icon-edit" />
+				<Controls
+					onRemove={this.onRemove}
+					onChange={this.onChange}
+					getString={getString}
+					iconName="icon-edit"
+				/>
 				<IframeEditor iframeObj={iframeObj} />
 			</div>
 		);

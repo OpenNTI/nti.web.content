@@ -8,11 +8,10 @@ $level-five-padding: 2.375rem;
 
 $rhs-padding: $level-one-padding;
 
-$node-border:
-	0 1px 0 0 var(--border-grey-light),
+$node-border: 0 1px 0 0 var(--border-grey-light),
 	0 -1px 0 0 var(--border-grey-light);
 
-@mixin calcPadding ($font-size, $line-height, $desired-height) {
+@mixin calcPadding($font-size, $line-height, $desired-height) {
 	$padding: ($desired-height - $line-height) / 2;
 
 	font-size: rem-calc($font-size);
@@ -21,7 +20,14 @@ $node-border:
 	padding-bottom: rem-calc($padding);
 }
 
-@mixin nodeStyles ($font-size, $line-height, $desired-height, $border, $level-padding, $hover) {
+@mixin nodeStyles(
+	$font-size,
+	$line-height,
+	$desired-height,
+	$border,
+	$level-padding,
+	$hover
+) {
 	@include calcPadding($font-size, $line-height, $desired-height);
 
 	@if $border {

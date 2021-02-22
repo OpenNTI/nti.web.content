@@ -1,4 +1,4 @@
-import {BLOCKS} from '@nti/web-editor';
+import { BLOCKS } from '@nti/web-editor';
 
 const NAME = 'ntivideoref';
 const LEGACY_NAME = 'ntivideo';
@@ -14,7 +14,10 @@ export const isAnyVideoTypeRefBlock = contentBlock => {
 	const type = contentBlock.getType();
 	const data = contentBlock.getData();
 
-	return type === BLOCKS.ATOMIC && (data.get('name') === NAME || data.get('name') === LEGACY_NAME);
+	return (
+		type === BLOCKS.ATOMIC &&
+		(data.get('name') === NAME || data.get('name') === LEGACY_NAME)
+	);
 };
 
 export const normalizeSource = (service, source) => {

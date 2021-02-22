@@ -1,11 +1,11 @@
-import {BLOCKS} from '@nti/web-editor';
+import { BLOCKS } from '@nti/web-editor';
 
 import Button from './Button';
 import Editor from './Editor';
 
 const NAME = 'course-figure';
 
-export const handlesBlock = (contentBlock) => {
+export const handlesBlock = contentBlock => {
 	const type = contentBlock.getType();
 	const data = contentBlock.getData();
 

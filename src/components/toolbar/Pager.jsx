@@ -8,9 +8,8 @@ const t = scoped('content.toolbar.Pager', {
 	separator: ' of ',
 	goTo: 'Go to %(title)s',
 	previous: 'previous',
-	next: 'next'
+	next: 'next',
 });
-
 
 // TODO: Use getroute for in the future
 export default class Pager extends React.Component {
@@ -27,10 +26,10 @@ export default class Pager extends React.Component {
 			getTotal: PropTypes.func.isRequired,
 			previous: PropTypes.any,
 			next: PropTypes.any,
-		})
+		}),
 	};
 
-	renderPage () {
+	renderPage() {
 		const { doNavigation, pageSource } = this.props;
 
 		if (!pageSource) {
@@ -43,9 +42,7 @@ export default class Pager extends React.Component {
 					doNavigation={doNavigation}
 				/>
 				<span className="separator">{t('separator')}</span>
-				<span className="total">
-					{pageSource.getTotal()}
-				</span>
+				<span className="total">{pageSource.getTotal()}</span>
 			</div>
 		);
 	}
@@ -63,7 +60,7 @@ export default class Pager extends React.Component {
 		return;
 	};
 
-	renderPrev () {
+	renderPrev() {
 		const { pageSource } = this.props;
 		const className =
 			'prev' +
@@ -77,7 +74,7 @@ export default class Pager extends React.Component {
 				role="button"
 				aria-label={t('previous')}
 				title={t('goTo', {
-					title: pageSource.getPreviousTitle() ?? t('previous')
+					title: pageSource.getPreviousTitle() ?? t('previous'),
 				})}
 			/>
 		);
@@ -97,7 +94,7 @@ export default class Pager extends React.Component {
 		return;
 	};
 
-	renderNext () {
+	renderNext() {
 		const { pageSource } = this.props;
 		const className =
 			'next' +
@@ -111,13 +108,13 @@ export default class Pager extends React.Component {
 				role="button"
 				aria-label={t('next')}
 				title={t('goTo', {
-					title: pageSource.getNextTitle() ?? t('next')
+					title: pageSource.getNextTitle() ?? t('next'),
 				})}
 			/>
 		);
 	}
 
-	render () {
+	render() {
 		if (this.props.hideControls) {
 			return null;
 		}

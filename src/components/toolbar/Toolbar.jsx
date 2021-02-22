@@ -8,8 +8,6 @@ import PagerOfRealPages from '../../toolbar/Pager';
 import Breadcrumb from './Breadcrumb';
 import Pager from './Pager';
 
-
-
 export default class Toolbar extends React.Component {
 	static propTypes = {
 		path: PropTypes.any,
@@ -25,49 +23,55 @@ export default class Toolbar extends React.Component {
 		currentPage: PropTypes.string,
 		rootId: PropTypes.string,
 		searchResultsCmp: PropTypes.any,
-	}
+	};
 
-	constructor (props) {
+	constructor(props) {
 		super(props);
 
 		const { path, pageSource, contentPackage } = props;
 
 		this.state = {
-			path: []
+			path: [],
 		};
 
-		Promise.all([
-			path,
-			pageSource,
-			contentPackage
-		]).then((results) => {
+		Promise.all([path, pageSource, contentPackage]).then(results => {
 			this.setState({
 				path: results[0],
 				pageSource: results[1],
-				contentPackage: results[2]
+				contentPackage: results[2],
 			});
 		});
 	}
 
-	onBreadcrumbItemClicked = (item) => {
+	onBreadcrumbItemClicked = item => {
 		const route = item.route,
 			precache = item.precache,
 			title = item.title;
 
-		this.props.doNavigation && this.props.doNavigation(title, route, precache);
-	}
+		this.props.doNavigation &&
+			this.props.doNavigation(title, route, precache);
+	};
 
-	renderControls () {
-		if(this.props.hideControls) {
+	renderControls() {
+		if (this.props.hideControls) {
 			return null;
 		}
 
-		const { contentPackage, rootId, currentPage, pageSource, doNavigation } = this.props;
+		const {
+			contentPackage,
+			rootId,
+			currentPage,
+			pageSource,
+			doNavigation,
+		} = this.props;
 
 		return (
 			<div className="right controls">
 				{pageSource ? (
-					<Pager pageSource={pageSource} doNavigation={doNavigation} />
+					<Pager
+						pageSource={pageSource}
+						doNavigation={doNavigation}
+					/>
 				) : (
 					<PagerOfRealPages
 						contentPackage={contentPackage}
@@ -79,23 +83,34 @@ export default class Toolbar extends React.Component {
 		);
 	}
 
-	renderHeader () {
-		if(this.props.hideHeader) {
+	renderHeader() {
+		if (this.props.hideHeader) {
 			return null;
 		}
 
-		const {searchResultsCmp, showToc, selectTocNode} = this.props;
-		const className = 'path-items' + (this.props.message ? ' show-toast' : '');
+		const { searchResultsCmp, showToc, selectTocNode } = this.props;
+		const className =
+			'path-items' + (this.props.message ? ' show-toast' : '');
 
 		return (
 			<div className={className}>
-				{showToc && (<TocFlyout contentPackage={this.state.contentPackage} onSelectNode={selectTocNode} searchResultsCmp={searchResultsCmp} />)}
-				<Breadcrumb onClick={this.onBreadcrumbItemClicked} items={this.state.path} message={this.props.message}/>
+				{showToc && (
+					<TocFlyout
+						contentPackage={this.state.contentPackage}
+						onSelectNode={selectTocNode}
+						searchResultsCmp={searchResultsCmp}
+					/>
+				)}
+				<Breadcrumb
+					onClick={this.onBreadcrumbItemClicked}
+					items={this.state.path}
+					message={this.props.message}
+				/>
 			</div>
 		);
 	}
 
-	render () {
+	render() {
 		return (
 			<div className="nti-content-toolbar content-toolbar">
 				<div className="toolbar">

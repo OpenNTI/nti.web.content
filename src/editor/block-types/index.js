@@ -19,7 +19,7 @@ const TYPES = [
 	Sidebar,
 	Iframe,
 	Code,
-	UnknownBlock
+	UnknownBlock,
 ];
 
 export const Buttons = TYPES.reduce((acc, type) => {

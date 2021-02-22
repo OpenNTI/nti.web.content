@@ -11,16 +11,24 @@ export class NoteGroup extends React.Component {
 		active: PropTypes.bool,
 		notes: PropTypes.array,
 		onClick: PropTypes.func,
-		style: PropTypes.object
+		style: PropTypes.object,
 	};
 
 	onClick = () => {
-		const {notes, onClick, active} = this.props;
+		const { notes, onClick, active } = this.props;
 		onClick(notes, active);
 	};
 
-	render () {
-		const {notes: {length} = [], style = {}, active} = this.props;
-		return !length ? null : (<div className={cx('note-group', {active})} style={style} onClick={this.onClick}>{length}</div>);
+	render() {
+		const { notes: { length } = [], style = {}, active } = this.props;
+		return !length ? null : (
+			<div
+				className={cx('note-group', { active })}
+				style={style}
+				onClick={this.onClick}
+			>
+				{length}
+			</div>
+		);
 	}
 }

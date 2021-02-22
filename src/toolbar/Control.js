@@ -3,7 +3,10 @@ import { LinkTo } from '@nti/web-routing';
 import cx from 'classnames';
 
 const Control = ({ cxt, obj, className, allPages }) => {
-	const controlClassName = cx(className, { 'disabled': !obj, 'real-page': allPages });
+	const controlClassName = cx(className, {
+		disabled: !obj,
+		'real-page': allPages,
+	});
 
 	if (obj) {
 		return (
@@ -12,9 +15,7 @@ const Control = ({ cxt, obj, className, allPages }) => {
 			</LinkTo.Object>
 		);
 	} else {
-		return (
-			<div className={controlClassName} />
-		);
+		return <div className={controlClassName} />;
 	}
 };
 

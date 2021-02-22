@@ -1,4 +1,4 @@
-@import "~@nti/style-common";
+@import '~@nti/style-common';
 
 .content-editor-iframe-advanced-pair {
 	display: flex;
@@ -6,7 +6,8 @@
 	justify-content: flex-start;
 	align-items: middle;
 
-	.nti-name, .value {
+	.nti-name,
+	.value {
 		flex: 0 0 auto;
 		width: 200px;
 	}

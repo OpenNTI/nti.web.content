@@ -2,23 +2,25 @@ import './View.scss';
 import PropTypes from 'prop-types';
 import React from 'react';
 import cx from 'classnames';
-import {scoped} from '@nti/lib-locale';
-import {Selection, Loading, EmptyState, Errors} from '@nti/web-commons';
+import { scoped } from '@nti/lib-locale';
+import { Selection, Loading, EmptyState, Errors } from '@nti/web-commons';
 
 import Store from '../Store';
-import {SET_ERROR, SAVING} from '../Constants';
-import {saveContentPackageRST} from '../Actions';
+import { SET_ERROR, SAVING } from '../Constants';
+import { saveContentPackageRST } from '../Actions';
 
 import RSTEditor from './RSTEditor';
 import ReadOnly from './ReadOnly';
 
-const {Field:{Component:ErrorCmp}} = Errors;
+const {
+	Field: { Component: ErrorCmp },
+} = Errors;
 
 const LOADING = Symbol('Loading');
 
 const DEFAULT_TEXT = {
 	Loading: 'Loading',
-	failedHeader: 'Unable to Load Contents'
+	failedHeader: 'Unable to Load Contents',
 };
 
 const t = scoped('web-content.editor.content-editor.View', DEFAULT_TEXT);
@@ -27,25 +29,24 @@ export default class ContentEditor extends React.Component {
 	static propTypes = {
 		contentPackage: PropTypes.object,
 		course: PropTypes.object,
-		readOnly: PropTypes.bool
-	}
+		readOnly: PropTypes.bool,
+	};
 
-	setEditorRef = x => this.editorRef = x
+	setEditorRef = x => (this.editorRef = x);
 
-	constructor (props) {
+	constructor(props) {
 		super(props);
 
 		this.state = {
 			selectableID: 'content-editor',
 			selectableValue: null,
-			rstContents: LOADING
+			rstContents: LOADING,
 		};
 	}
 
-
-	componentDidUpdate (prevProps) {
-		const {contentPackage:currentPackage} = this.props;
-		const {contentPackage:oldPackage} = prevProps;
+	componentDidUpdate(prevProps) {
+		const { contentPackage: currentPackage } = this.props;
+		const { contentPackage: oldPackage } = prevProps;
 
 		if (oldPackage !== currentPackage) {
 			this.loadContentFromPackage(currentPackage);
@@ -54,9 +55,8 @@ export default class ContentEditor extends React.Component {
 		}
 	}
 
-
-	componentDidMount () {
-		const {contentPackage} = this.props;
+	componentDidMount() {
+		const { contentPackage } = this.props;
 
 		if (contentPackage) {
 			this.loadContentFromPackage(contentPackage);
@@ -69,72 +69,75 @@ export default class ContentEditor extends React.Component {
 		this.onMessage();
 	}
 
-
-	componentWillUnmount () {
+	componentWillUnmount() {
 		Store.removeChangeListener(this.onStoreChange);
 		Store.removeEditorRef();
 		this.removeContentPackageListener();
 	}
 
-
-	addContentPackageListener (props = this.props) {
-		const {contentPackage} = props;
+	addContentPackageListener(props = this.props) {
+		const { contentPackage } = props;
 
 		this.removeContentPackageListener(props);
 
 		if (contentPackage) {
-			contentPackage.addListener('contents-changed', this.onContentsChanged);
+			contentPackage.addListener(
+				'contents-changed',
+				this.onContentsChanged
+			);
 		}
 	}
 
-
-	removeContentPackageListener (props = this.props) {
-		const {contentPackage} = props;
+	removeContentPackageListener(props = this.props) {
+		const { contentPackage } = props;
 
 		if (contentPackage) {
-			contentPackage.removeListener('contents-changed', this.onContentsChanged);
+			contentPackage.removeListener(
+				'contents-changed',
+				this.onContentsChanged
+			);
 		}
 	}
 
+	loadContentFromPackage(contentPackage) {
+		const { content } = this.state;
 
-	loadContentFromPackage (contentPackage) {
-		const {content} = this.state;
-
-		if (!contentPackage || !contentPackage.getRSTContents) { return; }
+		if (!contentPackage || !contentPackage.getRSTContents) {
+			return;
+		}
 
 		if (content !== LOADING) {
 			this.setState({
-				content: LOADING
+				content: LOADING,
 			});
 		}
 
-		contentPackage.getRSTContents()
-			.then((rstContents) => {
+		contentPackage
+			.getRSTContents()
+			.then(rstContents => {
 				this.setState({
 					rstContents: rstContents.data,
-					version: rstContents.version
+					version: rstContents.version,
 				});
 			})
 			.catch(() => {
 				this.setState({
-					rstContents: new Error('Failed to load rst')
+					rstContents: new Error('Failed to load rst'),
 				});
 			});
 	}
 
-
-	getRSTAndVersion () {
-		const {version} = this.state;
+	getRSTAndVersion() {
+		const { version } = this.state;
 
 		return {
 			rst: this.editorRef && this.editorRef.getRST(),
-			version
+			version,
 		};
 	}
 
-
-	onStoreChange = (data) => {
-		const {contentPackage} = this.props;
+	onStoreChange = data => {
+		const { contentPackage } = this.props;
 
 		if (data.type === SET_ERROR && data.NTIID === contentPackage.NTIID) {
 			this.onMessage();
@@ -142,43 +145,39 @@ export default class ContentEditor extends React.Component {
 			this.onEditorContentChange(this.pendingRST);
 			delete this.pendingRST;
 		}
-	}
-
+	};
 
 	onContentsChanged = (newContents = {}) => {
 		this.setState({
 			rstContents: newContents.data || '',
-			version: newContents.version || ''
+			version: newContents.version || '',
 		});
-	}
+	};
 
-
-	onMessage () {
-		const {contentPackage} = this.props;
-		const {NTIID} = contentPackage || {};
+	onMessage() {
+		const { contentPackage } = this.props;
+		const { NTIID } = contentPackage || {};
 		const contentError = NTIID && Store.getErrorFor(NTIID, 'contents');
 		const publishError = NTIID && Store.getErrorFor(NTIID, 'publish');
 
 		this.setState({
 			contentError,
-			publishError
+			publishError,
 		});
 	}
 
-
-	onEditorFocus = (editor) => {
-		const {selectableValue} = this.state;
+	onEditorFocus = editor => {
+		const { selectableValue } = this.state;
 
 		if (selectableValue !== editor) {
 			this.setState({
-				selectableValue: editor
+				selectableValue: editor,
 			});
 		}
-	}
-
+	};
 
 	onEditorChange = () => {
-		const {contentError, publishError} = this.state;
+		const { contentError, publishError } = this.state;
 
 		if (contentError && contentError.clear) {
 			contentError.clear();
@@ -187,41 +186,53 @@ export default class ContentEditor extends React.Component {
 		if (publishError && publishError.clear) {
 			publishError.clear();
 		}
-	}
+	};
 
-
-	onEditorContentChange = (rst) => {
-		const {contentPackage} = this.props;
-		const {version} = this.state;
+	onEditorContentChange = rst => {
+		const { contentPackage } = this.props;
+		const { version } = this.state;
 
 		if (Store.isSaving) {
 			this.pendingRST = rst;
 		} else {
 			saveContentPackageRST(contentPackage, rst, version);
 		}
+	};
 
-	}
-
-
-	render () {
-		const {contentPackage, course, readOnly} = this.props;
-		const {selectableID, selectableValue, rstContents, contentError, publishError} = this.state;
+	render() {
+		const { contentPackage, course, readOnly } = this.props;
+		const {
+			selectableID,
+			selectableValue,
+			rstContents,
+			contentError,
+			publishError,
+		} = this.state;
 		const error = contentError || publishError;
-		const cls = cx('content-editing-editor-container', {error});
+		const cls = cx('content-editing-editor-container', { error });
 
 		if (readOnly) {
-			return (<ReadOnly />);
+			return <ReadOnly />;
 		}
 
 		return (
-			<Selection.Component className={cls} id={selectableID} value={selectableValue}>
-				{error && (<ErrorCmp className="content-editing-editor-error" error={error} />)}
+			<Selection.Component
+				className={cls}
+				id={selectableID}
+				value={selectableValue}
+			>
+				{error && (
+					<ErrorCmp
+						className="content-editing-editor-error"
+						error={error}
+					/>
+				)}
 
 				<div className="content">
 					{rstContents === LOADING ? (
 						<Loading.Mask message={t('Loading')} />
 					) : rstContents instanceof Error ? (
-						<EmptyState header={t('failedHeader')}/>
+						<EmptyState header={t('failedHeader')} />
 					) : (
 						<RSTEditor
 							ref={this.setEditorRef}

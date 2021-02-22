@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {getScrollParent} from '@nti/lib-dom';
+import { getScrollParent } from '@nti/lib-dom';
 import Logger from '@nti/util-logger';
 import classnames from 'classnames/bind';
 
@@ -12,8 +12,7 @@ const clamp = (v, min = 0, max = 1) => Math.min(max, Math.max(v, min));
 const ASPECT_RATIO = 0.5625;
 
 export default class Sticky extends React.Component {
-
-	constructor (props) {
+	constructor(props) {
 		super(props);
 		this.domNode = React.createRef();
 	}
@@ -25,10 +24,10 @@ export default class Sticky extends React.Component {
 		// it has no effect in Edge because Edge snapshots all of the animation values up front. Toggling
 		// the animation name back and forth between identical @keyframe declarations forces it to refresh.
 		// I don't like it either, but here we are.
-		edgeAnimationHack: PropTypes.func
-	}
+		edgeAnimationHack: PropTypes.func,
+	};
 
-	state = {}
+	state = {};
 
 	listen = (emitter, event, handler) => {
 		if (!emitter || !emitter.addEventListener) {
@@ -39,12 +38,14 @@ export default class Sticky extends React.Component {
 		emitter.addEventListener(event, handler);
 		this.unsubscribe = [
 			...(this.unsubscribe || []),
-			() => emitter.removeEventListener(event, handler)
+			() => emitter.removeEventListener(event, handler),
 		];
-	}
+	};
 
-	componentDidMount () {
-		const {domNode: {current: domNode}} = this;
+	componentDidMount() {
+		const {
+			domNode: { current: domNode },
+		} = this;
 
 		if (!domNode) {
 			logger.warn('Unable to locate dom node. Bailing.');
@@ -61,21 +62,21 @@ export default class Sticky extends React.Component {
 
 	setMinHeight = () => {
 		const {
-			domNode: {current: domNode},
-			state: {aspectRatio: ar}
+			domNode: { current: domNode },
+			state: { aspectRatio: ar },
 		} = this;
 
-		const aspectRatio = ar || (
-			domNode
+		const aspectRatio =
+			ar ||
+			(domNode
 				? domNode.offsetHeight / domNode.offsetWidth
-				: ASPECT_RATIO
-		);
+				: ASPECT_RATIO);
 
 		const minHeight = domNode.offsetWidth * aspectRatio;
-		this.setState({minHeight, aspectRatio});
-	}
+		this.setState({ minHeight, aspectRatio });
+	};
 
-	componentWillUnmount () {
+	componentWillUnmount() {
 		(this.unsubscribe || []).forEach(fn => fn());
 		delete this.unsubscribe;
 
@@ -87,7 +88,7 @@ export default class Sticky extends React.Component {
 
 	computePct = (minHeight = this.state.minHeight) => {
 		const {
-			domNode: {current: domNode}
+			domNode: { current: domNode },
 		} = this;
 
 		if (!domNode) {
@@ -95,38 +96,43 @@ export default class Sticky extends React.Component {
 		}
 
 		return clamp((minHeight - domNode.offsetTop) / minHeight);
-	}
+	};
 
 	recompute = () => {
 		const {
-			state: {aspectRatio: stateAspectRatio, pct: statePct, minHeight: stateMinHeight},
-			domNode: {current: domNode}
+			state: {
+				aspectRatio: stateAspectRatio,
+				pct: statePct,
+				minHeight: stateMinHeight,
+			},
+			domNode: { current: domNode },
 		} = this;
 
-		const aspectRatio = stateAspectRatio || (
-			domNode
+		const aspectRatio =
+			stateAspectRatio ||
+			(domNode
 				? domNode.offsetHeight / domNode.offsetWidth
-				: ASPECT_RATIO
-		);
+				: ASPECT_RATIO);
 
 		const minHeight = domNode.offsetWidth * aspectRatio;
 		const pct = this.computePct(minHeight);
 
-		const anythingChanged = pct !== statePct || minHeight !== stateMinHeight || aspectRatio !== stateAspectRatio;
+		const anythingChanged =
+			pct !== statePct ||
+			minHeight !== stateMinHeight ||
+			aspectRatio !== stateAspectRatio;
 
 		if (anythingChanged) {
 			this.setState({
 				minHeight,
 				pct,
-				aspectRatio
+				aspectRatio,
 			});
 		}
-	}
+	};
 
 	onResize = () => {
-		const {
-			resizeTimeout
-		} = this;
+		const { resizeTimeout } = this;
 
 		if (resizeTimeout) {
 			clearTimeout(resizeTimeout);
@@ -134,33 +140,35 @@ export default class Sticky extends React.Component {
 		}
 
 		setTimeout(this.recompute, 200);
-	}
+	};
 
 	onScroll = e => {
 		const {
-			state: {pct},
+			state: { pct },
 		} = this;
 
 		const p = this.computePct();
 
 		if (pct == null || p !== pct) {
-			this.setState({pct: p});
+			this.setState({ pct: p });
 		}
-	}
+	};
 
-	render () {
-		const {edgeAnimationHack, ...others} = this.props;
-		const {minHeight, pct = 1} = this.state;
+	render() {
+		const { edgeAnimationHack, ...others } = this.props;
+		const { minHeight, pct = 1 } = this.state;
 
-		const style = minHeight ? {
-			minHeight: `${minHeight}px`,
-			animationDelay: `-${1 - pct}s`,
-			...(edgeAnimationHack ? edgeAnimationHack() : {})
-		} : {};
+		const style = minHeight
+			? {
+					minHeight: `${minHeight}px`,
+					animationDelay: `-${1 - pct}s`,
+					...(edgeAnimationHack ? edgeAnimationHack() : {}),
+			  }
+			: {};
 
 		const props = {
 			...others,
-			style
+			style,
 		};
 
 		return (

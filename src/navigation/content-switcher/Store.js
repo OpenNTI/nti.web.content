@@ -1,20 +1,23 @@
-import {Stores, Interfaces} from '@nti/lib-store';
-import {decorate} from '@nti/lib-commons';
-import {getAppUserScopedStorage} from '@nti/web-client';
+import { Stores, Interfaces } from '@nti/lib-store';
+import { decorate } from '@nti/lib-commons';
+import { getAppUserScopedStorage } from '@nti/web-client';
 
-import {insertInto, updateData} from './switcher-data';
+import { insertInto, updateData } from './switcher-data';
 
 const MAX_SIZE = 5;
 
-function trimItems (items) {
+function trimItems(items) {
 	const counts = {};
 	const trimmed = [];
 
 	for (let item of items) {
-		const {type} = item;
+		const { type } = item;
 
-		if (!counts[type]) { counts[type] = 1; }
-		else { counts[type]++; }
+		if (!counts[type]) {
+			counts[type] = 1;
+		} else {
+			counts[type]++;
+		}
 
 		if (counts[type] <= MAX_SIZE) {
 			trimmed.push(item);
@@ -24,11 +27,11 @@ function trimItems (items) {
 	return trimmed;
 }
 
-function Storage () {
+function Storage() {
 	let storage;
 
 	return {
-		read: (key) => {
+		read: key => {
 			storage = storage || getAppUserScopedStorage();
 
 			const value = storage.getItem(key);
@@ -45,49 +48,47 @@ function Storage () {
 			storage = storage || getAppUserScopedStorage();
 
 			return storage.setItem(key, JSON.stringify(value));
-		}
+		},
 	};
 }
 
 class ContentSwitcherStore extends Stores.SimpleStore {
-	static Singleton = true
+	static Singleton = true;
 
-	static setActiveContent (...args) {
+	static setActiveContent(...args) {
 		const store = ContentSwitcherStore.getStore();
 
 		store.setActiveContent(...args);
 	}
 
-	static updateContent (...args) {
+	static updateContent(...args) {
 		const store = ContentSwitcherStore.getStore();
 
 		store.updateContent(...args);
 	}
 
-	StatefulProperties = ['items']
-	StateKey = 'content-switcher'
-	PersistState = true
+	StatefulProperties = ['items'];
+	StateKey = 'content-switcher';
+	PersistState = true;
 
-
-	async setActiveContent (content, route) {
+	async setActiveContent(content, route) {
 		try {
 			const items = await insertInto(this.get('items'), content, route);
 
 			this.set({
-				items: trimItems(items)
+				items: trimItems(items),
 			});
 		} catch (e) {
 			//swallow
 		}
 	}
 
-
-	async updateContent (content, route) {
+	async updateContent(content, route) {
 		try {
 			const items = await updateData(this.get('items'), content, route);
 
 			this.set({
-				items: trimItems(items)
+				items: trimItems(items),
 			});
 		} catch (e) {
 			//swallow
@@ -96,5 +97,5 @@ class ContentSwitcherStore extends Stores.SimpleStore {
 }
 
 export default decorate(ContentSwitcherStore, [
-	Interfaces.Stateful('content-switcher', ['items'], Storage())
+	Interfaces.Stateful('content-switcher', ['items'], Storage()),
 ]);

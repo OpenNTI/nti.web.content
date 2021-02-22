@@ -1,6 +1,8 @@
-@import "../assets/editor";
+@import '../assets/editor';
 
 //Add these selectors to help with specificity
-.content-editing-editor-container .content-editing-rst-editor .nti-course-figure-block {
+.content-editing-editor-container
+	.content-editing-rst-editor
+	.nti-course-figure-block {
 	@include block-editor('figure');
 }

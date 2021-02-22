@@ -1,4 +1,4 @@
-@import "~@nti/style-common";
+@import '~@nti/style-common';
 
 .breadcrumb-sibling-menu {
 	&:not(.flyout-trigger) {
@@ -57,7 +57,8 @@
 		font-weight: 500;
 		font-size: 12px;
 
-		&, * {
+		&,
+		* {
 			color: var(--primary-blue);
 			vertical-align: top;
 			line-height: 59px;
@@ -89,7 +90,9 @@
 			cursor: pointer;
 			max-width: 60%;
 
-			&:last-of-type { flex: 2 0 auto; }
+			&:last-of-type {
+				flex: 2 0 auto;
+			}
 
 			&:hover,
 			&:last-of-type:not(.no-children) {

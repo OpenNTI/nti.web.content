@@ -2,43 +2,46 @@ import './BookCard.scss';
 import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
-import {scoped} from '@nti/lib-locale';
-import {LinkTo} from '@nti/web-routing';
-import {Presentation} from '@nti/web-commons';
+import { scoped } from '@nti/lib-locale';
+import { LinkTo } from '@nti/web-routing';
+import { Presentation } from '@nti/web-commons';
 
 //TODO: unify this card component with the course card component
 
 const t = scoped('content.card.Book', {
 	byline: 'By %(byline)s',
-	preview: 'Preview'
+	preview: 'Preview',
 });
 
 BookCard.propTypes = {
 	className: PropTypes.string,
-	bundle: PropTypes.object.isRequired
+	bundle: PropTypes.object.isRequired,
 };
 
-export default function BookCard ({className, bundle, ...props}) {
-	const {byline, author, title} = bundle;
+export default function BookCard({ className, bundle, ...props }) {
+	const { byline, author, title } = bundle;
 	const edition = null; // waiting server support; '4th Edition';
 
 	return (
 		<LinkTo.Object object={bundle}>
-			<div className={cx('book-card', 'book-card-container', className)} {...props} >
+			<div
+				className={cx('book-card', 'book-card-container', className)}
+				{...props}
+			>
 				<Presentation.Asset contentPackage={bundle} type="landing">
 					<img className="bundle-card-image" />
 				</Presentation.Asset>
 				<label className="book-card-label">
 					{edition && <div className="book-edition">{edition}</div>}
 					<h3 className="book-title">{title}</h3>
-					<address className="book-author">{t('byline', {byline: byline || author})}</address>
+					<address className="book-author">
+						{t('byline', { byline: byline || author })}
+					</address>
 				</label>
 				{!bundle.isPublished() && (
 					<ul className="badges">
 						<li>
-							<div className="preview">
-								{t('preview')}
-							</div>
+							<div className="preview">{t('preview')}</div>
 						</li>
 					</ul>
 				)}

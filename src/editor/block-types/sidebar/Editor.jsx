@@ -5,100 +5,105 @@ import PropTypes from 'prop-types';
 import TitleEditor from './parts/TitleEditor';
 import BodyEditor from './parts/BodyEditor';
 
-function getBodyFromBlock (block) {
+function getBodyFromBlock(block) {
 	const data = block.get('data');
 	const body = data.get('body') || [];
 
 	return body.join('\n');
 }
 
-
-function getTitleFromBlock (block) {
+function getTitleFromBlock(block) {
 	const data = block.get('data');
 
 	return data.get('arguments') || '';
 }
 
 export default class NTISidebar extends React.Component {
-	static getBodyFromBlock = getBodyFromBlock
+	static getBodyFromBlock = getBodyFromBlock;
 
 	static propTypes = {
 		block: PropTypes.object,
 		blockProps: PropTypes.shape({
 			setReadOnly: PropTypes.func,
 			setBlockData: PropTypes.func,
-			removeBlock: PropTypes.func
-		})
-	}
+			removeBlock: PropTypes.func,
+		}),
+	};
 
-	state = {body: '', title: ''}
+	state = { body: '', title: '' };
 
-	componentDidMount () {
+	componentDidMount() {
 		this.setupFor(this.props);
 	}
 
-	componentDidUpdate (prevProps) {
-		const {block:oldBlock} = prevProps;
-		const {block:newBlock} = this.props;
+	componentDidUpdate(prevProps) {
+		const { block: oldBlock } = prevProps;
+		const { block: newBlock } = this.props;
 
 		if (oldBlock !== newBlock) {
 			this.setupFor(this.props);
 		}
 	}
 
-	setupFor (props) {
-		const {block} = this.props;
+	setupFor(props) {
+		const { block } = this.props;
 
 		this.setState({
 			body: getBodyFromBlock(block),
-			title: getTitleFromBlock(block)
+			title: getTitleFromBlock(block),
 		});
 	}
 
-
 	setReadOnly = (...args) => {
 		// const {blockProps: {setReadOnly}} = this.props;
-
 		// if (setReadOnly) {
 		// 	setReadOnly(...args);
 		// }
-	}
+	};
 
-
-	onBodyChange = (value) => {
-		const {blockProps: {setBlockData}} = this.props;
-
-		if (setBlockData) {
-			setBlockData({
-				body: value.split('\n')
-			}, true);
-		}
-	}
-
-
-	onTitleChange = (value) => {
-		const {blockProps: {setBlockData}} = this.props;
+	onBodyChange = value => {
+		const {
+			blockProps: { setBlockData },
+		} = this.props;
 
 		if (setBlockData) {
-			setBlockData({
-				arguments: value
-			}, true);
+			setBlockData(
+				{
+					body: value.split('\n'),
+				},
+				true
+			);
 		}
-	}
+	};
 
+	onTitleChange = value => {
+		const {
+			blockProps: { setBlockData },
+		} = this.props;
+
+		if (setBlockData) {
+			setBlockData(
+				{
+					arguments: value,
+				},
+				true
+			);
+		}
+	};
 
 	onRemove = () => {
-		const {blockProps: {removeBlock}} = this.props;
+		const {
+			blockProps: { removeBlock },
+		} = this.props;
 
 		if (removeBlock) {
 			removeBlock();
 		}
-	}
+	};
 
-
-	render () {
-		const {block} = this.props;
-		const {body, title} = this.state;
+	render() {
+		const { block } = this.props;
+		const { body, title } = this.state;
 		const blockId = block.getKey();
 
 		return (

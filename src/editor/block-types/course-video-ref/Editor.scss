@@ -1,6 +1,8 @@
-@import "~@nti/style-common";
+@import '~@nti/style-common';
 
-.content-editing-editor-container .content-editing-rst-editor .nti-course-video-block {
+.content-editing-editor-container
+	.content-editing-rst-editor
+	.nti-course-video-block {
 	margin: 0.875rem 0;
 	box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.15);
 
@@ -10,7 +12,8 @@
 		.public-DraftEditor-content {
 			padding: 0;
 
-			& > div, & > div > div {
+			& > div,
+			& > div > div {
 				margin: 0;
 			}
 		}

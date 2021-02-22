@@ -5,14 +5,16 @@ import cx from 'classnames';
 import { scoped } from '@nti/lib-locale';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 
-const Transition = (props) => <CSSTransition classNames="fade-in-out" timeout={400} {...props}/> ;
+const Transition = props => (
+	<CSSTransition classNames="fade-in-out" timeout={400} {...props} />
+);
 
 export const CONTENT = 'content';
 export const OPTIONS = 'options';
 
 const DEFAULT_TEXT = {
 	showOptions: 'Options',
-	showContent: 'Done'
+	showContent: 'Done',
 };
 
 const t = scoped('web-content.ContentOptionsSwitcher', DEFAULT_TEXT);
@@ -24,109 +26,101 @@ export default class ContentOptionSwitcher extends React.Component {
 		options: PropTypes.node,
 		hideOptions: PropTypes.bool,
 		active: PropTypes.oneOf([CONTENT, OPTIONS]),
-		getString: PropTypes.func
-	}
-
+		getString: PropTypes.func,
+	};
 
 	static defaultProps = {
-		active: CONTENT
-	}
+		active: CONTENT,
+	};
 
-	constructor (props) {
+	constructor(props) {
 		super(props);
 
-		const {active} = props;
+		const { active } = props;
 
 		this.state = {
-			active: active
+			active: active,
 		};
 	}
 
-	get getString () {
-		const {getString} = this.props;
+	get getString() {
+		const { getString } = this.props;
 
 		return getString ? t.override(getString) : t;
 	}
 
-
-	componentDidUpdate (prevProps) {
-		const {active:nextActive} = this.props;
-		const {active:oldActive} = prevProps;
+	componentDidUpdate(prevProps) {
+		const { active: nextActive } = this.props;
+		const { active: oldActive } = prevProps;
 
 		if (nextActive !== oldActive) {
-			this.setState({active:nextActive});
+			this.setState({ active: nextActive });
 		}
 	}
 
-
 	showContent = () => {
 		this.setState({
-			active: CONTENT
+			active: CONTENT,
 		});
-	}
-
+	};
 
 	showOptions = () => {
 		this.setState({
-			active: OPTIONS
+			active: OPTIONS,
 		});
-	}
+	};
 
-
-	render () {
-		const {className} = this.props;
-		const {active} = this.state;
-		const cls = cx('content-option-switcher', className, {active});
+	render() {
+		const { className } = this.props;
+		const { active } = this.state;
+		const cls = cx('content-option-switcher', className, { active });
 
 		return (
 			<div className={cls}>
 				<TransitionGroup>
-					{active === CONTENT ?
-						this.renderContent() :
-						this.renderOptions()
-					}
+					{active === CONTENT
+						? this.renderContent()
+						: this.renderOptions()}
 				</TransitionGroup>
 			</div>
 		);
 	}
 
-
-	renderContent () {
-		const {content, hideOptions} = this.props;
+	renderContent() {
+		const { content, hideOptions } = this.props;
 
 		return (
 			<Transition key="content">
 				<div className="content-container">
-					{hideOptions ?
-						null :
-						(
-							<div className="show-options toggle" onClick={this.showOptions}>
-								<i className="icon-settings small" />
-								<span>{this.getString('showOptions')}</span>
-							</div>
-						)
-					}
+					{hideOptions ? null : (
+						<div
+							className="show-options toggle"
+							onClick={this.showOptions}
+						>
+							<i className="icon-settings small" />
+							<span>{this.getString('showOptions')}</span>
+						</div>
+					)}
 					{content}
 				</div>
 			</Transition>
 		);
 	}
 
-
-	renderOptions () {
-		const {options, hideOptions} = this.props;
+	renderOptions() {
+		const { options, hideOptions } = this.props;
 
 		return (
 			<Transition key="options">
 				<div className="options-container">
-					{hideOptions ?
-						null :
-						(
-							<div className="show-content toggle" onClick={this.showContent}>
-								<span>{this.getString('showContent')}</span>
-							</div>
-						)
-					}
+					{hideOptions ? null : (
+						<div
+							className="show-content toggle"
+							onClick={this.showContent}
+						>
+							<span>{this.getString('showContent')}</span>
+						</div>
+					)}
 					{options}
 				</div>
 			</Transition>

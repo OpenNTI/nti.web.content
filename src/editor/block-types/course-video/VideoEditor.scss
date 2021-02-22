@@ -1,4 +1,4 @@
-@import "~@nti/style-common";
+@import '~@nti/style-common';
 
 .video-editor-blank {
 	padding: 6.4% 15% 12.8% 15%;
@@ -53,7 +53,7 @@
 					font-style: normal !important;
 				}
 
-				& > a[role="button"] {
+				& > a[role='button'] {
 					flex: 68px 0 0;
 					padding: 5px 16px 8px;
 					line-height: 19px;

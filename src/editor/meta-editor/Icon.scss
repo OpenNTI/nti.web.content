@@ -1,4 +1,4 @@
-@import "~@nti/style-common";
+@import '~@nti/style-common';
 
 .content-icon-editor {
 	width: rem-calc(100px);
@@ -11,13 +11,16 @@
 	&.read-only {
 		pointer-events: none;
 
-		.icon, .clear, .placeholder {
+		.icon,
+		.clear,
+		.placeholder {
 			display: none;
 		}
 	}
 
 	&.file-over {
-		.placeholder, .icon {
+		.placeholder,
+		.icon {
 			&::after {
 				content: '';
 				position: absolute;
@@ -30,7 +33,7 @@
 		}
 	}
 
-	input[type=file] {
+	input[type='file'] {
 		position: absolute;
 		top: 0;
 		bottom: 0;
@@ -58,7 +61,7 @@
 			color: var(--tertiary-grey);
 			border-radius: 60px;
 			border: 1px solid var(--border-grey-light);
-			padding-left: 4px;//this is to just make it look more centered
+			padding-left: 4px; //this is to just make it look more centered
 			position: absolute;
 			top: 50%;
 			left: 50%;
@@ -99,7 +102,7 @@
 			color: white;
 			background-color: var(--primary-blue);
 			border-radius: 2px;
-			padding-left: 4px;//this is just to make it look more centered
+			padding-left: 4px; //this is just to make it look more centered
 			position: absolute;
 			top: 5px;
 			left: 5px;

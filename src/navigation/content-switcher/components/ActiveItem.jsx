@@ -2,23 +2,22 @@ import './ActiveItem.scss';
 import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
-import {Presentation} from '@nti/web-commons';
-import {LinkTo} from '@nti/web-routing';
-import {scoped} from '@nti/lib-locale';
-import {toCSSClassName} from '@nti/lib-dom';
+import { Presentation } from '@nti/web-commons';
+import { LinkTo } from '@nti/web-routing';
+import { scoped } from '@nti/lib-locale';
+import { toCSSClassName } from '@nti/lib-dom';
 
 const t = scoped('content.navigation.content-switcher.ActiveItem', {
 	course: {
 		edit: 'Edit Course Information',
-		publish: 'Course Visibility'
+		publish: 'Course Visibility',
 	},
 	book: {
 		edit: 'Edit Book Information',
-		publish: 'Book Visibility'
+		publish: 'Book Visibility',
 	},
-	section: 'Sections'
+	section: 'Sections',
 });
-
 
 export default class ContentNavigationSwitcherActiveItem extends React.Component {
 	static propTypes = {
@@ -29,12 +28,12 @@ export default class ContentNavigationSwitcherActiveItem extends React.Component
 			family: PropTypes.array,
 			canEdit: PropTypes.bool,
 			canDelete: PropTypes.bool,
-			canPublish: PropTypes.bool
-		}).isRequired
-	}
+			canPublish: PropTypes.bool,
+		}).isRequired,
+	};
 
-	render () {
-		const {item} = this.props;
+	render() {
+		const { item } = this.props;
 
 		return (
 			<div className="content-navigation-content-switcher-active-item">
@@ -44,14 +43,16 @@ export default class ContentNavigationSwitcherActiveItem extends React.Component
 		);
 	}
 
-
-	renderActive (item) {
-		const getString = (key) => t(`${item.type || 'course'}.${key}`);
+	renderActive(item) {
+		const getString = key => t(`${item.type || 'course'}.${key}`);
 
 		const edition = null; // stubbed out for future support; e.g. '4th Edition';
 
 		return (
-			<div className="item" data-testid={`active-item-${toCSSClassName(item.title)}`}>
+			<div
+				className="item"
+				data-testid={`active-item-${toCSSClassName(item.title)}`}
+			>
 				<Presentation.Asset contentPackage={item} type="thumb">
 					<img className="icon" alt={item.title} />
 				</Presentation.Asset>
@@ -59,22 +60,38 @@ export default class ContentNavigationSwitcherActiveItem extends React.Component
 					<div className="header">
 						{edition && <div className="edition">{edition}</div>}
 						<div className="title">{item.title}</div>
-						{item.canDelete &&  (
-							<LinkTo.Object className="delete" object={item} context="delete" data-testid="delete-item">
-								<i className="icon-delete" aria-label="delete"/>
+						{item.canDelete && (
+							<LinkTo.Object
+								className="delete"
+								object={item}
+								context="delete"
+								data-testid="delete-item"
+							>
+								<i
+									className="icon-delete"
+									aria-label="delete"
+								/>
 							</LinkTo.Object>
 						)}
 					</div>
 					{item.canEdit && (
-						<LinkTo.Object className="edit" object={item} context="edit" data-testid="edit-item">
+						<LinkTo.Object
+							className="edit"
+							object={item}
+							context="edit"
+							data-testid="edit-item"
+						>
 							<span>{getString('edit')}</span>
 						</LinkTo.Object>
 					)}
-					{!item.canEdit && (
-						<span className="edit-placeholder" />
-					)}
+					{!item.canEdit && <span className="edit-placeholder" />}
 					{item.canPublish && (
-						<LinkTo.Object className="publish" object={item} context="publish" data-testid="publish-item">
+						<LinkTo.Object
+							className="publish"
+							object={item}
+							context="publish"
+							data-testid="publish-item"
+						>
 							<span>{getString('publish')}</span>
 						</LinkTo.Object>
 					)}
@@ -83,23 +100,24 @@ export default class ContentNavigationSwitcherActiveItem extends React.Component
 		);
 	}
 
+	renderFamily(item) {
+		const { family } = item;
 
-	renderFamily (item) {
-		const {family} = item;
-
-		if (!family || !family.length) { return null; }
+		if (!family || !family.length) {
+			return null;
+		}
 
 		return (
 			<div className="family">
-				<div className="heading">
-					{t('section')}
-				</div>
+				<div className="heading">{t('section')}</div>
 				<ul>
 					{family.map((fam, index) => {
 						return (
 							<li key={fam.id || index}>
 								<LinkTo.Object
-									className={cx('family-item-link', {current: fam.current})}
+									className={cx('family-item-link', {
+										current: fam.current,
+									})}
 									object={fam}
 								>
 									<span>{fam.title}</span>
