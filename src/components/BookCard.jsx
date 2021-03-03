@@ -23,7 +23,7 @@ export default function BookCard({ className, bundle, ...props }) {
 	const edition = null; // waiting server support; '4th Edition';
 
 	return (
-		<LinkTo.Object object={bundle}>
+		<LinkTo.Object object={bundle} data-testid="book-card">
 			<div
 				className={cx('book-card', 'book-card-container', className)}
 				{...props}
