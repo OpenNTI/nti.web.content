@@ -105,32 +105,40 @@
 		}
 	}
 
-	@include respond-to(handhelds) {
-		height: 250px;
+	&.list-item {
+		$height: 90px;
+
+		height: $height;
 		padding: 0;
-
-		.book-title {
-			padding: 0 15px;
-			margin-top: 0.2rem;
-			font-weight: 300;
-			white-space: normal;
-			display: block;
-		}
-
-		.book-author {
-			padding: 0 15px;
-			margin-top: 5px;
-			font-weight: 400;
-			white-space: normal;
-			display: block;
-		}
+		display: flex;
+		flex-direction: row;
+		justify-content: stretch;
 
 		.bundle-card-image {
-			height: 150px;
+			flex: 0 0 $height;
+			max-height: $height;
+			object-fit: cover;
 		}
 
 		.bundle-card-image-background::before {
-			height: 150px;
+			height: $height;
+		}
+
+		.book-card-label {
+			flex: 1 1 100%;
+			padding: 0 10px;
+			align-self: center;
+		}
+
+		.book-title {
+			margin-top: 0.2rem;
+			white-space: normal;
+		}
+
+		.book-author {
+			margin-top: 5px;
+			font-weight: 600;
+			white-space: normal;
 		}
 
 		ul.badges {
