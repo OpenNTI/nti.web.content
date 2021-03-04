@@ -34,14 +34,12 @@ BookCard.propTypes = {
 export default function BookCard({
 	className,
 	bundle,
-	variant = 'auto',
+	variant: v = 'auto',
 	...props
 }) {
 	const { byline, author, title } = bundle;
 	const edition = null; // waiting server support; '4th Edition';
-	if (variant === 'auto') {
-		variant = useListItemVariant();
-	}
+	const variant = useListItemVariant(v);
 
 	return (
 		<LinkTo.Object object={bundle} data-testid="book-card">
