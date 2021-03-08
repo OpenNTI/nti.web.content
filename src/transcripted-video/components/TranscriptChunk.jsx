@@ -18,9 +18,6 @@ const ALL_CUES_QUERY = `.${CueStyles.cue}`; // querySelector for cue nodes
 const VTT_CUES_QUERY = `${ALL_CUES_QUERY}:not([data-cue-id])`; // querySelector for vtt (non-slide) nodes
 const MOUSE_MOVE_THROTTLE = 200;
 
-const cueClassPrefix = (cue = {}) =>
-	'text' in cue ? 'cue' : 'image' in cue ? 'slide' : 'unknown';
-
 export default class TranscriptChunk extends React.Component {
 	static propTypes = {
 		start: PropTypes.number, // chunk start time in seconds
@@ -280,9 +277,9 @@ export default class TranscriptChunk extends React.Component {
 					<span>{chunkStartString}</span>
 				</div>
 				<p className={cx('cues')}>
-					{cues.map(cue => (
+					{cues.map((cue, key) => (
 						<Cue
-							key={`${cueClassPrefix(cue)}-${cue.startTime}-cue`}
+							key={key}
 							active={isActive(cue.startTime, cue.endTime)}
 							onClick={onCueClick}
 							cue={cue}
