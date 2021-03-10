@@ -2,6 +2,7 @@ import './Node.scss';
 import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
+
 import { encodeForURI } from '@nti/lib-ntiids';
 import { ActiveState } from '@nti/web-commons';
 

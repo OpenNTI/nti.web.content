@@ -1,6 +1,7 @@
 import './Editor.scss';
 import React from 'react';
 import PropTypes from 'prop-types';
+
 import Video, { Editor } from '@nti/web-video';
 import { getService } from '@nti/web-client';
 import { scoped } from '@nti/lib-locale';

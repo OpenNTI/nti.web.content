@@ -2,6 +2,7 @@ import './View.scss';
 import PropTypes from 'prop-types';
 import React from 'react';
 import cx from 'classnames';
+
 import { scoped } from '@nti/lib-locale';
 import { Selection, Loading, EmptyState, Errors } from '@nti/web-commons';
 

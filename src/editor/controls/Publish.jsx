@@ -2,6 +2,7 @@ import './Publish.scss';
 import PropTypes from 'prop-types';
 import React from 'react';
 import cx from 'classnames';
+
 import { scoped } from '@nti/lib-locale';
 import { Flyout, Loading, HOC } from '@nti/web-commons';
 

@@ -1,8 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import classnames from 'classnames/bind';
+
 import { decorate } from '@nti/lib-commons';
 import { decodeFromURI } from '@nti/lib-ntiids';
-import classnames from 'classnames/bind';
 
 import Store from '../Store';
 

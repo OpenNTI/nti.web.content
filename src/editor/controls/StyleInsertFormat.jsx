@@ -1,6 +1,7 @@
 import './StyleInsertFormat.scss';
 import React from 'react';
 import { BLOCK_TYPE } from 'draft-js-utils';
+
 import {
 	BoldButton,
 	ItalicButton,

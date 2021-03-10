@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Component as Vid } from '@nti/web-video';
 import classnames from 'classnames/bind';
+
+import { Component as Vid } from '@nti/web-video';
 
 import styles from './Video.css';
 import Sticky from './Sticky';

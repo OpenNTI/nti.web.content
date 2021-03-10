@@ -2,6 +2,7 @@ import './Publication.scss';
 import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
+
 import { decorate } from '@nti/lib-commons';
 import { scoped } from '@nti/lib-locale';
 import { Input } from '@nti/web-commons';

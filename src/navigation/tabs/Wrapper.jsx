@@ -1,8 +1,9 @@
 import URL from 'url';
 
 import React from 'react';
-import { useLocation } from '@nti/web-routing';
 import PropTypes from 'prop-types';
+
+import { useLocation } from '@nti/web-routing';
 
 import View from './View';
 

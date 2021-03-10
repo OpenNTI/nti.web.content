@@ -1,4 +1,5 @@
 import React from 'react';
+
 import { LinkButton } from '@nti/web-editor';
 
 export default function InsertFormat() {

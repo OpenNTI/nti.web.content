@@ -2,6 +2,7 @@ import './View.scss';
 import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
+
 import { scoped } from '@nti/lib-locale';
 import { Banner, Error as Err, Loading, Search, Tabs } from '@nti/web-commons';
 import { buffer } from '@nti/lib-commons';

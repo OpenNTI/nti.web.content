@@ -2,8 +2,9 @@ import './ContentOptionSwitcher.scss';
 import PropTypes from 'prop-types';
 import React from 'react';
 import cx from 'classnames';
-import { scoped } from '@nti/lib-locale';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
+
+import { scoped } from '@nti/lib-locale';
 
 const Transition = props => (
 	<CSSTransition classNames="fade-in-out" timeout={400} {...props} />

@@ -1,9 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import classnames from 'classnames/bind';
+
 import { parent } from '@nti/lib-dom';
 import { DateTime } from '@nti/web-commons';
 import Logger from '@nti/util-logger';
-import classnames from 'classnames/bind';
 
 import { padTimeString } from '../util';
 

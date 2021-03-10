@@ -1,4 +1,5 @@
 import { WebVTT, VTTCue } from 'vtt.js';
+
 import { Stores } from '@nti/lib-store';
 import Logger from '@nti/util-logger';
 

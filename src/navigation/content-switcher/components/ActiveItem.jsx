@@ -2,6 +2,7 @@ import './ActiveItem.scss';
 import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
+
 import { Presentation } from '@nti/web-commons';
 import { LinkTo } from '@nti/web-routing';
 import { scoped } from '@nti/lib-locale';

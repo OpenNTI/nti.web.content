@@ -2,6 +2,7 @@ import url from 'url';
 
 import React from 'react';
 import PropTypes from 'prop-types';
+
 import { EmptyState } from '@nti/web-commons';
 import Video from '@nti/web-video';
 

@@ -1,5 +1,6 @@
 import './Button.scss';
 import React from 'react';
+
 import { scoped } from '@nti/lib-locale';
 import { BLOCKS } from '@nti/web-editor';
 

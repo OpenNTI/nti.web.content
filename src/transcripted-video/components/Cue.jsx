@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { rawContent } from '@nti/lib-commons';
 import classnames from 'classnames/bind';
+
+import { rawContent } from '@nti/lib-commons';
 
 import Annotatable from '../annotatable';
 

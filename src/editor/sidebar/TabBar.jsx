@@ -1,5 +1,6 @@
 import './TabBar.scss';
 import React from 'react';
+
 import { scoped } from '@nti/lib-locale';
 
 const DEFAULT_TEXT = {

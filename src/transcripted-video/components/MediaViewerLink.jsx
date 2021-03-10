@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { LinkTo } from '@nti/web-routing';
 import classnames from 'classnames/bind';
+
+import { LinkTo } from '@nti/web-routing';
 
 import styles from './MediaViewerLink.css';
 

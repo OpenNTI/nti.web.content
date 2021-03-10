@@ -1,6 +1,7 @@
 import './View.scss';
 import PropTypes from 'prop-types';
 import React from 'react';
+
 import { StickyElement, StickyContainer } from '@nti/web-commons';
 
 import { ContentOptionSwitcher } from '../../common';

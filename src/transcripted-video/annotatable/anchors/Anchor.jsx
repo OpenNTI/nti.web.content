@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+
 import { parent } from '@nti/lib-dom';
 
 const ATTRIBUTE = 'data-anchor';

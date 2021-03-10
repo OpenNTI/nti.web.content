@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames/bind';
+
 import { getScrollParent } from '@nti/lib-dom';
 
 import { groupNotesInContent } from '../anchors';

@@ -1,10 +1,11 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import { SelectionState } from 'draft-js';
+
 import { HOC, Errors } from '@nti/web-commons';
 import { scoped } from '@nti/lib-locale';
 import { Editor, Plugins, Parsers, BLOCKS, STYLES } from '@nti/web-editor';
 import { Parsers as ReadingParsers } from '@nti/web-reading';
-import { SelectionState } from 'draft-js';
 
 import { CustomRenderers, CustomStyles } from '../block-types';
 

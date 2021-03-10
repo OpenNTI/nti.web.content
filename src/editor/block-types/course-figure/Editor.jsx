@@ -1,6 +1,7 @@
 import './Editor.scss';
 import React from 'react';
 import PropTypes from 'prop-types';
+
 import { ContentResources } from '@nti/web-commons';
 import { scoped } from '@nti/lib-locale';
 

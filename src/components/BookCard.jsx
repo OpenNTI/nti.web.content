@@ -2,6 +2,7 @@ import './BookCard.scss';
 import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
+
 import { scoped } from '@nti/lib-locale';
 import { LinkTo } from '@nti/web-routing';
 import { Presentation, Hooks } from '@nti/web-commons';

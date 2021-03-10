@@ -1,6 +1,7 @@
 import React from 'react';
-import { LinkTo } from '@nti/web-routing';
 import cx from 'classnames';
+
+import { LinkTo } from '@nti/web-routing';
 
 const Control = ({ cxt, obj, className, allPages }) => {
 	const controlClassName = cx(className, {

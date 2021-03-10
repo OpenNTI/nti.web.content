@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames/bind';
+
 import { LinkTo } from '@nti/web-routing';
 
 import styles from './ActionWidget.css';

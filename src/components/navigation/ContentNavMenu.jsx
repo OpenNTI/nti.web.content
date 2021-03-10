@@ -1,8 +1,9 @@
 import './ContentNavMenu.scss';
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Flyout } from '@nti/web-commons';
 import cx from 'classnames';
+
+import { Flyout } from '@nti/web-commons';
 import { scoped } from '@nti/lib-locale';
 
 const t = scoped('content.navigation.ContentNavMenu', {

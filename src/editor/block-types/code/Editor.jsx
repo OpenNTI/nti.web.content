@@ -1,6 +1,7 @@
 import './Editor.scss';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+
 import { NestedEditorWrapper } from '@nti/web-editor';
 
 import { onFocus, onBlur, onRemove } from '../course-common';

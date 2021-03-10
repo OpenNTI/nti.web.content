@@ -1,6 +1,7 @@
 import './Editor.scss';
 import React from 'react';
 import PropTypes from 'prop-types';
+
 import { scoped } from '@nti/lib-locale';
 
 import { IFRAME_DELETED_EVENT, addListener, removeListener } from '../Events';
