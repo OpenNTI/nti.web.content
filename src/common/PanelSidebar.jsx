@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import cx from 'classnames';
 
+import { reportError } from '@nti/web-client';
 import { FixedElement } from '@nti/web-commons';
 import Logger from '@nti/util-logger';
 
@@ -10,6 +11,7 @@ const logger = Logger.get('lib:content-editor:PanelSidebar');
 
 export default class PanelSidebar extends React.Component {
 	componentDidCatch(error, info) {
+		reportError(error);
 		logger.error(error);
 		this.setState({ error });
 	}
