@@ -32,15 +32,9 @@ class PublishBookWindow extends React.Component {
 					className: 'content-publish-window',
 				}
 			);
-		})
-			.then(saved => {
-				close();
-				return saved;
-			})
-			.catch(e => {
-				close();
-				return Promise.reject(e);
-			});
+		}).finally(() => {
+			close();
+		});
 	}
 
 	render() {
