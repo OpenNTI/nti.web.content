@@ -111,7 +111,7 @@ function parseData(message) {
 
 const OTHER_ATTRS_BLACK_LIST = ['itemprop', 'dataset', 'class', 'type', 'guid'];
 const NO_SOURCE_ID = 'No source id specified!';
-const ALLOW_FULLSCREEN = { allowFullScreen: true };
+const ALLOW_FULLSCREEN = { allow: 'fullscreen', allowFullScreen: true };
 const SANDBOX = {
 	sandbox: [
 		'allow-forms',
