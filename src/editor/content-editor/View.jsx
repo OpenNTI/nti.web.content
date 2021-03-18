@@ -81,23 +81,19 @@ export default class ContentEditor extends React.Component {
 
 		this.removeContentPackageListener(props);
 
-		if (contentPackage) {
-			contentPackage.addListener(
-				'contents-changed',
-				this.onContentsChanged
-			);
-		}
+		contentPackage?.addListener?.(
+			'contents-changed',
+			this.onContentsChanged
+		);
 	}
 
 	removeContentPackageListener(props = this.props) {
 		const { contentPackage } = props;
 
-		if (contentPackage) {
-			contentPackage.removeListener(
-				'contents-changed',
-				this.onContentsChanged
-			);
-		}
+		contentPackage?.removeListener?.(
+			'contents-changed',
+			this.onContentsChanged
+		);
 	}
 
 	loadContentFromPackage(contentPackage) {
