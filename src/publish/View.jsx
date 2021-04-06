@@ -16,7 +16,7 @@ const t = scoped('content.publishing.View', {
 	done: 'Done',
 });
 
-class PublishBookWindow extends React.Component {
+class PublishBook extends React.Component {
 	static show(content) {
 		let dialog = null;
 		const close = () => {
@@ -27,7 +27,7 @@ class PublishBookWindow extends React.Component {
 
 		return new Promise(fulfill => {
 			dialog = Prompt.modal(
-				<PublishBookWindow content={content} onDone={fulfill} />,
+				<PublishBook content={content} onDone={fulfill} />,
 				{
 					className: 'content-publish-window',
 				}
@@ -36,14 +36,6 @@ class PublishBookWindow extends React.Component {
 			close();
 		});
 	}
-
-	render() {
-		return <PublishBook {...this.props} />;
-	}
-}
-
-class PublishBook extends React.Component {
-	static show = PublishBookWindow.show;
 
 	static deriveBindingFromProps(props) {
 		return props.content;
