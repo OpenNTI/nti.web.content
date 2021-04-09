@@ -18,7 +18,9 @@ const t = scoped('content.publishing.View', {
 
 class PublishBook extends React.Component {
 	static show(content) {
+		const Cmp = this;
 		let dialog = null;
+
 		const close = () => {
 			if (dialog) {
 				dialog.dismiss();
@@ -27,7 +29,7 @@ class PublishBook extends React.Component {
 
 		return new Promise(fulfill => {
 			dialog = Prompt.modal(
-				<PublishBook content={content} onDone={fulfill} />,
+				<Cmp content={content} onDone={fulfill} />,
 				{
 					className: 'content-publish-window',
 				}
