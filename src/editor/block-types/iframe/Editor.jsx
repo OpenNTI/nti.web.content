@@ -113,7 +113,7 @@ export default class CourseIframeEditor extends React.Component {
 				name: 'nti:embedwidget',
 				body: body.filter(p => !BannedBodyParts[p]),
 				arguments: iframeObj.src,
-				options: iframeObj.attributes
+				options: {width: void 0, height: void 0, ...iframeObj.attributes}
 			});
 		}
 	}
