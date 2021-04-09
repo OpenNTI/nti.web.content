@@ -105,15 +105,15 @@ export default class CourseIframeEditor extends React.Component {
 
 	maybeFixBlock () {
 		const {blockProps: {setBlockData}} = this.props;
-		const {iframeObject, body} = this.getStateFor(this.props);
+		const {iframeObj, body} = this.getStateFor(this.props);
 		const hasBanned = body.some(p => BannedBodyParts[p]);
 
 		if (setBlockData && hasBanned) {
 			setBlockData({
 				name: 'nti:embedwidget',
 				body: body.filter(p => !BannedBodyParts[p]),
-				arguments: iframeObject.src,
-				options: iframeObject.attributes
+				arguments: iframeObj.src,
+				options: iframeObj.attributes
 			});
 		}
 	}
