@@ -105,7 +105,7 @@ export default class CourseIframeEditor extends React.Component {
 
 	maybeFixBlock () {
 		const {blockProps: {setBlockData}} = this.props;
-		const {iframeObject, body} = getStateFor(this.props);
+		const {iframeObject, body} = this.getStateFor(this.props);
 		const hasBanned = body.some(p => BannedBodyParts[p]);
 
 		if (setBlockData && hasBanned) {
