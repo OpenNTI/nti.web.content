@@ -31,6 +31,11 @@ const getString = scoped(
 	DEFAULT_TEXT
 );
 
+const BannedBodyParts = {
+	':width:': true,
+	':height:': true
+};
+
 export default class CourseIframeEditor extends React.Component {
 	static propTypes = {
 		block: PropTypes.object,
@@ -53,6 +58,7 @@ export default class CourseIframeEditor extends React.Component {
 	}
 
 	componentDidMount() {
+		this.maybeFixBlock();
 		addListener(IFRAME_DELETED_EVENT, this.onDelete);
 	}
 
@@ -92,7 +98,23 @@ export default class CourseIframeEditor extends React.Component {
 		const { block: newBlock } = this.props;
 
 		if (oldBlock !== newBlock) {
+			this.maybeFixBlock();
 			this.setState(this.getStateFor());
+		}
+	}
+
+	maybeFixBlock () {
+		const {blockProps: {setBlockData}} = this.props;
+		const {iframeObject, body} = getStateFor(this.props);
+		const hasBanned = body.some(p => BannedBodyParts[p]);
+
+		if (setBlockData && hasBanned) {
+			setBlockData({
+				name: 'nti:embedwidget',
+				body: body.filter(p => !BannedBodyParts[p]),
+				arguments: iframeObject.src,
+				options: iframeObject.attributes
+			});
 		}
 	}
 
