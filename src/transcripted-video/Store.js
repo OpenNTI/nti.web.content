@@ -212,7 +212,7 @@ export default class VideoStore extends Stores.BoundStore {
 			video = mediaIndex.get(videoId);
 
 			if (video) {
-				await video.refresh(); // ensure we pick up transcript changes, etc.
+				// await video.refresh(); // ensure we pick up transcript changes, etc.
 
 				slides = this.getSlideDeck(video, mediaIndex);
 

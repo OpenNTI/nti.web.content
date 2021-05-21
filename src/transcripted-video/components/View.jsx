@@ -4,6 +4,7 @@ import classnames from 'classnames/bind';
 
 import { decorate } from '@nti/lib-commons';
 import { decodeFromURI } from '@nti/lib-ntiids';
+import { VideoContext } from '@nti/web-video';
 
 import Store from '../Store';
 
@@ -14,8 +15,9 @@ import styles from './View.css';
 const cx = classnames.bind(styles);
 
 class View extends React.Component {
-	static deriveBindingFromProps = ({ course, videoId, outlineId }) => ({
+	static deriveBindingFromProps = ({ course, video, videoId, outlineId }) => ({
 		course,
+		video: video,
 		videoId: decodeFromURI(videoId),
 		outlineId: decodeFromURI(outlineId),
 	});
@@ -59,17 +61,19 @@ class View extends React.Component {
 		};
 
 		return (
-			<div className={cx('transcripted-video')}>
-				<Content
-					{...props}
-					disableNoteCreation={disableNoteCreation}
-					autoPlay={autoPlay}
-					analyticsData={analyticsData}
-					scrolledTo={scrolledTo}
-					startTime={startTime}
-				/>
-				<Sidebar {...props} />
-			</div>
+			<VideoContext>
+				<div className={cx('transcripted-video')}>
+					<Content
+						{...props}
+						disableNoteCreation={disableNoteCreation}
+						autoPlay={autoPlay}
+						analyticsData={analyticsData}
+						scrolledTo={scrolledTo}
+						startTime={startTime}
+					/>
+					<Sidebar {...props} />
+				</div>
+			</VideoContext>
 		);
 	}
 }

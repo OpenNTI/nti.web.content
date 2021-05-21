@@ -21,11 +21,6 @@
 	flex-direction: column-reverse;
 }
 
-.tools {
-	display: flex;
-	flex-direction: row;
-}
-
 .video-header {
 	padding: 1.25rem 2.25rem;
 	font-weight: 300;

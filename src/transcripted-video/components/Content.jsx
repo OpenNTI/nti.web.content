@@ -9,7 +9,7 @@ import { decodeFromURI } from '@nti/lib-ntiids';
 import Store from '../Store';
 import Annotatable from '../annotatable';
 
-import MediaViewerLink from './MediaViewerLink';
+import Tools from './Tools';
 import Transcript from './Transcript';
 import Video from './Video';
 import styles from './View.css';
@@ -146,9 +146,7 @@ class Content extends React.Component {
 							scrolledTo={scrolledTo}
 						>
 							<header className={cx('video-header')}>
-								<div className={cx('tools')}>
-									<MediaViewerLink video={video} />
-								</div>
+								<Tools video={video} />
 								<Annotatable.Anchors.Anchor
 									className={cx('video-meta')}
 									id={video.getID()}
