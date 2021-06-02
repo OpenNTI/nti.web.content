@@ -1,3 +1,5 @@
+@use "sass:math";
+
 @import '~@nti/style-common';
 
 $level-one-padding: 0.75rem;
@@ -12,10 +14,10 @@ $node-border: 0 1px 0 0 var(--border-grey-light),
 	0 -1px 0 0 var(--border-grey-light);
 
 @mixin calcPadding($font-size, $line-height, $desired-height) {
-	$padding: ($desired-height - $line-height) / 2;
+	$padding: math.div($desired-height - $line-height, 2);
 
 	font-size: rem-calc($font-size);
-	line-height: $line-height / $font-size;
+	line-height: math.div($line-height, $font-size);
 	padding-top: rem-calc($padding);
 	padding-bottom: rem-calc($padding);
 }
@@ -44,6 +46,6 @@ $node-border: 0 1px 0 0 var(--border-grey-light),
 	}
 
 	.toc-label {
-		@include limit-lines($line-height: $line-height/$font-size);
+		@include limit-lines($line-height: math.div($line-height, $font-size));
 	}
 }
