@@ -7,6 +7,8 @@ const logger = Logger.get('transcripted-video:store');
 
 const UserDataSources = Symbol('UserDataSources');
 
+const TranscriptPurpose = 'normal';
+
 function parseTranscript(vtt) {
 	const parser = new WebVTT.Parser(global, WebVTT.StringDecoder());
 	const cues = [];
@@ -38,7 +40,7 @@ export default class VideoStore extends Stores.BoundStore {
 	loadTranscript = async video => {
 		const locale = this.get('locale') || 'en';
 		return video
-			.getTranscript(locale)
+			.getTranscript(locale, TranscriptPurpose)
 			.then(parseTranscript)
 			.catch(() => null);
 	};
@@ -171,10 +173,8 @@ export default class VideoStore extends Stores.BoundStore {
 	}
 
 	async intialLoad() {
-		const {
-			binding: { course, videoId, outlineId } = {},
-			unsubscribe,
-		} = this;
+		const { binding: { course, videoId, outlineId } = {}, unsubscribe } =
+			this;
 
 		(unsubscribe || []).forEach(fn => fn());
 		delete this.unsubscribe;
@@ -216,15 +216,12 @@ export default class VideoStore extends Stores.BoundStore {
 
 				slides = this.getSlideDeck(video, mediaIndex);
 
-				[
-					transcript,
-					[videoNotes, slideNotes],
-					duration,
-				] = await Promise.all([
-					this.loadTranscript(video),
-					this.loadNotes(video, slides),
-					video.getDuration(),
-				]);
+				[transcript, [videoNotes, slideNotes], duration] =
+					await Promise.all([
+						this.loadTranscript(video),
+						this.loadNotes(video, slides),
+						video.getDuration(),
+					]);
 			} else {
 				logger.warn(
 					`video not found in media index? ${videoId}, ${outlineId}, ${mediaIndex}`
