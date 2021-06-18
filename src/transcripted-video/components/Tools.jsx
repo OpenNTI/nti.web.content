@@ -26,6 +26,7 @@ export default function VideoTools({ video }) {
 				as={LinkButton}
 				object={video}
 				context={{ mediaViewer: true }}
+				data-testid="media-viewer"
 			>
 				<Icons.MediaViewer />
 				<Labels.Base localeKey="mediaViewer" />
