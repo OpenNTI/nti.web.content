@@ -1,6 +1,6 @@
 {
   "name": "@nti/web-content",
-  "version": "1.71.0",
+  "version": "1.72.0-alpha",
   "author": "nextthought",
   "description": "ReactJS Editor and Renderer for content",
   "license": "UNLICENSED",
