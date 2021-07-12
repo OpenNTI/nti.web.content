@@ -164,7 +164,8 @@ export default class IframePicker extends React.Component {
 	};
 
 	onLinkChange = value => {
-		const secureUrl = /^(https:\/\/www\.|https:\/\/)?[a-z0-9]+([-.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/;
+		const secureUrl =
+			/^(https:\/\/www\.|https:\/\/)?[a-z0-9]+([-.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/;
 		const isUrl = secureUrl.test(value);
 
 		if (isUrl) {
@@ -298,7 +299,7 @@ export default class IframePicker extends React.Component {
 				<div className="picker">
 					<Input.Label className="link-label" label={t('link.label')}>
 						<Input.TextArea
-							className="link"
+							inputClassName="link"
 							placeholder={t('link.placeholder')}
 							value={link}
 							onChange={this.onLinkChange}
