@@ -1,25 +1,14 @@
 import './EmbeddedWidget.scss';
-import Url from 'url';
 import Path from 'path';
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import QueryString from 'query-string';
 
 import { WindowMessageListener as MESSAGES } from '@nti/lib-dom';
 import Logger from '@nti/util-logger';
+import { Url } from '@nti/lib-commons';
 
 const logger = Logger.get('content:widgets:EmbededWidget');
-
-function isSameOrigin(uri, as) {
-	const toOrigin = o => (
-		(o = Url.parse(o)),
-		Object.assign(o, { pathname: '', search: '', hash: '' }),
-		o.format()
-	);
-
-	return as && toOrigin(uri) === toOrigin(as);
-}
 
 async function resolveForRoots(path, roots) {
 	for (let root of roots) {
@@ -62,9 +51,9 @@ async function resolveSplash(splash, contentPackage, page) {
 	}
 }
 
-async function resolvePath(parts, contentPackage, page) {
-	if (Path.isAbsolute(parts.pathname)) {
-		return parts.format();
+async function resolvePath(url, contentPackage, page) {
+	if (Path.isAbsolute(url.pathname)) {
+		return url.toString();
 	}
 
 	const roots = [];
@@ -77,14 +66,12 @@ async function resolvePath(parts, contentPackage, page) {
 	}
 
 	try {
-		const u = Url.parse(parts.format());
-		const resolved = await resolveForRoots(parts.pathname, roots);
-
+		const resolved = await resolveForRoots(url.pathname, roots);
+		const u = new URL(url.toString());
 		u.pathname = resolved;
-
-		return u.format();
+		return u.toString();
 	} catch (e) {
-		return parts.format();
+		return url.toString();
 	}
 }
 
@@ -173,20 +160,21 @@ export default class EmbeddedWidget extends React.Component {
 			...otherAttrs
 		} = item;
 
-		const parts = Url.parse(source);
-		const q = QueryString.parse(parts.search);
+		const url = new URL(source);
 
-		const sourceName = uid || q[idKey] || NO_SOURCE_ID;
+		const sourceName = uid || url.searchParams.get(idKey) || NO_SOURCE_ID;
 
-		if (q[idKey] !== sourceName) {
-			q[idKey] = encodeURIComponent(sourceName);
-			parts.search = QueryString.stringify(q);
+		if (url.searchParams.get(idKey) !== sourceName) {
+			url.searchParams.set(idKey, sourceName);
 		}
 
 		const splashURL = await resolveSplash(splash, contentPackage, page);
-		const path = await resolvePath(parts, contentPackage, page);
+		const path = await resolvePath(url, contentPackage, page);
 		const size = getSize(width, height, maxWidth);
-		const sameOrigin = isSameOrigin(path, (global.location || {}).origin);
+		const sameOrigin = Url.isSameOrigin(
+			path,
+			(global.location || {}).origin
+		);
 
 		for (let key of OTHER_ATTRS_BLACK_LIST) {
 			delete otherAttrs[key];
