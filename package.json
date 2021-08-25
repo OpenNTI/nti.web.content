@@ -39,6 +39,7 @@
     "@nti/util-logger": "NextThought/nti.util.logger",
     "@nti/web-client": "NextThought/nti.web.client",
     "@nti/web-commons": "NextThought/nti.web.commons",
+    "@nti/web-core": "NextThought/nti.web.core",
     "@nti/web-discussions": "NextThought/nti.web.discussions",
     "@nti/web-editor": "NextThought/nti.web.editor",
     "@nti/web-profiles": "NextThought/nti.web.profiles",
