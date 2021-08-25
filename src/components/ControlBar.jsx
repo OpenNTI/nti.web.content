@@ -2,7 +2,8 @@ import './ControlBar.scss';
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { ControlBar, Button } from '@nti/web-commons';
+import { ControlBar } from '@nti/web-commons';
+import { Button } from "@nti/web-core";
 import { scoped } from '@nti/lib-locale';
 
 const DEFAULT_TEXT = {

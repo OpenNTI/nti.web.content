@@ -1,7 +1,8 @@
 import React from 'react';
 
 import { scoped } from '@nti/lib-locale';
-import { Button, Icons, Text } from '@nti/web-commons';
+import { Icons, Text } from '@nti/web-commons';
+import { Button } from "@nti/web-core";
 import { LinkTo } from '@nti/web-routing';
 import { ControlBar, Resume, WatchedSegments } from '@nti/web-video/controls';
 
