@@ -18,9 +18,6 @@
     "type": "git",
     "url": "https://github.com/NextThought/nti.web.content.git"
   },
-  "publishConfig": {
-    "registry": "https://npm.nextthought.com"
-  ],
   "dependencies": {
     "@nti/lib-commons": "NextThought/nti.lib.commons",
     "@nti/lib-dispatcher": "NextThought/nti.lib.dispatcher",
@@ -47,5 +44,8 @@
   },
   "devDependencies": {
     "@nti/cmp-scripts": "^2.31.8"
+  },
+  "peerDependencies": {
+    "react": "*"
   }
 }
