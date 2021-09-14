@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 
 import { WindowMessageListener as MESSAGES } from '@nti/lib-dom';
 import Logger from '@nti/util-logger';
-import { Url } from '@nti/lib-commons';
+import { url } from '@nti/lib-commons';
 
 const logger = Logger.get('content:widgets:EmbededWidget');
 
@@ -160,18 +160,18 @@ export default class EmbeddedWidget extends React.Component {
 			...otherAttrs
 		} = item;
 
-		const url = new URL(source);
+		const _url = new URL(source);
 
-		const sourceName = uid || url.searchParams.get(idKey) || NO_SOURCE_ID;
+		const sourceName = uid || _url.searchParams.get(idKey) || NO_SOURCE_ID;
 
-		if (url.searchParams.get(idKey) !== sourceName) {
-			url.searchParams.set(idKey, sourceName);
+		if (_url.searchParams.get(idKey) !== sourceName) {
+			_url.searchParams.set(idKey, sourceName);
 		}
 
 		const splashURL = await resolveSplash(splash, contentPackage, page);
-		const path = await resolvePath(url, contentPackage, page);
+		const path = await resolvePath(_url, contentPackage, page);
 		const size = getSize(width, height, maxWidth);
-		const sameOrigin = Url.isSameOrigin(
+		const sameOrigin = url.isSameOrigin(
 			path,
 			(global.location || {}).origin
 		);
