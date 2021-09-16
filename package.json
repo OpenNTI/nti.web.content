@@ -1,6 +1,6 @@
 {
   "name": "@nti/web-content",
-  "version": "1.73.0-alpha",
+  "version": "1.73.0",
   "author": "nextthought",
   "license": "UNLICENSED",
   "main": "src/index.js",
