@@ -1,4 +1,3 @@
-import React from 'react';
 import cx from 'classnames';
 
 import { LinkTo } from '@nti/web-routing';

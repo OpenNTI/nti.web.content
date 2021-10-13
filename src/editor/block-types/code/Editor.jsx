@@ -1,5 +1,5 @@
 import './Editor.scss';
-import React, { Component } from 'react';
+import { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import { NestedEditorWrapper } from '@nti/web-editor';

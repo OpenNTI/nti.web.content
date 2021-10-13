@@ -87,6 +87,13 @@ export default class Gutter extends React.Component {
 	/**
 	 * Attempts to extract the start and end time from the note's applicableRange property.
 	 * Some notes, like those attached to slides, won't have start/end times.
+	 *
+	 * @param root0
+	 * @param root0.applicableRange
+	 * @param root0.applicableRange.start
+	 * @param root0.applicableRange.start.seconds
+	 * @param root0.applicableRange.end
+	 * @param root0.applicableRange.end.seconds
 	 * @see getRangeFor
 	 * @see getRangeFromCue
 	 * @returns {Object} an object with start and end properties, which may be empty.
@@ -102,6 +109,9 @@ export default class Gutter extends React.Component {
 	 * Attempts to locate and extract the start and end time from a cue representing a note's container (e.g. a Slide).
 	 * Notes attached to Slides (for example) may have a ContainerId matching a corresponding cue, which in turn may
 	 * be able to tell us the applicable range.
+	 *
+	 * @param root0
+	 * @param root0.ContainerId
 	 * @see getRangeFor
 	 * @see getRangeFromNote
 	 * @returns {Object} an object with start and end properties, which may be empty.

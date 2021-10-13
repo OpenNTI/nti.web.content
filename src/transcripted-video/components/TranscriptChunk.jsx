@@ -150,6 +150,7 @@ export default class TranscriptChunk extends React.Component {
 	/**
 	 * Given a y coordinate in local DOM space, attempts to locate a cue node on that line.
 	 * Used to inform the add-note widget about the start/end time and its positioning in the gutter
+	 *
 	 * @param {int} y - The Y coordinate in local DOM space
 	 * @returns {DOMNode} - A dom node representing a cue at the given Y coordinate
 	 */

@@ -1,6 +1,5 @@
 import './View.scss';
 import PropTypes from 'prop-types';
-import React from 'react';
 
 import { Associations } from '@nti/web-commons';
 

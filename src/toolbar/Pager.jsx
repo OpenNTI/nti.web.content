@@ -1,5 +1,5 @@
 import './Pager.scss';
-import React, { useEffect, useReducer } from 'react';
+import { useEffect, useReducer } from 'react';
 import PropTypes from 'prop-types';
 
 import { scoped } from '@nti/lib-locale';

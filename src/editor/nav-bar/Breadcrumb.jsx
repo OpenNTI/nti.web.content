@@ -1,6 +1,5 @@
 import './Breadcrumb.scss';
 import PropTypes from 'prop-types';
-import React from 'react';
 
 import { scoped } from '@nti/lib-locale';
 
