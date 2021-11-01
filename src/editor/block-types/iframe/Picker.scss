@@ -1,7 +1,7 @@
 @import '../assets/button';
 
 .modal-mask.content-picker-iframe-picker-container {
-	background: rgba(255, 255, 255, 0.7);
+	background: rgba(255, 255, 255, 70%);
 
 	.modal-content {
 		border: 1px solid #e2e2e2;
@@ -93,7 +93,7 @@
 			left: 0;
 			right: 0;
 			background: white;
-			opacity: 0;
+			opacity: 0%;
 			transition: opacity 0.2s;
 
 			.loading-spinner {
@@ -105,7 +105,7 @@
 			}
 
 			&.saving {
-				opacity: 1;
+				opacity: 100%;
 				bottom: 0;
 			}
 		}

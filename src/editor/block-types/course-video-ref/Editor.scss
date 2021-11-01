@@ -1,10 +1,11 @@
+/* stylelint-disable selector-class-pattern */
 @import '~@nti/style-common';
 
 .content-editing-editor-container
 	.content-editing-rst-editor
 	.nti-course-video-block {
 	margin: 0.875rem 0;
-	box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.15);
+	box-shadow: 0 0 2px 0 rgba(0, 0, 0, 15%);
 
 	.DraftEditor-root {
 		min-height: 0;
@@ -21,7 +22,7 @@
 
 	.course-video-editor {
 		&.no-user-select {
-			*::-moz-selection {
+			*::selection {
 				background: none;
 			}
 		}

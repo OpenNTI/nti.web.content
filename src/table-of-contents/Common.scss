@@ -1,4 +1,4 @@
-@use "sass:math";
+@use 'sass:math';
 
 @import '~@nti/style-common';
 
@@ -7,13 +7,11 @@ $level-two-padding: 0.75rem;
 $level-three-padding: 1.125rem;
 $level-four-padding: 1.875rem;
 $level-five-padding: 2.375rem;
-
 $rhs-padding: $level-one-padding;
-
 $node-border: 0 1px 0 0 var(--border-grey-light),
 	0 -1px 0 0 var(--border-grey-light);
 
-@mixin calcPadding($font-size, $line-height, $desired-height) {
+@mixin calc-padding($font-size, $line-height, $desired-height) {
 	$padding: math.div($desired-height - $line-height, 2);
 
 	font-size: rem-calc($font-size);
@@ -22,7 +20,7 @@ $node-border: 0 1px 0 0 var(--border-grey-light),
 	padding-bottom: rem-calc($padding);
 }
 
-@mixin nodeStyles(
+@mixin node-styles(
 	$font-size,
 	$line-height,
 	$desired-height,
@@ -30,7 +28,7 @@ $node-border: 0 1px 0 0 var(--border-grey-light),
 	$level-padding,
 	$hover
 ) {
-	@include calcPadding($font-size, $line-height, $desired-height);
+	@include calc-padding($font-size, $line-height, $desired-height);
 
 	@if $border {
 		box-shadow: $node-border;

@@ -1,12 +1,10 @@
+/* stylelint-disable selector-class-pattern */
 @import '~@nti/style-common';
 
 .content-editing-sidebar-title-editor {
 	.nti-draft-core-container .nti-draft-core .DraftEditor-root {
 		min-height: 3rem;
-		padding-top: 0;
-		padding-left: 0;
-		padding-right: 0;
-		padding-bottom: 0;
+		padding: 0;
 		font: normal 300 1.5rem/2.2 var(--body-font-family);
 		color: var(--primary-grey);
 

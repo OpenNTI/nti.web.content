@@ -27,8 +27,7 @@
 .content-toolbar .path-items {
 	height: 59px;
 	display: flex;
-	flex-direction: row;
-	flex-wrap: nowrap;
+	flex-flow: row nowrap;
 	text-transform: uppercase;
 
 	.tabs {
@@ -36,14 +35,14 @@
 		cursor: pointer;
 
 		&.go-up {
-			//@include icon($profile_back_arrow, $top: 23px, $left: 35px);
+			// @include icon($profile_back_arrow, $top: 23px, $left: 35px);
 
 			width: 60px;
 			cursor: pointer;
 
 			&:hover {
 				&::after {
-					//@include sprite($profile_back_arrow_active);
+					// @include sprite($profile_back_arrow_active);
 				}
 			}
 		}
@@ -51,9 +50,9 @@
 
 	.breadcrumb {
 		display: flex;
-		flex-direction: row;
-		flex-wrap: nowrap;
-		//font: normal 500 1em/59px var(--body-font-family);
+		flex-flow: row nowrap;
+
+		// font: normal 500 1em/59px var(--body-font-family);
 		font-weight: 500;
 		font-size: 12px;
 
@@ -126,9 +125,9 @@
 						border-width: 0;
 						padding: 3px 5px;
 						border-radius: 0;
-						box-shadow: 1px 2px 5px 0 rgba(0, 0, 0, 0.25);
+						box-shadow: 1px 2px 5px 0 rgba(0, 0, 0, 25%);
 
-						//font: normal 600 11px/12px var(--body-font-family);
+						// font: normal 600 11px/12px var(--body-font-family);
 						font-weight: 600;
 						font-size: 11px/12px;
 						text-transform: uppercase;
@@ -141,7 +140,7 @@
 						left: -4px;
 						content: '';
 
-						//@include sprite($tooltip-pointer-black-bottom);
+						// @include sprite($tooltip-pointer-black-bottom);
 					}
 				}
 			}

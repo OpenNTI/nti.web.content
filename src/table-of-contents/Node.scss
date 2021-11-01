@@ -10,11 +10,11 @@
 	}
 
 	&.filtered {
-		opacity: 0.3;
+		opacity: 30%;
 	}
 
 	&.part {
-		@include nodeStyles(
+		@include node-styles(
 			$font-size: 22px,
 			$line-height: 28px,
 			$desired-height: 52px,
@@ -32,7 +32,7 @@
 	}
 
 	&.chapter {
-		@include nodeStyles(
+		@include node-styles(
 			$font-size: 14px,
 			$line-height: 18px,
 			$desired-height: 40px,
@@ -54,7 +54,7 @@
 	$section-desired-height: 30px;
 
 	&.section {
-		@include nodeStyles(
+		@include node-styles(
 			$font-size: $section-font-size,
 			$line-height: $section-line-height,
 			$desired-height: $section-desired-height,
@@ -65,7 +65,7 @@
 	}
 
 	&.subsection {
-		@include nodeStyles(
+		@include node-styles(
 			$font-size: $section-font-size,
 			$line-height: $section-line-height,
 			$desired-height: $section-desired-height,
@@ -76,7 +76,7 @@
 	}
 
 	&.subsubsection {
-		@include nodeStyles(
+		@include node-styles(
 			$font-size: $section-font-size,
 			$line-height: $section-line-height,
 			$desired-height: $section-desired-height,

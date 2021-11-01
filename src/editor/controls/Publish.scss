@@ -46,7 +46,7 @@
 
 	&.disabled {
 		pointer-events: none;
-		opacity: 0.8;
+		opacity: 80%;
 	}
 
 	&.failed {
@@ -55,7 +55,7 @@
 
 	&.flyout-open {
 		background-color: var(--tertiary-grey);
-		box-shadow: inset 0 0 2px 0 rgba(0, 0, 0, 0.37);
+		box-shadow: inset 0 0 2px 0 rgba(0, 0, 0, 37%);
 	}
 }
 

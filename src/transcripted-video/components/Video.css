@@ -9,16 +9,16 @@
 @keyframes sticky-video {
 	0% {
 		max-width: 100%;
-		filter: drop-shadow(0 0 0 rgba(0, 0, 0, 0));
+		filter: drop-shadow(0 0 0 rgb(0 0 0 / 0%));
 	}
 
 	1% {
-		filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.5));
+		filter: drop-shadow(0 0 5px rgb(0 0 0 / 50%));
 	}
 
 	100% {
 		max-width: 270px;
-		filter: drop-shadow(0 0 20px rgba(0, 0, 0, 0.5));
+		filter: drop-shadow(0 0 20px rgb(0 0 0 / 50%));
 	}
 }
 
@@ -32,15 +32,15 @@
 @keyframes sticky-video-dupe {
 	0% {
 		max-width: 100%;
-		filter: drop-shadow(0 0 0 rgba(0, 0, 0, 0));
+		filter: drop-shadow(0 0 0 rgb(0 0 0 / 0%));
 	}
 
 	1% {
-		filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.5));
+		filter: drop-shadow(0 0 5px rgb(0 0 0 / 50%));
 	}
 
 	100% {
 		max-width: 270px;
-		filter: drop-shadow(0 0 20px rgba(0, 0, 0, 0.5));
+		filter: drop-shadow(0 0 20px rgb(0 0 0 / 50%));
 	}
 }

@@ -75,7 +75,7 @@
 				cursor: pointer;
 				width: 38px;
 				height: 38px;
-				opacity: 0.65;
+				opacity: 65%;
 				background-repeat: no-repeat;
 				background-position: center center;
 
@@ -85,7 +85,7 @@
 				}
 
 				&:not(.disabled):hover {
-					opacity: 1;
+					opacity: 100%;
 				}
 			}
 		}
@@ -95,6 +95,7 @@
 .sticky .nti-content-toolbar .toolbar {
 	padding-left: 10px;
 }
+
 // .content-toolbar {
 // 	.path-items {
 // 		.table-of-contents-flyout-trigger {

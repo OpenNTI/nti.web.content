@@ -52,7 +52,7 @@ export default class IframeButton extends React.Component {
 			.catch(e => {});
 	};
 
-	render = () => {
+	render() {
 		const { course } = this.props;
 
 		return (
@@ -66,5 +66,5 @@ export default class IframeButton extends React.Component {
 				isBlockPredicate={isIframeRefBlock}
 			/>
 		);
-	};
+	}
 }

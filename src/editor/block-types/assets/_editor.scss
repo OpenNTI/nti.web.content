@@ -1,11 +1,12 @@
+/* stylelint-disable selector-class-pattern */
 @import '~@nti/style-common';
 
 @mixin block-editor($type) {
 	margin: 0.875rem 0;
-	box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.15);
+	box-shadow: 0 0 2px 0 rgba(0, 0, 0, 15%);
 
 	ul {
-		padding: initial; //reset the editor styles
+		padding: initial; // reset the editor styles
 	}
 
 	.DraftEditor-root {

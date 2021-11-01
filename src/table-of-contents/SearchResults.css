@@ -22,13 +22,13 @@
 .search-hit {
 	display: block;
 	font-size: 0.875rem;
-	line-height: 1.571428571;
+	line-height: 1.5714;
 	padding: 0.75rem;
 	box-shadow: 0 1px 0 #eaeaea;
 }
 
 .hit-title {
-	line-height: 1.357142857;
+	line-height: 1.3571;
 	font-weight: bold;
 	color: var(--primary-grey);
 	margin-bottom: 0.5rem;

@@ -3,7 +3,7 @@
 
 .table-of-contents {
 	& > .toc-label {
-		@include nodeStyles(
+		@include node-styles(
 			$font-size: 10px,
 			$line-height: 13px,
 			$desired-height: 20px,

@@ -36,8 +36,6 @@ export default class CourseVideoEditor extends React.Component {
 		}),
 	};
 
-	onChange = null;
-
 	constructor(props) {
 		super(props);
 

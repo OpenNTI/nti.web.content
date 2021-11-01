@@ -33,7 +33,7 @@ const getString = scoped(
 
 const BannedBodyParts = {
 	':width:': true,
-	':height:': true
+	':height:': true,
 };
 
 export default class CourseIframeEditor extends React.Component {
@@ -46,8 +46,6 @@ export default class CourseIframeEditor extends React.Component {
 			setReadOnly: PropTypes.func,
 		}),
 	};
-
-	onChange = null;
 
 	attachCaptionRef = x => (this.caption = x);
 
@@ -103,9 +101,11 @@ export default class CourseIframeEditor extends React.Component {
 		}
 	}
 
-	maybeFixBlock () {
-		const {blockProps: {setBlockData}} = this.props;
-		const {iframeObj, body} = this.getStateFor(this.props);
+	maybeFixBlock() {
+		const {
+			blockProps: { setBlockData },
+		} = this.props;
+		const { iframeObj, body } = this.getStateFor(this.props);
 		const hasBanned = body.some(p => BannedBodyParts[p]);
 
 		if (setBlockData && hasBanned) {
@@ -113,17 +113,16 @@ export default class CourseIframeEditor extends React.Component {
 				name: 'nti:embedwidget',
 				body: body.filter(p => !BannedBodyParts[p]),
 				arguments: iframeObj.src,
-				options: {width: '', height: '', ...iframeObj.attributes}
+				options: { width: '', height: '', ...iframeObj.attributes },
 			});
 		}
 	}
 
 	onClick = e => {
-		e.stopPropagation();
+		e?.stopPropagation();
+		e?.preventDefault();
 
-		if (this.caption) {
-			this.caption.focus();
-		}
+		this.caption?.focus();
 	};
 
 	onRemove = () => onRemove(this.props);
@@ -150,10 +149,6 @@ export default class CourseIframeEditor extends React.Component {
 				}
 			})
 			.catch(e => {});
-	};
-
-	onClick = e => {
-		e.stopPropagation();
 	};
 
 	render() {

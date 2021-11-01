@@ -66,7 +66,7 @@ export default class CourseVideoButton extends React.Component {
 		});
 	};
 
-	render = () => {
+	render() {
 		const { course } = this.props;
 
 		return (
@@ -80,5 +80,5 @@ export default class CourseVideoButton extends React.Component {
 				isBlockPredicate={isAnyVideoTypeRefBlock}
 			/>
 		);
-	};
+	}
 }
